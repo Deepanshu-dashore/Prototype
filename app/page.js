@@ -12,6 +12,7 @@ import CustomersLogos from '../src/components/home/CustomersLogos'
 import CaseStudies from '../src/components/home/CaseStudies'
 import VideoGallery from '../src/components/home/VideoGallery'
 import ContactFormSection from '../src/components/contact/ContactFormSection'
+import CTASection from '../src/components/home/CTASection'
 import Footer from '../src/components/share/Footer'
 import ContactForm from '../src/components/share/ContactForm'
 import FloatingMessageButton from '../src/components/share/FloatingMessageButton'
@@ -65,7 +66,10 @@ export default function Home() {
         <CaseStudies />
         
         {/* 8. CONTACT SECTION */}
-        <ContactFormSection />
+        {/* <ContactFormSection /> */}
+        
+        {/* 9. CTA SECTION */}
+        <CTASection />
         
         <FloatingMessageButton onContactClick={handleContactClick} />
         <FloatingWhatsAppButton />

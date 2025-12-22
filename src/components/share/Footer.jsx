@@ -23,7 +23,7 @@ export default function Footer() {
             </div>
 
             {/* Navigation Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-8 sm:gap-10 lg:gap-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-12">
               {/* Company */}
               <div>
                 <h3 className="font-semibold text-neutral-dark text-sm mb-4 tracking-tight">Company</h3>
@@ -187,14 +187,6 @@ export default function Footer() {
                     </svg>
                   </a>
                 </div>
-                <div className="space-y-2 pt-2 border-t border-primary/10">
-                  <Link href="/privacy-policy" className="text-xs text-neutral-dark/55 hover:text-primary transition-colors duration-200 block">
-                    Privacy Policy
-                  </Link>
-                  <Link href="/terms-and-conditions" className="text-xs text-neutral-dark/55 hover:text-primary transition-colors duration-200 block">
-                    Terms and Conditions
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
@@ -204,6 +196,7 @@ export default function Footer() {
             <div className="flex items-center gap-4 opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
               <Image src="/assets/ISO1.png" alt="ISO 9001" width={120} height={63} className="h-12 w-auto object-contain" />
               <Image src="/assets/ISO2.png" alt="ISO 14001" width={120} height={53} className="h-11 w-auto object-contain" />
+              {/* <Image src="/assets/2ISO-removebg-preview.png" alt="ISO Certification" width={120} height={63} className="h-12 w-auto object-contain" /> */}
             </div>
             <div className="text-xs text-neutral-dark/55 font-medium">
               © 2025 CC Matting. All rights reserved.

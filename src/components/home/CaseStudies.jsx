@@ -18,7 +18,9 @@ export default function CaseStudies() {
       "img": "/images/clients/analog-devices.png",
       "quote": "Excellent communication and feedback from product selection to post install maintenance.",
       "companyLogo": "https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Outstanding Customer Service"
+      "category": "Outstanding Customer Service",
+      "reviewImage": "/assets/Our Valuable Customers/asset 2.png",
+      "zoomLogo": true
     },
     {
       "id": 2,
@@ -28,8 +30,10 @@ export default function CaseStudies() {
       "company": "GEHC",
       "img": "/images/clients/gehc.png",
       "quote": "I have found CC Matting to be excellent to deal with. Extremely professional and their advice is honest and not just chasing sales. They have been flexible to meet production and audit schedules when required and this is much appreciated. I couldn't recommend Brendan and his team highly enough.",
-      "companyLogo": "4https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Professional & Reliable Partnership"
+      "companyLogo": "https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
+      "category": "Professional & Reliable Partnership",
+      "reviewImage": "",
+      "zoomLogo": true
     },
     {
       "id": 3,
@@ -39,8 +43,10 @@ export default function CaseStudies() {
       "company": "CBRE",
       "img": "/images/clients/cbre.png",
       "quote": "Great service, always responds to mails and phone calls, very clean install, would not hesitate to recommend service to any other pharma site.",
-      "companyLogo": "2https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Efficient Installation Process"
+      "companyLogo": "https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
+      "category": "Efficient Installation Process",
+      "reviewImage": "",
+      "zoomLogo": true
     },
     {
       "id": 4,
@@ -51,7 +57,9 @@ export default function CaseStudies() {
       "img": "/images/clients/ge-healthcare.png",
       "quote": "Very efficient response to questions, pricing, quotations and installation.",
       "companyLogo": "9https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Quick Response Time"
+      "category": "Quick Response Time",
+      "reviewImage": "/assets/Our Valuable Customers/asset 3.png",
+      "zoomLogo": true
     },
     {
       "id": 5,
@@ -62,7 +70,9 @@ export default function CaseStudies() {
       "img": "/images/clients/bidvestnoonan.png",
       "quote": "Have highly recommended CC Matting to colleagues",
       "companyLogo": "3https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Highly Recommended"
+      "category": "Highly Recommended",
+      "reviewImage": "/assets/Our Valuable Customers/asset 5.png",
+      "zoomLogo": true
     },
     {
       "id": 6,
@@ -73,7 +83,9 @@ export default function CaseStudies() {
       "img": "/images/clients/biomarin.png",
       "quote": "I found CC matting very professional from start to finish of the installation of the mats.",
       "companyLogo": "8https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Professional Installation"
+      "category": "Professional Installation",
+      "reviewImage": "/assets/Our Valuable Customers/asset 6.png",
+      "zoomLogo": true
     },
     {
       "id": 7,
@@ -84,7 +96,9 @@ export default function CaseStudies() {
       "img": "/images/clients/stryker.png",
       "quote": "Excellent service and aftercare provided by CCMatting. Both Brendan and Donal are a pleasure to deal with. We look forward to working with them and using their high quality products again in the future",
       "companyLogo": "7https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Excellent Aftercare Service"
+      "category": "Excellent Aftercare Service",
+      "reviewImage": "/assets/Our Valuable Customers/asset 7.png",
+      "zoomLogo": true
     },
     {
       "id": 8,
@@ -95,7 +109,9 @@ export default function CaseStudies() {
       "img": "/images/clients/stryker.png",
       "quote": "I found CC Matting to be very professional and well informed about their products. They provided ample training for my staff and check in periodically to see if anything is required and complete an annual check on their products. Very dependable company and would have no problem in recommending them to other companies.",
       "companyLogo": "1https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Comprehensive Support & Training"
+      "category": "Comprehensive Support & Training",
+      "reviewImage": "/assets/Our Valuable Customers/asset 11.png",
+      "zoomLogo": true
     },
     {
       "id": 9,
@@ -106,7 +122,9 @@ export default function CaseStudies() {
       "img": "/images/clients/gilead.png",
       "quote": "Having a local company supply these products is great, due to the nature of this business, things sometimes need to be turned around quickly and thats when companies like this are invaluable to organisations.",
       "companyLogo": "6https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Fast Turnaround & Local Support"
+      "category": "Fast Turnaround & Local Support",
+      "reviewImage": "/assets/Our Valuable Customers/asset 13.jpeg",
+      "zoomLogo": false
     },
     {
       "id": 10,
@@ -117,7 +135,9 @@ export default function CaseStudies() {
       "img": "/images/clients/bms.png",
       "quote": "Brendan and Donal from CC Matting are always professional, any issues or requests are always dealt with urgency. Great products. Also to mention their input for Contamination Control Strategy requirements of EudraLex Annex 1. Great company to work with.",
       "companyLogo": "5https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Regulatory Compliance Expertise"
+      "category": "Regulatory Compliance Expertise",
+      "reviewImage": "",
+      "zoomLogo": false
     },
     {
       "id": 11,
@@ -128,7 +148,9 @@ export default function CaseStudies() {
       "img": "/images/clients/depuy.png",
       "quote": "Top quality. Efficient. Great after sales service.",
       "companyLogo": "https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Top Quality Products"
+      "category": "Top Quality Products",
+      "reviewImage": "/assets/Our Valuable Customers/asset 16.png",
+      "zoomLogo": false
     }
   ]
 
@@ -249,21 +271,38 @@ export default function CaseStudies() {
                         </p>
                       </div>
 
+                      {/* Review Image */}
+                      {/* {review.reviewImage && (
+                        <div className="mb-4 -mx-4 sm:-mx-5 lg:-mx-6">
+                          <img
+                            src={review.reviewImage}
+                            alt={`${review.company} Review`}
+                            className="w-full h-32 sm:h-40 object-cover object-center rounded-lg"
+                            onError={(e) => {
+                              e.target.style.display = 'none'
+                            }}
+                          />
+                        </div>
+                      )} */}
+
                       {/* Bottom: Company Logo + Company Name + Person Info */}
                       <div className={`flex items-start justify-between gap-4 mt-auto pt-3 border-t border-gray-100 ${isCenter ? '' : ''}`}>
                         {/* Left: Company Logo */}
                         <div className="shrink-0">
-                          {(!review.img || imageErrors[`${review.id}-img`]) ? (
+                          {(!review.reviewImage) ? (
                              <div className={`text-gray-700 font-semibold ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
                              }`}>
                              {review.company}
                            </div>
                           ) : (
                             <img
-                              src={review.img}
+                              src={review.reviewImage}
                               alt={review.company}
-                              className={`rounded-lg object-contain grayscale hover:grayscale-0 transition-all duration-300 border border-gray-200/50 ${isCenter ? 'w-12 h-12 sm:w-14 sm:h-14' : 'w-10 h-10 sm:w-12 sm:h-12'
-                                }`}
+                              className={`rounded-lg grayscale hover:grayscale-0 transition-all duration-300  ${isCenter ? 'w-12 h-12 sm:w-14 sm:h-14 grayscale-0'
+                                 : 'w-10 h-10 sm:w-16 sm:h-16'
+                                }
+                                ${review.zoomLogo ? 'scale-180 object-cover' : 'object-contain'}
+                                `}
                               onError={(e) => {
                                 setImageErrors(prev => ({
                                   ...prev,
