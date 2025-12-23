@@ -45,7 +45,7 @@ export default function Home() {
         />
         
         {/* 2. FEATURE CARDS ("Why Choosing Us") */}
-        <QuickBenefitsStrip />
+        {/* <QuickBenefitsStrip /> */}
         
         {/* 2.5. WHAT SETS APART (Dark Section) */}
         <WhatSetsApartDark />

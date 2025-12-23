@@ -91,23 +91,24 @@ export default function WhatSetsApartDark() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="flex gap-4 p-6 border group border-gray-200 rounded-lg hover:border-primary/30 hover:shadow-sm transition-all duration-300 bg-white"
+                className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
               >
-                {/* Icon */}
-                <div className="shrink-0">
-                  <div className="w-10 h-10 rounded-lg bg-primary/60 duration-300 transition-all group-hover:bg-primary flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-white" aria-hidden="true" />
-                  </div>
-                </div>
-
                 {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-base sm:text-lg font-bold text-neutral-dark mb-2 leading-tight">
+                <div className="flex-1 min-w-0 pr-4">
+                  <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-1.5">
                     {cert.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
                     {cert.description}
                   </p>
+                </div>
+
+                {/* Icon area */}
+                <div className="relative shrink-0">
+                  <div className="absolute inset-0 translate-x-6 translate-y-2 w-28 h-28 sm:w-32 sm:h-32 bg-primary/10 rounded-full" />
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+                  </div>
                 </div>
               </motion.div>
             )

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
 export default function CaseStudies() {
@@ -153,6 +153,15 @@ export default function CaseStudies() {
       "zoomLogo": false
     }
   ]
+
+  // Auto-advance reviews
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % caseStudies.length)
+    }, 6000)
+
+    return () => clearInterval(timer)
+  }, [caseStudies.length])
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % caseStudies.length)
