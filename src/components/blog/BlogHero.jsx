@@ -69,29 +69,34 @@ export default function BlogHero({ post }) {
                                         onError={() => setAuthorImageError(true)}
                                     />
                                 ) : (
-                                    <svg 
-                                        className="w-6 h-6 text-neutral-dark/50" 
-                                        fill="none" 
-                                        stroke="currentColor" 
+                                    <svg
+                                        className="w-6 h-6 text-neutral-dark/50"
+                                        fill="none"
+                                        stroke="currentColor"
                                         viewBox="0 0 24 24"
                                     >
-                                        <path 
-                                            strokeLinecap="round" 
-                                            strokeLinejoin="round" 
-                                            strokeWidth="2" 
-                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" 
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                         />
                                     </svg>
                                 )}
                             </div>
                             <div className="flex flex-col items-start gap-1">
-                            <span className="text-sm font-semibold text-neutral-dark">
-                                {post.author?.name || 'Author'}
-                            </span>
-                            <p className="text-xs text-neutral-dark/60">
-                            Updated on {new Date(post.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                        </p>
-                        </div>
+                                <span className="text-sm font-semibold text-neutral-dark">
+                                    {post.author || 'Author'}
+                                </span>
+                                <p className="text-xs text-neutral-dark/60">
+                                    {post.createdAt
+                                        ? `Published on ${new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+                                        : post.publishedDate
+                                            ? `Updated on ${new Date(post.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+                                            : ''
+                                    }
+                                </p>
+                            </div>
                         </div>
                     </motion.div>
                 </motion.div>
@@ -113,7 +118,7 @@ export default function BlogHero({ post }) {
                                 priority
                                 onError={() => setImageError(true)}
                             />
-                        ) }
+                        )}
                     </div>
                 </motion.div>)}
             </div>

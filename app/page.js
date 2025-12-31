@@ -34,7 +34,7 @@ export default function Home() {
       <UtilityBar />
       <Header onContactClick={handleContactClick} />
       
-      <main className="grow">
+      <main className="grow ">
         {/* 1. HERO SECTION */}
         <Hero 
           onPrimaryClick={handleContactClick}

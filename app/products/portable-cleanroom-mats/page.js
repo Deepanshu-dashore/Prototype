@@ -159,24 +159,28 @@ export default function PortableCleanroomMatsPage() {
                   return (
                     <motion.div
                       key={index}
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      className="flex gap-3 p-4 border border-gray-200 rounded-lg hover:border-primary/30 hover:shadow-sm transition-all duration-300 bg-white group"
+                      transition={{ duration: 0.5, delay: index * 0.05 }}
+                      className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
                     >
-                      <div className="shrink-0">
-                        <div className="w-10 h-10 rounded-lg bg-primary/60 duration-300 transition-all group-hover:bg-primary flex items-center justify-center">
-                          <Icon className="w-5 h-5 text-white" />
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-bold text-neutral-dark leading-tight mb-1">
+                      {/* Content */}
+                      <div className="flex-1 min-w-0 pr-4">
+                        <h3 className="text-base sm:text-base font-semibold text-neutral-900 mb-1.5">
                           {benefit.title}
                         </h3>
-                        <p className="text-xs text-neutral-dark/70 leading-relaxed">
+                        <p className="text-sm sm:text-xs text-neutral-700 leading-relaxed">
                           {benefit.description}
                         </p>
+                      </div>
+
+                      {/* Icon area */}
+                      <div className="relative shrink-0">
+                        <div className="absolute inset-0 translate-x-6 translate-y-2 w-28 h-28 sm:w-32 sm:h-32 bg-primary/10 rounded-full" />
+                        <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
+                          <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+                        </div>
                       </div>
                     </motion.div>
                   );
@@ -187,7 +191,7 @@ export default function PortableCleanroomMatsPage() {
         </section>
 
         {/* Product Image Carousel Section */}
-        <section className="bg-gray-50 py-16 sm:py-20">
+        <section className="bg-gray-100 py-16 sm:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -198,7 +202,7 @@ export default function PortableCleanroomMatsPage() {
             >
               {/* Main Image - Left Side (70%) */}
               <div className="lg:col-span-7">
-                <div className="relative w-full h-96 sm:h-[500px] rounded-xl overflow-hidden bg-white border border-gray-200 shadow-lg">
+                <div className="relative w-full h-96 sm:h-[500px] rounded-xl overflow-hidden bg-white border border-gray-200 shadow-xs">
                   <Image
                     src={productImages[activeImageIndex]}
                     alt={`Product image ${activeImageIndex + 1}`}
@@ -234,8 +238,12 @@ export default function PortableCleanroomMatsPage() {
         </section>
 
         {/* Polymer Mats Vs Peel Off Mats Video Section */}
-        <section className="bg-white py-16 sm:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="bg-linear-to-b relative from-primary to-[#000e7b] py-16 sm:py-20">
+        <div
+            className="absolute inset-0 bg-[url('/circle-pattern.svg')] 
+                      bg-repeat opacity-[0.07] mix-blend-multiply"
+          />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -243,14 +251,14 @@ export default function PortableCleanroomMatsPage() {
               transition={{ duration: 0.6 }}
               className="text-center mb-8"
             >
-              <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
+              <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-4">
                 <SparklesIcon className="w-3 h-3" />
                 Comparison
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
                 Polymer Mats Vs Peel Off Mats
               </h2>
-              <p className="text-sm text-neutral-dark/70 max-w-2xl mx-auto">
+              <p className="text-sm text-white/70 max-w-2xl mx-auto">
                 Discover the advantages of our polymer mats over traditional peel-off mats for superior contamination control.
               </p>
             </motion.div>
@@ -279,7 +287,7 @@ export default function PortableCleanroomMatsPage() {
         </section>
 
         {/* Technical Specifications Section */}
-        <section className="bg-gray-50 py-16 sm:py-20">
+        <section className="bg-white py-16 sm:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -321,7 +329,13 @@ export default function PortableCleanroomMatsPage() {
         </section>
 
         {/* Key Features/Benefits Section */}
-        <section className="bg-white py-12 sm:py-16 md:py-20">
+        <section className="bg-gray-100 py-12 sm:py-16 md:py-20 relative">
+          <div
+            className="pointer-events-none absolute inset-0 
+                       bg-[url('/circle-pattern.svg')] 
+                       bg-repeat opacity-[0.02]"
+            aria-hidden
+          />
           <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -349,23 +363,24 @@ export default function PortableCleanroomMatsPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.05 }}
-                    className="flex gap-4 p-6 border group border-gray-200 rounded-lg hover:border-primary/30 hover:shadow-sm transition-all duration-300 bg-white"
+                    className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
                   >
-                    {/* Icon */}
-                    <div className="shrink-0">
-                      <div className="w-10 h-10 rounded-lg bg-primary/60 duration-300 transition-all group-hover:bg-primary flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-white" aria-hidden="true" />
-                      </div>
-                    </div>
-
                     {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-base sm:text-lg font-bold text-neutral-dark mb-2 leading-tight">
+                    <div className="flex-1 min-w-0 pr-4">
+                      <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-1.5">
                         {feature.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
                         {feature.description}
                       </p>
+                    </div>
+
+                    {/* Icon area */}
+                    <div className="relative shrink-0">
+                      <div className="absolute inset-0 translate-x-6 translate-y-2 w-28 h-28 sm:w-32 sm:h-32 bg-primary/10 rounded-full" />
+                      <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
+                        <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+                      </div>
                     </div>
                   </motion.div>
                 );
@@ -375,7 +390,7 @@ export default function PortableCleanroomMatsPage() {
         </section>
 
         {/* Size Images Section */}
-        <section className="bg-gray-50 py-12 sm:py-16">
+        <section className="bg-white py-12 sm:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Size 1 */}
@@ -416,6 +431,66 @@ export default function PortableCleanroomMatsPage() {
                   />
                 </div>
                 
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Warranty Card Section */}
+        <section className="relative bg-gray-100 py-12 sm:py-16 overflow-hidden">
+          {/* Pattern layer */}
+          <div
+            className="pointer-events-none absolute inset-0 
+                       bg-[url('/circle-pattern.svg')] 
+                       bg-repeat opacity-[0.02]"
+            aria-hidden
+          />
+
+          {/* Content layer */}
+          <div className="relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="max-w-6xl mx-auto"
+              >
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                    {/* Image Side */}
+                    <div className="bg-gray-100 p-6 sm:p-8 flex items-center justify-center">
+                      <div className="relative w-full max-w-xs">
+                        <Image
+                          src="/assets/WarentyBadge.png"
+                          alt="Warranty Badge"
+                          width={600}
+                          height={600}
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Content Side */}
+                    <div className="p-6 sm:p-8 flex flex-col justify-center">
+                      <h2 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-4">
+                        Comprehensive Warranty Coverage
+                      </h2>
+                      <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
+                        <ShieldCheckIcon className="w-4 h-4" />
+                        Warranty
+                      </div>
+                      <div className="text-neutral-dark/70">
+                        <p className="text-sm sm:text-base leading-relaxed mb-3">
+                          All CCM Portable Cleanroom Mat products come with comprehensive warranty coverage, providing you with complete peace of mind and protection for your investment.
+                        </p>
+                        <p className="text-sm sm:text-base leading-relaxed">
+                          Our warranty ensures that your portable cleanroom mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             </div>
           </div>

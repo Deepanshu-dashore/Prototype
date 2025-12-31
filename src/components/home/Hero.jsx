@@ -183,7 +183,7 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }) {
   return (
     <section
       id="home"
-      className="relative min-h-[80dvh] flex items-center overflow-hidden bg-neutral-50 pt-2 lg:pt-2"
+      className="relative min-h-[80dvh] flex items-center overflow-hidden bg-neutral-50 pt-2 lg:pt-8"
     >
       {/* Dynamic Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

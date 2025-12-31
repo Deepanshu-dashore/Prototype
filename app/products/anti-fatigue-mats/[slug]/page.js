@@ -24,7 +24,8 @@ import {
   ClipboardDocumentCheckIcon,
   ArrowsRightLeftIcon,
   ListBulletIcon,
-  WrenchScrewdriverIcon
+  WrenchScrewdriverIcon,
+  SwatchIcon
 } from "@heroicons/react/24/outline";
 import { getProductBySlug } from "../../../../src/utils/productsData";
 
@@ -177,57 +178,93 @@ export default function AntiFatigueMatsPage() {
 
         {/* Color Options Section */}
         {product.colorOptions && product.colorOptions.length > 0 && (
-          <section className="bg-gray-50 py-12 sm:py-16">
+          <section className="bg-white py-16 sm:py-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="text-center mb-10"
+                className="text-center mb-12 lg:hidden block"
               >
                 <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
-                  <SparklesIcon className="w-3 h-3" />
+                  <SwatchIcon className="w-3 h-3" />
                   {product.colorOptions.length === 2 ? "Color Options" : "Profiles"}
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
-                  {product.colorOptions.length === 2 ? "Available Profiles" : "Available Profiles"}
+                  {product.colorOptions.length === 2 ? "See Colours Below" : "See Profiles Below"}
                 </h2>
-                <p className="text-sm text-neutral-dark/70 max-w-3xl mx-auto">
-                  {product.colorOptions.length === 2 
-                    ? "Choose from two profiles, both available in 6\" (1.5cm) thickness"
-                    : "Choose from three profiles, available in ESD version"}
-                </p>
               </motion.div>
 
-              <div className={`grid grid-cols-1 ${product.colorOptions.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-8 max-w-5xl mx-auto`}>
-                {product.colorOptions.map((option, index) => (
+              <div className="flex lg:gap-8 flex-col lg:flex-row gap-0 justify-center">
+                <div className={`grid grid-cols-1 shrink-0 w-full ${product.colorOptions.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-8 max-w-4xl mx-auto mb-12`}>
+                  {product.colorOptions.map((option, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="group"
+                    >
+                      <div className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300">
+                        <div className="mb-4 relative w-full h-64 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+                          <Image
+                            src={option.image}
+                            alt={option.name}
+                            width={400}
+                            height={400}
+                            className="w-full h-full object-contain transition-transform duration-300"
+                          />
+                        </div>
+                        <h3 className="text-xl font-bold text-neutral-dark mb-2 text-center">
+                          {option.name}
+                        </h3>
+                        {option.thickness ? (
+                          <p className="text-sm text-neutral-dark/70 text-center">
+                            Thickness: {option.thickness}
+                          </p>
+                        ) : (
+                          <p className="text-sm text-neutral-dark/70 text-center">
+                            {product.colorOptions.length === 2 
+                              ? "Available in 6\" (1.5cm) thickness"
+                              : "Available in ESD version"}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Color Description */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="max-w-4xl mx-auto text-left"
+                >
                   <motion.div
-                    key={index}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-all duration-300"
+                    transition={{ duration: 0.6 }}
+                    className="text-left mb-8 hidden lg:block"
                   >
-                    <div className="relative w-full h-64 mb-4 rounded-lg overflow-hidden bg-gray-50">
-                      <Image
-                        src={option.image}
-                        alt={option.name}
-                        fill
-                        className="object-contain p-4"
-                      />
-                    </div>
-                    <h3 className="text-xl font-bold text-neutral-dark mb-2 text-center">
-                      {option.name}
-                    </h3>
-                    {option.thickness && (
-                      <p className="text-sm text-neutral-dark/70 text-center">
-                        Thickness: {option.thickness}
-                      </p>
-                    )}
+                    <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
+                      <SwatchIcon className="w-3 h-3" />
+                      {product.colorOptions.length === 2 ? "Colors" : "Profiles"}
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark">
+                      {product.colorOptions.length === 2 ? "Colour Options Available" : "Profile Options Available"}
+                    </h2>
                   </motion.div>
-                ))}
+                  <p className="text-base text-neutral-dark/70 leading-relaxed">
+                    {product.colorOptions.length === 2 
+                      ? "Choose from our two premium color options, both available in 6\" (1.5cm) thickness. Both options maintain the same high-performance standards and durability."
+                      : "Choose from our three premium profile options, all available in ESD version. All profiles maintain the same high-performance standards and durability."}
+                  </p>
+                </motion.div>
               </div>
             </div>
           </section>
@@ -287,23 +324,24 @@ export default function AntiFatigueMatsPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.05 }}
-                    className="flex gap-4 p-6 border group border-gray-200 rounded-lg hover:border-primary/30 hover:shadow-sm transition-all duration-300 bg-white"
+                    className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
                   >
-                    {/* Icon */}
-                    <div className="shrink-0">
-                      <div className="w-10 h-10 rounded-lg bg-primary/60 duration-300 transition-all group-hover:bg-primary flex items-center justify-center">
-                        <Icon className="w-5 h-5 text-white" aria-hidden="true" />
-                      </div>
-                    </div>
-
                     {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-base sm:text-lg font-bold text-neutral-dark mb-2 leading-tight">
+                    <div className="flex-1 min-w-0 pr-4">
+                      <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-1.5">
                         {benefit.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
                         {benefit.description}
                       </p>
+                    </div>
+
+                    {/* Icon area */}
+                    <div className="relative shrink-0">
+                      <div className="absolute inset-0 translate-x-6 translate-y-2 w-28 h-28 sm:w-32 sm:h-32 bg-primary/10 rounded-full" />
+                      <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
+                        <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+                      </div>
                     </div>
                   </motion.div>
                 );
@@ -399,51 +437,62 @@ export default function AntiFatigueMatsPage() {
 
         {/* Warranty Card Section */}
         {product.warranty && (
-          <section className="bg-gray-50 py-12 sm:py-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="max-w-6xl mx-auto"
-              >
-                <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                    {/* Image Side */}
-                    <div className="bg-gray-100 p-6 sm:p-8 flex items-center justify-center">
-                      <div className="relative w-full max-w-xs">
-                        <Image
-                          src={product.warranty.badgeImage}
-                          alt={`${product.warranty.title} Badge`}
-                          width={600}
-                          height={600}
-                          className="w-full h-auto object-cover"
-                        />
-                      </div>
-                    </div>
+          <section className="relative bg-gray-100 py-12 sm:py-16 overflow-hidden">
+            {/* Pattern layer */}
+            <div
+              className="pointer-events-none absolute inset-0 
+                         bg-[url('/circle-pattern.svg')] 
+                         bg-repeat opacity-[0.02]"
+              aria-hidden
+            />
 
-                    {/* Content Side */}
-                    <div className="p-6 sm:p-8 flex flex-col justify-center">
-                      <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
-                        <ShieldCheckIcon className="w-4 h-4" />
-                        Warranty
+            {/* Content layer */}
+            <div className="relative z-10">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="max-w-6xl mx-auto"
+                >
+                  <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                      {/* Image Side */}
+                      <div className="bg-gray-100 p-6 sm:p-8 flex items-center justify-center">
+                        <div className="relative w-full max-w-xs">
+                          <Image
+                            src={product.warranty.badgeImage}
+                            alt={`${product.warranty.title} Badge`}
+                            width={600}
+                            height={600}
+                            className="w-full h-auto object-cover"
+                          />
+                        </div>
                       </div>
-                      <h2 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-4">
-                        {product.warranty.title}
-                      </h2>
-                      <div className="text-neutral-dark/70">
-                        <p className="text-sm sm:text-base leading-relaxed mb-3">
-                          {product.warranty.description}
-                        </p>
-                        <p className="text-sm sm:text-base leading-relaxed">
-                          {product.warranty.additionalInfo}
-                        </p>
+
+                      {/* Content Side */}
+                      <div className="p-6 sm:p-8 flex flex-col justify-center">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-4">
+                          {product.warranty.title}
+                        </h2>
+                        <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
+                          <ShieldCheckIcon className="w-4 h-4" />
+                          Warranty
+                        </div>
+                        <div className="text-neutral-dark/70">
+                          <p className="text-sm sm:text-base leading-relaxed mb-3">
+                            {product.warranty.description}
+                          </p>
+                          <p className="text-sm sm:text-base leading-relaxed">
+                            {product.warranty.additionalInfo}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             </div>
           </section>
         )}

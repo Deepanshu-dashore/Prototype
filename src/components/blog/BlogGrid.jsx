@@ -1,26 +1,69 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import axios from 'axios'
 import BlogCard from './BlogCard'
 import BlogListCard from './BlogListCard'
-import { blogPosts, getAllCategories } from '../../utils/blogData'
 
 export default function BlogGrid() {
     const [selectedCategory, setSelectedCategory] = useState('All')
     const [searchQuery, setSearchQuery] = useState('')
-    const categories = ['All', ...getAllCategories()]
+    const [blogs, setBlogs] = useState([])
+    const [categories, setCategories] = useState(['All'])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState('')
 
+    // Fetch blogs from API
+    useEffect(() => {
+        fetchBlogs()
+    }, [])
+
+    const fetchBlogs = async () => {
+        try {
+            setLoading(true)
+            const params = new URLSearchParams()
+            if (searchQuery) {
+                params.append('search', searchQuery)
+            }
+            params.append('sort', 'newest')
+
+            const res = await axios.get(`/api/blogs/public?${params.toString()}`)
+            if (res.data?.success) {
+                const blogsData = res.data.data?.blogs || []
+                setBlogs(blogsData)
+                
+                // Get categories from API response
+                const apiCategories = res.data.data?.categories || []
+                setCategories(['All', ...apiCategories])
+            } else {
+                setError(res.data?.message || 'Failed to fetch blogs')
+            }
+        } catch (err) {
+            setError(err.message || 'Something went wrong')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    // Refetch when search query changes (with debounce)
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            fetchBlogs()
+        }, 500) // Debounce search by 500ms
+
+        return () => clearTimeout(timeoutId)
+    }, [searchQuery])
+
+    // Filter posts by category (client-side filtering)
     const filteredPosts = useMemo(() => {
-        return blogPosts.filter(post => {
-            const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory
-            const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
-            return matchesCategory && matchesSearch
-        })
-    }, [selectedCategory, searchQuery])
+        if (selectedCategory === 'All') {
+            return blogs
+        }
+        return blogs.filter(post => post.category === selectedCategory)
+    }, [blogs, selectedCategory])
 
     const featuredPost = filteredPosts[0]
     const remainingPosts = filteredPosts.slice(1)
@@ -49,6 +92,24 @@ export default function BlogGrid() {
                     </div>
                 </div>
 
+                {loading ? (
+                    <div className="flex items-center justify-center py-20">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                    </div>
+                ) : error ? (
+                    <div className="text-center py-20">
+                        <div className="bg-red-50 rounded-2xl p-12 shadow-sm inline-block max-w-md mx-auto">
+                            <h3 className="text-xl font-bold text-red-900 mb-2">Error loading blogs</h3>
+                            <p className="text-red-700 mb-6">{error}</p>
+                            <button
+                                onClick={fetchBlogs}
+                                className="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-primary/90 transition-colors"
+                            >
+                                Retry
+                            </button>
+                        </div>
+                    </div>
+                ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
                     {/* Main Content */}
                     <div className="lg:col-span-3">
@@ -60,11 +121,11 @@ export default function BlogGrid() {
                                 transition={{ duration: 0.6 }}
                                 className="mb-12"
                             >
-                                <Link href={`/blog/${featuredPost.slug}`} className="group block">
+                                <Link href={`/blog/${featuredPost._id}`} className="group block">
                                     <div className="relative h-64 sm:h-80 lg:h-96 rounded-2xl overflow-hidden mb-6 bg-white">
                                         {featuredPost.featuredImage ? (
                                             <Image
-                                                src={featuredPost.featuredImage||"/BlogIso.png"}
+                                                src={featuredPost.featuredImage || "/BlogIso.png"}
                                                 alt={featuredPost.title}
                                                 fill
                                                 className="object-contain transition-transform duration-700 group-hover:scale-110"
@@ -84,9 +145,6 @@ export default function BlogGrid() {
                                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2 line-clamp-2">
                                                 {featuredPost.title}
                                             </h2>
-                                            <p className="text-white/90 text-sm sm:text-base line-clamp-2">
-                                                {featuredPost.excerpt}
-                                            </p>
                                         </div>
                                     </div>
                                 </Link>
@@ -98,7 +156,7 @@ export default function BlogGrid() {
                             <div className="space-y-6">
                                 <AnimatePresence mode="popLayout">
                                     {remainingPosts.map((post, index) => (
-                                        <BlogListCard key={post.id} post={post} index={index} />
+                                        <BlogListCard key={post._id || post.id} post={post} index={index} />
                                     ))}
                                 </AnimatePresence>
                             </div>
@@ -152,7 +210,7 @@ export default function BlogGrid() {
                             </div>
 
                             {/* Newsletter */}
-                            <div className="bg-gradient-to-br from-primary to-primary/80 rounded-xl p-6 text-white">
+                            <div className="bg-linear-to-br from-primary to-primary/80 rounded-xl p-6 text-white">
                                 <h3 className="text-lg font-bold mb-2">Stay Updated</h3>
                                 <p className="text-sm text-white/90 mb-4">
                                     Get the latest articles delivered to your inbox.
@@ -171,6 +229,7 @@ export default function BlogGrid() {
                         </div>
                     </aside>
                 </div>
+                )}
             </div>
         </div>
     )

@@ -18,7 +18,7 @@ export default function BlogListCard({ post, index }) {
             'from-slate-500/30 via-slate-400/20 to-slate-200/10', // Minimalist gray slate
             'from-emerald-500/0 via-emerald-400/0 to-emerald-200/0', // Growth-oriented green
             'from-cyan-500/30 via-cyan-400/20 to-cyan-200/10',    // Fresh innovation cyan
-          ];          
+        ];
         const hash = title.split('').reduce((acc, char) => char.charCodeAt(0) + ((acc << 5) - acc), 0)
         return gradients[Math.abs(hash) % gradients.length]
     }
@@ -32,7 +32,7 @@ export default function BlogListCard({ post, index }) {
             className="group flex gap-6 pb-8 border-b border-gray-100 last:border-0 last:pb-0 hover:border-gray-200 transition-colors duration-300"
         >
             {/* Image */}
-            <Link href={`/blog/${post.slug}`} className="relative w-32 sm:w-40 h-32 sm:h-40 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
+            <Link href={`/blog/${post._id}`} className="relative w-32 sm:w-40 h-32 sm:h-40 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
                 {post.featuredImage && !imageError ? (
                     <Image
                         src={post.featuredImage}
@@ -42,7 +42,7 @@ export default function BlogListCard({ post, index }) {
                         onError={() => setImageError(true)}
                     />
                 ) : (
-                    <div className={`w-full h-full bg-gradient-to-br ${getGradientColors(post.title)} flex items-center justify-center border border-gray-200/50`}>
+                    <div className={`w-full h-full bg-linear-to-br ${getGradientColors(post.title)} flex items-center justify-center border border-gray-200/50`}>
                         <div className="text-neutral-dark/40 text-xl font-bold">
                             {post.title.charAt(0)}
                         </div>
@@ -55,26 +55,32 @@ export default function BlogListCard({ post, index }) {
                 {/* Date */}
                 <div className="mb-2">
                     <span className="text-xs font-semibold text-neutral-dark/50 uppercase tracking-wider">
-                        {new Date(post.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        {post.createdAt
+                            ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                            : post.publishedDate
+                                ? new Date(post.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                                : ''
+                        }
                     </span>
                 </div>
 
                 {/* Title */}
-                <Link href={`/blog/${post.slug}`} className="block mb-2 group-hover:text-primary transition-colors duration-300">
+                <Link href={`/blog/${post._id}`} className="block mb-2 group-hover:text-primary transition-colors duration-300">
                     <h3 className="text-lg sm:text-xl font-bold text-neutral-dark line-clamp-2 leading-tight">
                         {post.title}
                     </h3>
                 </Link>
-
                 {/* Excerpt */}
-                <p className="text-neutral-dark/70 text-xs sm:text-sm line-clamp-2 mb-4 leading-relaxed">
-                    {post.excerpt}
-                </p>
+                {post.excerpt && (
+                    <p className="text-neutral-dark/70 text-xs sm:text-sm line-clamp-2 mb-4 leading-relaxed">
+                        {post.excerpt}
+                    </p>
+                )}
 
                 {/* Meta */}
                 <div className="flex items-center gap-4 mt-auto">
                     <span className="text-xs font-medium text-neutral-dark/60">
-                        {post.author?.name || 'Author'}
+                        {post.author || 'CC Mating'}
                     </span>
                     <span className="text-xs text-neutral-dark/40">•</span>
                     <span className="text-xs text-neutral-dark/50 flex items-center gap-1">

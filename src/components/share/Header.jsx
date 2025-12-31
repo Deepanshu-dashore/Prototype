@@ -157,13 +157,17 @@ export default function Header({ onContactClick }) {
                               target={item.name==='Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
                               className={`flex items-center px-3 py-2.5 text-xs transition-colors rounded-sm mx-1 ${dropdownItem.hasSubMenu ? 'justify-between pr-2' : ''} ${
                                 isActiveRoute(dropdownItem.href)
-                                  ? 'bg-primary/10 text-primary font-semibold' 
+                                  ? 'bg-accent/10 text-primary font-semibold' 
                                   : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
                               }`}
                             >
                               <div className="flex items-center gap-2">
                                 {dropdownItem.icon && (
-                                  <div className='w-7 h-7 bg-primary/5 transition-colors duration-300 group-hover:bg-primary rounded-md flex justify-center items-center group-hover:text-white text-primary'>
+                                  <div className={`w-7 h-7 transition-colors duration-300 rounded-md flex justify-center items-center ${
+                                    isActiveRoute(dropdownItem.href)
+                                      ? 'bg-primary text-white'
+                                      : 'bg-primary/5 group-hover:bg-primary text-primary group-hover:text-white'
+                                  }`}>
                                     <dropdownItem.icon className="w-4 h-4" />
                                   </div>
                                 )}
@@ -181,9 +185,17 @@ export default function Header({ onContactClick }) {
                                     <a
                                       href={subItem.href}
                                       target={item.name==='Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
-                                      className="flex items-center px-4 py-2.5 text-xs text-neutral-dark hover:bg-accent/10 hover:text-primary transition-colors rounded-sm mx-1"
+                                      className={`flex items-center px-4 py-2.5 text-xs transition-colors rounded-sm mx-1 ${
+                                        isActiveRoute(subItem.href)
+                                          ? 'bg-accent/10 text-primary font-semibold'
+                                          : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
+                                      }`}
                                     >
-                                      <div className='w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-primary transition-colors'></div>
+                                      <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${
+                                        isActiveRoute(subItem.href)
+                                          ? 'bg-primary'
+                                          : 'bg-gray-300 group-hover:bg-primary'
+                                      }`}></div>
                                       {subItem.name}
                                     </a>
                                   </div>
@@ -198,13 +210,21 @@ export default function Header({ onContactClick }) {
                 )
               }
               return item.isLink ? (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-sm h-18 flex items-center font-medium text-neutral-dark hover:text-primary transition-colors"
-                >
-                  {item.name}
-                </Link>
+                <div key={item.name} className="relative">
+                  <Link
+                    href={item.href}
+                    className={`text-sm h-18 flex items-center font-medium transition-colors px-3 py-2 rounded-lg relative ${
+                      isActiveRoute(item.href)
+                        ? 'text-white font-semibold'
+                        : 'text-neutral-dark'
+                    }`}
+                  >
+                    {isActiveRoute(item.href) && (
+                      <div className="absolute inset-0 bg-primary rounded-md -z-10 h-8 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                    )}
+                    <span className="relative z-10">{item.name}</span>
+                  </Link>
+                </div>
               ) : (
                 <a
                   key={item.name}
@@ -296,10 +316,18 @@ export default function Header({ onContactClick }) {
                                           <a
                                             href={subItem.href}
                                             target={item.name==='Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
-                                            className="flex items-center px-3 py-2 text-xs text-neutral-dark hover:text-primary hover:bg-accent/10 rounded-sm transition-colors group"
+                                            className={`flex items-center px-3 py-2 text-xs rounded-sm transition-colors group ${
+                                              isActiveRoute(subItem.href)
+                                                ? 'bg-accent/10 text-primary font-semibold'
+                                                : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
+                                            }`}
                                             onClick={() => setMobileMenuOpen(false)}
                                           >
-                                            <div className='w-1.5 h-1.5 bg-gray-300 rounded-full mr-3 group-hover:bg-primary transition-colors'></div>
+                                            <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${
+                                              isActiveRoute(subItem.href)
+                                                ? 'bg-primary'
+                                                : 'bg-gray-300 group-hover:bg-primary'
+                                            }`}></div>
                                             {subItem.name}
                                           </a>
                                         </div>
@@ -313,14 +341,18 @@ export default function Header({ onContactClick }) {
                                     target={item.name==='Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
                                     className={`block px-3 py-2.5 text-sm rounded-sm transition-colors ${
                                       isActiveRoute(dropdownItem.href)
-                                        ? 'bg-primary/10 text-primary font-semibold'
+                                        ? 'bg-accent/10 text-primary font-semibold'
                                         : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
                                     }`}
                                     onClick={() => setMobileMenuOpen(false)}
                                   >
                                   <div className='flex items-center gap-2.5'>
                                     {dropdownItem.icon && (
-                                      <div className='w-7 h-7 bg-primary/5 rounded-md flex justify-center items-center text-primary'>
+                                      <div className={`w-7 h-7 rounded-md flex justify-center items-center transition-colors ${
+                                        isActiveRoute(dropdownItem.href)
+                                          ? 'bg-primary text-white'
+                                          : 'bg-primary/5 text-primary'
+                                      }`}>
                                         <dropdownItem.icon className="w-4 h-4" />
                                       </div>
                                     )}
@@ -336,14 +368,22 @@ export default function Header({ onContactClick }) {
                   )
                 }
                 return item.isLink ? (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="px-3 py-2 text-base font-medium text-neutral-dark hover:text-primary hover:bg-neutral-light rounded-md transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
+                  <div key={item.name} className="relative">
+                    <Link
+                      href={item.href}
+                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative ${
+                        isActiveRoute(item.href)
+                          ? 'text-white font-semibold'
+                          : 'text-neutral-dark'
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {isActiveRoute(item.href) && (
+                        <div className="absolute inset-0 bg-primary rounded-md -z-10"></div>
+                      )}
+                      <span className="relative z-10">{item.name}</span>
+                    </Link>
+                  </div>
                 ) : (
                   <a
                     key={item.name}

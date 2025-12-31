@@ -30,7 +30,7 @@ export default function BlogCard({ post, index }) {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full"
         >
-            <Link href={`/blog/${post.slug}`} className="relative h-56 w-full overflow-hidden block">
+            <Link href={`/blog/${post._id}`} className="relative h-56 w-full overflow-hidden block">
                 {post.featuredImage && !imageError ? (
                     <Image
                         src={post.featuredImage}
@@ -40,7 +40,7 @@ export default function BlogCard({ post, index }) {
                         onError={() => setImageError(true)}
                     />
                 ) : (
-                    <div className={`w-full h-full bg-gradient-to-br ${getGradientColors(post.title)} flex items-center justify-center p-6`}>
+                    <div className={`w-full h-full bg-linear-to-br ${getGradientColors(post.title)} flex items-center justify-center p-6`}>
                         <h3 className="text-neutral-dark text-xl sm:text-2xl font-bold text-center leading-tight line-clamp-3">
                             {post.title}
                         </h3>
@@ -59,37 +59,56 @@ export default function BlogCard({ post, index }) {
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        {new Date(post.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        {post.createdAt
+                            ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                            : post.publishedDate
+                                ? new Date(post.publishedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                                : ''
+                        }
                     </span>
-                    <span className="flex items-center gap-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {post.readingTime} min read
-                    </span>
+                    {post.readingTime && (
+                        <span className="flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {post.readingTime} min read
+                        </span>
+                    )}
                 </div>
 
-                <Link href={`/blog/${post.slug}`} className="block">
+                <Link href={`/blog/${post._id}`} className="block">
                     <h3 className="text-xl font-bold text-neutral-dark mb-3 group-hover:text-primary transition-colors duration-300 line-clamp-2">
                         {post.title}
                     </h3>
                 </Link>
 
-                <p className="text-neutral-dark/70 text-sm line-clamp-3 mb-6 grow">
-                    {post.excerpt}
-                </p>
+                {post.excerpt && (
+                    <p className="text-neutral-dark/70 text-sm line-clamp-3 mb-6 grow">
+                        {post.excerpt}
+                    </p>
+                )}
 
                 <div className="flex items-center justify-between pt-6 border-t border-gray-100">
                     <div className="flex items-center gap-3">
-                        <img
-                            src={post.author.avatar}
-                            alt={post.author.name}
-                            className="w-8 h-8 rounded-full"
-                        />
-                        <span className="text-sm font-semibold text-neutral-dark">{post.author.name}</span>
+                        {post.author?.avatar ? (
+                            <img
+                                src={post.author.avatar}
+                                alt={post.author.name || 'Author'}
+                                className="w-8 h-8 rounded-full"
+                            />
+                        ) : (
+                            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                        )}
+                        <span className="text-sm font-semibold text-neutral-dark">
+                            {post.author || 'Author'}
+                        </span>
                     </div>
                     <Link
-                        href={`/blog/${post.slug}`}
+                        href={`/blog/${post._id}`}
                         className="text-primary font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all duration-300"
                     >
                         Read More
