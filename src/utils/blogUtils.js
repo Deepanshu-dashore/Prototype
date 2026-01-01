@@ -1,5 +1,6 @@
 import connect from "@/app/lib/db/connect";
 import { Blog } from "@/app/lib/models/blog";
+import mongoose from "mongoose";
 
 /**
  * Get public blogs with filtering, sorting, and search
@@ -74,7 +75,7 @@ export async function getBlogByIdOrSlug(idOrSlug) {
   let query = {};
 
   // Check if it's a valid MongoDB ObjectId
-  const isObjectId = /^[0-9a-fA-F]{24}$/.test(idOrSlug);
+  const isObjectId = mongoose.Types.ObjectId.isValid(idOrSlug);
 
   if (isObjectId) {
     query = { _id: idOrSlug };
