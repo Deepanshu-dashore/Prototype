@@ -162,8 +162,8 @@ export default function BlogGrid({
                                             href={`${pathname}?${createQueryString('category', category)}`}
                                             scroll={false}
                                             className={`block w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${currentCategory === category
-                                                    ? 'bg-primary text-white shadow-md shadow-primary/20'
-                                                    : 'text-neutral-dark/70 hover:bg-white hover:text-neutral-dark hover:shadow-sm'
+                                                ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                                : 'text-neutral-dark/70 hover:bg-white hover:text-neutral-dark hover:shadow-sm'
                                                 }`}
                                         >
                                             {category}

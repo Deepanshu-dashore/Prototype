@@ -34,7 +34,7 @@ export default function Header({ onContactClick }) {
   const [openDropdown, setOpenDropdown] = useState(null)
   const [openSubDropdown, setOpenSubDropdown] = useState(null)
   const pathname = usePathname()
-  
+
   // Helper function to check if a route is active
   const isActiveRoute = (href) => {
     if (pathname === href) return true
@@ -103,12 +103,12 @@ export default function Header({ onContactClick }) {
           <div className="shrink-0">
             <Link href="/" className="flex items-center">
               <span className="text-xl lg:text-2xl font-display font-semibold text-primary">
-                <Image 
-                  src="/assets/CC MATTING_New_2_Horizontal version_page-0001.jpg" 
-                  alt="CC Matting" 
-                  width={200} 
+                <Image
+                  src="/CCMate-Logo.jpg"
+                  alt="CC Matting"
+                  width={200}
                   height={52}
-                  className="w-full h-13"
+                  className="h-10 w-auto object-contain"
                   priority
                 />
               </span>
@@ -131,11 +131,10 @@ export default function Header({ onContactClick }) {
                   >
                     <Link
                       href={item.href}
-                      className={`text-sm font-medium transition-colors flex items-center gap-1 ${
-                        isActiveRoute(item.href)
+                      className={`text-sm font-medium transition-colors flex items-center gap-1 ${isActiveRoute(item.href)
                           ? 'text-primary font-semibold'
                           : 'text-neutral-dark hover:text-primary'
-                      }`}
+                        }`}
                     >
                       {item.name}
                       <ChevronDownIcon className={`w-4 h-4 transition-transform ${openDropdown === item.name ? 'rotate-180' : ''}`} />
@@ -154,20 +153,18 @@ export default function Header({ onContactClick }) {
                           >
                             <a
                               href={dropdownItem.href}
-                              target={item.name==='Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
-                              className={`flex items-center px-3 py-2.5 text-xs transition-colors rounded-sm mx-1 ${dropdownItem.hasSubMenu ? 'justify-between pr-2' : ''} ${
-                                isActiveRoute(dropdownItem.href)
-                                  ? 'bg-accent/10 text-primary font-semibold' 
+                              target={item.name === 'Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
+                              className={`flex items-center px-3 py-2.5 text-xs transition-colors rounded-sm mx-1 ${dropdownItem.hasSubMenu ? 'justify-between pr-2' : ''} ${isActiveRoute(dropdownItem.href)
+                                  ? 'bg-accent/10 text-primary font-semibold'
                                   : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center gap-2">
                                 {dropdownItem.icon && (
-                                  <div className={`w-7 h-7 transition-colors duration-300 rounded-md flex justify-center items-center ${
-                                    isActiveRoute(dropdownItem.href)
+                                  <div className={`w-7 h-7 transition-colors duration-300 rounded-md flex justify-center items-center ${isActiveRoute(dropdownItem.href)
                                       ? 'bg-primary text-white'
                                       : 'bg-primary/5 group-hover:bg-primary text-primary group-hover:text-white'
-                                  }`}>
+                                    }`}>
                                     <dropdownItem.icon className="w-4 h-4" />
                                   </div>
                                 )}
@@ -184,18 +181,16 @@ export default function Header({ onContactClick }) {
                                   <div key={subItem.name}>
                                     <a
                                       href={subItem.href}
-                                      target={item.name==='Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
-                                      className={`flex items-center px-4 py-2.5 text-xs transition-colors rounded-sm mx-1 ${
-                                        isActiveRoute(subItem.href)
+                                      target={item.name === 'Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
+                                      className={`flex items-center px-4 py-2.5 text-xs transition-colors rounded-sm mx-1 ${isActiveRoute(subItem.href)
                                           ? 'bg-accent/10 text-primary font-semibold'
                                           : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
-                                      }`}
+                                        }`}
                                     >
-                                      <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${
-                                        isActiveRoute(subItem.href)
+                                      <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${isActiveRoute(subItem.href)
                                           ? 'bg-primary'
                                           : 'bg-gray-300 group-hover:bg-primary'
-                                      }`}></div>
+                                        }`}></div>
                                       {subItem.name}
                                     </a>
                                   </div>
@@ -213,11 +208,10 @@ export default function Header({ onContactClick }) {
                 <div key={item.name} className="relative">
                   <Link
                     href={item.href}
-                    className={`text-sm h-18 flex items-center font-medium transition-colors px-3 py-2 rounded-lg relative ${
-                      isActiveRoute(item.href)
+                    className={`text-sm h-18 flex items-center font-medium transition-colors px-3 py-2 rounded-lg relative ${isActiveRoute(item.href)
                         ? 'text-white font-semibold'
                         : 'text-neutral-dark'
-                    }`}
+                      }`}
                   >
                     {isActiveRoute(item.href) && (
                       <div className="absolute inset-0 bg-primary rounded-md -z-10 h-8 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
@@ -274,11 +268,10 @@ export default function Header({ onContactClick }) {
                       <div className="flex items-center justify-between">
                         <Link
                           href={item.href}
-                          className={`px-3 py-2 text-base font-medium rounded-md transition-colors flex-1 ${
-                            isActiveRoute(item.href)
+                          className={`px-3 py-2 text-base font-medium rounded-md transition-colors flex-1 ${isActiveRoute(item.href)
                               ? 'text-primary font-semibold'
                               : 'text-neutral-dark hover:text-primary hover:bg-neutral-light'
-                          }`}
+                            }`}
                         >
                           {item.name}
                         </Link>
@@ -315,19 +308,17 @@ export default function Header({ onContactClick }) {
                                         <div key={subItem.name}>
                                           <a
                                             href={subItem.href}
-                                            target={item.name==='Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
-                                            className={`flex items-center px-3 py-2 text-xs rounded-sm transition-colors group ${
-                                              isActiveRoute(subItem.href)
+                                            target={item.name === 'Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
+                                            className={`flex items-center px-3 py-2 text-xs rounded-sm transition-colors group ${isActiveRoute(subItem.href)
                                                 ? 'bg-accent/10 text-primary font-semibold'
                                                 : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
-                                            }`}
+                                              }`}
                                             onClick={() => setMobileMenuOpen(false)}
                                           >
-                                            <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${
-                                              isActiveRoute(subItem.href)
+                                            <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${isActiveRoute(subItem.href)
                                                 ? 'bg-primary'
                                                 : 'bg-gray-300 group-hover:bg-primary'
-                                            }`}></div>
+                                              }`}></div>
                                             {subItem.name}
                                           </a>
                                         </div>
@@ -336,23 +327,21 @@ export default function Header({ onContactClick }) {
                                   )}
                                 </>
                               ) : (
-                                  <a
-                                    href={dropdownItem.href}
-                                    target={item.name==='Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
-                                    className={`block px-3 py-2.5 text-sm rounded-sm transition-colors ${
-                                      isActiveRoute(dropdownItem.href)
-                                        ? 'bg-accent/10 text-primary font-semibold'
-                                        : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
+                                <a
+                                  href={dropdownItem.href}
+                                  target={item.name === 'Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
+                                  className={`block px-3 py-2.5 text-sm rounded-sm transition-colors ${isActiveRoute(dropdownItem.href)
+                                      ? 'bg-accent/10 text-primary font-semibold'
+                                      : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
                                     }`}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                  >
+                                  onClick={() => setMobileMenuOpen(false)}
+                                >
                                   <div className='flex items-center gap-2.5'>
                                     {dropdownItem.icon && (
-                                      <div className={`w-7 h-7 rounded-md flex justify-center items-center transition-colors ${
-                                        isActiveRoute(dropdownItem.href)
+                                      <div className={`w-7 h-7 rounded-md flex justify-center items-center transition-colors ${isActiveRoute(dropdownItem.href)
                                           ? 'bg-primary text-white'
                                           : 'bg-primary/5 text-primary'
-                                      }`}>
+                                        }`}>
                                         <dropdownItem.icon className="w-4 h-4" />
                                       </div>
                                     )}
@@ -371,11 +360,10 @@ export default function Header({ onContactClick }) {
                   <div key={item.name} className="relative">
                     <Link
                       href={item.href}
-                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative ${
-                        isActiveRoute(item.href)
+                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative ${isActiveRoute(item.href)
                           ? 'text-white font-semibold'
                           : 'text-neutral-dark'
-                      }`}
+                        }`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {isActiveRoute(item.href) && (

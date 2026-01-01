@@ -105,7 +105,7 @@ export default function LoginContent() {
                 <div className="w-full max-w-md">
                     <div className="flex justify-center mb-8">
                         <Image
-                            src="/assets/CC MATTING_New_2_Horizontal version_page-0001.jpg"
+                            src="/CCMate-Logo.jpg"
                             alt="CC Matting"
                             width={200}
                             height={52}

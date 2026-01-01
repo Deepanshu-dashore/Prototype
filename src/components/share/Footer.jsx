@@ -17,12 +17,12 @@ export default function Footer() {
               {/* Social Media & Legal */}
               <div>
                 <div className="inline-block bg-white px-2 py-1 rounded-md mb-3">
-                  <Image 
-                    src="/assets/CC MATTING_New_2_Horizontal version_page-0001.jpg" 
-                    alt="CC Matting" 
-                    width={200} 
-                    height={45} 
-                    className="h-10 sm:h-12 w-auto object-contain" 
+                  <Image
+                    src="/CCMate-Logo.jpg"
+                    alt="CC Matting"
+                    width={200}
+                    height={45}
+                    className="h-10 sm:h-12 w-auto object-contain"
                   />
                 </div>
                 <p className="text-xs text-white/75 leading-relaxed mb-4 max-w-xs">
@@ -30,11 +30,11 @@ export default function Footer() {
                 </p>
                 <h3 className="font-semibold text-white text-sm mb-3 tracking-tight">Follow</h3>
                 <div className="flex space-x-3 mb-4">
-                  <a 
-                    href="https://www.linkedin.com/company/cc-matting" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group" 
+                  <a
+                    href="https://www.linkedin.com/company/cc-matting"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group"
                     aria-label="LinkedIn"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform duration-200">
@@ -43,33 +43,33 @@ export default function Footer() {
                       <circle cx="4" cy="4" r="2"></circle>
                     </svg>
                   </a>
-                  <a 
-                    href="https://www.facebook.com/ccmatting" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group" 
+                  <a
+                    href="https://www.facebook.com/ccmatting"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group"
                     aria-label="Facebook"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform duration-200">
                       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                     </svg>
                   </a>
-                  <a 
-                    href="https://twitter.com/ccmatting" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group" 
+                  <a
+                    href="https://twitter.com/ccmatting"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group"
                     aria-label="Twitter"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform duration-200">
                       <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
                     </svg>
                   </a>
-                  <a 
-                    href="https://www.instagram.com/ccmatting" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group" 
+                  <a
+                    href="https://www.instagram.com/ccmatting"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group"
                     aria-label="Instagram"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform duration-200">
