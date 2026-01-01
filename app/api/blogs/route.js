@@ -1,7 +1,7 @@
 import connect from "@/app/lib/db/connect";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { Blog } from "@/app/lib/models/blog";
-import { ApiResponse } from "@/app/lib/utlis/apiResponse";
+import { ApiResponse } from "@/app/lib/utils/apiResponse";
 
 //Get all blogs with filtering, sorting, and search
 export async function GET(request) {

@@ -1,79 +1,61 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import axios from 'axios'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import BlogCard from './BlogCard'
 import BlogListCard from './BlogListCard'
 
-export default function BlogGrid() {
-    const [selectedCategory, setSelectedCategory] = useState('All')
-    const [searchQuery, setSearchQuery] = useState('')
-    const [blogs, setBlogs] = useState([])
-    const [categories, setCategories] = useState(['All'])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
+export default function BlogGrid({
+    initialBlogs = [],
+    initialCategories = ['All'],
+    currentCategory = 'All',
+    currentSearch = ''
+}) {
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
 
-    // Fetch blogs from API
+    const [searchQuery, setSearchQuery] = useState(currentSearch)
+
+    // Sync search input with prop when URL changes (e.g. back button)
     useEffect(() => {
-        fetchBlogs()
-    }, [])
+        setSearchQuery(currentSearch)
+    }, [currentSearch])
 
-    const fetchBlogs = async () => {
-        try {
-            setLoading(true)
-            const params = new URLSearchParams()
-            if (searchQuery) {
-                params.append('search', searchQuery)
-            }
-            params.append('sort', 'newest')
-
-            const res = await axios.get(`/api/blogs/public?${params.toString()}`)
-            if (res.data?.success) {
-                const blogsData = res.data.data?.blogs || []
-                setBlogs(blogsData)
-                
-                // Get categories from API response
-                const apiCategories = res.data.data?.categories || []
-                setCategories(['All', ...apiCategories])
-            } else {
-                setError(res.data?.message || 'Failed to fetch blogs')
-            }
-        } catch (err) {
-            setError(err.message || 'Something went wrong')
-        } finally {
-            setLoading(false)
+    const handleSearch = (e) => {
+        e.preventDefault()
+        const params = new URLSearchParams(searchParams.toString())
+        if (searchQuery) {
+            params.set('search', searchQuery)
+        } else {
+            params.delete('search')
         }
+        // Using push to ensure search states are in history
+        router.push(`${pathname}?${params.toString()}`, { scroll: false })
     }
 
-    // Refetch when search query changes (with debounce)
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            fetchBlogs()
-        }, 500) // Debounce search by 500ms
+    const featuredPost = initialBlogs[0]
+    const remainingPosts = initialBlogs.slice(1)
 
-        return () => clearTimeout(timeoutId)
-    }, [searchQuery])
-
-    // Filter posts by category (client-side filtering)
-    const filteredPosts = useMemo(() => {
-        if (selectedCategory === 'All') {
-            return blogs
+    const createQueryString = (name, value) => {
+        const params = new URLSearchParams(searchParams.toString())
+        if (value && value !== 'All') {
+            params.set(name, value)
+        } else {
+            params.delete(name)
         }
-        return blogs.filter(post => post.category === selectedCategory)
-    }, [blogs, selectedCategory])
-
-    const featuredPost = filteredPosts[0]
-    const remainingPosts = filteredPosts.slice(1)
+        return params.toString()
+    }
 
     return (
         <div className="bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
                 {/* Search Bar */}
                 <div className="mb-8">
-                    <div className="relative max-w-2xl">
+                    <form onSubmit={handleSearch} className="relative max-w-2xl">
                         <input
                             type="text"
                             placeholder="Search articles..."
@@ -81,35 +63,19 @@ export default function BlogGrid() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300 text-base"
                         />
-                        <svg
-                            className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-dark/40"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
+                        <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 group">
+                            <svg
+                                className="w-5 h-5 text-neutral-dark/40 group-hover:text-primary transition-colors"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </form>
                 </div>
 
-                {loading ? (
-                    <div className="flex items-center justify-center py-20">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-                    </div>
-                ) : error ? (
-                    <div className="text-center py-20">
-                        <div className="bg-red-50 rounded-2xl p-12 shadow-sm inline-block max-w-md mx-auto">
-                            <h3 className="text-xl font-bold text-red-900 mb-2">Error loading blogs</h3>
-                            <p className="text-red-700 mb-6">{error}</p>
-                            <button
-                                onClick={fetchBlogs}
-                                className="bg-primary text-white px-6 py-2.5 rounded-lg hover:bg-primary/90 transition-colors"
-                            >
-                                Retry
-                            </button>
-                        </div>
-                    </div>
-                ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
                     {/* Main Content */}
                     <div className="lg:col-span-3">
@@ -154,13 +120,13 @@ export default function BlogGrid() {
                         {/* Blog Posts List */}
                         {remainingPosts.length > 0 ? (
                             <div className="space-y-6">
-                                <AnimatePresence mode="popLayout">
+                                <AnimatePresence mode="popLayout" initial={false}>
                                     {remainingPosts.map((post, index) => (
                                         <BlogListCard key={post._id || post.id} post={post} index={index} />
                                     ))}
                                 </AnimatePresence>
                             </div>
-                        ) : filteredPosts.length === 0 ? (
+                        ) : initialBlogs.length === 0 ? (
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -172,15 +138,12 @@ export default function BlogGrid() {
                                     </svg>
                                     <h3 className="text-xl font-bold text-neutral-dark mb-2">No results found</h3>
                                     <p className="text-neutral-dark/60 mb-6">We couldn't find any articles matching your search criteria.</p>
-                                    <button
-                                        onClick={() => {
-                                            setSelectedCategory('All')
-                                            setSearchQuery('')
-                                        }}
+                                    <Link
+                                        href="/blog"
                                         className="text-primary font-bold hover:underline"
                                     >
                                         Clear all filters
-                                    </button>
+                                    </Link>
                                 </div>
                             </motion.div>
                         ) : null}
@@ -193,18 +156,18 @@ export default function BlogGrid() {
                             <div className="bg-gray-50 rounded-xl p-6">
                                 <h3 className="text-lg font-bold text-neutral-dark mb-4">All Categories</h3>
                                 <div className="space-y-2">
-                                    {categories.slice(1).map((category) => (
-                                        <button
+                                    {initialCategories.map((category) => (
+                                        <Link
                                             key={category}
-                                            onClick={() => setSelectedCategory(category)}
-                                            className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-                                                selectedCategory === category
-                                                    ? 'bg-primary text-white'
-                                                    : 'text-neutral-dark/70 hover:bg-white hover:text-neutral-dark'
-                                            }`}
+                                            href={`${pathname}?${createQueryString('category', category)}`}
+                                            scroll={false}
+                                            className={`block w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${currentCategory === category
+                                                    ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                                    : 'text-neutral-dark/70 hover:bg-white hover:text-neutral-dark hover:shadow-sm'
+                                                }`}
                                         >
                                             {category}
-                                        </button>
+                                        </Link>
                                     ))}
                                 </div>
                             </div>
@@ -229,7 +192,6 @@ export default function BlogGrid() {
                         </div>
                     </aside>
                 </div>
-                )}
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import connect from "@/app/lib/db/connect";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { Blog } from "@/app/lib/models/blog";
-import { ApiResponse } from "@/app/lib/utlis/apiResponse";
+import { ApiResponse } from "@/app/lib/utils/apiResponse";
 
 export async function GET() {
   const user = await verifyJWT();
@@ -44,6 +44,10 @@ export async function GET() {
       "Categories fetched successfully"
     );
   } catch (error) {
-    return ApiResponse(500, null, "Error fetching categories: " + error.message);
+    return ApiResponse(
+      500,
+      null,
+      "Error fetching categories: " + error.message
+    );
   }
 }

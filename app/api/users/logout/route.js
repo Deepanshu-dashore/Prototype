@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { ApiResponse } from "@/app/lib/utlis/apiResponse";
+import { ApiResponse } from "@/app/lib/utils/apiResponse";
 
 export async function POST() {
   try {

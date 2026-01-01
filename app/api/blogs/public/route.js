@@ -1,7 +1,8 @@
 import connect from "@/app/lib/db/connect";
 import { Blog } from "@/app/lib/models/blog";
-import { ApiResponse } from "@/app/lib/utlis/apiResponse";
+import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import mongoose from "mongoose";
+import { getPublicBlogs } from "@/src/utils/blogUtils";
 
 //Get all blogs with filtering, sorting, and search
 export async function GET(request) {
@@ -55,40 +56,17 @@ export async function GET(request) {
       }
     }
 
-    let query = {};
-
     // Search functionality
-    if (search) {
-      query.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { category: { $regex: search, $options: "i" } },
-      ];
-    }
+    const category = request.nextUrl.searchParams.get("category");
 
-    // Date filtering
-    if (startDate || endDate) {
-      query.createdAt = {};
-      if (startDate) query.createdAt.$gte = new Date(startDate);
-      if (endDate) query.createdAt.$lte = new Date(endDate);
-    }
+    const result = await getPublicBlogs({
+      search,
+      category,
+      sort,
+    });
 
-    // Sorting
-    let sortOption = { createdAt: -1 };
-    switch (sort) {
-      case "oldest":
-        sortOption = { createdAt: 1 };
-        break;
-      case "a-z":
-        sortOption = { title: 1 };
-        break;
-      case "z-a":
-        sortOption = { title: -1 };
-        break;
-      case "newest":
-      default:
-        sortOption = { createdAt: -1 };
-    }
-
+    // We still want to get some extra stats for the dashboard if needed,
+    // but for the public grid, these are the main ones.
     const categoriesWithCounts = await Blog.aggregate([
       {
         $group: {
@@ -116,26 +94,19 @@ export async function GET(request) {
       },
     });
 
-    const categories = await Blog.distinct("category").lean().exec();
-
-    const blogs = await Blog.find(query)
-      .sort(sortOption)
-      .select("-__v -updatedAt -content ")
-      .lean()
-      .exec();
-
     return ApiResponse(
       200,
       {
         totalCategories: categoriesWithCounts,
-        totalBlogs: blogs.length,
+        totalBlogs: result.totalBlogs,
         todayBlogCount,
-        categories,
-        blogs,
+        categories: result.categories,
+        blogs: result.blogs,
       },
       "Blogs fetched successfully"
     );
   } catch (error) {
+    console.error("Error in public blogs API:", error);
     return ApiResponse(500, null, "Error fetching blogs: " + error.message);
   }
 }
