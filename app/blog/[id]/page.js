@@ -35,6 +35,9 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: blog.title,
       description: blog.excerpt,
+      url: canonicalUrl,
+      siteName: "CC Matting",
+      locale: "en_US",
       type: "article",
       publishedTime: blog.createdAt,
       authors: [blog.author || "CC Matting"],
