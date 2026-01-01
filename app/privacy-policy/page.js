@@ -1,26 +1,21 @@
-"use client";
+import PublicLayout from "../../src/components/share/PublicLayout";
 
-import React, { useState } from "react";
-import UtilityBar from "../../src/components/share/UtilityBar";
-import Header from "../../src/components/share/Header";
-import Footer from "../../src/components/share/Footer";
-import ContactForm from "../../src/components/share/ContactForm";
+export const metadata = {
+  title: "Privacy Policy | CC Matting",
+  description:
+    "Read our privacy notice to understand how CC Matting collects, uses, and protects your personal information.",
+  alternates: {
+    canonical: "https://ccmatting.com/privacy-policy",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 export default function PrivacyPolicy() {
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
-
-  const handleContactClick = () => {
-    setIsContactFormOpen(true);
-  };
-
-  const handleCloseContactForm = () => {
-    setIsContactFormOpen(false);
-  };
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <UtilityBar />
-      <Header onContactClick={handleContactClick} />
+    <PublicLayout className="bg-white">
       <main className="grow bg-white pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <h1 className="text-3xl lg:text-4xl font-bold text-neutral-dark mb-4">
@@ -510,12 +505,6 @@ export default function PrivacyPolicy() {
           </div>
         </div>
       </main>
-
-      <Footer />
-      <ContactForm
-        isOpen={isContactFormOpen}
-        onClose={handleCloseContactForm}
-      />
-    </div>
+    </PublicLayout>
   );
 }

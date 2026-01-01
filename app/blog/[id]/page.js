@@ -1,4 +1,7 @@
-import { getBlogByIdOrSlug } from "../../../src/utils/blogUtils";
+import {
+  getBlogByIdOrSlug,
+  getPublicBlogs,
+} from "../../../src/utils/blogUtils";
 import { notFound } from "next/navigation";
 import BlogLayout from "../../../src/components/blog/BlogLayout";
 import BlogHero from "../../../src/components/blog/BlogHero";
@@ -67,6 +70,15 @@ export default async function BlogPostPage({ params }) {
   if (!blog) {
     notFound();
   }
+
+  // Fetch related posts (same category, excluding current)
+  const { blogs: allRelatedBlogs } = await getPublicBlogs({
+    category: blog.category,
+  });
+
+  const relatedPosts = allRelatedBlogs
+    .filter((p) => p.slug !== blog.slug)
+    .slice(0, 3);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://ccmatting.com";
 
@@ -172,7 +184,7 @@ export default async function BlogPostPage({ params }) {
         </div>
 
         {/* Related Posts Section */}
-        <RelatedPosts currentSlug={blog.slug} category={blog.category} />
+        <RelatedPosts posts={relatedPosts} />
       </main>
     </BlogLayout>
   );

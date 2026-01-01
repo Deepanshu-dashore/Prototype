@@ -9,6 +9,7 @@ import ABTestCTA from '../share/ABTestCTA'
 import { trackFormOpen } from '../../utils/analytics'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useContactForm } from '../share/ContactFormContext'
 
 // Orbit Controls with Mouse Interaction
 function InteractiveOrbitControls({ mouseX, fixedRotationAmount = 0.15, modelGroupRef }) {
@@ -142,15 +143,16 @@ function CarpetModel({ groupRef }) {
   )
 }
 
-export default function Hero({ onPrimaryClick, onSecondaryClick }) {
+export default function Hero({ onSecondaryClick }) {
   const [mouseX, setMouseX] = useState(0.5)
   const [ceImageError, setCeImageError] = useState(false)
   const canvasContainerRef = useRef(null)
   const modelGroupRef = useRef(null)
+  const { openContactForm } = useContactForm()
 
   const handlePrimaryClick = () => {
     trackFormOpen('hero')
-    onPrimaryClick()
+    openContactForm()
   }
 
   // Track mouse position over the canvas
@@ -198,7 +200,7 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-left space-y-4 sm:space-y-5 md:space-y-6 -mt-0 sm:-mt-6 lg:-mt-12"
+            className="text-left space-y-4 sm:space-y-5 md:space-y-6 mt-0 sm:-mt-6 lg:-mt-12"
           >
             {/* Badge */}
             <motion.div
@@ -221,7 +223,7 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }) {
               className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold text-neutral-900 leading-[1.1] tracking-tight"
             >
               Contamination Control{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-blue-600">
                 Matting
               </span>
             </motion.h1>
@@ -247,11 +249,11 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }) {
               <div className="group inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
                 <div className="relative w-5 h-5 flex items-center justify-center shrink-0">
                   {!ceImageError ? (
-                    <Image 
-                      src="/assets/CE-Marking.png" 
-                      alt="CE Marking" 
-                      width={20} 
-                      height={20} 
+                    <Image
+                      src="/assets/CE-Marking.png"
+                      alt="CE Marking"
+                      width={20}
+                      height={20}
                       className="w-5 h-5 object-contain"
                       onError={() => setCeImageError(true)}
                     />
@@ -403,7 +405,7 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }) {
                 </div>
               </div>
             </div>
-            <div className="flex sm:w-6/12 md:w-1/3 w-7/12 lg:w-1/2 absolute group hover:border-blue-500 hover:border-solid transition-all duration-300 text-center top-1/2 top-7/12 lg:top-1/2 z-30 rotate-58 sm:rotate-61 lg:rotate-58 left-0 sm:left-10 md:left-30 lg:left-0 border-[1.3px] border-rose-700 border-dashed shadow-2xl items-center justify-center">
+            <div className="flex sm:w-6/12 md:w-1/3 w-7/12 lg:w-1/2 absolute group hover:border-blue-500 hover:border-solid transition-all duration-300 text-center top-7/12 lg:top-1/2 z-30 rotate-58 sm:rotate-61 lg:rotate-58 left-0 sm:left-10 md:left-30 lg:left-0 border-[1.3px] border-rose-700 border-dashed shadow-2xl items-center justify-center">
               <div className="w-1/2 h-1/2 rounded-full">
                 <div className="absolute md:w-8/12 w-11/12 sm:w-7/12 capitalize border-2 border-primary/20 bg-white px-3 py-2 group-hover:scale-105 transition-all duration-300 rounded-md shadow-lg cursor-pointer text-neutral-dark md:-right-30 -right-30 -bottom-16 md:-bottom-5 -rotate-58 sm:-rotate-61 lg:-rotate-58">
                   <div className='flex bg-gray-100 py-1 rounded-sm items-center justify-center gap-2'>

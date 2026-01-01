@@ -6,8 +6,10 @@ import { PhoneIcon } from '@heroicons/react/24/solid'
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import { trackPhoneClick, trackFormOpen } from '../../utils/analytics'
 import { getAllProducts } from '@/src/utils/productsData'
+import { useContactForm } from '../share/ContactFormContext'
 
-export default function ContactHero({ onMessageClick }) {
+export default function ContactHero() {
+  const { openContactForm } = useContactForm()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -34,13 +36,13 @@ export default function ContactHero({ onMessageClick }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     trackFormOpen('contact_hero')
-    onMessageClick()
+    openContactForm()
     // Here you would typically send the form data to your backend
     console.log('Form submitted:', formData)
   }
 
   return (
-    <section className="relative bg-gradient-to-b from-blue-50 via-gray-50 to-gray-100 py-16 sm:py-20 overflow-hidden">
+    <section className="relative bg-linear-to-b from-blue-50 via-gray-50 to-gray-100 py-16 sm:py-20 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Left Side - Content */}
@@ -100,8 +102,8 @@ export default function ContactHero({ onMessageClick }) {
             className="relative"
           >
             {/* Gradient Background Box */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-100/50 via-primary/10 to-blue-50/50 rounded-2xl -z-10"></div>
-            
+            <div className="absolute inset-0 bg-linear-to-br from-blue-100/50 via-primary/10 to-blue-50/50 rounded-2xl -z-10"></div>
+
             {/* Form Container */}
             <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-10">
               <h2 className="text-xl font-semibold text-neutral-dark mb-8">Contact Form</h2>
@@ -142,72 +144,72 @@ export default function ContactHero({ onMessageClick }) {
                   </div>
                 </div>
 
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-neutral-dark mb-2">
-                  Phone Number
-                </label>
-                <div className="flex gap-2">
-                  <div className="flex items-center px-3 border border-gray-200 rounded-lg bg-gray-50">
-                    <span className="text-sm text-neutral-dark">+353</span>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-neutral-dark mb-2">
+                    Phone Number
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="flex items-center px-3 border border-gray-200 rounded-lg bg-gray-50">
+                      <span className="text-sm text-neutral-dark">+353</span>
+                    </div>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      required
+                      className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all text-sm"
+                      placeholder="Enter phone number"
+                    />
                   </div>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
+                </div>
+
+                <div>
+                  <label htmlFor="product" className="block text-sm font-medium text-neutral-dark mb-2">
+                    Product Of Interest
+                  </label>
+                  <select
+                    id="product"
+                    name="product"
+                    value={formData.product}
                     onChange={handleInputChange}
                     required
-                    className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all text-sm"
-                    placeholder="Enter phone number"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all bg-white text-sm"
+                  >
+                    <option value="">Select a product</option>
+                    {productOptions.map((product, index) => (
+                      <option key={index} value={product}>{product}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-neutral-dark mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    rows={3}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all resize-none text-sm"
+                    placeholder="Your message"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label htmlFor="product" className="block text-sm font-medium text-neutral-dark mb-2">
-                  Product Of Interest
-                </label>
-                <select
-                  id="product"
-                  name="product"
-                  value={formData.product}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all bg-white text-sm"
-                >
-                  <option value="">Select a product</option>
-                  {productOptions.map((product, index) => (
-                    <option key={index} value={product}>{product}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-neutral-dark mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={3}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all resize-none text-sm"
-                  placeholder="Your message"
-                />
-              </div>
-
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 text-sm group"
-                >
-                  <span>Send Message</span>
-                  <PaperAirplaneIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </form>
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-primary text-white px-6 py-3.5 rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 text-sm group"
+                  >
+                    <span>Send Message</span>
+                    <PaperAirplaneIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </form>
             </div>
           </motion.div>
         </div>

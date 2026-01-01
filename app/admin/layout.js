@@ -1,6 +1,14 @@
 import Sidebar from "@/src/components/admin/Sidebar";
 import AuthGuard from "@/src/components/admin/AuthGuard";
 
+export const metadata = {
+  title: "Admin Dashboard | CC Matting",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 export default function AdminLayout({ children }) {
   return (
     <AuthGuard>

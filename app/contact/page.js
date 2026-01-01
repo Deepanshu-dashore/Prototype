@@ -1,33 +1,30 @@
-'use client'
+import PublicLayout from "../../src/components/share/PublicLayout";
+import ContactHero from "../../src/components/contact/ContactHero";
+import ContactFormSection from "../../src/components/contact/ContactFormSection";
 
-import { useState } from 'react'
-import ContactHero from '../../src/components/contact/ContactHero'
-import ContactFormSection from '../../src/components/contact/ContactFormSection'
-import Footer from '../../src/components/share/Footer'
-import UtilityBar from '../../src/components/share/UtilityBar'
-import Header from '../../src/components/share/Header'
-import ContactForm from '../../src/components/share/ContactForm'
+export const metadata = {
+  title: "Contact Us | CC Matting | Contamination Control Support",
+  description:
+    "Get in touch with CC Matting for expert contamination control solutions. Request a quote for cleanroom mats, anti-fatigue flooring, and industry-specific protection.",
+  alternates: {
+    canonical: "https://ccmatting.com/contact",
+  },
+  openGraph: {
+    title: "Contact CC Matting | Expert Contamination Control Solutions",
+    description:
+      "Inquiry about our 99.9% effective contamination control mats. Our team is ready to assist you with your cleanroom needs.",
+    url: "https://ccmatting.com/contact",
+    type: "website",
+  },
+};
 
 export default function ContactPage() {
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false)
-
-  const handleContactClick = () => {
-    setIsContactFormOpen(true)
-  }
-
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <UtilityBar />
-      <Header onContactClick={handleContactClick} />
-      
-      <main className="flex-grow">
-        <ContactHero onMessageClick={handleContactClick} />
+    <PublicLayout className="bg-white">
+      <main className="grow">
+        <ContactHero />
         <ContactFormSection />
       </main>
-      
-      <Footer />
-      <ContactForm isOpen={isContactFormOpen} onClose={() => setIsContactFormOpen(false)} />
-    </div>
-  )
+    </PublicLayout>
+  );
 }
-

@@ -1,42 +1,7 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import axios from 'axios'
 import BlogCard from './BlogCard'
 
-export default function RelatedPosts({ currentSlug, category }) {
-    const [relatedPosts, setRelatedPosts] = useState([])
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        fetchRelatedPosts()
-    }, [currentSlug, category])
-
-    const fetchRelatedPosts = async () => {
-        try {
-            setLoading(true)
-            // Fetch blogs from same category, excluding current post
-            const res = await axios.get('/api/blogs/public?sort=newest')
-            
-            if (res.data?.success && res.data?.data?.blogs) {
-                const allBlogs = res.data.data.blogs
-                // Filter: same category, exclude current slug, limit to 3
-                const related = allBlogs
-                    .filter(blog => 
-                        blog.category === category && 
-                        blog.slug !== currentSlug
-                    )
-                    .slice(0, 3)
-                setRelatedPosts(related)
-            }
-        } catch (err) {
-            console.error('Error fetching related posts:', err)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    if (loading || relatedPosts.length === 0) return null
+export default function RelatedPosts({ posts }) {
+    if (!posts || posts.length === 0) return null
 
     return (
         <section className="bg-white py-16 sm:py-24 border-t border-gray-100 mt-20">
@@ -63,7 +28,7 @@ export default function RelatedPosts({ currentSlug, category }) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {relatedPosts.map((post, index) => (
+                    {posts.map((post, index) => (
                         <BlogCard key={post._id || post.id} post={post} index={index} />
                     ))}
                 </div>

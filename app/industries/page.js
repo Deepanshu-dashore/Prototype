@@ -1,163 +1,47 @@
-"use client";
+import PublicLayout from "../../src/components/share/PublicLayout";
+import IndustriesListContent from "../../src/components/industries/IndustriesListContent";
+import { getAllIndustries } from "../../src/utils/industriesData";
 
-import { useState } from "react";
-import Header from "../../src/components/share/Header";
-import UtilityBar from "../../src/components/share/UtilityBar";
-import Footer from "../../src/components/share/Footer";
-import ContactForm from "../../src/components/share/ContactForm";
-import { motion } from "framer-motion";
-import { 
-  BeakerIcon,
-  HeartIcon,
-  BuildingOfficeIcon,
-  BuildingOffice2Icon,
-  CpuChipIcon,
-  WrenchScrewdriverIcon,
-  ServerIcon,
-  GlobeAmericasIcon,
-  AcademicCapIcon,
-  ArrowRightIcon
-} from '@heroicons/react/24/outline';
-import Image from 'next/image';
-import Link from 'next/link';
-import { getAllIndustries } from '../../src/utils/industriesData';
+export const metadata = {
+  title:
+    "Industry Solutions | Contamination Control for Every Sector | CC Matting",
+  description:
+    "Explore our specialized contamination control solutions for various industries, including pharmaceutical, semiconductor, healthcare, data centers, and more.",
+  alternates: {
+    canonical: "https://ccmatting.com/industries",
+  },
+  openGraph: {
+    title: "Industry Solutions | CC Matting",
+    description:
+      "Specialized contamination control mats for high-tech, medical, and industrial sectors.",
+    url: "https://ccmatting.com/industries",
+    siteName: "CC Matting",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "https://ccmatting.com/assets/industries/hero-bg.jpg", // Fallback or specific hero image
+        width: 1200,
+        height: 630,
+        alt: "CC Matting Industry Solutions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Industry Solutions | CC Matting",
+    description:
+      "Specialized contamination control mats for high-tech, medical, and industrial sectors.",
+    images: ["https://ccmatting.com/assets/industries/hero-bg.jpg"],
+  },
+};
 
 export default function IndustriesPage() {
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
-
-  // Map industries data to card format with icons
-  const industryIconMap = {
-    'nursing-homes': HeartIcon,
-    'semi-conductor': CpuChipIcon,
-    'hospitals': BuildingOffice2Icon,
-    'pharmaceutical-industry': BeakerIcon,
-    'life-science': GlobeAmericasIcon,
-    'schools-public-entrances': AcademicCapIcon,
-    'data-centres': ServerIcon,
-    'medical-devices': WrenchScrewdriverIcon,
-  };
-
-  // Map to short titles for card display
-  const industryShortTitles = {
-    'nursing-homes': 'NURSING HOMES',
-    'semi-conductor': 'SEMI CONDUCTOR',
-    'hospitals': 'HOSPITALS',
-    'pharmaceutical-industry': 'PHARMACEUTICAL',
-    'life-science': 'LIFE SCIENCE',
-    'schools-public-entrances': 'Schools/Public Entrances',
-    'data-centres': 'DATA CENTRES',
-    'medical-devices': 'Medical Devices',
-  };
-
-  const industries = getAllIndustries().map(industry => ({
-    ...industry,
-    icon: industryIconMap[industry.slug] || BuildingOfficeIcon,
-    href: `/industries/${industry.slug}`,
-    shortTitle: industryShortTitles[industry.slug] || industry.title.replace('Contamination Control Mats for ', '')
-  }));
+  const industriesData = getAllIndustries();
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <UtilityBar />
-      <Header onContactClick={() => setIsContactFormOpen(true)} />
-
-      <main className="grow">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-primary/10 via-gray-50 to-primary/5 py-20 sm:py-24 overflow-hidden">
-          {/* Decorative Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl" />
-          </div>
-
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-4xl mx-auto"
-            >
-              <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-                Industries Solutions
-              </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
-                Industry <span className="text-primary">Solutions</span>
-              </h1>
-              <p className="text-lg sm:text-xl text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
-                Our range of contamination control mats are suitable for any organisation or business looking to reduce/eliminate the risk of floor level contaminants entering their critical area.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Industries Grid */}
-        <section className="bg-white py-16 sm:py-20">
-          <div className="max-w-[90dvw] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6">
-              {industries.map((industry, index) => {
-                const Icon = industry.icon || BuildingOfficeIcon;
-                return (
-                  <Link
-                    key={industry.id}
-                    href={industry.href}
-                    className="block"
-                  >
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="group relative bg-white rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-neutral-100 overflow-hidden h-full flex flex-col cursor-pointer"
-                    >
-                      {/* Image Area */}
-                      <div className="h-48 overflow-hidden relative shrink-0">
-                        <div className="absolute inset-0 bg-neutral-900/10 group-hover:bg-neutral-900/0 transition-colors duration-300 z-10" />
-                        <Image 
-                          src={industry.image} 
-                          alt={industry.title}
-                          width={400}
-                          height={300}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                        />
-                      </div>
-                      
-                      <div className="relative flex-1 flex flex-col p-6 pb-3 pt-8 z-20 min-h-0">
-                        <div className="absolute -top-6 right-6 z-30">
-                          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white text-primary shadow-lg group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                            <Icon className="w-6 h-6" aria-hidden="true" />
-                          </div>
-                        </div>
-                        <h3 className="text-lg font-bold text-neutral-dark mb-3 group-hover:text-primary transition-colors">
-                          {industry.shortTitle}
-                        </h3>
-                        <p className="text-sm text-neutral-dark/70 leading-relaxed line-clamp-5 mb-4 grow">
-                          {industry.description}
-                        </p>
-                        <div className="mt-auto pt-4 border-t border-gray-100">
-                          <div className="flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all duration-300">
-                            <span>View details</span>
-                            <ArrowRightIcon className="w-4 h-4" />
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
-      <ContactForm
-        isOpen={isContactFormOpen}
-        onClose={() => setIsContactFormOpen(false)}
-      />
-    </div>
+    <PublicLayout className="bg-white">
+      <IndustriesListContent industriesData={industriesData} />
+    </PublicLayout>
   );
 }
-

@@ -1,0 +1,34 @@
+'use client';
+
+import { useState } from "react";
+import Header from "../share/Header";
+import UtilityBar from "../share/UtilityBar";
+import Footer from "../share/Footer";
+import ContactForm from "../share/ContactForm";
+import FloatingMessageButton from "../share/FloatingMessageButton";
+import FloatingWhatsAppButton from "../share/FloatingWhatsAppButton";
+
+export default function PublicLayout({ children, className = "" }) {
+    const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
+    const handleContactClick = () => {
+        setIsContactFormOpen(true);
+    };
+
+    return (
+        <div className={`min-h-screen flex flex-col ${className}`}>
+            <UtilityBar />
+            <Header onContactClick={handleContactClick} />
+
+            {children}
+
+            <Footer />
+            <ContactForm
+                isOpen={isContactFormOpen}
+                onClose={() => setIsContactFormOpen(false)}
+            />
+            <FloatingMessageButton onContactClick={handleContactClick} />
+            <FloatingWhatsAppButton />
+        </div>
+    );
+}
