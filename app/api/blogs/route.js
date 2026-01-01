@@ -2,6 +2,8 @@ import connect from "@/app/lib/db/connect";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { Blog } from "@/app/lib/models/blog";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import fs from "fs/promises";
+import path from "path";
 
 //Get all blogs with filtering, sorting, and search
 export async function GET(request) {
@@ -220,6 +222,31 @@ export async function PATCH(request) {
   }
 
   try {
+    const oldBlog = await Blog.findById(id);
+    if (!oldBlog) {
+      return ApiResponse(400, null, "Blog not found");
+    }
+
+    // Handle old image deletion if a new one is provided and it's local
+    if (
+      featuredImage &&
+      oldBlog.featuredImage &&
+      featuredImage !== oldBlog.featuredImage
+    ) {
+      if (oldBlog.featuredImage.startsWith("/uploads/blogs/")) {
+        const oldPath = path.join(
+          process.cwd(),
+          "public",
+          oldBlog.featuredImage
+        );
+        try {
+          await fs.unlink(oldPath);
+        } catch (err) {
+          console.error("Failed to delete old image:", err);
+        }
+      }
+    }
+
     const res = await Blog.findByIdAndUpdate(
       id,
       {
@@ -253,10 +280,25 @@ export async function DELETE(request) {
     return ApiResponse(400, null, "Blog ID is required");
   }
   try {
-    const blog = await Blog.findByIdAndDelete(id);
+    const blog = await Blog.findById(id);
     if (!blog) {
       return ApiResponse(404, null, "Blog not found");
     }
+
+    // Delete local image if it exists
+    if (
+      blog.featuredImage &&
+      blog.featuredImage.startsWith("/uploads/blogs/")
+    ) {
+      const imgPath = path.join(process.cwd(), "public", blog.featuredImage);
+      try {
+        await fs.unlink(imgPath);
+      } catch (err) {
+        console.error("Failed to delete image on blog deletion:", err);
+      }
+    }
+
+    await Blog.findByIdAndDelete(id);
     return ApiResponse(200, blog, "Blog deleted successfully");
   } catch (error) {
     return ApiResponse(500, null, "Error deleting blog " + error.message);

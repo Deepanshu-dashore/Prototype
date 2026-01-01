@@ -27,16 +27,21 @@ export default function AddBlogPage() {
 
   const [previewImage, setPreviewImage] = useState(null);
 
-  // Sync contentEditable with formData
+  // Sync contentEditable with formData only if content was changed from outside
   useEffect(() => {
-    if (
-      contentEditorRef.current &&
-      contentEditorRef.current.innerHTML !== formData.content
-    ) {
-      // Use logical OR to prevent 'undefined' string
-      contentEditorRef.current.innerHTML = formData.content || "";
+    if (contentEditorRef.current) {
+      if (contentEditorRef.current.innerHTML !== formData.content) {
+        contentEditorRef.current.innerHTML = formData.content || "";
+      }
     }
-  }, [formData.content]);
+  }, [formData.content]); // Re-run if content changes
+
+  // Set default paragraph separator on mount
+  useEffect(() => {
+    if (contentEditorRef.current) {
+      document.execCommand("defaultParagraphSeparator", false, "p");
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -67,6 +72,25 @@ export default function AddBlogPage() {
     setLoading(true);
 
     try {
+      let imageUrl = formData.featuredImage;
+
+      // Handle image upload if a file is selected
+      if (formData.featuredImage instanceof File) {
+        setLoading(true); // Ensure loading state is active
+        const uploadFormData = new FormData();
+        uploadFormData.append("file", formData.featuredImage);
+
+        const uploadRes = await axios.post("/api/upload", uploadFormData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        if (uploadRes.data?.success) {
+          imageUrl = uploadRes.data.data.url;
+        } else {
+          throw new Error(uploadRes.data?.message || "Image upload failed");
+        }
+      }
+
       const tagsArray = formData.tags
         .split(",")
         .map((tag) => tag.trim())
@@ -81,8 +105,8 @@ export default function AddBlogPage() {
         content: formData.content,
         featured: formData.featured || false,
         readingTime: parseInt(formData.readingTime) || 5,
-        tags: tagsArray.length > 0 ? tagsArray : ["general"], // Ensure tags array is not empty
-        featuredImage: formData.featuredImage, // Provide default image path if not uploaded (simplified logic)
+        tags: tagsArray.length > 0 ? tagsArray : ["general"],
+        featuredImage: imageUrl,
       };
 
       const response = await axios.post("/api/blogs", blogData);
@@ -238,19 +262,25 @@ export default function AddBlogPage() {
               </label>
 
               {/* Toolbar */}
-              <div className="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-t-lg bg-gray-50">
-                {["bold", "italic"].map((cmd) => (
+              <div className="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-t-lg bg-gray-50 sticky top-0 z-20">
+                {["bold", "italic", "underline"].map((cmd) => (
                   <button
                     key={cmd}
                     type="button"
-                    onClick={(e) => {
+                    onMouseDown={(e) => {
                       e.preventDefault();
                       document.execCommand(cmd, false, null);
                     }}
-                    className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-200 capitalize"
+                    className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-200 capitalize font-medium"
                     title={cmd}
                   >
-                    {cmd === "bold" ? <strong>B</strong> : <em>I</em>}
+                    {cmd === "bold" ? (
+                      <strong>B</strong>
+                    ) : cmd === "italic" ? (
+                      <em>I</em>
+                    ) : (
+                      <u>U</u>
+                    )}
                   </button>
                 ))}
                 <div className="w-px h-6 bg-gray-300 mx-1 self-center" />
@@ -299,7 +329,7 @@ export default function AddBlogPage() {
                 <div className="w-px h-6 bg-gray-300 mx-1 self-center" />
                 <button
                   type="button"
-                  onClick={(e) => {
+                  onMouseDown={(e) => {
                     e.preventDefault();
                     if (contentEditorRef.current) {
                       contentEditorRef.current.focus();
@@ -313,7 +343,7 @@ export default function AddBlogPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={(e) => {
+                  onMouseDown={(e) => {
                     e.preventDefault();
                     if (contentEditorRef.current) {
                       contentEditorRef.current.focus();
@@ -335,7 +365,7 @@ export default function AddBlogPage() {
                   const html = e.target.innerHTML;
                   setFormData((prev) => ({ ...prev, content: html }));
                 }}
-                className="w-full min-h-[400px] border border-gray-300 rounded-b-lg p-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent prose max-w-none bg-white shadow-inner [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_blockquote]:bg-gray-50 [&_blockquote]:border-l-[3px] [&_blockquote]:border-primary/40 [&_blockquote]:pl-5 [&_blockquote]:pr-5 [&_blockquote]:py-5 [&_blockquote]:rounded-r [&_blockquote]:my-8 [&_blockquote]:italic [&_blockquote]:text-sm [&_blockquote]:sm:text-base [&_blockquote]:text-gray-700 [&_blockquote]:font-normal"
+                className="w-full min-h-[400px] border border-gray-300 rounded-b-lg p-6 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent prose max-w-none bg-white shadow-inner [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_blockquote]:bg-gray-50 [&_blockquote]:border-l-[4px] [&_blockquote]:border-primary/40 [&_blockquote]:pl-5 [&_blockquote]:pr-5 [&_blockquote]:py-5 [&_blockquote]:rounded-r [&_blockquote]:my-8 [&_blockquote]:italic [&_blockquote]:text-gray-700 [&_h1]:text-4xl [&_h2]:text-2xl [&_h3]:text-xl [&_h4]:text-lg [&_h5]:text-base [&_h5]:font-bold [&_h6]:text-sm [&_h6]:font-bold [&_p]:my-4 [&_p]:leading-relaxed"
                 style={{ whiteSpace: "pre-wrap" }}
                 data-placeholder="Start typing your blog content here..."
                 suppressContentEditableWarning

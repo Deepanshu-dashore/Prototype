@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -6,15 +6,15 @@
   --color-accent: #091fd0;
   --color-secondary: #091fd0;
   --color-cta: #091fd0;
-  --color-neutral-dark: #1F1F1F;
-  --color-neutral-light: #F3F6FB;
-  --color-success: #1FAF4C;
+  --color-neutral-dark: #1f1f1f;
+  --color-neutral-light: #f3f6fb;
+  --color-success: #1faf4c;
 
   --radius-lg: 12px;
   --radius-md: 8px;
 
-  --font-family-sans: 'Inter', system-ui, sans-serif;
-  --font-family-display: 'Inter', system-ui, sans-serif;
+  --font-family-sans: "Inter", system-ui, sans-serif;
+  --font-family-display: "Inter", system-ui, sans-serif;
 
   --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -70,6 +70,27 @@
   h3 {
     font-size: 1.25rem;
     /* 20px */
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    /* 18px */
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  h5 {
+    font-size: 1rem;
+    /* 16px */
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  h6 {
+    font-size: 0.875rem;
+    /* 14px */
     font-weight: 600;
     line-height: 1.4;
   }
@@ -173,7 +194,6 @@
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
