@@ -46,8 +46,8 @@ export default function BlogCard({ post, index }) {
                         </h3>
                     </div>
                 )}
-                <div className="absolute top-4 left-4">
-                    <span className="bg-primary px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg backdrop-blur-sm">
+                <div className="absolute top-4 right-4">
+                    <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-md text-[10px] font-bold text-primary uppercase tracking-wider shadow-sm border border-primary/10">
                         {post.category}
                     </span>
                 </div>
