@@ -29,19 +29,19 @@ export default function IndustriesListContent({ industriesData }) {
     };
 
     const industryShortTitles = {
-        'nursing-homes': 'NURSING HOMES',
-        'semi-conductor': 'SEMI CONDUCTOR',
-        'hospitals': 'HOSPITALS',
-        'pharmaceutical-industry': 'PHARMACEUTICAL',
-        'life-science': 'LIFE SCIENCE',
+        'nursing-homes': 'Nursing Homes',
+        'semi-conductor': 'Semi Conductor',
+        'hospitals': 'Hospitals',
+        'pharmaceutical-industry': 'Pharmaceutical',
+        'life-science': 'Life Science',
         'schools-public-entrances': 'Schools/Public Entrances',
-        'data-centres': 'DATA CENTRES',
+        'data-centres': 'Data Centres',
         'medical-devices': 'Medical Devices',
     };
 
     const industries = industriesData.map(industry => ({
         ...industry,
-        icon: industry.icon || industryIconMap[industry.slug] || BuildingOfficeIcon,
+        icon: industryIconMap[industry.slug] || BuildingOfficeIcon,
         href: `/industries/${industry.slug}`,
         shortTitle: industryShortTitles[industry.slug] || industry.title.replace('Contamination Control Mats for ', '').replace(' Industry', '')
     }));
@@ -66,7 +66,7 @@ export default function IndustriesListContent({ industriesData }) {
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
-                            Industries Solutions
+                            Our Expertise
                         </span>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
                             Industry <span className="text-primary">Solutions</span>

@@ -82,7 +82,7 @@ export default function PortableCleanroomMatsContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-white text-neutral-dark px-4 py-2 rounded-md text-xs font-medium mb-6 border border-gray-200">
                             <ShieldCheckIcon className="w-3.5 h-3.5" />
-                            Portable Cleanroom Mats
+                            Flexibility
                         </span>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
                             CCM Portable Cleanroom Mats
@@ -238,7 +238,7 @@ export default function PortableCleanroomMatsContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <SparklesIcon className="w-3 h-3" />
-                            Comparison
+                            Insights
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
                             Polymer Mats Vs Peel Off Mats
@@ -283,7 +283,7 @@ export default function PortableCleanroomMatsContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <DocumentTextIcon className="w-3 h-3" />
-                            Technical
+                            Specs
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
                             Technical Specifications
@@ -339,7 +339,7 @@ export default function PortableCleanroomMatsContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <SparklesIcon className="w-3 h-3" />
-                            Features
+                            Key Highlights
                         </span>
                         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-dark mb-3">
                             Key Features/Benefits
@@ -472,7 +472,7 @@ export default function PortableCleanroomMatsContent() {
                                         </h2>
                                         <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
                                             <ShieldCheckIcon className="w-4 h-4" />
-                                            Warranty
+                                            Policy
                                         </div>
                                         <div className="text-neutral-dark/70">
                                             <p className="text-sm sm:text-base leading-relaxed mb-3">

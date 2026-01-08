@@ -1,12 +1,12 @@
 import { use } from "react";
 import PublicLayout from "../../../src/components/share/PublicLayout";
 import IndustryContent from "../../../src/components/industries/IndustryContent";
-import { getIndustryBySlug } from "../../../src/utils/industriesData";
+import { getIndustryBySlugForServer } from "../../../src/utils/industriesData";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const industry = getIndustryBySlug(slug);
+  const industry = getIndustryBySlugForServer(slug);
 
   if (!industry) {
     return {
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }) {
 
 export default async function IndustryPage({ params }) {
   const { slug } = await params;
-  const industry = getIndustryBySlug(slug);
+  const industry = getIndustryBySlugForServer(slug);
 
   if (!industry) {
     notFound();

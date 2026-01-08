@@ -1,10 +1,26 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { getAllIndustries } from "@/src/utils/industriesData";
 
 export default function IndustryContent({ industry }) {
+    const [relatedIndustries, setRelatedIndustries] = useState([]);
+
+    useEffect(() => {
+        // Dynamically import industry data for related section to optimize initial load
+        const loadRelatedContent = async () => {
+            try {
+                const { getAllIndustries } = await import("@/src/utils/industriesData");
+                const all = getAllIndustries();
+                setRelatedIndustries(all.filter(ind => ind.slug !== industry.slug));
+            } catch (error) {
+                console.error("Error loading related industries:", error);
+            }
+        };
+        loadRelatedContent();
+    }, [industry.slug]);
+
     return (
         <main className="grow">
             {/* Hero Section with Background */}
@@ -96,7 +112,7 @@ export default function IndustryContent({ industry }) {
                                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    Benefits
+                                    Advantages
                                 </span>
                                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-dark mb-4">
                                     Key Benefits
@@ -142,7 +158,7 @@ export default function IndustryContent({ industry }) {
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
-                            Industries
+                            Sectors
                         </span>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-dark mb-4">
                             Explore Other Industries
@@ -150,34 +166,32 @@ export default function IndustryContent({ industry }) {
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {getAllIndustries()
-                            .filter(ind => ind.slug !== industry.slug)
-                            .map((relatedIndustry, index) => (
-                                <motion.div
-                                    key={relatedIndustry.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                >
-                                    <Link href={`/industries/${relatedIndustry.slug}`}>
-                                        <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-primary/30 hover:shadow-md transition-all duration-300 h-full flex flex-col group">
-                                            <h3 className="text-lg sm:text-xl font-bold text-neutral-dark mb-3 leading-tight">
-                                                {relatedIndustry.title}
-                                            </h3>
-                                            <p className="text-sm sm:text-base text-neutral-dark/60 mb-6 leading-relaxed grow line-clamp-3">
-                                                {relatedIndustry.description}
-                                            </p>
-                                            <div className="flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all duration-300">
-                                                <span>View details</span>
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                                </svg>
-                                            </div>
+                        {relatedIndustries.map((relatedIndustry, index) => (
+                            <motion.div
+                                key={relatedIndustry.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                            >
+                                <Link href={`/industries/${relatedIndustry.slug}`}>
+                                    <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-primary/30 hover:shadow-md transition-all duration-300 h-full flex flex-col group">
+                                        <h3 className="text-lg sm:text-xl font-bold text-neutral-dark mb-3 leading-tight">
+                                            {relatedIndustry.title}
+                                        </h3>
+                                        <p className="text-sm sm:text-base text-neutral-dark/60 mb-6 leading-relaxed grow line-clamp-3">
+                                            {relatedIndustry.description}
+                                        </p>
+                                        <div className="flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all duration-300">
+                                            <span>View details</span>
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                            </svg>
                                         </div>
-                                    </Link>
-                                </motion.div>
-                            ))}
+                                    </div>
+                                </Link>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </section>

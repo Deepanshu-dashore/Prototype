@@ -154,7 +154,7 @@ export default function ProductContent({ product, slug }) {
                                 <div className="mb-8">
                                     <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                                         <SwatchIcon className="w-3 h-3" />
-                                        {product.colorOptions.length === 2 ? "Colors" : "Profiles"}
+                                        {product.colorOptions.length === 2 ? "Customization" : "Variations"}
                                     </span>
                                     <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark">
                                         {product.colorOptions.length === 2 ? "Colour Options Available" : "Profile Options Available"}
@@ -184,7 +184,7 @@ export default function ProductContent({ product, slug }) {
                                 <div className="p-8 flex flex-col justify-center md:w-1/2">
                                     <h2 className="text-2xl font-bold text-neutral-dark mb-4">{product.warranty.title}</h2>
                                     <span className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
-                                        <ShieldCheckIcon className="w-4 h-4" /> Warranty
+                                        <ShieldCheckIcon className="w-4 h-4" /> Guarantee
                                     </span>
                                     <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
                                     <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
@@ -201,7 +201,7 @@ export default function ProductContent({ product, slug }) {
                     <div className="text-center mb-10 sm:mb-12">
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <SparklesIcon className="w-3 h-3" />
-                            Benefits
+                            Advantages
                         </span>
                         <h2 className="text-2xl sm:text-4xl font-bold text-neutral-dark mb-3">Key Benefits</h2>
                     </div>

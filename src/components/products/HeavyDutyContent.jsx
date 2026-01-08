@@ -140,7 +140,7 @@ export default function HeavyDutyContent({ product }) {
                             <div className="text-left mb-8 hidden lg:block">
                                 <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                                     <SwatchIcon className="w-3 h-3" />
-                                    Colors
+                                    Variations
                                 </span>
                                 <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark">Colour Options Available</h2>
                             </div>
@@ -165,7 +165,7 @@ export default function HeavyDutyContent({ product }) {
                                 <div className="p-8 flex flex-col justify-center md:w-1/2">
                                     <h2 className="text-2xl font-bold text-neutral-dark mb-4">{product.warranty.title}</h2>
                                     <span className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
-                                        <ShieldCheckIcon className="w-4 h-4" /> Warranty
+                                        <ShieldCheckIcon className="w-4 h-4" /> Coverage
                                     </span>
                                     <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
                                     <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
@@ -182,7 +182,7 @@ export default function HeavyDutyContent({ product }) {
                     <div className="text-center mb-10 sm:mb-12">
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <SparklesIcon className="w-3 h-3" />
-                            Benefits
+                            Advantages
                         </span>
                         <h2 className="text-2xl sm:text-4xl font-bold text-neutral-dark mb-3">CC HEAVY DUTY Benefits</h2>
                     </div>

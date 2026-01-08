@@ -1,6 +1,6 @@
 import PublicLayout from "../../src/components/share/PublicLayout";
 import IndustriesListContent from "../../src/components/industries/IndustriesListContent";
-import { getAllIndustries } from "../../src/utils/industriesData";
+import { getIndustriesForServer } from "../../src/utils/industriesData";
 
 export const metadata = {
   title:
@@ -37,7 +37,7 @@ export const metadata = {
 };
 
 export default function IndustriesPage() {
-  const industriesData = getAllIndustries();
+  const industriesData = getIndustriesForServer();
 
   return (
     <PublicLayout className="bg-white">

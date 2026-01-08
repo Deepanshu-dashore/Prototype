@@ -131,7 +131,7 @@ export default function FeaturesContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-white text-neutral-dark px-4 py-2 rounded-md text-xs font-medium mb-6 border border-gray-200">
                             <SparklesIcon className="w-3.5 h-3.5" />
-                            Features & Benefits
+                            Highlights
                         </span>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
                             Advanced Contamination Control Solutions
@@ -155,7 +155,7 @@ export default function FeaturesContent() {
                         >
                             <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
                                 <CpuChipIcon className="w-3.5 h-3.5" />
-                                Technology
+                                Innovation
                             </span>
                             <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-6 leading-tight">
                                 What is a Polymeric Mat?
@@ -229,7 +229,7 @@ export default function FeaturesContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-gray-100 text-neutral-dark px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <GiftIcon className="w-3.5 h-3.5" />
-                            Benefits
+                            Key Values
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
                             Benefits of Polymeric Mat
@@ -299,7 +299,7 @@ export default function FeaturesContent() {
                         >
                             <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
                                 <WrenchScrewdriverIcon className="w-3.5 h-3.5" />
-                                Heavy Duty
+                                Industrial
                             </span>
                             <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-6 leading-tight">
                                 CC Matting Heavy Duty
@@ -329,7 +329,7 @@ export default function FeaturesContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
                             <Cog6ToothIcon className="w-3.5 h-3.5" />
-                            Installation
+                            Process
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-8 leading-tight">
                             Install Procedure

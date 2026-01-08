@@ -328,7 +328,7 @@ export function getAllIndustries() {
   const industryIconMap = {
     "nursing-homes": HeartIcon,
     "semi-conductor": CpuChipIcon,
-    "hospitals": BuildingOffice2Icon,
+    hospitals: BuildingOffice2Icon,
     "pharmaceutical-industry": BeakerIcon,
     "life-science": GlobeAmericasIcon,
     "schools-public-entrances": AcademicCapIcon,
@@ -344,9 +344,21 @@ export function getAllIndustries() {
   }));
 }
 
-export function getIndustryBySlug(slug) {
-  // Keep return shape consistent with getAllIndustries()
-  return getAllIndustries().find((industry) => industry.slug === slug);
+export function getIndustriesForServer() {
+  return industries.map(({ icon, ...industry }) => ({
+    ...industry,
+    href: industry.href || `/industries/${industry.slug}`,
+  }));
+}
+
+export function getIndustryBySlugForServer(slug) {
+  const industry = industries.find((ind) => ind.slug === slug);
+  if (!industry) return null;
+  const { icon, ...industryWithoutIcon } = industry;
+  return {
+    ...industryWithoutIcon,
+    href: industryWithoutIcon.href || `/industries/${industryWithoutIcon.slug}`,
+  };
 }
 
 export function getAllIndustrySlugs() {

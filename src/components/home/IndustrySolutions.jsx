@@ -19,56 +19,56 @@ export default function IndustrySolutions() {
   const industries = [
     {
       icon: BeakerIcon,
-      title: 'PHARMACEUTICAL',
+      title: 'Pharmaceutical',
       description: 'Minimise particulate ingress and maintain GMP compliance.',
       image: '/assets/industries/pharmaceutical.png',
       href: '/industries/pharmaceutical-industry'
     },
     {
       icon: HeartIcon, // Or a medical kit icon if available, Heart is okay for medical
-      title: 'MEDICAL DEVICES',
+      title: 'Medical Devices',
       description: 'Protect sensitive manufacturing environments from contamination.',
       image: '/assets/industries/medical-devices.png',
       href: '/industries/medical-devices'
     },
     {
       icon: CpuChipIcon,
-      title: 'SEMICONDUCTOR',
+      title: 'Semiconductor',
       description: 'Keeping your precious products safe from contamination.',
       image: '/assets/industries/semiconductor.png',
       href: '/industries/semi-conductor'
     },
     {
       icon: ServerIcon,
-      title: 'DATA CENTRES',
+      title: 'Data Centres',
       description: 'Prevent dust and particulate from affecting sensitive equipment.',
       image: '/assets/industries/data-centres.png',
       href: '/industries/data-centres'
     },
     {
       icon: BuildingOffice2Icon,
-      title: 'HOSPITALS',
+      title: 'Hospitals',
       description: 'Protecting staff & patients with infection control solutions.',
       image: '/assets/industries/hospitals.png',
       href: '/industries/hospitals'
     },
     {
       icon: BeakerIcon, // Using Beaker for Lab as well, matches context
-      title: 'LABORATORY SETTINGS',
+      title: 'Laboratory Settings',
       description: 'Maintain sterile conditions in research and development labs.',
       image: '/assets/industries/life_science_lab_1763625546556.png',
       href: '/industries/life-science'
     },
     {
       icon: WrenchScrewdriverIcon,
-      title: 'AUTOMOTIVE',
+      title: 'Automotive',
       description: 'Ensure pristine paint finishes and dust-free assembly lines.',
       image: '/assets/industries/automotive.png',
       href: '/industries/automotive'
     },
     {
       icon: GlobeAmericasIcon, // Represents global travel/aerospace
-      title: 'AVIATION',
+      title: 'Aviation',
       description: 'Critical contamination control for aerospace assembly and maintenance.',
       image: '/assets/industries/aviation.png',
       href: '/industries/aviation'

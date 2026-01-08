@@ -105,7 +105,7 @@ export default function Header({ onContactClick }) {
     { name: 'Features & Benefits', href: '/features-benefits', isLink: true },
     { name: 'Products', href: '#products', isLink: false, hasDropdown: true },
     { name: 'Technical', href: '/technical', isLink: false, hasDropdown: true },
-    { name: 'Industries', href: 'industries', isLink: false, hasDropdown: true },
+    { name: 'Industries', href: '/industries', isLink: false, hasDropdown: true },
     { name: 'Blogs', href: '/blog', isLink: true },
   ]
 
