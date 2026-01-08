@@ -247,21 +247,8 @@ export default function Hero({ onSecondaryClick }) {
             >
               {/* CE Marking */}
               <div className="group inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
-                <div className="relative w-5 h-5 flex items-center justify-center shrink-0">
-                  {!ceImageError ? (
-                    <Image
-                      src="/assets/CE-Marking.png"
-                      alt="CE Marking"
-                      width={20}
-                      height={20}
-                      className="w-5 h-5 object-contain"
-                      onError={() => setCeImageError(true)}
-                    />
-                  ) : (
-                    <svg className="w-5 h-5 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  )}
+                <div className="relative w-6 h-6 bg-gray-100 p-1 border rounded-full flex items-center justify-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-neutral-700" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M22 42c-9.941 0-18-8.059-18-18S12.059 6 22 6m22 36c-9.941 0-18-8.059-18-18S34.059 6 44 6M26 24h11"></path></svg>
                 </div>
                 <span className="text-xs font-medium text-neutral-700 tracking-wide">CE Marking</span>
               </div>
@@ -279,10 +266,7 @@ export default function Hero({ onSecondaryClick }) {
               {/* Zero VOCs */}
               <div className="group inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
                 <div className="w-5 h-5 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-neutral-700" viewBox="0 0 20 20"><path fill="currentColor" d="M9.995 1.998q.598.001 1.174.086l-.218.07A1.41 1.41 0 0 0 10 3.496v.002h-.005a6.5 6.5 0 1 0 6.363 7.823q.146.265.398.449c.219.149.477.228.746.229q.123 0 .243-.019a7.999 7.999 0 1 1-7.75-9.982M9.998 5c1.007 0 1.945.299 2.73.812q.032.066.065.148l.36 1.092c.09.25.25.48.52.691q.21.15.451.21c-.08.17-.12.36-.12.55c0 .271.08.533.24.753s.38.38.65.48l.097.032q.007.115.007.232a5 5 0 1 1-5-5m0 1.5a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7m7.5 5.5h.009l-.005-.001zm-7.5-3.5a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3M17.484 6a.3.3 0 0 1 .285.201l.25.766a1.58 1.58 0 0 0 .999.998l.765.248l.015.004a.303.303 0 0 1 .146.46a.3.3 0 0 1-.146.11l-.765.248a1.58 1.58 0 0 0-.999.998l-.249.766a.302.302 0 0 1-.57 0l-.25-.766a1.58 1.58 0 0 0-.998-1.002l-.765-.248a.303.303 0 0 1-.146-.46a.3.3 0 0 1 .146-.11l.765-.248a1.58 1.58 0 0 0 .984-.998L17.2 6.2a.3.3 0 0 1 .284-.2m-3.006-6a.42.42 0 0 1 .4.282l.348 1.072a2.2 2.2 0 0 0 1.398 1.396l1.072.349l.022.005a.424.424 0 0 1 0 .797l-1.073.349a2.21 2.21 0 0 0-1.398 1.396L14.9 6.718a.423.423 0 0 1-.643.204l-.02-.015a.43.43 0 0 1-.135-.19l-.348-1.07a2.22 2.22 0 0 0-1.399-1.403l-1.072-.348a.424.424 0 0 1 0-.797l1.072-.349a2.21 2.21 0 0 0 1.377-1.396L14.08.282a.42.42 0 0 1 .4-.282"></path></svg>
                 </div>
                 <span className="text-xs font-medium text-neutral-700 tracking-wide">Zero VOCs</span>
               </div>

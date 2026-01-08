@@ -18,27 +18,6 @@ import Link from 'next/link'
 export default function IndustrySolutions() {
   const industries = [
     {
-      icon: HeartIcon,
-      title: 'NURSING HOMES',
-      description: 'Protecting the ones we love with contamination control solutions.',
-      image: '/assets/industries/nursing-homes.png',
-      href: '/industries/nursing-homes'
-    },
-    {
-      icon: CpuChipIcon,
-      title: 'SEMI CONDUCTOR',
-      description: 'Keeping your precious products safe from contamination.',
-      image: '/assets/industries/semiconductor.png',
-      href: '/industries/semi-conductor'
-    },
-    {
-      icon: BuildingOffice2Icon,
-      title: 'HOSPITALS',
-      description: 'Protecting staff & patients with infection control solutions.',
-      image: '/assets/industries/schools.png',
-      href: '/industries/hospitals'
-    },
-    {
       icon: BeakerIcon,
       title: 'PHARMACEUTICAL',
       description: 'Minimise particulate ingress and maintain GMP compliance.',
@@ -46,18 +25,18 @@ export default function IndustrySolutions() {
       href: '/industries/pharmaceutical-industry'
     },
     {
-      icon: GlobeAmericasIcon,
-      title: 'LIFE SCIENCE',
-      description: 'Maintain sterile conditions in research and development labs.',
-      image: '/assets/industries/life_science_lab_1763625546556.png',
-      href: '/industries/life-science'
+      icon: HeartIcon, // Or a medical kit icon if available, Heart is okay for medical
+      title: 'MEDICAL DEVICES',
+      description: 'Protect sensitive manufacturing environments from contamination.',
+      image: '/assets/industries/medical-devices.png',
+      href: '/industries/medical-devices'
     },
     {
-      icon: AcademicCapIcon,
-      title: 'Schools/Public Entrances',
-      description: 'Ensure clean environments in educational and public facilities.',
-      image: '/assets/industries/schools.png',
-      href: '/industries/schools-public-entrances'
+      icon: CpuChipIcon,
+      title: 'SEMICONDUCTOR',
+      description: 'Keeping your precious products safe from contamination.',
+      image: '/assets/industries/semiconductor.png',
+      href: '/industries/semi-conductor'
     },
     {
       icon: ServerIcon,
@@ -67,11 +46,32 @@ export default function IndustrySolutions() {
       href: '/industries/data-centres'
     },
     {
+      icon: BuildingOffice2Icon,
+      title: 'HOSPITALS',
+      description: 'Protecting staff & patients with infection control solutions.',
+      image: '/assets/industries/hospitals.png',
+      href: '/industries/hospitals'
+    },
+    {
+      icon: BeakerIcon, // Using Beaker for Lab as well, matches context
+      title: 'LABORATORY SETTINGS',
+      description: 'Maintain sterile conditions in research and development labs.',
+      image: '/assets/industries/life_science_lab_1763625546556.png',
+      href: '/industries/life-science'
+    },
+    {
       icon: WrenchScrewdriverIcon,
-      title: 'Medical Devices',
-      description: 'Protect sensitive manufacturing environments from contamination.',
-      image: '/assets/industries/medical-devices.png',
-      href: '/industries/medical-devices'
+      title: 'AUTOMOTIVE',
+      description: 'Ensure pristine paint finishes and dust-free assembly lines.',
+      image: '/assets/industries/automotive.png',
+      href: '/industries/automotive'
+    },
+    {
+      icon: GlobeAmericasIcon, // Represents global travel/aerospace
+      title: 'AVIATION',
+      description: 'Critical contamination control for aerospace assembly and maintenance.',
+      image: '/assets/industries/aviation.png',
+      href: '/industries/aviation'
     },
   ]
 

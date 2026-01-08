@@ -4,11 +4,11 @@ import { motion } from 'framer-motion'
 import {
   ShieldCheckIcon,
   CheckBadgeIcon,
-  BeakerIcon,
+  ChartBarIcon,
   DocumentCheckIcon,
   SparklesIcon,
   ClipboardDocumentCheckIcon,
-  AcademicCapIcon,
+  RocketLaunchIcon,
   StarIcon,
   TrophyIcon
 } from '@heroicons/react/24/outline'
@@ -31,7 +31,7 @@ export default function WhatSetsApartDark() {
       description: 'Fully compliant with Biocidal Products Regulation and Environmental Protection Agency standards for safety and efficacy.',
     },
     {
-      icon: BeakerIcon,
+      icon: ChartBarIcon,
       title: 'Particulate Study Results',
       description: 'Scientifically validated through rigorous particulate contamination studies, proving 99.9% effectiveness.',
     },
@@ -46,7 +46,7 @@ export default function WhatSetsApartDark() {
       description: 'Comprehensive quality control processes ensuring consistent performance and reliability across all products.',
     },
     {
-      icon: AcademicCapIcon,
+      icon: RocketLaunchIcon,
       title: 'Industry Leading',
       description: 'Recognized as industry leaders in contamination control technology with proven track record.',
     },
@@ -63,8 +63,9 @@ export default function WhatSetsApartDark() {
   ]
 
   return (
-    <section className="bg-white py-12 sm:py-16 md:py-20">
-      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
+    <section className="bg-gray-100/90 relative py-12 sm:py-16 md:py-20">
+      <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
+      <div className=" z-10 max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -83,7 +84,7 @@ export default function WhatSetsApartDark() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {certifications.map((cert, index) => {
             const Icon = cert.icon
-            
+
             return (
               <motion.div
                 key={cert.title}
@@ -91,7 +92,7 @@ export default function WhatSetsApartDark() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
+                className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-xs hover:shadow-md hover:border-primary/30 transition-all duration-300"
               >
                 {/* Content */}
                 <div className="flex-1 min-w-0 pr-4">

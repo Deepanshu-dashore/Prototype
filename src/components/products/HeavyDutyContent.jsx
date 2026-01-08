@@ -152,6 +152,30 @@ export default function HeavyDutyContent({ product }) {
                 </div>
             </section>
 
+            {/* Warranty */}
+            <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
+                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
+                <div className="relative z-10">
+                    <div className="max-w-7xl mx-auto px-4">
+                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-6xl mx-auto">
+                            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
+                                <div className="bg-gray-100 p-8 flex items-center justify-center md:w-1/2 h-96">
+                                    <Image src={product.warranty.badgeImage} alt="Warranty" width={400} height={400} className="w-full h-96 object-contain" />
+                                </div>
+                                <div className="p-8 flex flex-col justify-center md:w-1/2">
+                                    <h2 className="text-2xl font-bold text-neutral-dark mb-4">{product.warranty.title}</h2>
+                                    <span className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
+                                        <ShieldCheckIcon className="w-4 h-4" /> Warranty
+                                    </span>
+                                    <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
+                                    <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
             {/* Benefits */}
             <section className="bg-white py-12 sm:py-20">
                 <div className="max-w-[1300px] mx-auto px-4">
@@ -187,30 +211,6 @@ export default function HeavyDutyContent({ product }) {
                                 </motion.div>
                             );
                         })}
-                    </div>
-                </div>
-            </section>
-
-            {/* Warranty */}
-            <section className="relative bg-gray-100 py-12 sm:py-16 overflow-hidden">
-                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
-                <div className="relative z-10">
-                    <div className="max-w-7xl mx-auto px-4">
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-6xl mx-auto">
-                            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
-                                <div className="bg-gray-100 p-8 flex items-center justify-center md:w-1/2 h-96">
-                                    <Image src={product.warranty.badgeImage} alt="Warranty" width={400} height={400} className="w-full h-96 object-contain" />
-                                </div>
-                                <div className="p-8 flex flex-col justify-center md:w-1/2">
-                                    <h2 className="text-2xl font-bold text-neutral-dark mb-4">{product.warranty.title}</h2>
-                                    <span className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
-                                        <ShieldCheckIcon className="w-4 h-4" /> Warranty
-                                    </span>
-                                    <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
-                                    <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
-                                </div>
-                            </div>
-                        </motion.div>
                     </div>
                 </div>
             </section>

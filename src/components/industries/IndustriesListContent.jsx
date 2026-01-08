@@ -41,9 +41,9 @@ export default function IndustriesListContent({ industriesData }) {
 
     const industries = industriesData.map(industry => ({
         ...industry,
-        icon: industryIconMap[industry.slug] || BuildingOfficeIcon,
+        icon: industry.icon || industryIconMap[industry.slug] || BuildingOfficeIcon,
         href: `/industries/${industry.slug}`,
-        shortTitle: industryShortTitles[industry.slug] || industry.title.replace('Contamination Control Mats for ', '')
+        shortTitle: industryShortTitles[industry.slug] || industry.title.replace('Contamination Control Mats for ', '').replace(' Industry', '')
     }));
 
     return (

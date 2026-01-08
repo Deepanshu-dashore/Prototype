@@ -12,7 +12,7 @@ import Image from 'next/image'
 
 export default function AboutSection() {
   return (
-    <section id="about" className="bg-linear-to-br relative from-white via-gray-100 to-accent/10 py-12 sm:py-16 md:py-20 lg:py-24">
+    <section id="about" className="bg-linear-to-br relative from-primary/10 via-white to-accent/20 py-12 sm:py-16 md:py-20 lg:py-24">
       <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center">
           {/* Left: Content */}

@@ -2,10 +2,11 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+
 
 export default function CaseStudies() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   const [imageErrors, setImageErrors] = useState({})
 
   const caseStudies = [
@@ -156,12 +157,14 @@ export default function CaseStudies() {
 
   // Auto-advance reviews
   useEffect(() => {
+    if (isPaused) return
+
     const timer = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % caseStudies.length)
-    }, 6000)
+    }, 3000)
 
     return () => clearInterval(timer)
-  }, [caseStudies.length])
+  }, [caseStudies.length, isPaused])
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % caseStudies.length)
@@ -183,14 +186,15 @@ export default function CaseStudies() {
   }
 
   return (
-    <section id="case-studies" className="bg-gray-100 py-12 sm:py-16 md:py-20 lg:py-24">
+    <section id="case-studies" className="bg-gray-100 relative py-12 sm:py-16 md:py-20 lg:py-24">
+      <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
       <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-10 sm:mb-12 md:mb-16"
+          className="text-center mb-10 sm:mb-12 md:mb-5"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-bold text-neutral-dark mb-3 sm:mb-4">
             Our <span className="text-primary">Client Reviews</span>
@@ -201,14 +205,18 @@ export default function CaseStudies() {
         </motion.div>
 
         {/* Carousel Container */}
-        <div className="relative max-w-7xl mx-auto">
+        <div
+          className="relative max-w-7xl mx-auto"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 lg:-translate-x-8 z-20 bg-white hover:bg-primary text-neutral-dark hover:text-white rounded-full p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-300"
             aria-label="Previous reviews"
           >
-            <ChevronLeftIcon className="w-6 h-6 sm:w-7 sm:h-7" />
+            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" className="w-6 h-6 sm:w-7 sm:h-7"><g fill="none"><path fill="currentColor" d="M20 12.75a.75.75 0 0 0 0-1.5zm0-1.5H4v1.5h16z" opacity={0.4}></path><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="m10 6l-6 6l6 6"></path></g></svg>
           </button>
 
           <button
@@ -216,7 +224,7 @@ export default function CaseStudies() {
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-6 lg:translate-x-8 z-20 bg-white hover:bg-primary text-neutral-dark hover:text-white rounded-full p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-300"
             aria-label="Next reviews"
           >
-            <ChevronRightIcon className="w-6 h-6 sm:w-7 sm:h-7" />
+            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24" className="w-6 h-6 sm:w-7 sm:h-7 transform rotate-180"><g fill="none"><path fill="currentColor" d="M20 12.75a.75.75 0 0 0 0-1.5zm0-1.5H4v1.5h16z" opacity={0.4}></path><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="m10 6l-6 6l6 6"></path></g></svg>
           </button>
 
           {/* Carousel Slides - 3 Cards with Center Highlight */}
@@ -243,8 +251,8 @@ export default function CaseStudies() {
                       }}
                       transition={{ duration: 0.4, delay: idx * 0.05 }}
                       className={`bg-white rounded-xl relative shadow-sm flex flex-col transition-all duration-500 ${isCenter
-                          ? 'p-4 sm:p-5 lg:p-6 w-full max-w-xs lg:max-w-sm xl:max-w-md z-10 shadow-md border border-gray-100'
-                          : 'p-4 sm:p-5 lg:p-6 w-full max-w-[240px] sm:max-w-xs lg:max-w-sm z-0 hover:shadow-lg'
+                        ? 'p-4 sm:p-5 lg:p-6 w-full max-w-xs lg:max-w-sm xl:max-w-md z-10 shadow-md border border-gray-100'
+                        : 'p-4 sm:p-5 lg:p-6 w-full max-w-[240px] sm:max-w-xs lg:max-w-sm z-0 hover:shadow-lg'
                         }`}
                       style={{
                         flex: isCenter ? '1.1' : '0.9',
@@ -299,18 +307,18 @@ export default function CaseStudies() {
                         {/* Left: Company Logo */}
                         <div className="shrink-0">
                           {(!review.reviewImage) ? (
-                             <div className={`text-gray-700 font-semibold ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
-                             }`}>
-                             {review.company}
-                           </div>
+                            <div className={`text-gray-700 font-semibold ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
+                              }`}>
+                              {review.company}
+                            </div>
                           ) : (
                             <img
                               src={review.reviewImage}
                               alt={review.company}
                               className={`rounded-lg grayscale hover:grayscale-0 transition-all duration-300  ${isCenter ? 'w-12 h-12 sm:w-14 sm:h-14 grayscale-0'
-                                 : 'w-10 h-10 sm:w-16 sm:h-16'
+                                : 'w-10 h-10 sm:w-16 sm:h-16'
                                 }
-                                ${review.zoomLogo ? 'scale-180 object-cover' : 'object-contain'}
+                                ${review.zoomLogo ? 'scale-170 object-cover' : 'object-contain'}
                                 `}
                               onError={(e) => {
                                 setImageErrors(prev => ({

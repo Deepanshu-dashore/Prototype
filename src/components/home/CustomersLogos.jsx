@@ -17,6 +17,10 @@ export default function CustomersLogos() {
     { src: '/assets/Our Valuable Customers/asset 11.png', alt: 'Customer Logo 10',zoom:true },
     { src: '/assets/Our Valuable Customers/asset 12.png', alt: 'Customer Logo 11',zoom:true },
     { src: '/assets/Our Valuable Customers/asset 13.jpeg', alt: 'Customer Logo 12',zoom:false },
+     ]
+
+  const secondRowLogos = [
+    { src: '/assets/Our Valuable Customers/asset 13.jpeg', alt: 'Customer Logo 12',zoom:false },
     { src: '/assets/Our Valuable Customers/asset 14.jpeg', alt: 'Customer Logo 13',zoom:false },
     { src: '/assets/Our Valuable Customers/asset 15.gif', alt: 'Customer Logo 14',zoom:true },
     { src: '/assets/Our Valuable Customers/asset 16.png', alt: 'Customer Logo 15',zoom:false },
@@ -30,7 +34,7 @@ export default function CustomersLogos() {
     { src: '/assets/Our Valuable Customers/asset 24.png', alt: 'Customer Logo 23',zoom:false },
     { src: '/assets/Our Valuable Customers/asset 25.png', alt: 'Customer Logo 24',zoom:false },
     { src: '/assets/Our Valuable Customers/asset 26.png', alt: 'Customer Logo 25',zoom:false },
-  ]
+  ];
 
   return (
     <section className="bg-neutral-50 py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden">
@@ -58,7 +62,7 @@ export default function CustomersLogos() {
           {/* First row - slides right to left */}
           <div className="h-32 sm:h-36 md:h-40 lg:h-[160px]" style={{ position: 'relative', overflow: 'hidden' }}>
             <LogoLoop
-              logos={[...allLogos].reverse()}
+              logos={allLogos}
               speed={50}
               direction="right"
               logoHeight={98}
@@ -75,7 +79,7 @@ export default function CustomersLogos() {
           </div>
           <div className="h-32 sm:h-36 md:h-40 lg:h-[160px]" style={{ position: 'relative', overflow: 'hidden' }}>
             <LogoLoop
-              logos={allLogos}
+              logos={secondRowLogos}
               speed={50}
               direction="left"
               logoHeight={98}

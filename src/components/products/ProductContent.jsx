@@ -54,21 +54,21 @@ export default function ProductContent({ product, slug }) {
         <main className="grow">
             {/* Hero Section */}
             <section className="relative overflow-hidden h-[85vh] flex items-center">
-                <div className="absolute inset-0 z-20 bg-linear-to-br to-transparent from-black" />
+                <div className="absolute inset-0 z-20 bg-linear-to-br to-transparent from-black/60" />
                 <img
                     src={product.image}
                     alt={product.title}
-                    className="absolute inset-0 w-full h-full object-cover object-top"
+                    className="absolute inset-0 w-full h-full object-cover object-bottom"
                     onError={(e) => { e.target.style.display = 'none'; }}
                 />
 
                 <div
-                    className="absolute left-0 top-0 w-1/3 h-full z-30"
-                    style={{ background: `linear-gradient(to right,rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4), transparent)` }}
+                    className="absolute left-0 top-0 w-1 /3 h-full z-30"
+                    style={{ background: `linear-gradient(to right,rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), transparent)` }}
                 />
                 <div
                     className="absolute right-0 top-0 w-1/3 h-full z-30"
-                    style={{ background: `linear-gradient(to left, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4), transparent)` }}
+                    style={{ background: `linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), transparent)` }}
                 />
                 <div className="absolute left-1/3 top-0 w-1/3 h-full z-30" />
                 <div
@@ -171,6 +171,30 @@ export default function ProductContent({ product, slug }) {
                 </section>
             )}
 
+            {/* Warranty */}
+            {product.warranty && (
+                <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
+                    <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
+                    <div className="max-w-7xl mx-auto px-4 relative">
+                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-6xl mx-auto">
+                            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
+                                <div className="bg-gray-100 p-8 flex items-center justify-center md:w-1/2">
+                                    <Image src={product.warranty.badgeImage} alt="Warranty" width={300} height={300} className="h-64 w-auto object-contain" />
+                                </div>
+                                <div className="p-8 flex flex-col justify-center md:w-1/2">
+                                    <h2 className="text-2xl font-bold text-neutral-dark mb-4">{product.warranty.title}</h2>
+                                    <span className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
+                                        <ShieldCheckIcon className="w-4 h-4" /> Warranty
+                                    </span>
+                                    <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
+                                    <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
+            )}
+
             {/* Benefits */}
             <section className="bg-white py-12 sm:py-20">
                 <div className="max-w-[1300px] mx-auto px-4">
@@ -223,59 +247,87 @@ export default function ProductContent({ product, slug }) {
 
             {/* Sizes */}
             {product.sizes && (
-                <section className="bg-gray-50 py-12 sm:py-16">
-                    <div className="max-w-7xl mx-auto px-4">
-                        <div className="text-center mb-10">
-                            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
-                                <SparklesIcon className="w-3 h-3" />
-                                Sizes
-                            </span>
-                            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">Available Sizes</h2>
+                <section className="bg-gray-50 py-16 sm:py-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
+                                Available Sizes & Customization
+                            </h2>
+                            <p className="text-neutral-dark/60 max-w-2xl mx-auto">
+                                Flexible sizing options to meet your specific requirements
+                            </p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                            <div className="bg-white border-x border-primary/20 p-8">
-                                <h3 className="text-xl font-bold text-neutral-dark mb-4 group flex items-center justify-between">
-                                    Widths <ArrowsRightLeftIcon className="w-5 h-5" />
-                                </h3>
-                                <p className="text-sm text-neutral-dark/70">{product.sizes.widths}</p>
-                            </div>
-                            <div className="bg-white border-x border-primary/20 p-8">
-                                <h3 className="text-xl font-bold text-neutral-dark mb-4 group flex items-center justify-between">
-                                    Standard Lengths <ListBulletIcon className="w-5 h-5" />
-                                </h3>
-                                <p className="text-sm text-neutral-dark/70">{product.sizes.standardLengths}</p>
-                            </div>
-                            <div className="bg-white border-x border-primary/20 p-8">
-                                <h3 className="text-xl font-bold text-neutral-dark mb-4 group flex items-center justify-between">
-                                    Custom Sizes <WrenchScrewdriverIcon className="w-5 h-5" />
-                                </h3>
-                                <p className="text-sm text-neutral-dark/70">{product.sizes.customSizes}</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            )}
 
-            {/* Warranty */}
-            {product.warranty && (
-                <section className="relative bg-gray-100 py-12 sm:py-16 overflow-hidden">
-                    <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
-                    <div className="max-w-7xl mx-auto px-4 relative">
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-6xl mx-auto">
-                            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
-                                <div className="bg-gray-100 p-8 flex items-center justify-center md:w-1/2">
-                                    <Image src={product.warranty.badgeImage} alt="Warranty" width={300} height={300} className="h-64 w-auto object-contain" />
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                            {/* Widths Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5 }}
+                                className="bg-white rounded-2xl border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 group"
+                            >
+                                <div className="flex flex-col h-full">
+                                    <div className="mb-6">
+                                        <div className="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+                                            <ArrowsRightLeftIcon className="w-6 h-6 text-neutral-700 group-hover:text-primary transition-colors" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-neutral-dark mb-2">
+                                            Widths
+                                        </h3>
+                                    </div>
+                                    <p className="text-sm text-neutral-dark/70 leading-relaxed">
+                                        {product.sizes.widths}
+                                    </p>
                                 </div>
-                                <div className="p-8 flex flex-col justify-center md:w-1/2">
-                                    <h2 className="text-2xl font-bold text-neutral-dark mb-4">{product.warranty.title}</h2>
-                                    <span className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
-                                        <ShieldCheckIcon className="w-4 h-4" /> Warranty
-                                    </span>
-                                    <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
-                                    <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
+                            </motion.div>
+
+                            {/* Standard Lengths Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.1 }}
+                                className="bg-white rounded-2xl border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 group"
+                            >
+                                <div className="flex flex-col h-full">
+                                    <div className="mb-6">
+                                        <div className="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+                                            <ListBulletIcon className="w-6 h-6 text-neutral-700 group-hover:text-primary transition-colors" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-neutral-dark mb-2">
+                                            Standard Lengths
+                                        </h3>
+                                    </div>
+                                    <p className="text-sm text-neutral-dark/70 leading-relaxed">
+                                        {product.sizes.standardLengths}
+                                    </p>
                                 </div>
-                            </div>
-                        </motion.div>
+                            </motion.div>
+
+                            {/* Custom Sizes Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                                className="bg-white rounded-2xl border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 group"
+                            >
+                                <div className="flex flex-col h-full">
+                                    <div className="mb-6">
+                                        <div className="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+                                            <WrenchScrewdriverIcon className="w-6 h-6 text-neutral-700 group-hover:text-primary transition-colors" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-neutral-dark mb-2">
+                                            Custom Sizes
+                                        </h3>
+                                    </div>
+                                    <p className="text-sm text-neutral-dark/70 leading-relaxed">
+                                        {product.sizes.customSizes}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
                 </section>
             )}

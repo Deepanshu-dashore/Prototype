@@ -73,8 +73,9 @@ export default function QuickBenefitsStrip() {
   ]
 
   return (
-    <section id="features" className="bg-white py-12 sm:py-16 md:py-20 lg:py-24">
-      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
+    <section id="features" className="bg-gray-100 py-12 sm:py-16 md:py-20 lg:py-24">
+      <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
+      <div className="relative z-10 max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

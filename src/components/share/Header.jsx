@@ -27,6 +27,11 @@ import {
   WrenchScrewdriverIcon,
   FolderIcon
 } from '@heroicons/react/24/outline'
+import { getAllIndustries } from '../../utils/industriesData'
+
+// ... existing imports ...
+
+// Inside component ...
 import { trackFormOpen, trackPhoneClick } from '../../utils/analytics'
 
 export default function Header({ onContactClick }) {
@@ -49,6 +54,8 @@ export default function Header({ onContactClick }) {
     return false
   }
 
+  const industriesData = getAllIndustries()
+
   const dropdownMenus = {
     Products: [
       { name: 'CC Heavy Duty', href: '/products/heavy-duty', icon: CubeIcon },
@@ -68,22 +75,29 @@ export default function Header({ onContactClick }) {
     ],
     Technical: [
       { name: 'View All Technical Documents', href: '/technical', icon: FolderIcon },
-      { name: 'CC MATTING V PEEL OFF MATT COMPARISON', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf', icon: ArrowsRightLeftIcon },
-      { name: 'CC HEAVY DUTY TECHNICAL DATA SHEET', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf', icon: DocumentTextIcon },
-      { name: 'CC Matting cleaning procedure', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf', icon: BeakerIcon },
+      { name: 'CC Matting vs Peel-Off Mat Comparison', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf', icon: ArrowsRightLeftIcon },
+      { name: 'CC Heavy Duty Technical Data Sheet', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf', icon: DocumentTextIcon },
+      { name: 'CC Matting Cleaning Procedure', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf', icon: BeakerIcon },
       { name: 'CC Matting Warranty', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf', icon: ShieldCheckIcon },
       { name: 'CC Matting Brochure', href: 'https://www.ccmatting.ie/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf', icon: BookOpenIcon },
     ],
+    /*
     Industries: [
-      { name: 'NURSING HOMES', href: '/industries/nursing-homes', icon: HeartIcon },
-      { name: 'SEMI CONDUCTOR', href: '/industries/semi-conductor', icon: CpuChipIcon },
-      { name: 'HOSPITALS', href: '/industries/hospitals', icon: BuildingOffice2Icon },
-      { name: 'PHARMACEUTICAL', href: '/industries/pharmaceutical-industry', icon: BeakerIcon },
-      { name: 'LIFE SCIENCE', href: '/industries/life-science', icon: GlobeAmericasIcon },
+      { name: 'Nursing Homes', href: '/industries/nursing-homes', icon: HeartIcon },
+      { name: 'Semi Conductor', href: '/industries/semi-conductor', icon: CpuChipIcon },
+      { name: 'Hospitals', href: '/industries/hospitals', icon: BuildingOffice2Icon },
+      { name: 'Pharmaceutical', href: '/industries/pharmaceutical-industry', icon: BeakerIcon },
+      { name: 'Life Science', href: '/industries/life-science', icon: GlobeAmericasIcon },
       { name: 'Schools/Public Entrances', href: '/industries/schools-public-entrances', icon: AcademicCapIcon },
-      { name: 'DATA CENTRES', href: '/industries/data-centres', icon: ServerIcon },
+      { name: 'Data Centres', href: '/industries/data-centres', icon: ServerIcon },
       { name: 'Medical Devices', href: '/industries/medical-devices', icon: WrenchScrewdriverIcon },
     ],
+    */
+    Industries: industriesData.map(ind => ({
+      name: ind.title.replace('Contamination Control Mats for ', '').replace(' Industry', ''), // Simplified naming logic
+      href: `/industries/${ind.slug}`,
+      icon: ind.icon
+    })),
   }
 
   const navItems = [
@@ -132,8 +146,8 @@ export default function Header({ onContactClick }) {
                     <Link
                       href={item.href}
                       className={`text-sm font-medium transition-colors flex items-center gap-1 ${isActiveRoute(item.href)
-                          ? 'text-primary font-semibold'
-                          : 'text-neutral-dark hover:text-primary'
+                        ? 'text-primary font-semibold'
+                        : 'text-neutral-dark hover:text-primary'
                         }`}
                     >
                       {item.name}
@@ -155,15 +169,15 @@ export default function Header({ onContactClick }) {
                               href={dropdownItem.href}
                               target={item.name === 'Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
                               className={`flex items-center px-3 py-2.5 text-xs transition-colors rounded-sm mx-1 ${dropdownItem.hasSubMenu ? 'justify-between pr-2' : ''} ${isActiveRoute(dropdownItem.href)
-                                  ? 'bg-accent/10 text-primary font-semibold'
-                                  : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
+                                ? 'bg-accent/10 text-primary font-semibold'
+                                : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
                                 }`}
                             >
                               <div className="flex items-center gap-2">
                                 {dropdownItem.icon && (
                                   <div className={`w-7 h-7 transition-colors duration-300 rounded-md flex justify-center items-center ${isActiveRoute(dropdownItem.href)
-                                      ? 'bg-primary text-white'
-                                      : 'bg-primary/5 group-hover:bg-primary text-primary group-hover:text-white'
+                                    ? 'bg-primary text-white'
+                                    : 'bg-primary/5 group-hover:bg-primary text-primary group-hover:text-white'
                                     }`}>
                                     <dropdownItem.icon className="w-4 h-4" />
                                   </div>
@@ -183,13 +197,13 @@ export default function Header({ onContactClick }) {
                                       href={subItem.href}
                                       target={item.name === 'Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
                                       className={`flex items-center px-4 py-2.5 text-xs transition-colors rounded-sm mx-1 ${isActiveRoute(subItem.href)
-                                          ? 'bg-accent/10 text-primary font-semibold'
-                                          : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
+                                        ? 'bg-accent/10 text-primary font-semibold'
+                                        : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
                                         }`}
                                     >
                                       <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${isActiveRoute(subItem.href)
-                                          ? 'bg-primary'
-                                          : 'bg-gray-300 group-hover:bg-primary'
+                                        ? 'bg-primary'
+                                        : 'bg-gray-300 group-hover:bg-primary'
                                         }`}></div>
                                       {subItem.name}
                                     </a>
@@ -209,8 +223,8 @@ export default function Header({ onContactClick }) {
                   <Link
                     href={item.href}
                     className={`text-sm h-18 flex items-center font-medium transition-colors px-3 py-2 rounded-lg relative ${isActiveRoute(item.href)
-                        ? 'text-white font-semibold'
-                        : 'text-neutral-dark'
+                      ? 'text-white font-semibold'
+                      : 'text-neutral-dark'
                       }`}
                   >
                     {isActiveRoute(item.href) && (
@@ -269,8 +283,8 @@ export default function Header({ onContactClick }) {
                         <Link
                           href={item.href}
                           className={`px-3 py-2 text-base font-medium rounded-md transition-colors flex-1 ${isActiveRoute(item.href)
-                              ? 'text-primary font-semibold'
-                              : 'text-neutral-dark hover:text-primary hover:bg-neutral-light'
+                            ? 'text-primary font-semibold'
+                            : 'text-neutral-dark hover:text-primary hover:bg-neutral-light'
                             }`}
                         >
                           {item.name}
@@ -310,14 +324,14 @@ export default function Header({ onContactClick }) {
                                             href={subItem.href}
                                             target={item.name === 'Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
                                             className={`flex items-center px-3 py-2 text-xs rounded-sm transition-colors group ${isActiveRoute(subItem.href)
-                                                ? 'bg-accent/10 text-primary font-semibold'
-                                                : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
+                                              ? 'bg-accent/10 text-primary font-semibold'
+                                              : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
                                               }`}
                                             onClick={() => setMobileMenuOpen(false)}
                                           >
                                             <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${isActiveRoute(subItem.href)
-                                                ? 'bg-primary'
-                                                : 'bg-gray-300 group-hover:bg-primary'
+                                              ? 'bg-primary'
+                                              : 'bg-gray-300 group-hover:bg-primary'
                                               }`}></div>
                                             {subItem.name}
                                           </a>
@@ -331,16 +345,16 @@ export default function Header({ onContactClick }) {
                                   href={dropdownItem.href}
                                   target={item.name === 'Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
                                   className={`block px-3 py-2.5 text-sm rounded-sm transition-colors ${isActiveRoute(dropdownItem.href)
-                                      ? 'bg-accent/10 text-primary font-semibold'
-                                      : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
+                                    ? 'bg-accent/10 text-primary font-semibold'
+                                    : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
                                     }`}
                                   onClick={() => setMobileMenuOpen(false)}
                                 >
                                   <div className='flex items-center gap-2.5'>
                                     {dropdownItem.icon && (
                                       <div className={`w-7 h-7 rounded-md flex justify-center items-center transition-colors ${isActiveRoute(dropdownItem.href)
-                                          ? 'bg-primary text-white'
-                                          : 'bg-primary/5 text-primary'
+                                        ? 'bg-primary text-white'
+                                        : 'bg-primary/5 text-primary'
                                         }`}>
                                         <dropdownItem.icon className="w-4 h-4" />
                                       </div>
@@ -361,8 +375,8 @@ export default function Header({ onContactClick }) {
                     <Link
                       href={item.href}
                       className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative ${isActiveRoute(item.href)
-                          ? 'text-white font-semibold'
-                          : 'text-neutral-dark'
+                        ? 'text-white font-semibold'
+                        : 'text-neutral-dark'
                         }`}
                       onClick={() => setMobileMenuOpen(false)}
                     >

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import ComparisonTable from "./ComparisonTable";
+import SpecificationsTable from "./SpecificationsTable";
 import {
     ShieldCheckIcon,
     DocumentTextIcon,
@@ -206,8 +208,8 @@ export default function PortableCleanroomMatsContent() {
                                     key={index}
                                     onClick={() => setActiveImageIndex(index)}
                                     className={`relative w-full aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 ${activeImageIndex === index
-                                            ? 'border-primary shadow-lg scale-105'
-                                            : 'border-gray-200 hover:border-primary/50'
+                                        ? 'border-primary shadow-lg scale-105'
+                                        : 'border-gray-200 hover:border-primary/50'
                                         }`}
                                 >
                                     <Image
@@ -291,12 +293,13 @@ export default function PortableCleanroomMatsContent() {
                         </p>
                     </motion.div>
 
-                    <motion.div
+
+                    {/* <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="relative w-full flex justify-center"
+                        className="relative w-full flex justify-center mb-16"
                     >
                         <div className="max-w-5xl w-full">
                             <Image
@@ -307,7 +310,19 @@ export default function PortableCleanroomMatsContent() {
                                 className="w-full h-auto object-contain rounded-lg bg-white p-4"
                             />
                         </div>
+                    </motion.div> */}
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="max-w-5xl mx-auto"
+                    >
+                        <ComparisonTable />
                     </motion.div>
+
+
                 </div>
             </section>
 
@@ -367,7 +382,7 @@ export default function PortableCleanroomMatsContent() {
             {/* Size Images Section */}
             <section className="bg-white py-12 sm:py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -403,7 +418,26 @@ export default function PortableCleanroomMatsContent() {
                                 />
                             </div>
                         </motion.div>
-                    </div>
+                    </div> */}
+
+                    {/* Specifications Table */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="max-w-6xl mx-auto mt-16"
+                    >
+                        <div className="text-center mb-8">
+                            <h3 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-3">
+                                Product Specifications
+                            </h3>
+                            <p className="text-sm text-neutral-dark/70">
+                                Available sizes and configurations for our portable cleanroom mats
+                            </p>
+                        </div>
+                        <SpecificationsTable />
+                    </motion.div>
                 </div>
             </section>
 
@@ -492,6 +526,6 @@ export default function PortableCleanroomMatsContent() {
                     </motion.div>
                 </div>
             </section>
-        </main>
+        </main >
     );
 }

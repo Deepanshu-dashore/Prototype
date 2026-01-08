@@ -2,10 +2,12 @@ import PublicLayout from "../src/components/share/PublicLayout";
 import Hero from "../src/components/home/Hero";
 import WhatSetsApartDark from "../src/components/home/WhatSetsApartDark";
 import AboutSection from "../src/components/home/AboutSection";
-import IndustrySolutions from "../src/components/home/IndustrySolutions";
+import IndustriesScroll from "../src/components/home/IndustriesScroll";
 import CustomersLogos from "../src/components/home/CustomersLogos";
 import CaseStudies from "../src/components/home/CaseStudies";
 import CTASection from "../src/components/home/CTASection";
+import IndustrySolutions from "@/src/components/home/IndustrySolutions";
+import UseCases from "@/src/components/home/UseCases";
 
 export const metadata = {
   title: "CC Matting | Contamination Control & Cleanroom Matting Solutions",
@@ -56,7 +58,12 @@ export default function Home() {
         <AboutSection />
 
         {/* 7. INDUSTRY SOLUTIONS */}
+        <IndustriesScroll />
+
         <IndustrySolutions />
+
+        {/* USE CASES */}
+        <UseCases />
 
         {/* 6. TESTIMONIALS */}
         <CaseStudies />
