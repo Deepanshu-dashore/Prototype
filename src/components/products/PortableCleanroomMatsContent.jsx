@@ -108,7 +108,7 @@ export default function PortableCleanroomMatsContent() {
                         >
                             <div className="relative w-full h-auto">
                                 <Image
-                                    src="/assets/products Page/clenRoomCarousle images/home.png"
+                                    src="/assets/products Page/clenRoomCarousle images/home.jpg"
                                     alt="CCM Portable Cleanroom Mats"
                                     width={1200}
                                     height={600}
