@@ -193,8 +193,9 @@ export default function FeaturesContent() {
             </section>
 
             {/* Anti-Microbial Properties */}
-            <section className="bg-gray-50 py-16 sm:py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="bg-gray-100 py-16 sm:py-20 relative">
+                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.03]" aria-hidden />
+                <div className="max-w-7xl relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -274,7 +275,8 @@ export default function FeaturesContent() {
             </section>
 
             {/* Heavy Duty Section */}
-            <section className="bg-gray-50 py-16 sm:py-20">
+            <section className="bg-linear-to-br from-primary via-indigo-700 to-indigo-800 py-16 sm:py-20 relative">
+                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                         <motion.div
@@ -297,16 +299,16 @@ export default function FeaturesContent() {
                             transition={{ duration: 0.6 }}
                             className="order-1 lg:order-2"
                         >
-                            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
+                            <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-6">
                                 <WrenchScrewdriverIcon className="w-3.5 h-3.5" />
                                 Industrial
                             </span>
-                            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-6 leading-tight">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
                                 CC Matting Heavy Duty
                             </h2>
-                            <div className="space-y-5 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
+                            <div className="space-y-5 text-sm sm:text-base text-white/70 leading-relaxed">
                                 <p>
-                                    The CC Matting heavy duty polymer mat is the <strong className="text-neutral-dark font-semibold">strongest most durable polymer mat in the world</strong> with a point load bearing of <strong className="text-neutral-dark font-semibold">130kg/cm²</strong>.
+                                    The CC Matting heavy duty polymer mat is the <strong className="text-white font-semibold">strongest most durable polymer mat in the world</strong> with a point load bearing of <strong className="text-white font-semibold">130kg/cm²</strong>.
                                 </p>
                                 <p>
                                     All of our current customers employ the use of the heavy duty range in their warehouses and areas where forktrucks or motorized pallet trucks are utilized to eliminate the ingress of harmful particulate into their critical area.

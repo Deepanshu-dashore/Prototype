@@ -102,7 +102,12 @@ export const products = [
         thickness: '6" (1.5cm)',
       },
     ],
-    benefitImages: [1, 2, 3, 4],
+    benefitImages: [
+      "ergonomic",
+      "beveled-edge",
+      "anti-static",
+      "iso-cleanroom",
+    ],
     benefits: [
       {
         title: "ERGONOMIC",
@@ -191,7 +196,7 @@ export const products = [
         thickness: '57" (1.45cm)',
       },
     ],
-    benefitImages: [1, 2, 3, 4],
+    benefitImages: ["esd", "ergonomic", "beveled-edge", "iso-cleanroom"],
     benefits: [
       {
         title: "ESD OPTION",
@@ -285,7 +290,13 @@ export const products = [
         thickness: '55" (1.5cm)',
       },
     ],
-    benefitImages: [1, 5, 3, 4, 2],
+    benefitImages: [
+      "esd",
+      "fire-retardant",
+      "beveled-edge",
+      "iso-cleanroom",
+      "ergonomic",
+    ],
     benefits: [
       {
         title: "ESD VERSION",

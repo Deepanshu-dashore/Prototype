@@ -207,10 +207,18 @@ export default function ProductContent({ product, slug }) {
                     </div>
 
                     {benefitImages.length > 0 && (
-                        <div className={`grid grid-cols-2 ${benefitImages.length === 3 ? 'md:grid-cols-3' : benefitImages.length === 5 ? 'md:grid-cols-5' : 'md:grid-cols-4'} gap-4 mb-12 max-w-5xl mx-auto`}>
+                        <div className={`grid grid-cols-2 ${benefitImages.length === 3 ? 'md:grid-cols-3' : benefitImages.length === 5 ? 'md:grid-cols-5' : 'md:grid-cols-4'} gap-4 mb-12 max-w-7xl mx-auto`}>
                             {benefitImages.map((num) => (
-                                <div key={num} className="relative w-full aspect-square border border-gray-200 rounded-lg overflow-hidden bg-primary/10">
-                                    <Image src={`/assets/products Page/${imageFolder}/${num}.png`} alt={`Benefit ${num}`} fill className="object-contain p-3" />
+                                <div key={num} className="relative w-full aspect-square border border-gray-200 rounded-lg overflow-hidden bg-neutral-500/10">
+                                    <Image
+                                        src={typeof num === 'string'
+                                            ? `/assets/products Page/benifits/${num}.png`
+                                            : `/assets/products Page/${imageFolder}/${num}.png`
+                                        }
+                                        alt={`Benefit ${num}`}
+                                        fill
+                                        className="object-cover scale-120 p-2"
+                                    />
                                 </div>
                             ))}
                         </div>
@@ -247,8 +255,9 @@ export default function ProductContent({ product, slug }) {
 
             {/* Sizes */}
             {product.sizes && (
-                <section className="bg-gray-50 py-16 sm:py-20">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <section className="bg-gray-50 py-16 sm:py-20 relative">
+                    <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.03]" aria-hidden />
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
                                 Available Sizes & Customization

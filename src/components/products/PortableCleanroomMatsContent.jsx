@@ -25,10 +25,10 @@ export default function PortableCleanroomMatsContent() {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
 
     const productImages = [
-        "/assets/products Page/clenRoomCarousle images/item1.jpg",
-        "/assets/products Page/clenRoomCarousle images/item2.jpg",
-        "/assets/products Page/clenRoomCarousle images/item3.jpg",
-        "/assets/products Page/clenRoomCarousle images/item4.jpg"
+        "/assets/products Page/carosul1.png",
+        "/assets/products Page/carosul2.png",
+        "/assets/products Page/carosul3.png",
+        "/assets/products Page/carosul4.png"
     ];
 
     const features = [
@@ -108,11 +108,11 @@ export default function PortableCleanroomMatsContent() {
                         >
                             <div className="relative w-full h-auto">
                                 <Image
-                                    src="/assets/products Page/CleanRoomMate.png"
+                                    src="/assets/products Page/clenRoomCarousle images/home.png"
                                     alt="CCM Portable Cleanroom Mats"
                                     width={1200}
                                     height={600}
-                                    className="w-full h-auto object-contain rounded-lg"
+                                    className="w-full h-auto object-cover rounded-lg"
                                 />
                             </div>
                         </motion.div>
@@ -196,7 +196,7 @@ export default function PortableCleanroomMatsContent() {
                                     src={productImages[activeImageIndex]}
                                     alt={`Product image ${activeImageIndex + 1}`}
                                     fill
-                                    className="object-contain p-4"
+                                    className="object-cover p-4"
                                 />
                             </div>
                         </div>
@@ -272,8 +272,9 @@ export default function PortableCleanroomMatsContent() {
             </section>
 
             {/* Technical Specifications Section */}
-            <section className="bg-white py-16 sm:py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="bg-white py-16 sm:py-20 relative">
+                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -326,9 +327,57 @@ export default function PortableCleanroomMatsContent() {
                 </div>
             </section>
 
+            {/* Warranty Card Section */}
+            <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
+                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
+                <div className="relative z-10">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="max-w-6xl mx-auto"
+                        >
+                            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                                    <div className="bg-gray-100 p-6 sm:p-8 flex items-center justify-center">
+                                        <div className="relative w-full max-w-xs">
+                                            <Image
+                                                src="/assets/WarentyBadge.png"
+                                                alt="Warranty Badge"
+                                                width={600}
+                                                height={600}
+                                                className="w-full h-auto object-cover"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="p-6 sm:p-8 flex flex-col justify-center">
+                                        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-4">
+                                            Comprehensive Warranty Coverage
+                                        </h2>
+                                        <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
+                                            <ShieldCheckIcon className="w-4 h-4" />
+                                            Policy
+                                        </div>
+                                        <div className="text-neutral-dark/70">
+                                            <p className="text-sm sm:text-base leading-relaxed mb-3">
+                                                All CCM Portable Cleanroom Mat products come with comprehensive warranty coverage, providing you with complete peace of mind and protection for your investment.
+                                            </p>
+                                            <p className="text-sm sm:text-base leading-relaxed">
+                                                Our warranty ensures that your portable cleanroom mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
             {/* Key Features/Benefits Section */}
-            <section className="bg-gray-100 py-12 sm:py-16 md:py-20 relative">
-                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
+            <section className="bg-white py-12 sm:py-16 md:py-20 relative">
                 <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -356,7 +405,7 @@ export default function PortableCleanroomMatsContent() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: index * 0.05 }}
-                                    className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
+                                    className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-xs hover:shadow-sm hover:border-primary/30 transition-all duration-300"
                                 >
                                     <div className="flex-1 min-w-0 pr-4">
                                         <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-1.5">
@@ -380,8 +429,10 @@ export default function PortableCleanroomMatsContent() {
             </section>
 
             {/* Size Images Section */}
-            <section className="bg-white py-12 sm:py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="bg-gray-100 py-4 sm:py-6 sm:pb-24 relative">
+                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
+
+                <div className="max-w-[1300px] relative z-10 mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
                     {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -441,54 +492,6 @@ export default function PortableCleanroomMatsContent() {
                 </div>
             </section>
 
-            {/* Warranty Card Section */}
-            <section className="relative bg-gray-100 py-12 sm:py-16 overflow-hidden">
-                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
-                <div className="relative z-10">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="max-w-6xl mx-auto"
-                        >
-                            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                                    <div className="bg-gray-100 p-6 sm:p-8 flex items-center justify-center">
-                                        <div className="relative w-full max-w-xs">
-                                            <Image
-                                                src="/assets/WarentyBadge.png"
-                                                alt="Warranty Badge"
-                                                width={600}
-                                                height={600}
-                                                className="w-full h-auto object-cover"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="p-6 sm:p-8 flex flex-col justify-center">
-                                        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-4">
-                                            Comprehensive Warranty Coverage
-                                        </h2>
-                                        <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
-                                            <ShieldCheckIcon className="w-4 h-4" />
-                                            Policy
-                                        </div>
-                                        <div className="text-neutral-dark/70">
-                                            <p className="text-sm sm:text-base leading-relaxed mb-3">
-                                                All CCM Portable Cleanroom Mat products come with comprehensive warranty coverage, providing you with complete peace of mind and protection for your investment.
-                                            </p>
-                                            <p className="text-sm sm:text-base leading-relaxed">
-                                                Our warranty ensures that your portable cleanroom mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
 
             {/* CTA Section */}
             <section className="bg-white py-16 sm:py-20">
