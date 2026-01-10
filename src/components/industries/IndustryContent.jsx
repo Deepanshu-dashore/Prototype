@@ -73,8 +73,8 @@ export default function IndustryContent({ industry }) {
             </section>
 
             {/* Full Description Section */}
-            <section className="bg-linear-to-b from-white to-gray-50 py-20 sm:py-24">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="bg-linear-to-b from-white to-gray-50 py-20 sm:py-20 sm:pb-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -95,10 +95,8 @@ export default function IndustryContent({ industry }) {
 
             {/* Benefits Section */}
             {industry.benefits && industry.benefits.length > 0 && (
-                <section className="relative bg-gray-100 py-12 sm:py-16 overflow-hidden">
-                    <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
-                    <div className="absolute inset-0 bg-linear-to-br from-primary/10 via-primary/5 to-gray-50" />
-
+                <section className="relative bg-linear-to-br from-primary via-indigo-600 to-indigo-800 py-12 sm:py-16 overflow-hidden">
+                    <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
                     <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-10 items-center">
                             <motion.div
@@ -108,16 +106,16 @@ export default function IndustryContent({ industry }) {
                                 transition={{ duration: 0.6 }}
                                 className="col-span-2"
                             >
-                                <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
+                                <span className="inline-flex items-center gap-1.5 bg-linear-to-br from-white via-gray-100 to-gray-200 text-neutral-dark px-3 py-1.5 rounded backdrop:shadow-sm shadow-inner text-xs font-medium mb-4">
                                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     Advantages
                                 </span>
-                                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-dark mb-4">
+                                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
                                     Key Benefits
                                 </h2>
-                                <p className="text-base sm:text-lg text-neutral-dark/60 leading-relaxed">
+                                <p className="text-base sm:text-lg text-white/80 leading-relaxed">
                                     Discover the advantages of our contamination control solutions designed specifically for your industry needs.
                                 </p>
                             </motion.div>
@@ -132,8 +130,8 @@ export default function IndustryContent({ industry }) {
                                         transition={{ duration: 0.5, delay: index * 0.1 }}
                                         className="flex items-start gap-3"
                                     >
-                                        <div className="w-3 h-3 bg-primary mt-1.5 shrink-0" />
-                                        <p className="text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
+                                        <div className="w-3 h-3 bg-linear-to-br from-amber-500 to-amber-200 border-3 border-white mt-1.5 shrink-0" />
+                                        <p className="text-sm sm:text-base text-white leading-relaxed">
                                             {benefit}
                                         </p>
                                     </motion.div>
