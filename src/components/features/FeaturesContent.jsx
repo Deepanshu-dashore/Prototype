@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from "framer-motion";
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import {
@@ -58,6 +59,51 @@ function YouTubeVideo({ videoId, title }) {
             </div>
         </div>
     );
+}
+
+// Synced Side Section Component for Scroll Progress
+function SyncedSideSection({ children, videoId, videoTitle, reverse = false, bgClass = "bg-white" }) {
+    const containerRef = useRef(null)
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    })
+
+    // Animation mapping as provided by user
+    const xLeft = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [-150, 0, 0, -150])
+    const xRight = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [150, 0, 0, 150])
+    const opacity = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0, 1, 1, 0])
+    const scale = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [0.95, 1, 1, 0.95])
+
+    return (
+        <section ref={containerRef} className={`${bgClass} py-16 sm:py-20 relative overflow-hidden`}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center`}>
+                    <motion.div
+                        style={{
+                            x: reverse ? xRight : xLeft,
+                            opacity,
+                            scale
+                        }}
+                        className={reverse ? "order-2 lg:order-2" : "order-1"}
+                    >
+                        {children}
+                    </motion.div>
+
+                    <motion.div
+                        style={{
+                            x: reverse ? xLeft : xRight,
+                            opacity,
+                            scale
+                        }}
+                        className={`relative h-[300px] sm:h-[400px] rounded-2xl overflow-hidden ${reverse ? "order-1 lg:order-1" : "order-2"}`}
+                    >
+                        <YouTubeVideo videoId={videoId} title={videoTitle} />
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    )
 }
 
 export default function FeaturesContent() {
@@ -143,54 +189,34 @@ export default function FeaturesContent() {
                 </div>
             </section>
 
-            {/* What is Polymeric Mat Section */}
-            <section className="bg-white py-16 sm:py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
-                                <CpuChipIcon className="w-3.5 h-3.5" />
-                                Innovation
-                            </span>
-                            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-6 leading-tight">
-                                What is a Polymeric Mat?
-                            </h2>
-                            <div className="space-y-5 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
-                                <p>
-                                    A polymeric mat is manufactured with a patented polymeric compound and a non migratory plasticizer, creating a natural tack and proven to retain up to <strong className="text-neutral-dark font-semibold">99.9% of foot and wheel borne particles</strong> from entering your critical areas.
-                                </p>
-                                <p>
-                                    The high tack surface is slightly conforming which allows a concentrated loading of particles as you walk or traverse across the mat with a trolley.
-                                </p>
-                                <p>
-                                    These properties enable the surface to attract, collect and retain particles ranging in size from over <strong className="text-neutral-dark font-semibold">100 microns down to a few nanometers</strong>.
-                                </p>
-                                <p>
-                                    The mats also function due to a phenomena known as <strong className="text-neutral-dark font-semibold">van der wall forces</strong>, a high level of short range electromagnetic forces.
-                                </p>
-                            </div>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="relative h-[300px] sm:h-[400px] rounded-2xl overflow-hidden bg-gray-100"
-                        >
-                            <YouTubeVideo
-                                videoId="zQW07tHqGXs"
-                                title="What is a Polymeric Mat"
-                            />
-                        </motion.div>
-                    </div>
+            {/* What is Polymeric Mat Section - Refactored for Scroll Sync */}
+            <SyncedSideSection
+                videoId="zQW07tHqGXs"
+                videoTitle="What is a Polymeric Mat"
+                bgClass="bg-white"
+            >
+                <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
+                    <CpuChipIcon className="w-3.5 h-3.5" />
+                    Innovation
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-6 leading-tight">
+                    What is a Polymeric Mat?
+                </h2>
+                <div className="space-y-5 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
+                    <p>
+                        A polymeric mat is manufactured with a patented polymeric compound and a non migratory plasticizer, creating a natural tack and proven to retain up to <strong className="text-neutral-dark font-semibold">99.9% of foot and wheel borne particles</strong> from entering your critical areas.
+                    </p>
+                    <p>
+                        The high tack surface is slightly conforming which allows a concentrated loading of particles as you walk or traverse across the mat with a trolley.
+                    </p>
+                    <p>
+                        These properties enable the surface to attract, collect and retain particles ranging in size from over <strong className="text-neutral-dark font-semibold">100 microns down to a few nanometers</strong>.
+                    </p>
+                    <p>
+                        The mats also function due to a phenomena known as <strong className="text-neutral-dark font-semibold">van der wall forces</strong>, a high level of short range electromagnetic forces.
+                    </p>
                 </div>
-            </section>
+            </SyncedSideSection>
 
             {/* Anti-Microbial Properties */}
             <section className="bg-gray-100 py-16 sm:py-20 relative">
@@ -274,50 +300,30 @@ export default function FeaturesContent() {
                 </div>
             </section>
 
-            {/* Heavy Duty Section */}
-            <section className="bg-linear-to-br from-primary via-indigo-700 to-indigo-800 py-16 sm:py-20 relative">
+            {/* Heavy Duty Section - Refactored for Scroll Sync */}
+            <SyncedSideSection
+                videoId="Kysx_WHLrFQ"
+                videoTitle="CC Matting Heavy Duty"
+                reverse={true}
+                bgClass="bg-linear-to-br from-primary via-indigo-700 to-indigo-800"
+            >
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="relative h-[300px] sm:h-[400px] rounded-2xl overflow-hidden bg-gray-100 order-2 lg:order-1"
-                        >
-                            <YouTubeVideo
-                                videoId="Kysx_WHLrFQ"
-                                title="CC Matting Heavy Duty"
-                            />
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="order-1 lg:order-2"
-                        >
-                            <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-6">
-                                <WrenchScrewdriverIcon className="w-3.5 h-3.5" />
-                                Industrial
-                            </span>
-                            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-                                CC Matting Heavy Duty
-                            </h2>
-                            <div className="space-y-5 text-sm sm:text-base text-white/70 leading-relaxed">
-                                <p>
-                                    The CC Matting heavy duty polymer mat is the <strong className="text-white font-semibold">strongest most durable polymer mat in the world</strong> with a point load bearing of <strong className="text-white font-semibold">130kg/cm²</strong>.
-                                </p>
-                                <p>
-                                    All of our current customers employ the use of the heavy duty range in their warehouses and areas where forktrucks or motorized pallet trucks are utilized to eliminate the ingress of harmful particulate into their critical area.
-                                </p>
-                            </div>
-                        </motion.div>
-                    </div>
+                <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-6">
+                    <WrenchScrewdriverIcon className="w-3.5 h-3.5" />
+                    Industrial
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
+                    CC Matting Heavy Duty
+                </h2>
+                <div className="space-y-5 text-sm sm:text-base text-white/70 leading-relaxed">
+                    <p>
+                        The CC Matting heavy duty polymer mat is the <strong className="text-white font-semibold">strongest most durable polymer mat in the world</strong> with a point load bearing of <strong className="text-white font-semibold">130kg/cm²</strong>.
+                    </p>
+                    <p>
+                        All of our current customers employ the use of the heavy duty range in their warehouses and areas where forktrucks or motorized pallet trucks are utilized to eliminate the ingress of harmful particulate into their critical area.
+                    </p>
                 </div>
-            </section>
+            </SyncedSideSection>
 
             {/* Install Procedure Section */}
             <section className="bg-white py-16 sm:py-20">

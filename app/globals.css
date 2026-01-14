@@ -18,6 +18,26 @@
 
   --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  --animate-fadeIn: fadeIn 1.0s ease-out forwards;
+  --animate-fadeOut: fadeOut 0.8s ease-in forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {

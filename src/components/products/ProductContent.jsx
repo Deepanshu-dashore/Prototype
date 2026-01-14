@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import ImageZoom from "@/src/components/ui/ImageZoom";
 import {
     ShieldCheckIcon,
     DocumentTextIcon,
@@ -134,7 +135,9 @@ export default function ProductContent({ product, slug }) {
                                     >
                                         <div className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300">
                                             <div className="mb-4 relative w-full h-64 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                                                <Image src={option.image} alt={option.name} width={400} height={400} className="w-full h-full object-contain" />
+                                                <ImageZoom src={option.image} alt={option.name}>
+                                                    <Image src={option.image} alt={option.name} width={400} height={400} className="w-full h-full object-contain" />
+                                                </ImageZoom>
                                             </div>
                                             <h3 className="text-xl font-bold text-neutral-dark mb-2 text-center">{option.name}</h3>
                                             <p className="text-sm text-neutral-dark/70 text-center">
@@ -210,15 +213,23 @@ export default function ProductContent({ product, slug }) {
                         <div className={`grid grid-cols-2 ${benefitImages.length === 3 ? 'md:grid-cols-3' : benefitImages.length === 5 ? 'md:grid-cols-5' : 'md:grid-cols-4'} gap-4 mb-12 max-w-7xl mx-auto`}>
                             {benefitImages.map((num) => (
                                 <div key={num} className="relative w-full aspect-square border border-gray-200 rounded-lg overflow-hidden bg-neutral-500/10">
-                                    <Image
+                                    <ImageZoom
                                         src={typeof num === 'string'
                                             ? `/assets/products Page/benifits/${num}.png`
                                             : `/assets/products Page/${imageFolder}/${num}.png`
                                         }
                                         alt={`Benefit ${num}`}
-                                        fill
-                                        className="object-cover scale-120 p-2"
-                                    />
+                                    >
+                                        <Image
+                                            src={typeof num === 'string'
+                                                ? `/assets/products Page/benifits/${num}.png`
+                                                : `/assets/products Page/${imageFolder}/${num}.png`
+                                            }
+                                            alt={`Benefit ${num}`}
+                                            fill
+                                            className="object-cover scale-120 p-2"
+                                        />
+                                    </ImageZoom>
                                 </div>
                             ))}
                         </div>

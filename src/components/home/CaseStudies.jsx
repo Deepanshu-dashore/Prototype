@@ -192,8 +192,8 @@ export default function CaseStudies() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={{ amount: 0.1 }}
+          transition={{ duration: 1.0 }}
           className="text-center mb-10 sm:mb-12 md:mb-5"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-bold text-neutral-dark mb-3 sm:mb-4">

@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import {
   ShieldCheckIcon,
   CheckBadgeIcon,
@@ -14,6 +15,16 @@ import {
 } from '@heroicons/react/24/outline'
 
 export default function WhatSetsApartDark() {
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  })
+
+  // Global section transforms for perfect sync
+  const opacityGrid = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
+  const yGrid = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, 50])
+
   const certifications = [
     {
       icon: ShieldCheckIcon,
@@ -63,14 +74,11 @@ export default function WhatSetsApartDark() {
   ]
 
   return (
-    <section className="bg-gray-100/90 relative py-12 sm:py-16 md:py-20">
+    <section ref={containerRef} className="bg-gray-100/90 relative py-12 sm:py-16 md:py-20">
       <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
       <div className=" z-10 max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          style={{ opacity: opacityGrid, y: yGrid }}
           className="text-center mb-10 sm:mb-12"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-dark mb-3">
@@ -81,20 +89,19 @@ export default function WhatSetsApartDark() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        <motion.div
+          style={{ opacity: opacityGrid, y: yGrid }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto"
+        >
           {certifications.map((cert, index) => {
             const Icon = cert.icon
 
             return (
-              <motion.div
+              <div
                 key={cert.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
                 className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-xs hover:shadow-md hover:border-primary/30 transition-all duration-300"
               >
-                {/* Content */}
+                {/* Content - Preserving Design */}
                 <div className="flex-1 min-w-0 pr-4">
                   <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-1.5">
                     {cert.title}
@@ -104,17 +111,17 @@ export default function WhatSetsApartDark() {
                   </p>
                 </div>
 
-                {/* Icon area */}
+                {/* Icon area - Preserving Design */}
                 <div className="relative shrink-0">
                   <div className="absolute inset-0 translate-x-6 translate-y-2 w-28 h-28 sm:w-32 sm:h-32 bg-primary/10 rounded-full" />
                   <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
                     <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

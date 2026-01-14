@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import ImageZoom from "@/src/components/ui/ImageZoom";
 import {
     CheckCircleIcon,
     ShieldCheckIcon,
@@ -122,7 +123,9 @@ export default function HeavyDutyContent({ product }) {
                                 >
                                     <div className="bg-white border border-gray-200 rounded-xl p-6 transition-all duration-300">
                                         <div className="mb-4 relative w-full h-64 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                                            <Image src={color.image} alt={color.name} width={400} height={400} className="w-full h-full object-cover" />
+                                            <ImageZoom src={color.image} alt={color.name}>
+                                                <Image src={color.image} alt={color.name} width={400} height={400} className="w-full h-full object-cover" />
+                                            </ImageZoom>
                                         </div>
                                         <h3 className="text-xl font-bold text-neutral-dark mb-2 text-center">{color.name}</h3>
                                         <p className="text-sm text-neutral-dark/70 text-center">{color.description}</p>

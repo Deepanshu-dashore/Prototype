@@ -1,6 +1,6 @@
 'use client'
-
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import {
     BeakerIcon,
@@ -8,6 +8,67 @@ import {
     ServerIcon,
     BuildingOffice2Icon,
 } from '@heroicons/react/24/outline'
+
+function UseCaseItem({ useCase, index }) {
+    const containerRef = useRef(null)
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    })
+
+    const isEven = index % 2 === 0
+    const Icon = useCase.icon
+
+    // Transform values for scroll sync - keeping user logic from previous task
+    const xLeft = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [-100, 0, 0, -100])
+    const xRight = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [100, 0, 0, 100])
+    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
+
+    return (
+        <div
+            ref={containerRef}
+            className="overflow-hidden"
+        >
+            <div className={`flex flex-col gap-10 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                {/* Image Section - Card Styled (Preserving Design) */}
+                <motion.div
+                    style={{
+                        x: isEven ? xLeft : xRight,
+                        opacity: opacity
+                    }}
+                    className="md:w-1/2 relative h-72 overflow-hidden rounded-2xl bg-neutral-50 border border-neutral-200 shadow-sm"
+                >
+                    <Image
+                        src={useCase.image}
+                        alt={useCase.title}
+                        width={600}
+                        height={400}
+                        className="w-full h-full object-cover"
+                    />
+                </motion.div>
+
+                {/* Content Section - Left Border (Preserving Design) */}
+                <motion.div
+                    style={{
+                        x: isEven ? xRight : xLeft,
+                        opacity: opacity
+                    }}
+                    className={`md:w-1/2 p-8 lg:p-12 flex flex-col justify-center ${!isEven ? 'border-l md:border-l-0 md:border-r' : 'border-r md:border-l md:border-r-0'} border-primary/20`}
+                >
+                    <div className="flex items-center gap-3 mb-4">
+                        <Icon className="w-6 h-6 text-primary shrink-0" aria-hidden="true" />
+                        <h3 className="text-base font-bold text-neutral-dark">
+                            {useCase.title}
+                        </h3>
+                    </div>
+                    <p className="text-sm text-neutral-dark/70 leading-relaxed">
+                        {useCase.description}
+                    </p>
+                </motion.div>
+            </div>
+        </div>
+    )
+}
 
 export default function UseCases() {
     // Using select industries as use cases
@@ -63,47 +124,9 @@ export default function UseCases() {
                 </motion.div>
 
                 <div className="space-y-8">
-                    {useCases.map((useCase, index) => {
-                        const Icon = useCase.icon
-                        const isEven = index % 2 === 0
-
-                        return (
-                            <motion.div
-                                key={useCase.title}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.15 }}
-                                className="overflow-hidden"
-                            >
-                                <div className={`flex flex-col gap-10 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                                    {/* Image Section - Card Styled */}
-                                    <div className="md:w-1/2 relative h-72 overflow-hidden rounded-2xl bg-neutral-50 border border-neutral-200 shadow-sm">
-                                        <Image
-                                            src={useCase.image}
-                                            alt={useCase.title}
-                                            width={600}
-                                            height={400}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-
-                                    {/* Content Section - Left Border */}
-                                    <div className={`md:w-1/2 p-8 lg:p-12 flex flex-col justify-center ${!isEven ? 'border-l md:border-l-0 md:border-r' : 'border-r md:border-l md:border-r-0'} border-primary/20`}>
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <Icon className="w-6 h-6 text-primary shrink-0" aria-hidden="true" />
-                                            <h3 className="text-base font-bold text-neutral-dark">
-                                                {useCase.title}
-                                            </h3>
-                                        </div>
-                                        <p className="text-sm text-neutral-dark/70 leading-relaxed">
-                                            {useCase.description}
-                                        </p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )
-                    })}
+                    {useCases.map((useCase, index) => (
+                        <UseCaseItem key={useCase.title} useCase={useCase} index={index} />
+                    ))}
                 </div>
             </div>
         </section>

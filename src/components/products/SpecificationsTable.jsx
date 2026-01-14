@@ -1,6 +1,7 @@
 import { CheckIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ImageZoom from "@/src/components/ui/ImageZoom";
 
 export default function SpecificationsTable() {
     const specifications = [
@@ -46,12 +47,14 @@ export default function SpecificationsTable() {
                             <div className="lg:col-span-5 bg-white p-6 lg:p-8 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-gray-100">
                                 <div className="relative w-full aspect-video max-w-xs mb-4 group">
                                     <div className="absolute inset-0 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors duration-500" />
-                                    <Image
-                                        src={mat.image}
-                                        alt={mat.matType}
-                                        fill
-                                        className="object-cover transform group-hover:scale-105 transition-transform duration-500 z-10"
-                                    />
+                                    <ImageZoom src={mat.image} alt={mat.matType}>
+                                        <Image
+                                            src={mat.image}
+                                            alt={mat.matType}
+                                            fill
+                                            className="object-cover transform group-hover:scale-105 transition-transform duration-500 z-10"
+                                        />
+                                    </ImageZoom>
                                     <div className="text-center left-1/2 -translate-x-1/2 absolute z-10 -bottom-20">
                                         <h4 className="text-lg font-bold text-neutral-900 mb-1">{mat.matType}</h4>
                                         <div className="inline-flex text-nowrap items-center gap-2 px-3 py-1 bg-primary text-white rounded-sm text-[10px] font-bold uppercase tracking-wider">

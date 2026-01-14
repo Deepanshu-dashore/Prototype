@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import ImageZoom from "@/src/components/ui/ImageZoom";
 import ComparisonTable from "./ComparisonTable";
 import SpecificationsTable from "./SpecificationsTable";
 import {
@@ -107,13 +108,15 @@ export default function PortableCleanroomMatsContent() {
                             className="lg:col-span-7"
                         >
                             <div className="relative w-full h-auto">
-                                <Image
-                                    src="/assets/products Page/clenRoomCarousle images/home.jpg"
-                                    alt="CCM Portable Cleanroom Mats"
-                                    width={1200}
-                                    height={600}
-                                    className="w-full h-auto object-cover rounded-lg"
-                                />
+                                <ImageZoom src="/assets/products Page/clenRoomCarousle images/home.jpg" alt="CCM Portable Cleanroom Mats">
+                                    <Image
+                                        src="/assets/products Page/clenRoomCarousle images/home.jpg"
+                                        alt="CCM Portable Cleanroom Mats"
+                                        width={1200}
+                                        height={600}
+                                        className="w-full h-auto object-cover rounded-lg"
+                                    />
+                                </ImageZoom>
                             </div>
                         </motion.div>
 
@@ -192,12 +195,14 @@ export default function PortableCleanroomMatsContent() {
                         {/* Main Image - Left Side (70%) */}
                         <div className="lg:col-span-7">
                             <div className="relative w-full h-96 sm:h-[500px] rounded-xl overflow-hidden bg-white border border-gray-200 shadow-xs">
-                                <Image
-                                    src={productImages[activeImageIndex]}
-                                    alt={`Product image ${activeImageIndex + 1}`}
-                                    fill
-                                    className="object-cover p-4"
-                                />
+                                <ImageZoom src={productImages[activeImageIndex]} alt={`Product image ${activeImageIndex + 1}`}>
+                                    <Image
+                                        src={productImages[activeImageIndex]}
+                                        alt={`Product image ${activeImageIndex + 1}`}
+                                        fill
+                                        className="object-cover p-4"
+                                    />
+                                </ImageZoom>
                             </div>
                         </div>
 
