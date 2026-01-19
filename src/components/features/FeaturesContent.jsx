@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import {
     HomeIcon,
@@ -15,6 +16,7 @@ import {
     WrenchScrewdriverIcon,
     Cog6ToothIcon
 } from "@heroicons/react/24/outline";
+import DotGrid from '../share/DotGrid';
 
 // YouTube Video Component
 function YouTubeVideo({ videoId, title }) {
@@ -62,7 +64,7 @@ function YouTubeVideo({ videoId, title }) {
 }
 
 // Synced Side Section Component for Scroll Progress
-function SyncedSideSection({ children, videoId, videoTitle, reverse = false, bgClass = "bg-white" }) {
+function SyncedSideSection({ children, videoId, videoTitle, reverse = false, bgClass = "bg-white", disableOpacity = false }) {
     const containerRef = useRef(null)
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -72,7 +74,7 @@ function SyncedSideSection({ children, videoId, videoTitle, reverse = false, bgC
     // Animation mapping as provided by user
     const xLeft = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [-150, 0, 0, -150])
     const xRight = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [150, 0, 0, 150])
-    const opacity = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0, 1, 1, 0])
+    const opacity = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [disableOpacity ? 1 : 0, 1, 1, disableOpacity ? 1 : 0])
     const scale = useTransform(scrollYProgress, [0, 0.45, 0.55, 1], [0.95, 1, 1, 0.95])
 
     return (
@@ -128,7 +130,7 @@ export default function FeaturesContent() {
         },
         {
             title: "4-5 Year Life Cycle",
-            description: "4-5 year life cycle.",
+            description: "Engineered for durability, our mats provide a reliable 4-5 year life cycle in high-traffic areas, offering significant cost savings.",
             icon: (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -146,7 +148,7 @@ export default function FeaturesContent() {
         },
         {
             title: "Full 2 Year Warranty",
-            description: "Full 2 yr warranty",
+            description: "We provide a comprehensive 2-year warranty on all mats, ensuring your facility remains protected with guaranteed performance.",
             icon: (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -219,7 +221,7 @@ export default function FeaturesContent() {
             </SyncedSideSection>
 
             {/* Anti-Microbial Properties */}
-            <section className="bg-gray-100 py-16 sm:py-20 relative">
+            <section className="bg-gray-800 py-16 sm:py-20 relative">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.03]" aria-hidden />
                 <div className="max-w-7xl relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
@@ -229,15 +231,15 @@ export default function FeaturesContent() {
                         transition={{ duration: 0.6 }}
                         className="max-w-4xl mx-auto"
                     >
-                        <h3 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-6">
+                        <h3 className="text-2xl sm:text-3xl font-bold text-neutral-100 mb-6">
                             Enhanced Performance Properties
                         </h3>
-                        <div className="space-y-5 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
+                        <div className="space-y-5 text-sm sm:text-base text-neutral-100/70 leading-relaxed">
                             <p>
-                                To enhance the performance of the material special additives are mixed in to give <strong className="text-neutral-dark font-semibold">static dissipative and anti-microbial properties</strong>. The anti-microbial properties are due to the an addition of a silver biocide which is impregnated during manufacturing.
+                                To enhance the performance of the material special additives are mixed in to give <strong className="text-indigo-300 font-semibold">static dissipative and anti-microbial properties</strong>. The anti-microbial properties are due to the an addition of a silver biocide which is impregnated during manufacturing.
                             </p>
                             <p>
-                                This ensures it is <strong className="text-neutral-dark font-semibold">non-leaching and non-diminishing</strong>. The silver biocide is capable of killing over 50 forms of gram negative and gram positive bacteria including <strong className="text-neutral-dark font-semibold">MRSA, E Coli, SARS and Listeria</strong>.
+                                This ensures it is <strong className="text-indigo-300 font-semibold">non-leaching and non-diminishing</strong>. The silver biocide is capable of killing over 50 forms of gram negative and gram positive bacteria including <strong className="text-indigo-300 font-semibold">MRSA, E Coli, SARS and Listeria</strong>.
                             </p>
                         </div>
                     </motion.div>
@@ -245,8 +247,22 @@ export default function FeaturesContent() {
             </section>
 
             {/* Benefits Section */}
-            <section className="bg-white py-16 sm:py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="bg-white py-16 sm:py-20 relative overflow-hidden">
+                {/* Floating Background Icons */}
+                <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+                    <DotGrid
+                        dotSize={5}
+                        gap={15}
+                        baseColor="#5360ff20"
+                        activeColor="#5360ff"
+                        proximity={120}
+                        shockRadius={250}
+                        shockStrength={5}
+                        resistance={750}
+                        returnDuration={1.5}
+                    />
+                </div>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -261,6 +277,9 @@ export default function FeaturesContent() {
                         <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
                             Benefits of Polymeric Mat
                         </h2>
+                        <p className="text-neutral-dark/70 text-sm sm:text-base max-w-3xl mx-auto px-4 sm:px-0">
+                            Our advanced polymeric technology offers unparalleled advantages in contamination control, durability, and sustainability.
+                        </p>
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -271,28 +290,30 @@ export default function FeaturesContent() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="group bg-white border border-gray-200 rounded-xl p-8 hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                                className="group relative bg-white hover:bg-gray-50 shadow-md border border-gray-200 rounded-xl p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-500 overflow-hidden"
                             >
-                                <div className="flex flex-col h-full">
+                                <div className="flex flex-col h-full relative z-10">
                                     <div className="flex items-start justify-between gap-4 mb-4">
-                                        <h3 className="text-lg sm:text-xl font-bold text-neutral-dark flex-1">
+                                        <h3 className="text-lg sm:text-xl font-bold text-neutral-dark flex-1 transition-colors duration-300 group-hover:text-primary">
                                             {benefit.title}
                                         </h3>
-                                        <div className="w-10 h-10 rounded-lg bg-primary/50 flex items-center justify-center shrink-0">
-                                            <div className="text-white">
-                                                {benefit.icon}
-                                            </div>
-                                        </div>
+                                        {/* Spacer to maintain layout when icon moves */}
+                                        <div className="w-10 h-10 shrink-0" />
                                     </div>
-                                    <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed mb-6 grow">
+                                    <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed mb-6 grow transition-colors duration-300 group-hover:text-neutral-dark/90">
                                         {benefit.description}
                                     </p>
-                                    <button className="flex items-center justify-between w-full px-4 py-3 bg-gray-50 hover:bg-primary hover:text-white rounded-lg transition-all duration-300 group/btn border border-gray-200 hover:border-primary">
-                                        <span className="text-sm font-medium">Learn more</span>
-                                        <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </button>
+                                </div>
+
+                                {/* Animated Icon Container (Top Right) */}
+                                <div className="absolute right-8 top-8 w-10 h-10 rounded-lg bg-primary flex items-center justify-center transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-bl-3xl group-hover:rounded-br-none group-hover:rounded-tl-none group-hover:h-14 group-hover:right-0 group-hover:top-0 z-0">
+                                    <div className="text-white transition-transform duration-500 group-hover:scale-75 group-hover:translate-y-1 group-hover:-translate-x-1">
+                                        {benefit.icon}
+                                    </div>
+                                </div>
+
+                                {/* Decorative Animated Element (Bottom Left) */}
+                                <div className="w-8 h-8 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none group-hover:h-8 bg-primary/20 z-0">
                                 </div>
                             </motion.div>
                         ))}
@@ -301,39 +322,56 @@ export default function FeaturesContent() {
             </section>
 
             {/* Heavy Duty Section - Refactored for Scroll Sync */}
-            <SyncedSideSection
-                videoId="Kysx_WHLrFQ"
-                videoTitle="CC Matting Heavy Duty"
-                reverse={true}
-                bgClass="bg-linear-to-br from-primary via-indigo-700 to-indigo-800"
-            >
-                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
-                <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-6">
-                    <WrenchScrewdriverIcon className="w-3.5 h-3.5" />
-                    Industrial
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-                    CC Matting Heavy Duty
-                </h2>
-                <div className="space-y-5 text-sm sm:text-base text-white/70 leading-relaxed">
-                    <p>
-                        The CC Matting heavy duty polymer mat is the <strong className="text-white font-semibold">strongest most durable polymer mat in the world</strong> with a point load bearing of <strong className="text-white font-semibold">130kg/cm²</strong>.
-                    </p>
-                    <p>
-                        All of our current customers employ the use of the heavy duty range in their warehouses and areas where forktrucks or motorized pallet trucks are utilized to eliminate the ingress of harmful particulate into their critical area.
-                    </p>
-                </div>
-            </SyncedSideSection>
+            <div className='relative bg-linear-to-br from-primary via-indigo-700 to-indigo-800'>
+                <div className="pointer-events-none absolute z-10 inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
+                <SyncedSideSection
+                    videoId="Kysx_WHLrFQ"
+                    videoTitle="CC Matting Heavy Duty"
+                    reverse={true}
+                    bgClass="relative z-20"
+                    disableOpacity={true}
+                >
+
+
+                    <div className="relative">
+                        <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-6">
+                            <WrenchScrewdriverIcon className="w-3.5 h-3.5" />
+                            Industrial
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
+                            CC Matting Heavy Duty
+                        </h2>
+                        <div className="space-y-5 text-sm sm:text-base text-white/70 leading-relaxed mb-8">
+                            <p>
+                                The CC Matting heavy duty polymer mat is the <strong className="text-white font-semibold">strongest most durable polymer mat in the world</strong> with a point load bearing of <strong className="text-white font-semibold">130kg/cm²</strong>.
+                            </p>
+                            <p>
+                                All of our current customers employ the use of the heavy duty range in their warehouses and areas where forktrucks or motorized pallet trucks are utilized to eliminate the ingress of harmful particulate into their critical area.
+                            </p>
+                        </div>
+
+                        <Link
+                            href="/products/heavy-duty"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white text-white hover:text-primary border border-white/20 rounded-lg font-medium transition-all duration-300 group/btn"
+                        >
+                            <span>View Product Details</span>
+                            <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </Link>
+                    </div>
+                </SyncedSideSection>
+            </div>
 
             {/* Install Procedure Section */}
             <section className="bg-white py-16 sm:py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-[90dvw] mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="max-w-4xl mx-auto"
+                        className="max-w-5xl mx-auto"
                     >
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
                             <Cog6ToothIcon className="w-3.5 h-3.5" />
@@ -370,12 +408,12 @@ export default function FeaturesContent() {
                                         whileInView={{ opacity: 1, scale: 1 }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 0.4, delay: index * 0.1 }}
-                                        className="bg-gray-50 border flex gap-3 items-center border-gray-200 rounded-lg p-4 hover:border-primary/30 hover:shadow-md transition-all duration-300 group"
+                                        className="bg-gray-50 hover:bg-primary border group relative flex gap-3 pl-12 items-center border-gray-200 rounded-lg p-4 hover:border-primary/30 hover:shadow-md transition-all duration-400 group"
                                     >
-                                        <div className="w-10 h-10 rounded-lg bg-primary/60 group-hover:bg-primary flex items-center justify-center transition-colors duration-300">
+                                        <div className="w-10 h-full rounded-r-lg rounded-l-md absolute left-0 bg-primary flex items-center justify-center transition-colors duration-300">
                                             <Icon className="w-5 h-5 text-white" />
                                         </div>
-                                        <p className="text-xs sm:text-sm font-medium text-neutral-dark">
+                                        <p className="text-xs sm:text-sm font-medium group-hover:text-white text-neutral-dark">
                                             {feature.title}
                                         </p>
                                     </motion.div>

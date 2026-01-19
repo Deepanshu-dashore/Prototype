@@ -6,7 +6,9 @@ import { useEffect, useState } from 'react'
 
 export default function CaseStudies() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [direction, setDirection] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const [imageErrors, setImageErrors] = useState({})
 
   const caseStudies = [
@@ -155,27 +157,61 @@ export default function CaseStudies() {
     }
   ]
 
+  // Handle window resize for mobile view
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   // Auto-advance reviews
   useEffect(() => {
     if (isPaused) return
 
     const timer = setInterval(() => {
+      setDirection(1)
       setCurrentIndex(prev => (prev + 1) % caseStudies.length)
-    }, 3000)
+    }, 5000)
 
     return () => clearInterval(timer)
   }, [caseStudies.length, isPaused])
 
   const nextSlide = () => {
+    setDirection(1)
     setCurrentIndex((prev) => (prev + 1) % caseStudies.length)
   }
 
   const prevSlide = () => {
+    setDirection(-1)
     setCurrentIndex((prev) => (prev - 1 + caseStudies.length) % caseStudies.length)
   }
 
-  // Get current 3 reviews to display (previous, current, next)
+  // Animation variants for sliding
+  const variants = {
+    enter: (direction) => ({
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction) => ({
+      zIndex: 0,
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0
+    })
+  }
+
+  // Get current reviews to display
   const getCurrentReviews = () => {
+    if (isMobile) {
+      return [caseStudies[currentIndex]]
+    }
     const reviews = []
     const prevIndex = (currentIndex - 1 + caseStudies.length) % caseStudies.length
     const nextIndex = (currentIndex + 1) % caseStudies.length
@@ -229,27 +265,25 @@ export default function CaseStudies() {
 
           {/* Carousel Slides - 3 Cards with Center Highlight */}
           <div className="overflow-hidden px-4 sm:px-8 lg:px-12 py-10">
-            <AnimatePresence mode="wait">
+            <AnimatePresence initial={false} custom={direction} mode="popLayout">
               <motion.div
                 key={currentIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 }
+                }}
                 className="flex items-center justify-center gap-2 sm:gap-3 lg:gap-4"
               >
                 {getCurrentReviews().map((review, idx) => {
-                  const isCenter = idx === 1
+                  const isCenter = isMobile ? true : idx === 1
                   return (
                     <motion.div
                       key={`${review.id}-${idx}`}
-                      initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                      animate={{
-                        opacity: isCenter ? 1 : 0.75,
-                        scale: isCenter ? 1.0 : 0.9,
-                        y: 0
-                      }}
-                      transition={{ duration: 0.4, delay: idx * 0.05 }}
                       className={`bg-white rounded-xl relative shadow-sm flex flex-col transition-all duration-500 ${isCenter
                         ? 'p-4 sm:p-5 lg:p-6 w-full max-w-xs lg:max-w-sm xl:max-w-md z-10 shadow-md border border-gray-100'
                         : 'p-4 sm:p-5 lg:p-6 w-full max-w-[240px] sm:max-w-xs lg:max-w-sm z-0 hover:shadow-lg'

@@ -99,22 +99,22 @@ export default function WhatSetsApartDark() {
             return (
               <div
                 key={cert.title}
-                className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-xs hover:shadow-md hover:border-primary/30 transition-all duration-300"
+                className="relative group overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-xs hover:shadow-md hover:border-primary/30 transition-all duration-300"
               >
                 {/* Content - Preserving Design */}
-                <div className="flex-1 min-w-0 pr-4">
-                  <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-1.5">
+                <div className="flex-1 min-w-0 pr-4 group-hover:z-50">
+                  <h3 className="text-lg sm:text-xl font-semibold transition-colors group-hover:text-white text-neutral-900 mb-1.5">
                     {cert.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
+                  <p className="text-xs sm:text-sm transition-colors group-hover:text-white/80 text-neutral-700 leading-relaxed">
                     {cert.description}
                   </p>
                 </div>
 
                 {/* Icon area - Preserving Design */}
                 <div className="relative shrink-0">
-                  <div className="absolute inset-0 translate-x-6 translate-y-2 w-28 h-28 sm:w-32 sm:h-32 bg-primary/10 rounded-full" />
-                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
+                  <div className="absolute group-hover:-left-1/2 group-hover:z-0 group-hover:-top-1/2 group-hover:scale-500 group-hover:-translate-x-1/2  transition-all group-hover:bg-linear-to-br to-primary from-indigo-500 duration-600 group-hover:-translate-y-3 inset-0 translate-x-6 translate-y-2 w-28 h-28 sm:w-32 sm:h-32 bg-primary/10 rounded-full" />
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl group-hover:bg-white group-hover:text-indigo-700 bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
                     <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
                   </div>
                 </div>

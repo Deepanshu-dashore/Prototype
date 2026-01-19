@@ -102,27 +102,30 @@ export default function QuickBenefitsStrip() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col items-center text-center group p-6 sm:p-6 rounded-2xl border border-neutral-200 hover:border-primary/20 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 bg-white"
+                className="relative overflow-hidden flex flex-col items-center text-center group p-6 sm:p-6 rounded-2xl border border-neutral-200 hover:border-primary/20 hover:shadow-2xl transition-all duration-300 bg-white"
               >
+                {/* Background Circle Animation */}
+                <div className="absolute group-hover:-left-1/2 group-hover:z-0 group-hover:-top-1/2 group-hover:scale-500 group-hover:-translate-x-1/2 transition-all group-hover:bg-linear-to-br to-primary from-indigo-500 duration-600 group-hover:-translate-y-3 inset-0 translate-x-6 translate-y-2 w-28 h-28 bg-primary/10 rounded-full" />
+
                 {/* Enhanced Icon */}
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 text-primary mb-6 group-hover:scale-110 group-hover:from-primary group-hover:to-blue-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300">
+                <div className="relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br from-primary/10 to-primary/5 text-primary mb-6 group-hover:scale-110 group-hover:bg-white group-hover:text-indigo-700 group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300">
                   <Icon className="w-8 h-8" aria-hidden="true" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl md:text-lg xl:text-xl font-bold text-neutral-dark mb-3 group-hover:text-primary transition-colors duration-300">
+                <h3 className="relative z-10 text-xl md:text-lg xl:text-xl font-bold text-neutral-dark mb-3 group-hover:text-white transition-colors duration-300">
                   {cert.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed mb-6 flex-grow">
+                <p className="relative z-10 text-xs sm:text-sm text-neutral-dark/70 leading-relaxed mb-6 grow group-hover:text-white/80 transition-colors duration-300">
                   {cert.description}
                 </p>
 
                 {/* Multiple Badges */}
-                <div className="mt-auto flex flex-wrap justify-center gap-2">
+                <div className="relative z-10 mt-auto flex flex-wrap justify-center gap-2">
                   {cert.badges.map((badge, i) => (
-                    <span key={i} className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-primary text-white shadow-sm shadow-primary/20">
+                    <span key={i} className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-primary text-white shadow-sm shadow-primary/20 group-hover:bg-white group-hover:text-primary transition-colors duration-300">
                       {badge}
                     </span>
                   ))}

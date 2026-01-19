@@ -180,14 +180,37 @@ export default function HeavyDutyContent({ product }) {
             </section>
 
             {/* Benefits */}
-            <section className="bg-white py-12 sm:py-20">
-                <div className="max-w-[1300px] mx-auto px-4">
+            <section className="bg-white py-12 sm:py-20 relative overflow-hidden">
+                {/* Floating Background Icons */}
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
+                    {[...Array(30)].map((_, i) => {
+                        const BenefitIcon = benefits[i % benefits.length].icon;
+                        return (
+                            <BenefitIcon
+                                key={i}
+                                style={{
+                                    position: 'absolute',
+                                    top: `${Math.random() * 100}%`,
+                                    left: `${Math.random() * 100}%`,
+                                    opacity: 5,
+                                    animation: `pulse ${4 + Math.random() * 4}s infinite ease-in-out`,
+                                    animationDelay: `${Math.random() * 5}s`
+                                }}
+                                className="w-8 h-8 text-primary"
+                            />
+                        );
+                    })}
+                </div>
+                <div className="max-w-[1300px] mx-auto px-4 relative z-10">
                     <div className="text-center mb-10 sm:mb-12">
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <SparklesIcon className="w-3 h-3" />
                             Advantages
                         </span>
                         <h2 className="text-2xl sm:text-4xl font-bold text-neutral-dark mb-3">CC HEAVY DUTY Benefits</h2>
+                        <p className="text-sm text-neutral-dark/60 max-w-2xl mx-auto">
+                            Our heavy-duty flooring solutions provide superior contamination control and durability for high-traffic industrial environments.
+                        </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                         {benefits.map((benefit, index) => {
@@ -199,15 +222,15 @@ export default function HeavyDutyContent({ product }) {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: index * 0.05 }}
-                                    className="relative overflow-hidden flex items-center justify-between p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:border-primary/30 transition-all"
+                                    className="relative overflow-hidden flex items-center justify-between p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
                                 >
-                                    <div className="flex-1 pr-4">
-                                        <h3 className="text-lg font-semibold text-neutral-900 mb-1.5">{benefit.title}</h3>
-                                        <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">{benefit.description}</p>
+                                    <div className="flex-1 pr-4 group-hover:z-50">
+                                        <h3 className="text-lg font-semibold transition-colors group-hover:text-white text-neutral-900 mb-1.5">{benefit.title}</h3>
+                                        <p className="text-xs sm:text-sm transition-colors group-hover:text-white/80 text-neutral-700 leading-relaxed">{benefit.description}</p>
                                     </div>
                                     <div className="relative shrink-0">
-                                        <div className="absolute inset-0 translate-x-6 translate-y-2 w-28 h-28 bg-primary/10 rounded-full" />
-                                        <div className="relative w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center shadow-md">
+                                        <div className="absolute group-hover:-left-1/2 group-hover:z-0 group-hover:-top-1/2 group-hover:scale-600 group-hover:-translate-x-1/2 transition-all group-hover:bg-linear-to-br to-primary from-indigo-500 duration-600 group-hover:-translate-y-3 inset-0 translate-x-6 translate-y-2 w-28 h-28 bg-primary/10 rounded-full" />
+                                        <div className="relative w-12 h-12 rounded-xl group-hover:bg-white group-hover:text-indigo-700 bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-all duration-300">
                                             <Icon className="w-6 h-6" aria-hidden="true" />
                                         </div>
                                     </div>

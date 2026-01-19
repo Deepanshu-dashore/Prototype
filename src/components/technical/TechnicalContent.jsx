@@ -90,37 +90,45 @@ export default function TechnicalContent() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className="group bg-white border border-gray-200 rounded-xl p-6 hover:border-primary/30 hover:shadow-lg transition-all duration-300 flex flex-col h-full"
+                                    className="relative overflow-hidden group bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-xl transition-all duration-500 flex flex-col h-full"
                                 >
-                                    <div className="w-12 h-12 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300 flex items-center justify-center mb-4">
-                                        <Icon className="w-6 h-6 text-primary" />
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-bold text-neutral-dark mb-3 leading-tight group-hover:text-primary transition-colors">
-                                        {item.name}
-                                    </h3>
-                                    <p className="text-sm text-neutral-dark/70 mb-4 leading-relaxed grow">
-                                        {item.description}
-                                    </p>
-                                    <div className="flex items-center gap-3 mt-auto pt-4 border-t border-gray-100">
-                                        <a
-                                            href={item.href}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg font-medium text-sm transition-all duration-300 flex-1 justify-center group/preview"
-                                        >
-                                            <EyeIcon className="w-4 h-4 group-hover/preview:scale-110 transition-transform" />
-                                            <span>Preview</span>
-                                        </a>
-                                        <a
-                                            href={item.href}
-                                            download
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-primary hover:text-white text-neutral-dark rounded-lg font-medium text-sm transition-all duration-300 flex-1 justify-center group/download"
-                                        >
-                                            <ArrowDownTrayIcon className="w-4 h-4 group-hover/download:scale-110 transition-transform" />
-                                            <span>Download</span>
-                                        </a>
+                                    {/* Background Slide Animation */}
+                                    <div className="absolute inset-0 bg-linear-to-br from-primary to-indigo-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+
+                                    <div className="relative z-10 flex flex-col h-full">
+                                        <div className="w-14 h-14 rounded-xl bg-primary group-hover:bg-white/20 transition-all duration-500 flex items-center justify-center mb-6 shadow-sm group-hover:scale-110">
+                                            <Icon className="w-7 h-7 text-white transition-colors duration-500" />
+                                        </div>
+
+                                        <h3 className="text-xl font-bold text-neutral-dark mb-3 leading-tight group-hover:text-white transition-colors duration-500">
+                                            {item.name}
+                                        </h3>
+
+                                        <p className="text-sm text-neutral-dark/70 mb-8 leading-relaxed grow group-hover:text-white/90 transition-colors duration-500">
+                                            {item.description}
+                                        </p>
+
+                                        <div className="flex items-center gap-3 pt-6 border-t border-gray-100 group-hover:border-white/20 transition-colors duration-500">
+                                            <a
+                                                href={item.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 px-4 py-2.5 bg-primary/5 group-hover:bg-white/20 hover:bg-primary group-hover:hover:bg-white text-primary group-hover:text-white group-hover:hover:text-primary rounded-xl font-semibold text-sm transition-all duration-300 flex-1 justify-center group/preview"
+                                            >
+                                                <EyeIcon className="w-4 h-4 group-hover/preview:scale-110 transition-transform" />
+                                                <span>Preview</span>
+                                            </a>
+                                            <a
+                                                href={item.href}
+                                                download
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 group-hover:bg-white/10 hover:bg-primary group-hover:hover:bg-white text-neutral-dark group-hover:text-white group-hover:hover:text-primary rounded-xl font-semibold text-sm transition-all duration-300 flex-1 justify-center group/download"
+                                            >
+                                                <ArrowDownTrayIcon className="w-4 h-4 group-hover/download:scale-110 transition-transform" />
+                                                <span>Download</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </motion.div>
                             );

@@ -12,36 +12,36 @@ import {
 import DnaIcon from "../components/icons/DnaIcon";
 
 export const industries = [
-  {
-    id: 1,
-    slug: "nursing-homes",
-    title: "Contamination Control Mats for Nursing Homes",
-    subtitle: "Protecting the ones we love",
-    description:
-      "Nursing homes contain vulnerable members of our society and it is important that we do all we can to protect them. Having the proper procedures, practices and equipment in place will ensure that the residents at a nursing home are kept safe.",
-    fullDescription: `Nursing homes contain vulnerable members of our society and it is important that we do all we can to protect them. Having the proper procedures, practices and equipment in place will ensure that the residents at a nursing home are kept safe.
+  //   {
+  //     id: 1,
+  //     slug: "nursing-homes",
+  //     title: "Contamination Control Mats for Nursing Homes",
+  //     subtitle: "Protecting the ones we love",
+  //     description:
+  //       "Nursing homes contain vulnerable members of our society and it is important that we do all we can to protect them. Having the proper procedures, practices and equipment in place will ensure that the residents at a nursing home are kept safe.",
+  //     fullDescription: `Nursing homes contain vulnerable members of our society and it is important that we do all we can to protect them. Having the proper procedures, practices and equipment in place will ensure that the residents at a nursing home are kept safe.
 
-In order to reduce the risk of potential harmful particulates and outside contaminants entering a nursing home it's important to make sure you stop it right at the front door. Often hand sanitisers are the "go to" tool for reducing the spread of germs but many people often forget about the amount of contamination they bring in via the feet or wheels of trollies.
+  // In order to reduce the risk of potential harmful particulates and outside contaminants entering a nursing home it's important to make sure you stop it right at the front door. Often hand sanitisers are the "go to" tool for reducing the spread of germs but many people often forget about the amount of contamination they bring in via the feet or wheels of trollies.
 
-Recent studies have shown that over the space of a week a single pair of shoes can collect up to 440,000 units of bacteria. Having a proper contamination control mat in place ensures that 99.9% of all bacteria/harmful contaminants is removed from the sole of someone's foot before entering into an area. Our silver biocide ingredient is totally anti-microbial and is proven to kill 50+ organisms including MRSA & COVID-19.
+  // Recent studies have shown that over the space of a week a single pair of shoes can collect up to 440,000 units of bacteria. Having a proper contamination control mat in place ensures that 99.9% of all bacteria/harmful contaminants is removed from the sole of someone's foot before entering into an area. Our silver biocide ingredient is totally anti-microbial and is proven to kill 50+ organisms including MRSA & COVID-19.
 
-Contamination control mats are the most effective way to reduce the spread of any harmful bacteria and contamination throughout a nursing home facility. Our contamination control mats all come with a 2-year replacement warranty and are also extremely easy to maintain and keep clean.
+  // Contamination control mats are the most effective way to reduce the spread of any harmful bacteria and contamination throughout a nursing home facility. Our contamination control mats all come with a 2-year replacement warranty and are also extremely easy to maintain and keep clean.
 
-Not only are contamination control mats extremely easy to clean and maintain they can also last up to 5 years if they are maintained correctly. They are also a much cheaper option as well since they do not need to be replaced every few weeks in comparison to peel off matts.`,
-    gradientColors: "blue-500",
-    bglinear: "from-blue-600/30 via-blue-500/20 to-teal-500/30",
-    image: "/assets/industries/nursing-homes.png",
-    benefits: [
-      "99.9% bacteria removal from footwear",
-      "Anti-microbial silver biocide kills 50+ organisms",
-      "2-year replacement warranty",
-      "Easy to clean and maintain",
-      "Lasts up to 5 years with proper maintenance",
-      "Cost-effective compared to peel-off mats",
-    ],
-    ctaText: "Get a quote for nursing homes",
-    ctaLink: "/contact",
-  },
+  // Not only are contamination control mats extremely easy to clean and maintain they can also last up to 5 years if they are maintained correctly. They are also a much cheaper option as well since they do not need to be replaced every few weeks in comparison to peel off matts.`,
+  //     gradientColors: "blue-500",
+  //     bglinear: "from-blue-600/30 via-blue-500/20 to-teal-500/30",
+  //     image: "/assets/industries/nursing-homes.png",
+  //     benefits: [
+  //       "99.9% bacteria removal from footwear",
+  //       "Anti-microbial silver biocide kills 50+ organisms",
+  //       "2-year replacement warranty",
+  //       "Easy to clean and maintain",
+  //       "Lasts up to 5 years with proper maintenance",
+  //       "Cost-effective compared to peel-off mats",
+  //     ],
+  //     ctaText: "Get a quote for nursing homes",
+  //     ctaLink: "/contact",
+  //   },
   {
     id: 2,
     slug: "semi-conductor",
@@ -151,22 +151,22 @@ Having the proper procedures and technology in place is crucial for keeping a cl
   },
   {
     id: 5,
-    slug: "life-science",
-    title: "Contamination Control Mats for Life Science Industry",
-    subtitle: "Keeping your precious products, staff and contractors safe",
+    slug: "laboratory-settings",
+    title: "Contamination Control Mats for Laboratory Settings",
+    subtitle: "Keeping your precious research, staff and contractors safe",
     description:
-      "Designed for Ireland’s thriving life science sector, CC Matting’s polymeric mats reduce microbial and particulate contamination across critical facilities.",
-    fullDescription: `Ireland has a long association with the life sciences industry. We have built on a track record of manufacturing excellence into areas such as supply chain, shared services and technical customer support. Our historic track record and the availability of experienced deeply skilled industry professionals help Ireland stand out in the life sciences arenas.
-  
-  From Irish-born medtech start-ups that went global, to long-established biopharma multinationals, the life sciences industry has become an impressive sector with more than €10bn of capital investment.
-  
-  Contamination is a major and growing concern in cleanrooms, critical areas and controlled environments of any life science facility. The life science industry in Ireland is of huge importance with regards to the products they produce and the level of employment it provides. For this reason, it is essential to utilise our range of contamination control mats throughout any life science facility to protect staff, contractors and quality of product produced.
-  
-  Polymer mats should become an integral part of any life science facility cGMP’s to reduce microbial and particulate contamination to help your company meet its highest standards and FDA mandated bacterial counts.
-  
+      "Designed for Ireland’s thriving laboratory sector, CC Matting’s polymeric mats reduce microbial and particulate contamination across critical research facilities.",
+    fullDescription: `Ireland has a long association with the laboratory and research industry. We have built on a track record of manufacturing excellence into areas such as supply chain, shared services and technical customer support. Our historic track record and the availability of experienced deeply skilled industry professionals help Ireland stand out in the laboratory arenas.
+
+  From Irish-born medtech start-ups that went global, to long-established biopharma multinationals, the laboratory industry has become an impressive sector with more than €10bn of capital investment.
+
+  Contamination is a major and growing concern in cleanrooms, critical areas and controlled environments of any laboratory facility. The laboratory industry in Ireland is of huge importance with regards to the products they produce and the level of employment it provides. For this reason, it is essential to utilise our range of contamination control mats throughout any laboratory facility to protect staff, contractors and quality of research produced.
+
+  Polymer mats should become an integral part of any laboratory facility cGMP’s to reduce microbial and particulate contamination to help your company meet its highest standards and FDA mandated bacterial counts.
+
   According to a 3M study 80% of contaminants enter the critical area via the feet or wheels of trolleys. A contamination control mat supplied and installed by CC Matting will provide 99.9% protection from these harmful particulates over 6 falls of the feet.
-  
-  All CC Matting contamination control mats are totally non-volatile/non-toxic and emit zero outgassing, ensuring optimal suitability for use in any life science facility.`,
+
+  All CC Matting contamination control mats are totally non-volatile/non-toxic and emit zero outgassing, ensuring optimal suitability for use in any laboratory facility.`,
     gradientColors: "from-green-600 via-lime-500 to-emerald-500",
     bglinear: "from-green-600/30 via-lime-500/20 to-emerald-500/30",
     image: "/assets/industries/life_science_lab_1763625546556.png",
@@ -179,36 +179,36 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       "Eco-friendly and recyclable composition",
       "Silver Biocide kills 50+ organisms including MRSA & COVID-19",
     ],
-    ctaText: "Get a quote for life science",
+    ctaText: "Get a quote for laboratory settings",
     ctaLink: "/contact",
   },
-  {
-    id: 6,
-    slug: "schools-public-entrances",
-    title: "Contamination Control Mats for Schools & Public Entrances",
-    subtitle: "Safe access for everyone",
-    description:
-      "Protect students, staff, and visitors from unwanted contamination using easy-to-use antimicrobial mats at entrances and high-traffic areas.",
-    fullDescription: `Buildings and facilities that have large volumes of outside footfall are extremely vulnerable to potentially harmful outside contamination. This puts all staff and occupants of the building at risk.
-  
-  Contamination control mats are the most effective way to kill 99% of all bacteria on entry into a building. Many schools have no level of bacteria protection to help keep students and staff safe. Often it can be difficult to enforce anti-bacterial practices into a school environment with young children.
-  
-  Unlike hand sanitizers, contamination mats do not require any action to be taken in order to receive the benefits. Students and staff simply take a few steps on our mats and the bacteria is removed from the soles of their shoes upon entering the building.
-  
-  This simple method makes them very effective and ensures that everyone entering the building or facility is decontaminated upon their first few steps.`,
-    gradientColors: "from-yellow-500 via-orange-400 to-red-400",
-    bglinear: "from-yellow-500/30 via-orange-400/20 to-red-400/30",
-    image: "/assets/industries/schools.png",
-    benefits: [
-      "Kills 99% of all bacteria entering the building",
-      "Hands-free and effective protection for all occupants",
-      "Encourages safe hygiene in high-footfall environments",
-      "Ideal for schools, offices, and public entrances",
-      "Durable and low-maintenance flooring solution",
-    ],
-    ctaText: "Get a quote for schools",
-    ctaLink: "/contact",
-  },
+  // {
+  //   id: 6,
+  //   slug: "schools-public-entrances",
+  //   title: "Contamination Control Mats for Schools & Public Entrances",
+  //   subtitle: "Safe access for everyone",
+  //   description:
+  //     "Protect students, staff, and visitors from unwanted contamination using easy-to-use antimicrobial mats at entrances and high-traffic areas.",
+  //   fullDescription: `Buildings and facilities that have large volumes of outside footfall are extremely vulnerable to potentially harmful outside contamination. This puts all staff and occupants of the building at risk.
+
+  // Contamination control mats are the most effective way to kill 99% of all bacteria on entry into a building. Many schools have no level of bacteria protection to help keep students and staff safe. Often it can be difficult to enforce anti-bacterial practices into a school environment with young children.
+
+  // Unlike hand sanitizers, contamination mats do not require any action to be taken in order to receive the benefits. Students and staff simply take a few steps on our mats and the bacteria is removed from the soles of their shoes upon entering the building.
+
+  // This simple method makes them very effective and ensures that everyone entering the building or facility is decontaminated upon their first few steps.`,
+  //   gradientColors: "from-yellow-500 via-orange-400 to-red-400",
+  //   bglinear: "from-yellow-500/30 via-orange-400/20 to-red-400/30",
+  //   image: "/assets/industries/schools.png",
+  //   benefits: [
+  //     "Kills 99% of all bacteria entering the building",
+  //     "Hands-free and effective protection for all occupants",
+  //     "Encourages safe hygiene in high-footfall environments",
+  //     "Ideal for schools, offices, and public entrances",
+  //     "Durable and low-maintenance flooring solution",
+  //   ],
+  //   ctaText: "Get a quote for schools",
+  //   ctaLink: "/contact",
+  // },
   {
     id: 7,
     slug: "data-centres",
@@ -330,7 +330,7 @@ export function getAllIndustries() {
     "semi-conductor": CpuChipIcon,
     hospitals: BuildingOffice2Icon,
     "pharmaceutical-industry": BeakerIcon,
-    "life-science": GlobeAmericasIcon,
+    "laboratory-settings": GlobeAmericasIcon,
     "schools-public-entrances": AcademicCapIcon,
     "data-centres": ServerIcon,
     "medical-devices": DnaIcon,
