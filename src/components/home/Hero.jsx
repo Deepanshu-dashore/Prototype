@@ -233,7 +233,7 @@ export default function Hero({ onSecondaryClick }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="text-base sm:text-lg text-neutral-600 max-w-xl leading-relaxed font-medium"
+              className="text-base sm:text-lg text-neutral-600 max-w-xl leading-relaxed font-medium "
             >
               Advanced high-tech polymer mats providing <span className="text-neutral-900 font-semibold">99.9% protection</span> against floor-level contaminants. Engineered for excellence with a 2-year replacement warranty.
             </motion.p>
@@ -319,11 +319,7 @@ export default function Hero({ onSecondaryClick }) {
               transition={{ duration: 0.7, delay: 0.5 }}
               className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-neutral-200/60"
             >
-              <div className="col-span-2 md:hidden flex items-center justify-between max-w-sm opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
-                <Image src="/assets/ISO1.png" alt="ISO 9001" width={100} height={52} className="h-13 w-auto object-contain" />
-                <Image src="/assets/ISO2.png" alt="ISO 14001" width={100} height={44} className="h-11 w-auto object-contain -mt-0.5" />
-              </div>
-              <div className='mx-auto'>
+              <div className='pl-2'>
                 <div className="text-2xl xl:text-3xl font-bold text-neutral-900">99.9%</div>
                 <div className="text-xs font-medium text-neutral-500 mt-1">Protection Rate</div>
               </div>
@@ -331,9 +327,15 @@ export default function Hero({ onSecondaryClick }) {
                 <div className="text-2xl xl:text-3xl font-bold text-neutral-900">2 Years</div>
                 <div className="text-xs font-medium text-neutral-500 mt-1">Warranty</div>
               </div>
-              <div className="col-span-2 hidden md:flex items-center gap-4 opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
-                <Image src="/assets/ISO1.png" alt="ISO 9001" width={100} height={52} className="h-13 w-auto object-contain" />
-                <Image src="/assets/ISO2.png" alt="ISO 14001" width={100} height={44} className="h-11 w-auto object-contain -mt-0.5" />
+              <div className="flex items-center justify-start opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
+                <div className="flex items-center justify-center h-14 w-24">
+                  <Image src="/assets/ISO1.png" alt="ISO 9001" width={418} height={180} className="h-14 w-24 object-contain" />
+                </div>
+              </div>
+              <div className="flex items-center justify-start opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
+                <div className="flex items-center justify-center h-14 w-24">
+                  <Image src="/assets/ISO2.png" alt="ISO 14001" width={500} height={193} className="h-14 w-24 object-contain" />
+                </div>
               </div>
             </motion.div>
           </motion.div>

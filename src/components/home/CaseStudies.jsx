@@ -229,7 +229,7 @@ export default function CaseStudies() {
       {/* Decorative background elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <motion.svg 
-          className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
+          className="absolute top-0 left-0 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 text-primary/20" 
           viewBox="0 0 100 100" 
           fill="currentColor"
           animate={{
@@ -246,7 +246,7 @@ export default function CaseStudies() {
         </motion.svg>
         
         <motion.svg 
-          className="absolute top-0 right-0 w-96 h-96 text-primary/20" 
+          className="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 text-primary/20" 
           viewBox="0 0 100 100" 
           fill="currentColor"
           animate={{
@@ -262,8 +262,8 @@ export default function CaseStudies() {
           <circle cx="50" cy="50" r="50" />
         </motion.svg>
         
-        <div className="absolute bottom-0 left-0 w-1 h-32 bg-gradient-to-t from-primary/20 to-transparent" />
-        <div className="absolute bottom-0 right-10 w-1 h-48 bg-gradient-to-t from-primary/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-1 h-16 sm:h-24 md:h-32 bg-gradient-to-t from-primary/20 to-transparent" />
+        <div className="absolute bottom-0 right-10 w-1 h-24 sm:h-36 md:h-48 bg-gradient-to-t from-primary/10 to-transparent" />
       </div>
       
       <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 relative z-10">
