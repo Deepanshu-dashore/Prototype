@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import {
   BeakerIcon,
   HeartIcon,
@@ -16,6 +17,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export default function IndustrySolutions() {
+  const [hoveredIndex, setHoveredIndex] = useState(null)
   const industries = [
     {
       icon: BeakerIcon,
@@ -102,18 +104,27 @@ export default function IndustrySolutions() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {industries.map((industry, index) => {
             const Icon = industry.icon || BuildingOfficeIcon
+            const isHovered = hoveredIndex === index
+            const isOtherHovered = hoveredIndex !== null && hoveredIndex !== index
+            
             return (
               <Link
                 key={industry.title}
                 href={industry.href}
                 className="block"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
               >
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative bg-white rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-neutral-100 overflow-hidden h-full flex flex-col cursor-pointer"
+                  className={`group relative bg-white rounded-2xl hover:shadow-xl transition-all duration-300 border border-neutral-100 overflow-hidden h-full flex flex-col cursor-pointer ${
+                    isHovered ? 'scale-120 z-10' : ''
+                  } ${
+                    isOtherHovered ? 'blur-sm opacity-70' : ''
+                  }`}
                 >
                   {/* Image Area */}
                   <div className="h-48 overflow-hidden relative">

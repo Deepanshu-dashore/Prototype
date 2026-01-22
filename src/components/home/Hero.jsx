@@ -194,7 +194,7 @@ export default function Hero({ onSecondaryClick }) {
         <div className="absolute bottom-[10%] left-[20%] w-[50%] h-[50%] rounded-full bg-accent/5 blur-3xl" />
       </div>
 
-      <div className="xl:max-w-[1300px] lg:max-w-[1000px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 py-10 sm:py-12 md:py-14 lg:py-10 w-full relative z-10">
+      <div className="xl:max-w-[1300px] lg:max-w-[1000px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 py-10  md:py-14 lg:py-10 w-full relative z-10 pb-65">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 xl:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -346,7 +346,7 @@ export default function Hero({ onSecondaryClick }) {
             aria-hidden="true"
           >
             {/* Informational Card - Upper Right */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
@@ -365,9 +365,9 @@ export default function Hero({ onSecondaryClick }) {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </motion.div> */}
 
-            <div className="flex lg:w-1/3 sm:w-1/3 md:w-1/3 w-1/2 absolute group hover:border-blue-500 hover:border-solid transition-all duration-300 text-center top-1/4 sm:top-[22%] md:top-[37%] lg:top-1/4 z-30 rotate-40 right-10 sm:right-[28%] md:right-32 lg:right-10 border-[1.3px] border-rose-700 border-dashed shadow-2xl items-center justify-center">
+            {/* <div className="flex lg:w-1/3 sm:w-1/3 md:w-1/3 w-1/2 absolute group hover:border-blue-500 hover:border-solid transition-all duration-300 text-center top-1/4 sm:top-[22%] md:top-[37%] lg:top-1/4 z-30 rotate-40 right-10 sm:right-[28%] md:right-32 lg:right-10 border-[1.3px] border-rose-700 border-dashed shadow-2xl items-center justify-center">
               <div className="w-1/2 h-1/2 rounded-full">
                 <div className="absolute w-8/12 md:w-10/12 capitalize border-2 border-primary/20 bg-white px-3 py-2 group-hover:scale-105 transition-all duration-300 rounded-md shadow-lg cursor-pointer text-neutral-dark  right-30 md:-right-30 -bottom-10 -rotate-40">
                   <div className='flex bg-gray-100 py-1 rounded-sm  items-center justify-center gap-2'>
@@ -399,14 +399,14 @@ export default function Hero({ onSecondaryClick }) {
                   <p className='lg:text-[10px] text-[8px] text-gray-400'>After 4 footfalls and 1 wheel rotations</p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            {/* Product 3D Model Showcase */}
-            <div
+          
+            {/* <div
               ref={canvasContainerRef}
               className="relative -mt-30 lg:-mt-80 w-full max-w-full h-[700px] xl:h-[800px]"
             >
-              {/* Decorative frame effect */}
+              Decorative frame effect
               <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-primary/10 via-transparent to-primary/5 -z-10 blur-2xl "></div>
               <Canvas
                 camera={{ position: [-0.5, 0, 5], fov: 75 }}
@@ -435,10 +435,30 @@ export default function Hero({ onSecondaryClick }) {
                   <CarpetModel groupRef={modelGroupRef} />
                 </Suspense>
               </Canvas>
-            </div>
+
+   
+            </div> */}
+
           </motion.div>
         </div>
+        
+        {/* Video Animation */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+className="
+  absolute max-w-full h-auto bottom-10 left-1/2 -translate-x-1/2
+  w-auto
+  z-0
+  md:w-auto md:top-[-156px] md:left-[400px] md:translate-x-0 md:bottom-auto md:z-auto
+"
+        >
+          <source src="animation.webm" type="video/webm"/>
+        </video>
       </div>
+
     </section>
   )
 }

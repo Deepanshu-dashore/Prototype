@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default function IndustryContent({ industry }) {
     const [relatedIndustries, setRelatedIndustries] = useState([]);
+    const [hoveredCard, setHoveredCard] = useState(null);
 
     useEffect(() => {
         // Dynamically import industry data for related section to optimize initial load
@@ -143,8 +144,31 @@ export default function IndustryContent({ industry }) {
             )}
 
             {/* Related Industries */}
-            <section className="bg-white py-16 sm:py-20 border-t border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="bg-white py-16 sm:py-20 border-t border-gray-100 relative overflow-hidden">
+                {/* Animated background accents */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+                    <motion.svg
+                        className="absolute top-0 left-0 w-72 h-72 text-primary/15"
+                        viewBox="0 0 100 100"
+                        fill="currentColor"
+                        animate={{ y: [0, 30, 0], opacity: [0.2, 0.4, 0.2] }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                    <motion.svg
+                        className="absolute bottom-0 right-0 w-80 h-80 text-primary/15"
+                        viewBox="0 0 100 100"
+                        fill="currentColor"
+                        animate={{ y: [0, -25, 0], opacity: [0.25, 0.45, 0.25] }}
+                        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                    <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
+                </div>
+
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -171,9 +195,12 @@ export default function IndustryContent({ industry }) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                                onMouseEnter={() => setHoveredCard(relatedIndustry.id)}
+                                onMouseLeave={() => setHoveredCard(null)}
+                                className={`transition-all duration-300 ${hoveredCard && hoveredCard !== relatedIndustry.id ? 'blur-sm opacity-70' : 'blur-0 opacity-100'} ${hoveredCard === relatedIndustry.id ? 'scale-110 md:scale-120 z-20' : 'scale-100 z-10'}`}
                             >
                                 <Link href={`/industries/${relatedIndustry.slug}`}>
-                                    <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-primary/30 hover:shadow-md transition-all duration-300 h-full flex flex-col group">
+                                    <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-primary/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col group">
                                         <h3 className="text-lg sm:text-xl font-bold text-neutral-dark mb-3 leading-tight">
                                             {relatedIndustry.title}
                                         </h3>

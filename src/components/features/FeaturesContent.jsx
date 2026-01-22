@@ -364,8 +364,45 @@ export default function FeaturesContent() {
             </div>
 
             {/* Install Procedure Section */}
-            <section className="bg-white py-16 sm:py-20">
-                <div className="max-w-[90dvw] mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="bg-white py-16 sm:py-20 relative overflow-hidden">
+                {/* Decorative animated circles */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+                    <motion.svg 
+                        className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            y: [0, 30, 0],
+                            opacity: [0.2, 0.4, 0.2]
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                    
+                    <motion.svg 
+                        className="absolute top-0 right-0 w-96 h-96 text-primary/20" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            y: [0, -20, 0],
+                            opacity: [0.3, 0.5, 0.3]
+                        }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                </div>
+
+                <div className="max-w-[90dvw] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}

@@ -200,25 +200,192 @@ export default function ProductContent({ product, slug }) {
 
             {/* Benefits */}
             <section className="bg-white py-12 sm:py-20 relative overflow-hidden">
-                {/* Floating Background Icons */}
-                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
-                    {[...Array(30)].map((_, i) => {
-                        const BenefitIcon = benefits[i % benefits.length].icon;
-                        return (
-                            <BenefitIcon
-                                key={i}
-                                style={{
-                                    position: 'absolute',
-                                    top: `${Math.random() * 100}%`,
-                                    left: `${Math.random() * 100}%`,
-                                    opacity: 5,
-                                    animation: `pulse ${4 + Math.random() * 4}s infinite ease-in-out`,
-                                    animationDelay: `${Math.random() * 5}s`
-                                }}
-                                className="w-8 h-8 text-primary"
-                            />
-                        );
-                    })}
+                {/* Animated floating circles */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+                    <motion.svg 
+                        className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            y: [0, 30, 0],
+                            opacity: [0.2, 0.4, 0.2]
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                    
+                    <motion.svg 
+                        className="absolute bottom-0 right-0 w-96 h-96 text-primary/20" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            y: [0, -20, 0],
+                            opacity: [0.3, 0.5, 0.3]
+                        }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+
+                    {/* Middle floating circle */}
+                    <motion.svg 
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 text-primary/15" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            scale: [1, 1.1, 1],
+                            opacity: [0.15, 0.3, 0.15]
+                        }}
+                        transition={{
+                            duration: 7,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                </div>
+
+                {/* Animated dots/particles */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {[...Array(25)].map((_, i) => (
+                        <motion.div
+                            key={`dot-${i}`}
+                            className="absolute w-2 h-2 bg-primary/50 rounded-full shadow-sm"
+                            animate={{
+                                y: [0, -50, 0],
+                                x: [0, Math.random() * 60 - 30, 0],
+                                opacity: [0, 1, 0],
+                                scale: [0.5, 1, 0.5]
+                            }}
+                            transition={{
+                                duration: 5 + i * 0.4,
+                                repeat: Infinity,
+                                delay: i * 0.2,
+                                ease: "easeInOut"
+                            }}
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`
+                            }}
+                        />
+                    ))}
+                </div>
+
+                {/* Abstract flowing lines */}
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+                    animate={{
+                        opacity: [0.3, 0.6, 0.3],
+                    }}
+                    transition={{
+                        duration: 5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute top-3/4 right-0 w-full h-px bg-gradient-to-l from-transparent via-primary/10 to-transparent"
+                    animate={{
+                        opacity: [0.3, 0.5, 0.3],
+                    }}
+                    transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+
+                {/* Diagonal flowing lines */}
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-5"
+                    animate={{
+                        backgroundPosition: ["0% 0%", "100% 100%"]
+                    }}
+                    transition={{
+                        duration: 15,
+                        repeat: Infinity,
+                        ease: "linear"
+                    }}
+                    style={{
+                        backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(83, 96, 255, 0.1) 35px, rgba(83, 96, 255, 0.1) 70px)",
+                        backgroundSize: "200% 200%"
+                    }}
+                />
+
+                {/* Pulsing corner accents */}
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-primary/20"
+                    animate={{
+                        opacity: [0.2, 0.4, 0.2],
+                        scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-primary/20"
+                    animate={{
+                        opacity: [0.2, 0.4, 0.2],
+                        scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                        duration: 4.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 1
+                    }}
+                />
+
+                {/* Soft gradient circles background (professional, subtle) */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    <motion.div
+                        aria-hidden
+                        initial={{ opacity: 0.22, scale: 0.95 }}
+                        animate={{ opacity: 0.3, scale: 1 }}
+                        transition={{ duration: 4, repeat: Infinity, repeatType: 'reverse' }}
+                        className="absolute left-[10%] top-[0rem] w-[48rem] h-[48rem] rounded-full blur-2xl"
+                        style={{
+                            background: 'radial-gradient(circle at center, rgba(37, 99, 235, 0.35), transparent 60%)'
+                        }}
+                    />
+                    <motion.div
+                        aria-hidden
+                        initial={{ opacity: 0.2, scale: 1 }}
+                        animate={{ opacity: 0.28, scale: 1.03 }}
+                        transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
+                        className="absolute right-[0rem] top-1/3 w-[52rem] h-[52rem] rounded-full blur-2xl"
+                        style={{
+                            background: 'radial-gradient(circle at center, rgba(79, 70, 229, 0.3), transparent 65%)'
+                        }}
+                    />
+                    <motion.div
+                        aria-hidden
+                        initial={{ opacity: 0.18, scale: 0.98 }}
+                        animate={{ opacity: 0.26, scale: 1.02 }}
+                        transition={{ duration: 6, repeat: Infinity, repeatType: 'reverse' }}
+                        className="absolute left-1/2 bottom-[-6rem] -translate-x-1/2 w-[56rem] h-[56rem] rounded-full blur-2xl"
+                        style={{
+                            background: 'radial-gradient(circle at center, rgba(15, 23, 42, 0.22), transparent 70%)'
+                        }}
+                    />
                 </div>
                 <div className="max-w-[1300px] mx-auto px-4 relative z-10">
                     <div className="text-center mb-10 sm:mb-12">
@@ -289,8 +456,14 @@ export default function ProductContent({ product, slug }) {
 
             {/* Sizes */}
             {product.sizes && (
-                <section className="bg-gray-50 py-16 sm:py-20 relative">
-                    <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.03]" aria-hidden />
+                <section className="bg-white py-16 sm:py-20 relative overflow-hidden">
+                    {/* Subtle background accents */}
+                    <div className="pointer-events-none absolute inset-0" aria-hidden>
+                        <div className="absolute -top-12 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+                        <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl" />
+                        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
+                    </div>
+
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
@@ -308,19 +481,17 @@ export default function ProductContent({ product, slug }) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5 }}
-                                className="bg-white group overflow-hidden relative rounded-2xl border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 group"
+                                className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
                             >
-                                <div className="absolute inset-0 bg-linear-to-br from-primary to-indigo-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-                                <div className="flex flex-col h-full relative z-30">
-                                    <div className="mb-4 flex items-center gap-2">
-                                        <div className="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center mb-4 group-hover:bg-white transition-colors">
-                                            <ArrowsRightLeftIcon className="w-6 h-6 text-neutral-700 group-hover:text-primary transition-colors" />
+                                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-indigo-500 to-primary" />
+                                <div className="flex flex-col h-full gap-4 relative z-10">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
+                                            <ArrowsRightLeftIcon className="w-6 h-6" />
                                         </div>
-                                        <h3 className="text-xl font-bold group-hover:text-white text-neutral-dark mb-2">
-                                            Widths
-                                        </h3>
+                                        <h3 className="text-xl font-bold text-neutral-dark">Widths</h3>
                                     </div>
-                                    <p className="text-sm text-neutral-dark/70 group-hover:text-white/70 leading-relaxed">
+                                    <p className="text-sm text-neutral-dark/70 leading-relaxed">
                                         {product.sizes.widths}
                                     </p>
                                 </div>
@@ -332,16 +503,15 @@ export default function ProductContent({ product, slug }) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: 0.1 }}
-                                className="bg-white rounded-2xl border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 group"
+                                className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
                             >
-                                <div className="flex flex-col h-full">
-                                    <div className="mb-6">
-                                        <div className="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-                                            <ListBulletIcon className="w-6 h-6 text-neutral-700 group-hover:text-primary transition-colors" />
+                                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-primary to-indigo-500" />
+                                <div className="flex flex-col h-full gap-4 relative z-10">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
+                                            <ListBulletIcon className="w-6 h-6" />
                                         </div>
-                                        <h3 className="text-xl font-bold text-neutral-dark mb-2">
-                                            Standard Lengths
-                                        </h3>
+                                        <h3 className="text-xl font-bold text-neutral-dark">Standard Lengths</h3>
                                     </div>
                                     <p className="text-sm text-neutral-dark/70 leading-relaxed">
                                         {product.sizes.standardLengths}
@@ -355,16 +525,15 @@ export default function ProductContent({ product, slug }) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: 0.2 }}
-                                className="bg-white rounded-2xl border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 group"
+                                className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
                             >
-                                <div className="flex flex-col h-full">
-                                    <div className="mb-6">
-                                        <div className="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-                                            <WrenchScrewdriverIcon className="w-6 h-6 text-neutral-700 group-hover:text-primary transition-colors" />
+                                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-indigo-500 to-primary" />
+                                <div className="flex flex-col h-full gap-4 relative z-10">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
+                                            <WrenchScrewdriverIcon className="w-6 h-6" />
                                         </div>
-                                        <h3 className="text-xl font-bold text-neutral-dark mb-2">
-                                            Custom Sizes
-                                        </h3>
+                                        <h3 className="text-xl font-bold text-neutral-dark">Custom Sizes</h3>
                                     </div>
                                     <p className="text-sm text-neutral-dark/70 leading-relaxed">
                                         {product.sizes.customSizes}

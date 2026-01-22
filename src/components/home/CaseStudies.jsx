@@ -174,7 +174,7 @@ export default function CaseStudies() {
     const timer = setInterval(() => {
       setDirection(1)
       setCurrentIndex(prev => (prev + 1) % caseStudies.length)
-    }, 5000)
+    }, 6000)
 
     return () => clearInterval(timer)
   }, [caseStudies.length, isPaused])
@@ -192,18 +192,21 @@ export default function CaseStudies() {
   // Animation variants for sliding
   const variants = {
     enter: (direction) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0,
+      scale: 0.8
     }),
     center: {
       zIndex: 1,
       x: 0,
-      opacity: 1
+      opacity: 1,
+      scale: 1
     },
     exit: (direction) => ({
       zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0
+      x: direction < 0 ? '100%' : '-100%',
+      opacity: 0,
+      scale: 0.8
     })
   }
 
@@ -222,9 +225,48 @@ export default function CaseStudies() {
   }
 
   return (
-    <section id="case-studies" className="bg-gray-100 relative py-12 sm:py-16 md:py-20 lg:py-24">
-      <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
-      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
+    <section id="case-studies" className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-white overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <motion.svg 
+          className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
+          viewBox="0 0 100 100" 
+          fill="currentColor"
+          animate={{
+            y: [0, 30, 0],
+            opacity: [0.2, 0.4, 0.2]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <circle cx="50" cy="50" r="50" />
+        </motion.svg>
+        
+        <motion.svg 
+          className="absolute top-0 right-0 w-96 h-96 text-primary/20" 
+          viewBox="0 0 100 100" 
+          fill="currentColor"
+          animate={{
+            y: [0, -20, 0],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <circle cx="50" cy="50" r="50" />
+        </motion.svg>
+        
+        <div className="absolute bottom-0 left-0 w-1 h-32 bg-gradient-to-t from-primary/20 to-transparent" />
+        <div className="absolute bottom-0 right-10 w-1 h-48 bg-gradient-to-t from-primary/10 to-transparent" />
+      </div>
+      
+      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -264,32 +306,29 @@ export default function CaseStudies() {
           </button>
 
           {/* Carousel Slides - 3 Cards with Center Highlight */}
-          <div className="overflow-hidden px-4 sm:px-8 lg:px-12 py-10">
-            <AnimatePresence initial={false} custom={direction} mode="popLayout">
-              <motion.div
-                key={currentIndex}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 }
-                }}
-                className="flex items-center justify-center gap-2 sm:gap-3 lg:gap-4"
-              >
-                {getCurrentReviews().map((review, idx) => {
-                  const isCenter = isMobile ? true : idx === 1
-                  return (
-                    <motion.div
-                      key={`${review.id}-${idx}`}
-                      className={`bg-white rounded-xl relative shadow-sm flex flex-col transition-all duration-500 ${isCenter
-                        ? 'p-4 sm:p-5 lg:p-6 w-full max-w-xs lg:max-w-sm xl:max-w-md z-10 shadow-md border border-gray-100'
-                        : 'p-4 sm:p-5 lg:p-6 w-full max-w-[240px] sm:max-w-xs lg:max-w-sm z-0 hover:shadow-lg'
+          <div className="overflow-visible px-6 sm:px-12 lg:px-16 py-12">
+            <div className="flex items-center justify-center gap-2 sm:gap-3 lg:gap-4">
+              {getCurrentReviews().map((review, idx) => {
+                const isCenter = isMobile ? true : idx === 1
+                return (
+                  <motion.div
+                    key={review.id}
+                    initial={false}
+                    animate={{
+                      opacity: isCenter ? 1 : 0.75,
+                      scale: isCenter ? 1.05 : 0.95,
+                      y: isCenter ? -8 : 0,
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
+                      className={`bg-white rounded-xl relative shadow-sm flex flex-col ${isCenter
+                        ? 'p-5 sm:p-6 lg:p-8 w-full max-w-xs lg:max-w-md xl:max-w-lg z-10 shadow-xl border-2 border-primary/20'
+                        : 'p-4 sm:p-5 lg:p-6 w-full max-w-[280px] sm:max-w-sm lg:max-w-md z-0 hover:opacity-90'
                         }`}
                       style={{
-                        flex: isCenter ? '1.1' : '0.9',
+                        flex: isCenter ? '1.2' : '0.85',
                       }}
                     >
                       {/* Top: Stars Only */}
@@ -386,10 +425,9 @@ export default function CaseStudies() {
 
 
                     </motion.div>
-                  )
-                })}
-              </motion.div>
-            </AnimatePresence>
+                )
+              })}
+            </div>
           </div>
 
 

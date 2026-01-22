@@ -74,9 +74,82 @@ export default function WhatSetsApartDark() {
   ]
 
   return (
-    <section ref={containerRef} className="bg-gray-100/90 relative py-12 sm:py-16 md:py-20">
-      <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
-      <div className=" z-10 max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
+    <section ref={containerRef} className="relative py-12 sm:py-16 md:py-20 overflow-hidden bg-gray-50">
+      {/* Geometric floating shapes */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        {/* Large circle - top left */}
+        <motion.div 
+          className="absolute -top-32 left-10 w-80 h-80 rounded-full bg-blue-200/25"
+          animate={{
+            y: [0, 40, 0],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* Medium circle - top right */}
+        <motion.div 
+          className="absolute -top-32 right-20 w-64 h-64 rounded-full bg-blue-200/20"
+          animate={{
+            y: [0, -30, 0],
+            x: [0, 20, 0],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* Small circle - bottom */}
+        <motion.div 
+          className="absolute -bottom-20 left-1/3 w-48 h-48 rounded-full bg-indigo-200/20"
+          animate={{
+            y: [0, -25, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* Additional accent circle */}
+        <motion.div 
+          className="absolute bottom-1/4 right-1/4 w-40 h-40 rounded-full bg-primary/15"
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.15, 0.25, 0.15],
+          }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* Decorative dots pattern */}
+        <div className="absolute top-1/4 right-1/4 w-32 h-32 opacity-40">
+          <div className="grid grid-cols-6 gap-3">
+            {[...Array(24)].map((_, i) => (
+              <div key={i} className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+            ))}
+          </div>
+        </div>
+        
+
+        
+        {/* Corner accent */}
+        <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-blue-100/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-indigo-100/20 to-transparent" />
+      </div>
+      
+      <div className="relative z-10 max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
         <motion.div
           style={{ opacity: opacityGrid, y: yGrid }}
           className="text-center mb-10 sm:mb-12"

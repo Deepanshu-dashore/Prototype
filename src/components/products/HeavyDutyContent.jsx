@@ -181,25 +181,192 @@ export default function HeavyDutyContent({ product }) {
 
             {/* Benefits */}
             <section className="bg-white py-12 sm:py-20 relative overflow-hidden">
-                {/* Floating Background Icons */}
-                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
-                    {[...Array(30)].map((_, i) => {
-                        const BenefitIcon = benefits[i % benefits.length].icon;
-                        return (
-                            <BenefitIcon
-                                key={i}
-                                style={{
-                                    position: 'absolute',
-                                    top: `${Math.random() * 100}%`,
-                                    left: `${Math.random() * 100}%`,
-                                    opacity: 5,
-                                    animation: `pulse ${4 + Math.random() * 4}s infinite ease-in-out`,
-                                    animationDelay: `${Math.random() * 5}s`
-                                }}
-                                className="w-8 h-8 text-primary"
-                            />
-                        );
-                    })}
+                {/* Animated floating circles */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+                    <motion.svg 
+                        className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            y: [0, 30, 0],
+                            opacity: [0.2, 0.4, 0.2]
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                    
+                    <motion.svg 
+                        className="absolute bottom-0 right-0 w-96 h-96 text-primary/20" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            y: [0, -20, 0],
+                            opacity: [0.3, 0.5, 0.3]
+                        }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+
+                    {/* Middle floating circle */}
+                    <motion.svg 
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 text-primary/15" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            scale: [1, 1.1, 1],
+                            opacity: [0.15, 0.3, 0.15]
+                        }}
+                        transition={{
+                            duration: 7,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                </div>
+
+                {/* Animated dots/particles */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {[...Array(25)].map((_, i) => (
+                        <motion.div
+                            key={`dot-${i}`}
+                            className="absolute w-2 h-2 bg-primary/50 rounded-full shadow-sm"
+                            animate={{
+                                y: [0, -50, 0],
+                                x: [0, Math.random() * 60 - 30, 0],
+                                opacity: [0, 1, 0],
+                                scale: [0.5, 1, 0.5]
+                            }}
+                            transition={{
+                                duration: 5 + i * 0.4,
+                                repeat: Infinity,
+                                delay: i * 0.2,
+                                ease: "easeInOut"
+                            }}
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`
+                            }}
+                        />
+                    ))}
+                </div>
+
+                {/* Soft gradient circles background (professional, subtle) */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    <motion.div
+                        aria-hidden
+                        initial={{ opacity: 0.08, scale: 0.95 }}
+                        animate={{ opacity: 0.12, scale: 1 }}
+                        transition={{ duration: 4, repeat: Infinity, repeatType: 'reverse' }}
+                        className="absolute left-1/4 top-[-6rem] w-[28rem] h-[28rem] rounded-full blur-3xl"
+                        style={{
+                            background: `radial-gradient(circle at center, ${product.gradientColors.primary}30, transparent 60%)`
+                        }}
+                    />
+                    <motion.div
+                        aria-hidden
+                        initial={{ opacity: 0.06, scale: 1 }}
+                        animate={{ opacity: 0.1, scale: 1.03 }}
+                        transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
+                        className="absolute right-[-8rem] top-1/3 w-[32rem] h-[32rem] rounded-full blur-3xl"
+                        style={{
+                            background: `radial-gradient(circle at center, ${product.gradientColors.dark}25, transparent 65%)`
+                        }}
+                    />
+                    <motion.div
+                        aria-hidden
+                        initial={{ opacity: 0.06, scale: 0.98 }}
+                        animate={{ opacity: 0.1, scale: 1.02 }}
+                        transition={{ duration: 6, repeat: Infinity, repeatType: 'reverse' }}
+                        className="absolute left-1/2 bottom-[-10rem] -translate-x-1/2 w-[36rem] h-[36rem] rounded-full blur-3xl"
+                        style={{
+                            background: `radial-gradient(circle at center, ${product.gradientColors.primary}20, transparent 70%)`
+                        }}
+                    />
+                    
+                    {/* Abstract flowing lines */}
+                    <motion.div
+                        aria-hidden
+                        className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+                        animate={{
+                            opacity: [0.3, 0.6, 0.3],
+                        }}
+                        transition={{
+                            duration: 5,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                    <motion.div
+                        aria-hidden
+                        className="absolute top-3/4 right-0 w-full h-px bg-gradient-to-l from-transparent via-primary/10 to-transparent"
+                        animate={{
+                            opacity: [0.3, 0.5, 0.3],
+                        }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+
+                    {/* Diagonal flowing lines */}
+                    <motion.div
+                        aria-hidden
+                        className="absolute inset-0 opacity-5"
+                        animate={{
+                            backgroundPosition: ["0% 0%", "100% 100%"]
+                        }}
+                        transition={{
+                            duration: 15,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                        style={{
+                            backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(83, 96, 255, 0.1) 35px, rgba(83, 96, 255, 0.1) 70px)",
+                            backgroundSize: "200% 200%"
+                        }}
+                    />
+
+                    {/* Pulsing corner accents */}
+                    <motion.div
+                        aria-hidden
+                        className="absolute top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-primary/20"
+                        animate={{
+                            opacity: [0.2, 0.4, 0.2],
+                            scale: [1, 1.05, 1]
+                        }}
+                        transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                    <motion.div
+                        aria-hidden
+                        className="absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-primary/20"
+                        animate={{
+                            opacity: [0.2, 0.4, 0.2],
+                            scale: [1, 1.05, 1]
+                        }}
+                        transition={{
+                            duration: 4.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: 1
+                        }}
+                    />
                 </div>
                 <div className="max-w-[1300px] mx-auto px-4 relative z-10">
                     <div className="text-center mb-10 sm:mb-12">

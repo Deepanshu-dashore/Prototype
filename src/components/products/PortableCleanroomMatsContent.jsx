@@ -73,8 +73,63 @@ export default function PortableCleanroomMatsContent() {
     return (
         <main className="grow">
             {/* Hero Section */}
-            <section className="bg-linear-to-b from-primary/10 via-white to-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+            <section className="relative bg-linear-to-b from-primary/10 via-white to-white border-b border-gray-100 overflow-hidden">
+                {/* Animated geometric circles */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <motion.div 
+                        className="absolute -top-32 left-10 w-72 h-72 rounded-full bg-blue-200/30"
+                        animate={{
+                            y: [0, 30, 0],
+                            rotate: [0, 180, 360],
+                        }}
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                    />
+                    
+                    <motion.div 
+                        className="absolute top-20 right-1/4 w-48 h-48 rounded-full bg-blue-200/20"
+                        animate={{
+                            y: [0, -20, 0],
+                            x: [0, 15, 0],
+                        }}
+                        transition={{
+                            duration: 15,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                    
+                    <motion.div 
+                        className="absolute bottom-10 right-10 w-56 h-56 rounded-full bg-indigo-200/20"
+                        animate={{
+                            y: [0, -25, 0],
+                            scale: [1, 1.1, 1],
+                        }}
+                        transition={{
+                            duration: 18,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                    
+                    <motion.div 
+                        className="absolute top-1/2 left-1/4 w-32 h-32 rounded-full bg-indigo-200/20"
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            opacity: [0.3, 0.6, 0.3],
+                        }}
+                        transition={{
+                            duration: 12,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
+                </div>
+                
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -383,25 +438,162 @@ export default function PortableCleanroomMatsContent() {
 
             {/* Key Features/Benefits Section */}
             <section className="bg-white py-12 sm:py-16 md:py-20 relative overflow-hidden">
+                {/* Animated floating circles */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+                    <motion.svg 
+                        className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            y: [0, 30, 0],
+                            opacity: [0.2, 0.4, 0.2]
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                    
+                    <motion.svg 
+                        className="absolute bottom-0 right-0 w-96 h-96 text-primary/20" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            y: [0, -20, 0],
+                            opacity: [0.3, 0.5, 0.3]
+                        }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+
+                    {/* Middle floating circle */}
+                    <motion.svg 
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 text-primary/15" 
+                        viewBox="0 0 100 100" 
+                        fill="currentColor"
+                        animate={{
+                            scale: [1, 1.1, 1],
+                            opacity: [0.15, 0.3, 0.15]
+                        }}
+                        transition={{
+                            duration: 7,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                </div>
+
+                {/* Animated dots/particles */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {[...Array(25)].map((_, i) => (
+                        <motion.div
+                            key={`dot-${i}`}
+                            className="absolute w-2 h-2 bg-primary/50 rounded-full shadow-sm"
+                            animate={{
+                                y: [0, -50, 0],
+                                x: [0, Math.random() * 60 - 30, 0],
+                                opacity: [0, 1, 0],
+                                scale: [0.5, 1, 0.5]
+                            }}
+                            transition={{
+                                duration: 5 + i * 0.4,
+                                repeat: Infinity,
+                                delay: i * 0.2,
+                                ease: "easeInOut"
+                            }}
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`
+                            }}
+                        />
+                    ))}
+                </div>
+
+                {/* Abstract flowing lines */}
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+                    animate={{
+                        opacity: [0.3, 0.6, 0.3],
+                    }}
+                    transition={{
+                        duration: 5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute top-3/4 right-0 w-full h-px bg-gradient-to-l from-transparent via-primary/10 to-transparent"
+                    animate={{
+                        opacity: [0.3, 0.5, 0.3],
+                    }}
+                    transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+
+                {/* Diagonal flowing lines */}
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-5"
+                    animate={{
+                        backgroundPosition: ["0% 0%", "100% 100%"]
+                    }}
+                    transition={{
+                        duration: 15,
+                        repeat: Infinity,
+                        ease: "linear"
+                    }}
+                    style={{
+                        backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(83, 96, 255, 0.1) 35px, rgba(83, 96, 255, 0.1) 70px)",
+                        backgroundSize: "200% 200%"
+                    }}
+                />
+
+                {/* Pulsing corner accents */}
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-primary/20"
+                    animate={{
+                        opacity: [0.2, 0.4, 0.2],
+                        scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-primary/20"
+                    animate={{
+                        opacity: [0.2, 0.4, 0.2],
+                        scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                        duration: 4.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 1
+                    }}
+                />
+
                 {/* Floating Background Icons */}
                 <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
-                    {[...Array(30)].map((_, i) => {
-                        const FeatureIcon = features[i % features.length].icon;
-                        return (
-                            <FeatureIcon
-                                key={i}
-                                style={{
-                                    position: 'absolute',
-                                    top: `${Math.random() * 100}%`,
-                                    left: `${Math.random() * 100}%`,
-                                    opacity: 5,
-                                    animation: `pulse ${4 + Math.random() * 4}s infinite ease-in-out`,
-                                    animationDelay: `${Math.random() * 5}s`
-                                }}
-                                className="w-8 h-8 text-primary"
-                            />
-                        );
-                    })}
                 </div>
                 <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 relative z-10">
                     <motion.div
