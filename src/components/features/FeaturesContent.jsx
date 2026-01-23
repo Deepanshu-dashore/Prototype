@@ -169,8 +169,123 @@ export default function FeaturesContent() {
     return (
         <main className="grow">
             {/* Hero Section */}
-            <section className="bg-linear-to-b from-primary/10 via-white to-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+            <section className="relative overflow-hidden bg-linear-to-b from-primary/10 via-white to-white border-b border-gray-100">
+                {/* Animated floating circles */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+                    <motion.svg
+                        className="absolute top-0 left-0 w-96 h-96 text-primary/10"
+                        viewBox="0 0 100 100"
+                        fill="currentColor"
+                        animate={{
+                            y: [0, 30, 0],
+                            opacity: [0.1, 0.2, 0.1]
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+
+                    <motion.svg
+                        className="absolute bottom-0 right-0 w-96 h-96 text-primary/10"
+                        viewBox="0 0 100 100"
+                        fill="currentColor"
+                        animate={{
+                            y: [0, -20, 0],
+                            opacity: [0.15, 0.25, 0.15]
+                        }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        <circle cx="50" cy="50" r="50" />
+                    </motion.svg>
+                </div>
+
+                {/* Animated dots/particles */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {[...Array(15)].map((_, i) => (
+                        <motion.div
+                            key={`dot-${i}`}
+                            className="absolute w-1.5 h-1.5 bg-primary/30 rounded-full shadow-sm"
+                            animate={{
+                                y: [0, -40, 0],
+                                x: [0, Math.random() * 40 - 20, 0],
+                                opacity: [0, 0.6, 0],
+                                scale: [0.5, 1, 0.5]
+                            }}
+                            transition={{
+                                duration: 4 + i * 0.5,
+                                repeat: Infinity,
+                                delay: i * 0.3,
+                                ease: "easeInOut"
+                            }}
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`
+                            }}
+                        />
+                    ))}
+                </div>
+
+                {/* Pulsing corner accents */}
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-primary/10"
+                    animate={{
+                        opacity: [0.1, 0.3, 0.1],
+                        scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
+                <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-primary/10"
+                    animate={{
+                        opacity: [0.1, 0.3, 0.1],
+                        scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                        duration: 4.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 1
+                    }}
+                />
+
+                {/* Soft gradient background accents */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    <motion.div
+                        aria-hidden
+                        initial={{ opacity: 0.15, scale: 0.95 }}
+                        animate={{ opacity: 0.25, scale: 1 }}
+                        transition={{ duration: 4, repeat: Infinity, repeatType: 'reverse' }}
+                        className="absolute left-[10%] top-[-10%] w-[40rem] h-[40rem] rounded-full blur-3xl"
+                        style={{
+                            background: 'radial-gradient(circle at center, rgba(37, 99, 235, 0.2), transparent 70%)'
+                        }}
+                    />
+                    <motion.div
+                        aria-hidden
+                        initial={{ opacity: 0.12, scale: 1 }}
+                        animate={{ opacity: 0.22, scale: 1.05 }}
+                        transition={{ duration: 5, repeat: Infinity, repeatType: 'reverse' }}
+                        className="absolute right-[5%] bottom-[5%] w-[35rem] h-[35rem] rounded-full blur-3xl"
+                        style={{
+                            background: 'radial-gradient(circle at center, rgba(79, 70, 229, 0.15), transparent 70%)'
+                        }}
+                    />
+                </div>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -367,9 +482,9 @@ export default function FeaturesContent() {
             <section className="bg-white py-16 sm:py-20 relative overflow-hidden">
                 {/* Decorative animated circles */}
                 <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-                    <motion.svg 
-                        className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
-                        viewBox="0 0 100 100" 
+                    <motion.svg
+                        className="absolute top-0 left-0 w-96 h-96 text-primary/20"
+                        viewBox="0 0 100 100"
                         fill="currentColor"
                         animate={{
                             y: [0, 30, 0],
@@ -383,10 +498,10 @@ export default function FeaturesContent() {
                     >
                         <circle cx="50" cy="50" r="50" />
                     </motion.svg>
-                    
-                    <motion.svg 
-                        className="absolute top-0 right-0 w-96 h-96 text-primary/20" 
-                        viewBox="0 0 100 100" 
+
+                    <motion.svg
+                        className="absolute top-0 right-0 w-96 h-96 text-primary/20"
+                        viewBox="0 0 100 100"
                         fill="currentColor"
                         animate={{
                             y: [0, -20, 0],
