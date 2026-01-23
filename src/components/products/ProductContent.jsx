@@ -202,9 +202,9 @@ export default function ProductContent({ product, slug }) {
             <section className="bg-white py-12 sm:py-20 relative overflow-hidden">
                 {/* Animated floating circles */}
                 <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-                    <motion.svg 
-                        className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
-                        viewBox="0 0 100 100" 
+                    <motion.svg
+                        className="absolute top-0 left-0 w-96 h-96 text-primary/20"
+                        viewBox="0 0 100 100"
                         fill="currentColor"
                         animate={{
                             y: [0, 30, 0],
@@ -218,10 +218,10 @@ export default function ProductContent({ product, slug }) {
                     >
                         <circle cx="50" cy="50" r="50" />
                     </motion.svg>
-                    
-                    <motion.svg 
-                        className="absolute bottom-0 right-0 w-96 h-96 text-primary/20" 
-                        viewBox="0 0 100 100" 
+
+                    <motion.svg
+                        className="absolute bottom-0 right-0 w-96 h-96 text-primary/20"
+                        viewBox="0 0 100 100"
                         fill="currentColor"
                         animate={{
                             y: [0, -20, 0],
@@ -237,9 +237,9 @@ export default function ProductContent({ product, slug }) {
                     </motion.svg>
 
                     {/* Middle floating circle */}
-                    <motion.svg 
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 text-primary/15" 
-                        viewBox="0 0 100 100" 
+                    <motion.svg
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 text-primary/15"
+                        viewBox="0 0 100 100"
                         fill="currentColor"
                         animate={{
                             scale: [1, 1.1, 1],
@@ -284,7 +284,7 @@ export default function ProductContent({ product, slug }) {
                 {/* Abstract flowing lines */}
                 <motion.div
                     aria-hidden
-                    className="pointer-events-none absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+                    className="pointer-events-none absolute top-1/4 left-0 w-full h-px bg-linear-to-r from-transparent via-primary/10 to-transparent"
                     animate={{
                         opacity: [0.3, 0.6, 0.3],
                     }}
@@ -461,7 +461,7 @@ export default function ProductContent({ product, slug }) {
                     <div className="pointer-events-none absolute inset-0" aria-hidden>
                         <div className="absolute -top-12 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
                         <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl" />
-                        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
+                        <div className="absolute inset-x-0 top-1/2 h-px bg-linear-to-r from-transparent via-primary/15 to-transparent" />
                     </div>
 
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -483,7 +483,7 @@ export default function ProductContent({ product, slug }) {
                                 transition={{ duration: 0.5 }}
                                 className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
                             >
-                                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-indigo-500 to-primary" />
+                                <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-primary via-indigo-500 to-primary" />
                                 <div className="flex flex-col h-full gap-4 relative z-10">
                                     <div className="flex items-center gap-3">
                                         <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
@@ -505,7 +505,7 @@ export default function ProductContent({ product, slug }) {
                                 transition={{ duration: 0.5, delay: 0.1 }}
                                 className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
                             >
-                                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-primary to-indigo-500" />
+                                <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-indigo-500 via-primary to-indigo-500" />
                                 <div className="flex flex-col h-full gap-4 relative z-10">
                                     <div className="flex items-center gap-3">
                                         <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
@@ -527,7 +527,7 @@ export default function ProductContent({ product, slug }) {
                                 transition={{ duration: 0.5, delay: 0.2 }}
                                 className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
                             >
-                                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-indigo-500 to-primary" />
+                                <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-primary via-indigo-500 to-primary" />
                                 <div className="flex flex-col h-full gap-4 relative z-10">
                                     <div className="flex items-center gap-3">
                                         <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">

@@ -76,7 +76,7 @@ export default function PortableCleanroomMatsContent() {
             <section className="relative bg-linear-to-b from-primary/10 via-white to-white border-b border-gray-100 overflow-hidden">
                 {/* Animated geometric circles */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <motion.div 
+                    <motion.div
                         className="absolute -top-32 left-10 w-72 h-72 rounded-full bg-blue-200/30"
                         animate={{
                             y: [0, 30, 0],
@@ -88,8 +88,8 @@ export default function PortableCleanroomMatsContent() {
                             ease: "linear"
                         }}
                     />
-                    
-                    <motion.div 
+
+                    <motion.div
                         className="absolute top-20 right-1/4 w-48 h-48 rounded-full bg-blue-200/20"
                         animate={{
                             y: [0, -20, 0],
@@ -101,8 +101,8 @@ export default function PortableCleanroomMatsContent() {
                             ease: "easeInOut"
                         }}
                     />
-                    
-                    <motion.div 
+
+                    <motion.div
                         className="absolute bottom-10 right-10 w-56 h-56 rounded-full bg-indigo-200/20"
                         animate={{
                             y: [0, -25, 0],
@@ -114,8 +114,8 @@ export default function PortableCleanroomMatsContent() {
                             ease: "easeInOut"
                         }}
                     />
-                    
-                    <motion.div 
+
+                    <motion.div
                         className="absolute top-1/2 left-1/4 w-32 h-32 rounded-full bg-indigo-200/20"
                         animate={{
                             scale: [1, 1.2, 1],
@@ -128,7 +128,7 @@ export default function PortableCleanroomMatsContent() {
                         }}
                     />
                 </div>
-                
+
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -440,9 +440,9 @@ export default function PortableCleanroomMatsContent() {
             <section className="bg-white py-12 sm:py-16 md:py-20 relative overflow-hidden">
                 {/* Animated floating circles */}
                 <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-                    <motion.svg 
-                        className="absolute top-0 left-0 w-96 h-96 text-primary/20" 
-                        viewBox="0 0 100 100" 
+                    <motion.svg
+                        className="absolute top-0 left-0 w-96 h-96 text-primary/20"
+                        viewBox="0 0 100 100"
                         fill="currentColor"
                         animate={{
                             y: [0, 30, 0],
@@ -456,10 +456,10 @@ export default function PortableCleanroomMatsContent() {
                     >
                         <circle cx="50" cy="50" r="50" />
                     </motion.svg>
-                    
-                    <motion.svg 
-                        className="absolute bottom-0 right-0 w-96 h-96 text-primary/20" 
-                        viewBox="0 0 100 100" 
+
+                    <motion.svg
+                        className="absolute bottom-0 right-0 w-96 h-96 text-primary/20"
+                        viewBox="0 0 100 100"
                         fill="currentColor"
                         animate={{
                             y: [0, -20, 0],
@@ -475,9 +475,9 @@ export default function PortableCleanroomMatsContent() {
                     </motion.svg>
 
                     {/* Middle floating circle */}
-                    <motion.svg 
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 text-primary/15" 
-                        viewBox="0 0 100 100" 
+                    <motion.svg
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 text-primary/15"
+                        viewBox="0 0 100 100"
                         fill="currentColor"
                         animate={{
                             scale: [1, 1.1, 1],
@@ -522,7 +522,7 @@ export default function PortableCleanroomMatsContent() {
                 {/* Abstract flowing lines */}
                 <motion.div
                     aria-hidden
-                    className="pointer-events-none absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+                    className="pointer-events-none absolute top-1/4 left-0 w-full h-px bg-linear-to-r from-transparent via-primary/10 to-transparent"
                     animate={{
                         opacity: [0.3, 0.6, 0.3],
                     }}

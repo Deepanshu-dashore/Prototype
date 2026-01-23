@@ -165,7 +165,7 @@ export default function IndustryContent({ industry }) {
                     >
                         <circle cx="50" cy="50" r="50" />
                     </motion.svg>
-                    <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
+                    <div className="absolute inset-x-0 top-1/2 h-px bg-linear-to-r from-transparent via-primary/15 to-transparent" />
                 </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

@@ -30,43 +30,52 @@ export const products = [
       {
         title: "Total Particulate Removal",
         description:
-          "Ensures total particulate and bacteria contamination removal before entering your clean room or critical environment with six full steps",
+          "Proven to remove 99.9% of foot and wheel-borne contaminants before they enter your critical environment over six full steps.",
         icon: "CheckBadgeIcon",
       },
       {
         title: "Electro Static Proof",
         description:
-          "Provides an electro static proof barrier before entering your critical work area",
+          "Engineered with a unique compound that creates a static dissipative barrier, protecting sensitive electronics and processes.",
         icon: "ShieldCheckIcon",
       },
       {
-        title: "Long Life Cycle",
-        description: "Life cycle of 4-5 years if properly maintained",
+        title: "Extended Life Cycle",
+        description:
+          "Built for maximum durability with a standard life cycle of 4-5 years in high-traffic industrial areas when properly maintained.",
         icon: "ClockIcon",
       },
       {
         title: "2-Year Guarantee",
-        description: "Full 2-year replacement guarantee",
+        description:
+          "We stand behind our quality with a full 2-year replacement guarantee if our product fails to perform as promoted.",
         icon: "CheckCircleIcon",
       },
       {
         title: "Cost Effective",
-        description: "Huge cost saving in comparison to peel off mats",
+        description:
+          "Delivers significant long-term cost savings compared to traditional peel-off mats by reducing waste and constant replacement.",
         icon: "CurrencyDollarIcon",
       },
       {
         title: "Aesthetic Improvement",
         description:
-          "Aesthetic improvement in the appearance of your workplace",
+          "Enhances the professional appearance of your workplace with a high-quality, seamless, and integrated flooring solution.",
         icon: "PaintBrushIcon",
       },
       {
         title: "Eco-Friendly",
         description:
-          "CC HEAVY DUTY Mat is recyclable and environmentally friendly",
+          "Fully recyclable and environmentally friendly material, helping your facility meet sustainability goals and reduce waste.",
         icon: "ArrowPathIcon",
       },
     ],
+    sizes: {
+      widths: "Available in 60cm, 90cm, 120cm, and 150cm widths.",
+      standardLengths: "90, 120, 150, 180, 200, 300, and 400cms.",
+      customSizes:
+        "Custom lengths and specialized shapes are available to fit any specific area or industrial requirement.",
+    },
     warranty: {
       title: "2 Years of Warranty",
       description:
@@ -112,41 +121,43 @@ export const products = [
       {
         title: "ERGONOMIC",
         description:
-          "Designed to stimulate circulation in feet, legs and lower back. Circulation is stimulated by the unique, patented surface profile of the mats, which forces muscular response.",
+          "Patented surface profile stimulates blood circulation in feet and legs, reducing fatigue by forcing micro-muscular responses during long standing hours.",
         icon: "HeartIcon",
       },
       {
         title: "BEVELED EDGES",
         description:
-          "Molded w/ bevels. Yellow bevels can be added. Bevels will never curl up, eliminating trip hazards.",
+          "Features permanent molded-in bevels that will never curl or delaminate, effectively eliminating trip hazards for a safer work environment.",
         icon: "ExclamationTriangleIcon",
       },
       {
         title: "ANTI-STATIC",
-        description: "Ideal for environments requiring static control.",
+        description:
+          "Specially engineered to provide reliable static control, making it the ideal solution for environments sensitive to electrostatic discharge.",
         icon: "BoltIcon",
       },
       {
         title: "ISO CLEANROOM CERTIFIED",
         description:
-          "Classic Mats are ISO Cleanroom Class 5 (Class 100) rated.",
+          "Fully certified and rated for ISO Cleanroom Class 5 (Class 100), ensuring the highest standards of hygiene and contamination control.",
         icon: "CheckCircleIcon",
       },
       {
         title: "ANY SIZE ANY SHAPE",
         description:
-          "Can be custom made in any size and shape, creating one continuous surface to eliminate seams and trip hazards.",
+          "Can be custom manufactured to any specific size and shape, providing a seamless continuous surface that perfectly fits your workspace.",
         icon: "ScissorsIcon",
       },
       {
         title: "SILICON FREE",
-        description: "All Classic mats are silicon free.",
+        description:
+          "Guaranteed to be 100% silicon-free, making it safe for use in critical manufacturing environments like paint booths and cleanrooms.",
         icon: "XMarkIcon",
       },
       {
         title: "TRUE WARRANTY",
         description:
-          "Classic Mat stands 100% behind our products with full replacement coverage if our product fails to perform as promoted within that period.",
+          "We offer industry-leading protection with full replacement coverage if the product fails to perform as promised within the 8-year period.",
         icon: "ClipboardDocumentCheckIcon",
       },
     ],
@@ -201,42 +212,43 @@ export const products = [
       {
         title: "ESD OPTION",
         description:
-          "Engineered with enhanced static control. Electrical resistance : <1*10^9Ohm",
+          "Advanced engineering provides enhanced static control with electrical resistance <1*10^9 Ohm, protecting your sensitive electronic components.",
         icon: "BoltIcon",
       },
       {
         title: "ERGONOMIC",
         description:
-          "Designed to stimulate circulation in feet, legs and lower back. Circulation is stimulated by the unique, patented surface profile, which forces muscular response.",
+          "Unique patented surface profile triggers muscular response to stimulate blood flow, significantly reducing fatigue during extended periods of standing.",
         icon: "HeartIcon",
       },
       {
         title: "BEVELED EDGES",
         description:
-          "Molded w/ bevels. Yellow bevels can be added. Bevels will never curl up, eliminating trip hazards.",
+          "Integrated molded bevels ensure a smooth transition from floor to mat and are guaranteed to never curl, maintaining long-term safety.",
         icon: "ExclamationTriangleIcon",
       },
       {
         title: "ISO CLEANROOM CERTIFIED",
         description:
-          "Infinity mats are ISO Cleanroom Class 5 (Class 100) rated.",
+          "Rigorously tested and rated for ISO Cleanroom Class 5 (Class 100), meeting strict international standards for controlled environments.",
         icon: "CheckCircleIcon",
       },
       {
         title: "ANY SIZE ANY SHAPE",
         description:
-          "Can be custom made in any size and shape, creating one continuous surface to eliminate seams and trip hazards.",
+          "Designed for versatility, these mats can be custom-cut to any dimension or shape to eliminate gaps and potential trip hazards.",
         icon: "ScissorsIcon",
       },
       {
         title: "SILICON FREE",
-        description: "All mats are silicon & latex free.",
+        description:
+          "Manufactured to be completely silicon and latex-free, ensuring compatibility with the most sensitive and demanding industrial processes.",
         icon: "XMarkIcon",
       },
       {
         title: "TRUE WARRANTY",
         description:
-          "Entrance Matting Ireland stands 100% behind our products with full replacement coverage if our product fails to perform as promoted within that period.",
+          "We stand firmly behind our Infinity series with a comprehensive 6-year replacement warranty, ensuring long-term reliability and performance.",
         icon: "ClipboardDocumentCheckIcon",
       },
     ],
@@ -301,48 +313,49 @@ export const products = [
       {
         title: "ESD VERSION",
         description:
-          "Engineered with enhanced static control. Electrical resistance : 3×10⁸ Ω – 8×10⁸ Ω",
+          "Precision-engineered for superior static dissipation with electrical resistance between 3×10⁸ Ω and 8×10⁸ Ω for maximum safety.",
         icon: "BoltIcon",
       },
       {
         title: "FIRE RETARDANT",
         description:
-          "Self-extinguishing when introduced to open flame, which qualifies the Complete mats as fire retardant according to standard EN 13501-1.",
+          "Self-extinguishing material qualified to the EN 13501-1 standard, providing essential fire safety in hazardous or high-risk environments.",
         icon: "ExclamationTriangleIcon",
       },
       {
         title: "ERGONOMIC",
         description:
-          "Designed to stimulate circulation in feet, legs and lower back. Circulation is stimulated by the unique, patented surface profile of the mats, which forces muscular response.",
+          "Scientifically designed surface profile stimulates circulation and reduces physical strain on the back and legs during shift work.",
         icon: "HeartIcon",
       },
       {
         title: "BEVELED EDGES",
         description:
-          "Molded w/ bevels. Yellow bevels can be added. Bevels will never curl up, eliminating trip hazards.",
+          "Durable molded bevels provide a safe, tapered edge that remains flat over time, preventing accidental slips and trips in the workplace.",
         icon: "ExclamationTriangleIcon",
       },
       {
         title: "ISO CLEANROOM CERTIFIED",
         description:
-          "Complete mats are ISO Cleanroom Class 5 (Class 100) rated.",
+          "Certified for ISO Cleanroom Class 5 (Class 100), providing an ideal contamination-controlled surface for sterile environments.",
         icon: "CheckCircleIcon",
       },
       {
         title: "ANY SIZE ANY SHAPE",
         description:
-          "Can be custom made in any size and shape, creating one continuous surface to eliminate seams and trip hazards.",
+          "Customizable to any footprint, our 'any size, any shape' capability ensures a perfect, seamless fit for your specific facility layout.",
         icon: "ScissorsIcon",
       },
       {
         title: "SILICON FREE",
-        description: "All EMI Complete mats are silicon free.",
+        description:
+          "100% silicon-free construction prevents surface contamination, making these mats perfect for high-precision manufacturing and cleanrooms.",
         icon: "XMarkIcon",
       },
       {
         title: "TRUE WARRANTY",
         description:
-          "CCMatting stands 100% behind our products with full replacement coverage if our product fails to perform as promoted within that period.",
+          "Enjoy complete peace of mind with a 5-year full replacement warranty, reflecting our absolute confidence in the Complete series' quality.",
         icon: "ClipboardDocumentCheckIcon",
       },
     ],
