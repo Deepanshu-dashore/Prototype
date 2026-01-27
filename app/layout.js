@@ -5,7 +5,7 @@ export const metadata = {
   title: "CC Matting - Contamination Control Solutions",
   favicon: "/src/favicon.png",
   description:
-    "Leading provider of contamination control solutions for cleanroom environments worldwide. High-quality matting solutions designed to capture 99.9% of particulates.",
+    "Leading provider of contamination control solutions for cleanroom environments worldwide. High-quality matting solutions designed to capture Up to 99% of particulates.",
   keywords:
     "cleanroom mats, contamination control, anti-fatigue mats, cleanroom solutions",
 };

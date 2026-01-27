@@ -300,7 +300,7 @@ export default function FeaturesContent() {
                             Advanced Contamination Control Solutions
                         </h1>
                         <p className="text-lg sm:text-xl text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
-                            Discover how our polymeric matting technology protects your critical areas with proven 99.9% particle retention.
+                            Discover how our polymeric matting technology protects your critical areas with proven Up to 99% particle retention.
                         </p>
                     </motion.div>
                 </div>
@@ -308,7 +308,7 @@ export default function FeaturesContent() {
 
             {/* What is Polymeric Mat Section - Refactored for Scroll Sync */}
             <SyncedSideSection
-                videoId="zQW07tHqGXs"
+                videoId="DXUpivYwE0M"
                 videoTitle="What is a Polymeric Mat"
                 bgClass="bg-white"
             >
@@ -321,7 +321,7 @@ export default function FeaturesContent() {
                 </h2>
                 <div className="space-y-5 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
                     <p>
-                        A polymeric mat is manufactured with a patented polymeric compound and a non migratory plasticizer, creating a natural tack and proven to retain up to <strong className="text-neutral-dark font-semibold">99.9% of foot and wheel borne particles</strong> from entering your critical areas.
+                        A polymeric mat is manufactured with a patented polymeric compound and a non migratory plasticizer, creating a natural tack and proven to retain up to <strong className="text-neutral-dark font-semibold">Up to 99% of foot and wheel borne particles</strong> from entering your critical areas.
                     </p>
                     <p>
                         The high tack surface is slightly conforming which allows a concentrated loading of particles as you walk or traverse across the mat with a trolley.
@@ -336,7 +336,7 @@ export default function FeaturesContent() {
             </SyncedSideSection>
 
             {/* Anti-Microbial Properties */}
-            <section className="bg-gray-800 py-16 sm:py-20 relative">
+            <section className="bg-linear-to-br from-[#0047AB] to-indigo-700 py-16 sm:py-20 relative">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.03]" aria-hidden />
                 <div className="max-w-7xl relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
@@ -351,10 +351,10 @@ export default function FeaturesContent() {
                         </h3>
                         <div className="space-y-5 text-sm sm:text-base text-neutral-100/70 leading-relaxed">
                             <p>
-                                To enhance the performance of the material special additives are mixed in to give <strong className="text-indigo-300 font-semibold">static dissipative and anti-microbial properties</strong>. The anti-microbial properties are due to the an addition of a silver biocide which is impregnated during manufacturing.
+                                To enhance the performance of the material special additives are mixed in to give <strong className="text-white font-semibold">static dissipative and anti-microbial properties</strong>. The anti-microbial properties are due to the an addition of a silver biocide which is impregnated during manufacturing.
                             </p>
                             <p>
-                                This ensures it is <strong className="text-indigo-300 font-semibold">non-leaching and non-diminishing</strong>. The silver biocide is capable of killing over 50 forms of gram negative and gram positive bacteria including <strong className="text-indigo-300 font-semibold">MRSA, E Coli, SARS and Listeria</strong>.
+                                This ensures it is <strong className="text-white font-semibold">non-leaching and non-diminishing</strong>. The silver biocide is capable of killing over 50 forms of gram negative and gram positive bacteria including <strong className="text-white font-semibold">MRSA, E Coli, SARS and Listeria</strong>.
                             </p>
                         </div>
                     </motion.div>

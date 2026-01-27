@@ -6,7 +6,7 @@ export const products = [
     title: "CC HEAVY DUTY",
     subtitle: "High-Performance Flooring System",
     description:
-      "CC HEAVY DUTY Mat is a high-performance flooring system that ensures 99.9% foot and wheel Bourne particulate removal over six steps and reduces electro static discharge. CC Heavy Duty should be used in areas with heavy footfall traffic, use of forklifts, motorized pallet trucks and heavy trolleys.",
+      "CC HEAVY DUTY Mat is a high-performance flooring system that ensures Up to 99% foot and wheel Bourne particulate removal over six steps and reduces electro static discharge. CC Heavy Duty should be used in areas with heavy footfall traffic, use of forklifts, motorized pallet trucks and heavy trolleys.",
     image: "/assets/products Page/heavy-duty-new.png",
     gradientColors: {
       primary: "rgb(9, 31, 208)",
@@ -30,7 +30,7 @@ export const products = [
       {
         title: "Total Particulate Removal",
         description:
-          "Proven to remove 99.9% of foot and wheel-borne contaminants before they enter your critical environment over six full steps.",
+          "Proven to remove Up to 99% of foot and wheel-borne contaminants before they enter your critical environment over six full steps.",
         icon: "CheckBadgeIcon",
       },
       {

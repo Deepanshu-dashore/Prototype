@@ -28,23 +28,23 @@ export default function WhatSetsApartDark() {
   const certifications = [
     {
       icon: ShieldCheckIcon,
-      title: 'CE Marking',
+      title: 'CE Marked',
       description: 'European Conformity certification ensuring our products meet EU safety, health, and environmental protection standards.',
     },
     {
       icon: SparklesIcon,
-      title: 'No VOCs',
+      title: 'VOC Free',
       description: 'Completely free from Volatile Organic Compounds, ensuring safe indoor air quality and environmental responsibility.',
     },
     {
       icon: DocumentCheckIcon,
-      title: 'BPR–EPA Compliant',
+      title: 'REACH Compliant',
       description: 'Fully compliant with Biocidal Products Regulation and Environmental Protection Agency standards for safety and efficacy.',
     },
     {
       icon: ChartBarIcon,
       title: 'Particulate Study Results',
-      description: 'Scientifically validated through rigorous particulate contamination studies, proving 99.9% effectiveness.',
+      description: 'Scientifically validated through rigorous particulate contamination studies, proving Up to 99% effectiveness.',
     },
     {
       icon: CheckBadgeIcon,
@@ -56,20 +56,25 @@ export default function WhatSetsApartDark() {
       title: 'Quality Assurance',
       description: 'Comprehensive quality control processes ensuring consistent performance and reliability across all products.',
     },
-    {
-      icon: RocketLaunchIcon,
-      title: 'Industry Leading',
-      description: 'Recognized as industry leaders in contamination control technology with proven track record.',
-    },
-    {
-      icon: StarIcon,
-      title: 'Premium Materials',
-      description: 'Advanced high-tech polymer construction delivering superior durability and contamination control performance.',
-    },
+    // {
+    //   icon: RocketLaunchIcon,
+    //   title: 'Industry Leading',
+    //   description: 'Recognized as industry leaders in contamination control technology with proven track record.',
+    // },
+    // {
+    //   icon: StarIcon,
+    //   title: 'Premium Materials',
+    //   description: 'Advanced high-tech polymer construction delivering superior durability and contamination control performance.',
+    // },
     {
       icon: TrophyIcon,
       title: '2 Year Warranty',
       description: 'All products backed by comprehensive 2-year replacement warranty for complete peace of mind.',
+    },
+    {
+      icon: RocketLaunchIcon,
+      title: 'Static Dissipative',
+      description: 'ESD-safe materials that safely dissipate static electricity, protecting sensitive electronics and preventing electrostatic discharge.',
     },
   ]
 

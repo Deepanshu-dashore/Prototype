@@ -233,10 +233,11 @@ export default function Hero({ onSecondaryClick }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="text-base sm:text-lg text-neutral-600 max-w-xl leading-relaxed font-medium "
+              className="text-base sm:text-lg text-justify text-neutral-600 max-w-xl leading-relaxed font-medium "
             >
-              Advanced high-tech polymer mats providing <span className="text-neutral-900 font-semibold">99.9% protection</span> against floor-level contaminants. Engineered for excellence with a 2-year replacement warranty.
+              CC Matting manufacture, distribute & install class leading advanced high-tech polymeric matting that eradicates <span className="text-neutral-900 font-semibold">up to 99%</span> of harmful floor based particulate from entering your critical areas. Engineered for excellence and scientifically proven <span className="text-neutral-900 font-semibold">with a 2-Yr replacement warranty.</span> 
             </motion.p>
+             
 
             {/* Key Highlights - CE Marking, BPR-EPA, Zero VOCs */}
             <motion.div
@@ -320,11 +321,11 @@ export default function Hero({ onSecondaryClick }) {
               className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-neutral-200/60"
             >
               <div className='pl-2'>
-                <div className="text-2xl xl:text-3xl font-bold text-neutral-900">99.9%</div>
+                <div className="text-2xl xl:text-xl font-bold text-neutral-900">Up to 99%</div>
                 <div className="text-xs font-medium text-neutral-500 mt-1">Protection Rate</div>
               </div>
               <div>
-                <div className="text-2xl xl:text-3xl font-bold text-neutral-900">2 Years</div>
+                <div className="text-2xl xl:text-xl font-bold text-neutral-900">2 Years</div>
                 <div className="text-xs font-medium text-neutral-500 mt-1">Warranty</div>
               </div>
               <div className="flex items-center justify-start opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
@@ -373,7 +374,7 @@ export default function Hero({ onSecondaryClick }) {
               <div className="w-1/2 h-1/2 rounded-full">
                 <div className="absolute w-8/12 md:w-10/12 capitalize border-2 border-primary/20 bg-white px-3 py-2 group-hover:scale-105 transition-all duration-300 rounded-md shadow-lg cursor-pointer text-neutral-dark  right-30 md:-right-30 -bottom-10 -rotate-40">
                   <div className='flex bg-gray-100 py-1 rounded-sm  items-center justify-center gap-2'>
-                    <h1 className='xl:text-2xl text-base font-bold group-hover:text-primary transition-all duration-300'>99.9%</h1>
+                    <h1 className='xl:text-2xl text-base font-bold group-hover:text-primary transition-all duration-300'>Up to 99%</h1>
                     <h2 className='lg:text-sm text-xs font-bold text-gray-600 mt-2'>effective</h2>
                   </div>
                   <p className='text-[8px] lg:text-[10px] text-xs text-gray-400'>After 7 footfalls and 3 wheel rotations</p>
@@ -450,14 +451,14 @@ export default function Hero({ onSecondaryClick }) {
           loop 
           muted 
           playsInline
-className="
-  absolute max-w-full h-auto bottom-10 left-1/2 -translate-x-1/2
-  w-auto
-  z-0
-  md:w-auto md:top-[-156px] md:left-[400px] md:translate-x-0 md:bottom-auto md:z-auto
-"
+          className="
+            absolute max-w-full h-auto bottom-10 left-1/2 -translate-x-1/2
+            w-auto
+            z-0
+            md:w-auto md:top-[-130px] md:left-[430px] md:translate-x-0 md:bottom-auto md:z-auto
+          "
         >
-          <source src="animation.webm" type="video/webm"/>
+          <source src="Version 1.webm" type="video/webm"/>
         </video>
       </div>
 

@@ -12,7 +12,7 @@ export const metadata = {
   openGraph: {
     title: "Contact CC Matting | Expert Contamination Control Solutions",
     description:
-      "Inquiry about our 99.9% effective contamination control mats. Our team is ready to assist you with your cleanroom needs.",
+      "Inquiry about our Up to 99% effective contamination control mats. Our team is ready to assist you with your cleanroom needs.",
     url: "https://ccmatting.com/contact",
     type: "website",
   },

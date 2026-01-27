@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import LogoLoop from './LogoLoop'
 
 export default function CustomersLogos() {
+  // Combine all logos into one array for a single horizontal banner
   const allLogos = [
     { src: '/assets/Our Valuable Customers/asset 2.png', alt: 'Customer Logo 1',zoom:true },
     { src: '/assets/Our Valuable Customers/asset 3.png', alt: 'Customer Logo 2',zoom:true },
@@ -37,23 +38,20 @@ export default function CustomersLogos() {
   ];
 
   return (
-    <section className="bg-neutral-50 py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden">
-      {/* Gradient Overlay for depth */}
-      <div className="absolute inset-0 z-0 bg-linear-to-b from-white/80 via-transparent to-white/80 pointer-events-none" />
-
-      <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 relative z-10">
+    <section className="bg-[#041bc6] py-12 sm:py-14 md:py-16 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-8 sm:mb-10 md:mb-12"
+          className="text-center mb-8 sm:mb-10"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] font-bold text-neutral-dark mb-3 sm:mb-4">
-            Our <span className="text-primary">Valuable Customers</span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
+            Our <span className="text-white/90">Valuable Customers</span>
           </h2>
-          <p className="text-neutral-dark/70 text-sm sm:text-base max-w-3xl mx-auto px-4 sm:px-0">
-            Trusted by leading blue-chip companies for superior contamination control solutions worldwide.
+          <p className="text-white/70 text-sm sm:text-base max-w-3xl mx-auto">
+            Trusted by leading companies for superior contamination control solutions worldwide.
           </p>
         </motion.div>
 

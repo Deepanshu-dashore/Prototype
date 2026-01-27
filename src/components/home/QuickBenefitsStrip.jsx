@@ -37,8 +37,8 @@ export default function QuickBenefitsStrip() {
     {
       icon: BeakerIcon,
       title: 'Particulate Study Results',
-      description: 'Scientifically validated through rigorous particulate contamination studies, proving 99.9% effectiveness.',
-      badges: ['Lab Tested', '99.9% Effective']
+      description: 'Scientifically validated through rigorous particulate contamination studies, proving Up to 99% effectiveness.',
+      badges: ['Lab Tested', 'Up to 99% Effective']
     },
     {
       icon: CheckBadgeIcon,

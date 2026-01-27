@@ -12,14 +12,14 @@ import UseCases from "@/src/components/home/UseCases";
 export const metadata = {
   title: "CC Matting | Contamination Control & Cleanroom Matting Solutions",
   description:
-    "Leading provider of advanced polyermic contamination control matting. Proven 99.9% particle retention for cleanrooms, hospitals, and critical environments. 2-year warranty.",
+    "Leading provider of advanced polyermic contamination control matting. Proven Up to 99% particle retention for cleanrooms, hospitals, and critical environments. 2-year warranty.",
   alternates: {
     canonical: "https://ccmatting.com",
   },
   openGraph: {
     title: "CC Matting | Advanced Contamination Control Solutions",
     description:
-      "Protect your critical environments with 99.9% effective polymeric matting. Optimized for cleanrooms, labs, and healthcare.",
+      "Protect your critical environments with Up to 99% effective polymeric matting. Optimized for cleanrooms, labs, and healthcare.",
     url: "https://ccmatting.com",
     siteName: "CC Matting",
     locale: "en_US",
@@ -36,7 +36,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "CC Matting | Contamination Control Solutions",
-    description: "99.9% Particle Retention Matting for Critical Environments.",
+    description: "Up to 99% Particle Retention Matting for Critical Environments.",
     images: ["https://ccmatting.com/BlogIso.png"],
   },
 };
@@ -60,10 +60,10 @@ export default function Home() {
         {/* 7. INDUSTRY SOLUTIONS */}
         <IndustriesScroll />
 
-        <IndustrySolutions />
+        {/* <IndustrySolutions /> */}
 
         {/* USE CASES */}
-        <UseCases />
+        {/* <UseCases /> */}
 
         {/* 6. TESTIMONIALS */}
         <CaseStudies />

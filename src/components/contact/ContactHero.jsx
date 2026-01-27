@@ -171,7 +171,7 @@ export default function ContactHero() {
                   Ireland's leading supplier of contamination control mats.
                 </p>
                 <p className="text-lg text-neutral-dark/70 leading-relaxed text-justify max-w-xl">
-                  We provide innovative solutions for cleanrooms, critical environments, and high-traffic areas. Our polymeric matting technology ensures <span className="text-neutral-dark font-bold">99.9% particle retention</span>, protecting your critical areas from harmful contaminants.
+                  We provide innovative solutions for cleanrooms, critical environments, and high-traffic areas. Our polymeric matting technology ensures <span className="text-neutral-dark font-bold">Up to 99% particle retention</span>, protecting your critical areas from harmful contaminants.
                 </p>
               </div>
 

@@ -55,7 +55,7 @@ Particles in a semi-conductor facility can be viable or non-viable, made from di
 
 Particles outside the critical area can also be a potential problem, especially the small, light, invisible particles. Even fairly large particles that have settled on the floor are easily crushed into very small particles and redistributed back into the air. These airborne particles then get transferred into the critical area of your semi-conductor facility where they present a potential hazard.
 
-According to a 3M study 80% of contaminants/harmful particulates enter the critical area of a semi-conductor environment via the feet or wheels of trollies. A contamination control mat supplied and installed by CC Matting will provide 99.9% protection from these harmful particulates over 6 falls of the feet.
+According to a 3M study 80% of contaminants/harmful particulates enter the critical area of a semi-conductor environment via the feet or wheels of trollies. A contamination control mat supplied and installed by CC Matting will provide Up to 99% protection from these harmful particulates over 6 falls of the feet.
 
 The high tack contamination control mat is made of a polyester polymer with a polyester fabric backing. The properties of the cocktail of materials used in the sophisticated manufacturing process together create a material that has a very optically smooth, soft and supple surface with a natural tack and a high level of short-range electromagnetic forces, known as van der Waals forces.
 
@@ -67,12 +67,12 @@ All CC Matting contamination control mats are totally non-volatile/non-toxic –
 
 The cutting edge polymer technology maximizes the reduction of particulate and static contamination from your critical environment. The contamination threat in the manufacturing process is greatly reduced from start to finished chips.
 
-All of these properties combine to ensure that your semi-conductor facility is being optimally protected for both your staff and contractors alike. There is no other proven method in the world today that can remove 99.9% of potential harmful particulates/contaminants from the feet or wheels of trolleys.`,
+All of these properties combine to ensure that your semi-conductor facility is being optimally protected for both your staff and contractors alike. There is no other proven method in the world today that can remove Up to 99% of potential harmful particulates/contaminants from the feet or wheels of trolleys.`,
     gradientColors: "from-purple-600 via-purple-500 to-indigo-500",
     bglinear: "from-purple-600/30 via-purple-500/20 to-indigo-500/30",
     image: "/assets/industries/semiconductor.png",
     benefits: [
-      "99.9% protection from harmful particulates",
+      "Up to 99% protection from harmful particulates",
       "Static dissipative properties",
       "Zero outgassing - suitable for any grade area",
       "Non-volatile and non-toxic",
@@ -93,14 +93,14 @@ All of these properties combine to ensure that your semi-conductor facility is b
 
 Hospitals deal with very high levels of footfall throughout the day with visitors coming and going. Along with this high level of footfall brings the risk of outside infections and contaminants. These potentially dangerous contaminants can have devastating effects in a hospital environment and can potentially put lives at risk too.
 
-This is why it's so important that you stop these risks right at the very front door before anyone even steps foot inside the facility. Contamination controls mats are the only proven method in the world today that can remove 99.9% of potential harmful particulates/contaminants from the feet or wheels of trolleys.
+This is why it's so important that you stop these risks right at the very front door before anyone even steps foot inside the facility. Contamination controls mats are the only proven method in the world today that can remove Up to 99% of potential harmful particulates/contaminants from the feet or wheels of trolleys.
 
 Having the proper procedures and technology in place is crucial for keeping a clean environment in such a sensitive setting. Contamination control mats will help protect all staff and patients from potentially harmful contaminants but it will also help to keep clean rooms and critical control rooms clean too.`,
     gradientColors: "from-teal-600 via-teal-500 to-cyan-500",
     bglinear: "from-teal-600/30 via-teal-500/20 to-cyan-500/30",
     image: "/assets/industries/hospitals.png",
     benefits: [
-      "99.9% particulate and bacteria removal with six full steps",
+      "Up to 99% particulate and bacteria removal with six full steps",
       "Electrostatic proof barrier before critical work areas",
       "Life cycle of 4-5 years if properly maintained",
       "Full 2-year replacement guarantee",
@@ -127,7 +127,7 @@ Having the proper procedures and technology in place is crucial for keeping a cl
   
   Particles outside the critical area can also be a potential problem, especially the small, light, invisible particles. Even fairly large particles that have settled on the floor are easily crushed into very small particles and redistributed back into the air. These airborne particles then get transferred into the critical area of your pharmaceutical facility where they present a potential hazard.
   
-  According to a 3M study 80% of contaminants/harmful particulates enter the critical area of a pharmaceutical environment via the feet or wheels of trollies. A contamination control mat supplied and installed by CC Matting will provide 99.9% protection from these harmful particulates over 6 falls of the feet.
+  According to a 3M study 80% of contaminants/harmful particulates enter the critical area of a pharmaceutical environment via the feet or wheels of trollies. A contamination control mat supplied and installed by CC Matting will provide Up to 99% protection from these harmful particulates over 6 falls of the feet.
   
   The high tack contamination control mat is made of a polyester polymer with a polyester fabric backing. The properties of the cocktail of materials used in the sophisticated manufacturing process together create a material that has a very optically smooth, soft and supple surface with a natural tack and a high level of short-range electromagnetic forces, known as van der Waals forces.
   
@@ -135,12 +135,12 @@ Having the proper procedures and technology in place is crucial for keeping a cl
   
   To enhance the performance of the material special additives are mixed in to give static dissipative and anti-microbial properties.
   
-  All of these properties combine to ensure that your pharmaceutical facility is being optimally protected for both your staff and contractors alike. There is no other proven method in the world today that can remove 99.9% of potential harmful particulates/contaminants from the feet or wheels of trolleys.`,
+  All of these properties combine to ensure that your pharmaceutical facility is being optimally protected for both your staff and contractors alike. There is no other proven method in the world today that can remove Up to 99% of potential harmful particulates/contaminants from the feet or wheels of trolleys.`,
     gradientColors: "from-rose-600 via-pink-500 to-red-500",
     bglinear: "from-rose-600/30 via-pink-500/20 to-red-500/30",
     image: "/assets/industries/pharmaceutical.png",
     benefits: [
-      "Removes 99.9% of contaminants entering cleanrooms",
+      "Removes Up to 99% of contaminants entering cleanrooms",
       "Static dissipative and anti-microbial surface",
       "Prevents cross-contamination between processing suites",
       "Protects viable and non-viable particle environments",
@@ -164,14 +164,14 @@ Having the proper procedures and technology in place is crucial for keeping a cl
 
   Polymer mats should become an integral part of any laboratory facility cGMP’s to reduce microbial and particulate contamination to help your company meet its highest standards and FDA mandated bacterial counts.
 
-  According to a 3M study 80% of contaminants enter the critical area via the feet or wheels of trolleys. A contamination control mat supplied and installed by CC Matting will provide 99.9% protection from these harmful particulates over 6 falls of the feet.
+  According to a 3M study 80% of contaminants enter the critical area via the feet or wheels of trolleys. A contamination control mat supplied and installed by CC Matting will provide Up to 99% protection from these harmful particulates over 6 falls of the feet.
 
   All CC Matting contamination control mats are totally non-volatile/non-toxic and emit zero outgassing, ensuring optimal suitability for use in any laboratory facility.`,
     gradientColors: "from-green-600 via-lime-500 to-emerald-500",
     bglinear: "from-green-600/30 via-lime-500/20 to-emerald-500/30",
     image: "/assets/industries/life_science_lab_1763625546556.png",
     benefits: [
-      "99.9% particulate and bacteria removal with six steps",
+      "Up to 99% particulate and bacteria removal with six steps",
       "Electrostatic proof barrier for critical work areas",
       "Life cycle of 4–5 years with proper maintenance",
       "Full 2-year replacement warranty",
@@ -251,14 +251,14 @@ Having the proper procedures and technology in place is crucial for keeping a cl
   
   Polymer mats should become an integral part of any medical device facility’s cGMPs to reduce microbial and particulate contamination and help meet the highest FDA and EU standards.
   
-  According to a 3M study, 80% of contaminants enter critical areas via the feet or wheels of trolleys. CC Matting polymeric mats ensure 99.9% protection over six footfalls, removing harmful particulates and maintaining sterile environments.
+  According to a 3M study, 80% of contaminants enter critical areas via the feet or wheels of trolleys. CC Matting polymeric mats ensure Up to 99% protection over six footfalls, removing harmful particulates and maintaining sterile environments.
   
   All mats are non-volatile, non-toxic, and emit zero outgassing — ideal for critical cleanroom areas.`,
     gradientColors: "from-cyan-600 via-sky-500 to-indigo-500",
     bglinear: "from-cyan-600/30 via-sky-500/20 to-indigo-500/30",
     image: "/assets/industries/medical-devices.png",
     benefits: [
-      "99.9% particulate and bacterial removal over six steps",
+      "Up to 99% particulate and bacterial removal over six steps",
       "Electrostatic proof barrier for clean zones",
       "4–5 year lifespan with proper maintenance",
       "2-year guarantee and full replacement support",
@@ -279,7 +279,7 @@ Having the proper procedures and technology in place is crucial for keeping a cl
     
     Automotive manufacturing facilities require rigorous cleanliness standards to minimize defects and rework. Dust and debris tracked in by foot traffic or trolleys can lead to costly paint imperfections and assembly failures rather than the showroom-quality finish customers expect.
     
-    CC Matting's contamination control solutions capture 99.9% of foot-borne and wheel-borne particulates, ensuring that critical zones remain contaminant-free. This protection helps automotive manufacturers maintain high production yields and superior product quality.`,
+    CC Matting's contamination control solutions capture Up to 99% of foot-borne and wheel-borne particulates, ensuring that critical zones remain contaminant-free. This protection helps automotive manufacturers maintain high production yields and superior product quality.`,
     gradientColors: "from-red-600 via-orange-500 to-amber-500",
     bglinear: "from-red-600/30 via-orange-500/20 to-amber-500/30",
     image: "/assets/industries/automotive.png",

@@ -103,7 +103,7 @@ export default function SpecificationsTable() {
                                 <div className="p-5 grid grid-cols-2 gap-4 bg-gray-50/20 border-t border-gray-200 border-b lg:border-b-0">
                                     <div className="space-y-0.5">
                                         <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-tight">Antimicrobial Efficiency</p>
-                                        <p className="text-[11px] font-semibold text-neutral-600">Silver-Ion infused (99.9% effective)</p>
+                                        <p className="text-[11px] font-semibold text-neutral-600">Silver-Ion infused (Up to 99% effective)</p>
                                     </div>
                                     <div className="space-y-0.5">
                                         <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-tight">Environment</p>
