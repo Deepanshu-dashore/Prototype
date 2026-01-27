@@ -8,7 +8,7 @@ export default function UtilityBar() {
     trackPhoneClick('utility_bar')
   }
   return (
-    <div className="bg-neutral-dark text-white text-sm py-2">
+    <div className="bg-blue-800 text-white text-sm py-2">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-4 lg:gap-6">
           <a 
