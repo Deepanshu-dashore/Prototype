@@ -237,7 +237,7 @@ export default function CaseStudies() {
             opacity: [0.2, 0.4, 0.2]
           }}
           transition={{
-            duration: 8,
+            duration: 5,
             repeat: Infinity,
             ease: "easeInOut"
           }}
