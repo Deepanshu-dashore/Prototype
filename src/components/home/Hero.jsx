@@ -328,14 +328,14 @@ export default function Hero({ onSecondaryClick }) {
                 <div className="text-2xl xl:text-xl font-bold text-neutral-900">2 Years</div>
                 <div className="text-xs font-medium text-neutral-500 mt-1">Warranty</div>
               </div>
-              <div className="flex items-center justify-start opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
-                <div className="flex items-center justify-center h-14 w-24">
-                  <Image src="/assets/ISO1.png" alt="ISO 9001" width={418} height={180} className="h-14 w-24 object-contain" />
+              <div className="flex items-center justify-start opacity-80 grayscale hover:grayscale-0 transition-all duration-500 -mt-2.5">
+                <div className="flex items-center justify-center h-15 w-25">
+                  <Image src="/new-iso-1.png" alt="ISO 9001" width={418} height={180} className="h-14 w-24 object-contain" />
                 </div>
               </div>
               <div className="flex items-center justify-start opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
                 <div className="flex items-center justify-center h-14 w-24">
-                  <Image src="/assets/ISO2.png" alt="ISO 14001" width={500} height={193} className="h-14 w-24 object-contain" />
+                  <Image src="/new-iso-2.png" alt="ISO 14001" width={500} height={180} className="h-14 w-24 object-contain" />
                 </div>
               </div>
             </motion.div>
