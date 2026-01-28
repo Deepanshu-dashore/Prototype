@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "CC Matting - Contamination Control Solutions",
-  favicon: "/src/favicon.png",
+  favicon: "/favicon.ico",
   description:
     "Leading provider of contamination control solutions for cleanroom environments worldwide. High-quality matting solutions designed to capture Up to 99% of particulates.",
   keywords:
