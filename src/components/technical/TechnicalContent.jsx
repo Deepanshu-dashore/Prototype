@@ -10,6 +10,7 @@ import {
     ArrowDownTrayIcon,
     EyeIcon
 } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 export default function TechnicalContent() {
     const technicalItems = [
@@ -44,6 +45,8 @@ export default function TechnicalContent() {
             description: 'Download our comprehensive product brochure with detailed information about all our solutions.',
         },
     ];
+
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
         <main className="grow">
@@ -139,11 +142,13 @@ export default function TechnicalContent() {
                             return (
                                 <motion.div
                                     key={item.name}
+                                    onMouseEnter={()=>{setIsHovered(index)}}
+                                    onMouseLeave={()=>{setIsHovered(null)}}
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className="relative overflow-hidden group bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-xl transition-all duration-500 flex flex-col h-full"
+                                    className={`relative hover:scale-110 overflow-hidden group bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-xl transition-all duration-500 flex flex-col h-full ${isHovered === index ? "scale-110" : isHovered !== null && "blur-xs opacity-80"}`}
                                 >
                                     {/* Background Slide Animation */}
                                     <div className="absolute inset-0 bg-linear-to-br from-primary to-indigo-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
