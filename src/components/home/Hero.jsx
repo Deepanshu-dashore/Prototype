@@ -330,12 +330,12 @@ export default function Hero({ onSecondaryClick }) {
               </div>
               <div className="flex items-center justify-start transition-all duration-500 -mt-2.5">
                 <div className="flex items-center justify-center h-15 w-25">
-                  <Image src="/new-iso-1.png" alt="ISO 9001" width={418} height={180} className="h-14 w-24 object-contain" />
+                  <Image src="/new-iso-1.png" alt="ISO 9001" width={430} height={180} className="h-14 w-28 object-contain" />
                 </div>
               </div>
               <div className="flex items-center justify-start transition-all duration-500">
-                <div className="flex items-center justify-center h-14 w-24">
-                  <Image src="/new-iso-2.png" alt="ISO 14001" width={500} height={180} className="h-14 w-24 object-contain" />
+                <div className="flex -mt-1.5 items-center justify-center h-14 w-24">
+                  <Image src="/new-iso-2.png" alt="ISO 14001" width={418} height={180} className="h-13 w-23 object-contain" />
                 </div>
               </div>
             </motion.div>

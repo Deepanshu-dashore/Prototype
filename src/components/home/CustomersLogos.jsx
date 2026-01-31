@@ -17,10 +17,13 @@ export default function CustomersLogos() {
     { src: '/assets/Our Valuable Customers/asset 10.png', alt: 'Customer Logo 9',zoom:true },
     { src: '/assets/Our Valuable Customers/asset 11.png', alt: 'Customer Logo 10',zoom:true },
     { src: '/assets/Our Valuable Customers/asset 12.png', alt: 'Customer Logo 11',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 13.jpeg', alt: 'Customer Logo 12',zoom:false },
+    { src: '/assets/Our Valuable Customers/NIBRT.webp', alt: 'Customer Logo NIBRT',zoom:false },
+    { src: '/assets/Our Valuable Customers/Bristol.png', alt: 'Customer Logo Bristol',zoom:false },
      ]
 
   const secondRowLogos = [
+    { src: '/assets/Our Valuable Customers/Apleona.png', alt: 'Customer Logo Apleona',zoom:false },
+    { src: '/assets/Our Valuable Customers/AnalogDevices.png', alt: 'Customer Logo AnalogDevices',zoom:true },
     { src: '/assets/Our Valuable Customers/asset 13.jpeg', alt: 'Customer Logo 12',zoom:false },
     { src: '/assets/Our Valuable Customers/asset 14.jpeg', alt: 'Customer Logo 13',zoom:false },
     { src: '/assets/Our Valuable Customers/asset 15.gif', alt: 'Customer Logo 14',zoom:true },
@@ -39,7 +42,7 @@ export default function CustomersLogos() {
 
   return (
     <section className="bg-[#041bc6] py-12 sm:py-14 md:py-16 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

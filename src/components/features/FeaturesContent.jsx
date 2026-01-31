@@ -14,9 +14,11 @@ import {
     CpuChipIcon,
     GiftIcon,
     WrenchScrewdriverIcon,
-    Cog6ToothIcon
+    Cog6ToothIcon,
+    SwatchIcon
 } from "@heroicons/react/24/outline";
 import DotGrid from '../share/DotGrid';
+import ImageZoom from '../ui/ImageZoom';
 
 // YouTube Video Component
 function YouTubeVideo({ videoId, title }) {
@@ -307,10 +309,14 @@ export default function FeaturesContent() {
             </section>
 
             {/* What is Polymeric Mat Section - Refactored for Scroll Sync */}
+            <section className='relative bg-white'>
+            {/* <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.06]" aria-hidden /> */}
+            <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-600/40 animate-[pulse_2s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
+
             <SyncedSideSection
                 videoId="DXUpivYwE0M"
                 videoTitle="What is a Polymeric Mat"
-                bgClass="bg-white"
+                bgClass="relative z-10"
             >
                 <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
                     <CpuChipIcon className="w-3.5 h-3.5" />
@@ -334,6 +340,8 @@ export default function FeaturesContent() {
                     </p>
                 </div>
             </SyncedSideSection>
+            </section>
+
 
             {/* Anti-Microbial Properties */}
             <section className="bg-linear-to-br from-[#0047AB] to-indigo-700 py-16 sm:py-20 relative">
@@ -405,30 +413,34 @@ export default function FeaturesContent() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="group relative bg-white hover:bg-gray-50 shadow-md border border-gray-200 rounded-xl p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-500 overflow-hidden"
+                                className="group relative bg-white hover:bg-accent shadow-md border border-gray-200 rounded-xl p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-500 overflow-hidden"
                             >
                                 <div className="flex flex-col h-full relative z-10">
                                     <div className="flex items-start justify-between gap-4 mb-4">
-                                        <h3 className="text-lg sm:text-xl font-bold text-neutral-dark flex-1 transition-colors duration-300 group-hover:text-primary">
+                                        <h3 className="text-lg sm:text-xl font-bold text-neutral-dark flex-1 transition-colors duration-300 group-hover:text-white">
                                             {benefit.title}
                                         </h3>
                                         {/* Spacer to maintain layout when icon moves */}
                                         <div className="w-10 h-10 shrink-0" />
                                     </div>
-                                    <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed mb-6 grow transition-colors duration-300 group-hover:text-neutral-dark/90">
+                                    <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed mb-6 grow transition-colors duration-300 group-hover:text-white/80">
                                         {benefit.description}
                                     </p>
                                 </div>
 
                                 {/* Animated Icon Container (Top Right) */}
-                                <div className="absolute right-8 top-8 w-10 h-10 rounded-lg bg-primary flex items-center justify-center transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-bl-3xl group-hover:rounded-br-none group-hover:rounded-tl-none group-hover:h-14 group-hover:right-0 group-hover:top-0 z-0">
-                                    <div className="text-white transition-transform duration-500 group-hover:scale-75 group-hover:translate-y-1 group-hover:-translate-x-1">
+                                <div className="absolute right-8 top-8 w-10 h-10 rounded-lg bg-primary flex items-center justify-center transition-all duration-500 ease-in-out group-hover:bg-white group-hover:scale-150 group-hover:rounded-bl-3xl group-hover:rounded-br-none group-hover:rounded-tl-none group-hover:h-14 group-hover:right-0 group-hover:top-0 z-0">
+                                    <div className="text-white transition-transform duration-500 group-hover:text-primary group-hover:scale-75 group-hover:translate-y-1 group-hover:-translate-x-1">
                                         {benefit.icon}
                                     </div>
                                 </div>
 
                                 {/* Decorative Animated Element (Bottom Left) */}
-                                <div className="w-8 h-8 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none group-hover:h-8 bg-primary/20 z-0">
+                                <div className="w-8 h-8 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none group-hover:h-8 bg-white/30 z-0">
+                                </div>
+                                <div className="w-14 h-14 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none group-hover:h-8 bg-white/30 z-0">
+                                </div>
+                                <div className="w-20 h-20 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none group-hover:h-8 bg-white/30 z-0">
                                 </div>
                             </motion.div>
                         ))}
@@ -517,7 +529,7 @@ export default function FeaturesContent() {
                     </motion.svg>
                 </div>
 
-                <div className="max-w-[90dvw] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="max-w-[90dvw] mx-auto px-4 pb-10 sm:px-6 lg:px-8 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -574,6 +586,73 @@ export default function FeaturesContent() {
                         </div>
                     </motion.div>
                 </div>
+                  {/* Installation Gallery */}
+                            <section className="bg-gray-50 py-16 sm:pb-10 sm:py-20 relative">
+                                {/* <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.05]" aria-hidden /> */}
+                                                <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-500/20 animate-[pulse_2s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
+
+                                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.6 }}
+                                        className="text-center mb-10 sm:mb-12"
+                                    >
+                                        <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
+                                            <SwatchIcon className="w-3 h-3" />
+                                            Installation Gallery
+                                        </span>
+                                        <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-3">
+                                            CC Matting Installations
+                                        </h2>
+                                        <p className="text-sm sm:text-base text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
+                                            Our contamination control mats have been successfully installed across leading pharmaceutical and cleanroom facilities worldwide.
+                                        </p>
+                                    </motion.div>
+                
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        {[
+                                            { src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation" },
+                                            { src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility" },
+                                            { src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation" },
+                                            { src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom" },
+                                            { src: "/assets/installation/CCM lilly 2.jpeg", name: "Lilly Facility" },
+                                            { src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation" },
+                                            { src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility" },
+                                            { src: "/assets/installation/WhatsApp Image 2024-08-20 at 20.22.45 (1).jpeg", name: "Cleanroom Installation" },
+                                            { src: "/assets/installation/WhatsApp Image 2025-05-16 at 20.38.58 (1).jpeg", name: "Industrial Installation" },
+                                        ].map((image, index) => (
+                                            <motion.div
+                                                key={image.src}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 0.4, delay: index * 0.05 }}
+                                                className="group relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300"
+                                            >
+                                                <ImageZoom
+                                                 src={image.src}
+                                                    alt={image.name}
+                                                    zoomScale={2}
+                                                >
+                                                <Image
+                                                    src={image.src}
+                                                    alt={image.name}
+                                                    fill
+                                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                                    />
+                                                    </ImageZoom>
+                                                <div className=" inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300">
+                                                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-accent">
+                                                        <p className="text-white font-semibold text-sm">{image.name}</p>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </section>
             </section>
         </main>
     );

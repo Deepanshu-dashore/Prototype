@@ -7,7 +7,7 @@ export default function SpecificationsTable() {
     const specifications = [
         {
             matType: "WorkSafe",
-            image: "/assets/products Page/worksafe-mat.png",
+            image: "/assets/products Page/clernRoomProduct.jpeg",
             trafficSuitability: "Pedestrian & Light Trolley Traffic",
             color: "blue",
             specs: [
@@ -17,17 +17,17 @@ export default function SpecificationsTable() {
                 { width: "2 m", length: "1 m", thickness: "2.4 mm" },
             ]
         },
-        {
-            matType: "HeavyDuty",
-            image: "/assets/products Page/Gemini_Generated_Image_tpu0cbtpu0cbtpu0.png",
-            trafficSuitability: "Mobile Pallet Trucks",
-            color: "indigo",
-            specs: [
-                { width: "1 m", length: "1.2 m", thickness: "3 mm" },
-                { width: "1 m", length: "1.5 m", thickness: "3 mm" },
-                { width: "2 m", length: "1 m", thickness: "3 mm" },
-            ]
-        }
+        // {
+        //     matType: "HeavyDuty",
+        //     image: "/assets/products Page/Gemini_Generated_Image_tpu0cbtpu0cbtpu0.png",
+        //     trafficSuitability: "Mobile Pallet Trucks",
+        //     color: "indigo",
+        //     specs: [
+        //         { width: "1 m", length: "1.2 m", thickness: "3 mm" },
+        //         { width: "1 m", length: "1.5 m", thickness: "3 mm" },
+        //         { width: "2 m", length: "1 m", thickness: "3 mm" },
+        //     ]
+        // }
     ];
 
     return (

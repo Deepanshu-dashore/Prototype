@@ -138,37 +138,38 @@ export default function PortableCleanroomMatsContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-white text-neutral-dark px-4 py-2 rounded-md text-xs font-medium mb-6 border border-gray-200">
                             <ShieldCheckIcon className="w-3.5 h-3.5" />
-                            Flexibility
+                            Portablity
                         </span>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
                             CCM Portable Cleanroom Mats
                         </h1>
                         <p className="text-lg sm:text-lg text-neutral-dark/70 max-w-4xl mx-auto leading-relaxed">
-                            The CCM Portable Cleanroom Mat system has all the benefits of both the Worksafe & Heavy Duty flooring systems, however they are loose laid and not semi-permanently installed. If you are considering tacky mats as a means to help reduce the ingress of particulate into your critical area then you need to look at our environmentally friendly alternative that is also far more cost effective.
+                           Designed for facilities that need serious contamination control without permanent installation, our Portable Cleanroom Mats deliver the same performance as our Heavy Duty flooring — but loose laid, flexible, and faster to deploy. For customers considering tacky mats, this is a cleaner, greener, and far more cost-effective alternative that dramatically reduces particulate ingress into critical areas
                         </p>
                     </motion.div>
                 </div>
             </section>
 
             {/* Cleanroom Mate Image with Benefits Section */}
-            <section className="bg-white py-12 sm:py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 items-center">
+            <section className=" py-12 sm:py-16 relative">
+                <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-600/40 animate-[pulse_2s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
+                <div className="max-w-[90dvw] mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-10 gap-5 items-center">
                         {/* Left Side - Image (70%) */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="lg:col-span-7"
+                            className="lg:col-span-5"
                         >
                             <div className="relative w-full h-auto">
                                 <ImageZoom src="/assets/products Page/clenRoomCarousle images/home.jpg" alt="CCM Portable Cleanroom Mats">
                                     <Image
-                                        src="/assets/products Page/clenRoomCarousle images/home.jpg"
+                                        src="/assets/products Page/CleanRoomMate.png"
                                         alt="CCM Portable Cleanroom Mats"
-                                        width={1200}
-                                        height={600}
+                                        width={1100}
+                                        height={500}
                                         className="w-full h-auto object-cover rounded-lg"
                                     />
                                 </ImageZoom>
@@ -181,7 +182,7 @@ export default function PortableCleanroomMatsContent() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="lg:col-span-3 space-y-4"
+                            className="lg:col-span-5 grid grid-cols-2 gap-5"
                         >
                             {[
                                 {
@@ -190,7 +191,7 @@ export default function PortableCleanroomMatsContent() {
                                     icon: BeakerIcon
                                 },
                                 {
-                                    title: "Static dissipative 10⁸ OM",
+                                    title: "Static dissipative 10¹⁰ OM",
                                     description: "Prevents electrostatic discharge in sensitive environments",
                                     icon: BoltIcon
                                 },
@@ -216,10 +217,10 @@ export default function PortableCleanroomMatsContent() {
                                         className="relative overflow-hidden flex items-center justify-between p-5 sm:p-6 border group border-gray-200 rounded-2xl bg-white shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300"
                                     >
                                         <div className="flex-1 min-w-0 pr-4 group-hover:z-50">
-                                            <h3 className="text-base sm:text-base font-semibold transition-colors group-hover:text-white text-neutral-900 mb-1.5">
+                                            <h3 className="text-base sm:text-lg font-semibold transition-colors group-hover:text-white text-neutral-900 mb-1.5">
                                                 {benefit.title}
                                             </h3>
-                                            <p className="text-sm sm:text-xs transition-colors group-hover:text-white/80 text-neutral-700 leading-relaxed">
+                                            <p className="text-sm sm:text-sm transition-colors group-hover:text-white/80 text-neutral-700 leading-relaxed">
                                                 {benefit.description}
                                             </p>
                                         </div>
@@ -238,7 +239,7 @@ export default function PortableCleanroomMatsContent() {
             </section>
 
             {/* Product Image Carousel Section */}
-            <section className="bg-gray-100 py-16 sm:py-20">
+            {/* <section className="bg-gray-100 py-16 sm:py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -247,7 +248,7 @@ export default function PortableCleanroomMatsContent() {
                         transition={{ duration: 0.6 }}
                         className="grid grid-cols-1 lg:grid-cols-9 gap-6"
                     >
-                        {/* Main Image - Left Side (70%) */}
+                        Main Image - Left Side (70%)
                         <div className="lg:col-span-7">
                             <div className="relative w-full h-96 sm:h-[500px] rounded-xl overflow-hidden bg-white border border-gray-200 shadow-xs">
                                 <ImageZoom src={productImages[activeImageIndex]} alt={`Product image ${activeImageIndex + 1}`}>
@@ -261,7 +262,7 @@ export default function PortableCleanroomMatsContent() {
                             </div>
                         </div>
 
-                        {/* Thumbnail Images - Right Side (30%) */}
+                        Thumbnail Images - Right Side (30%)
                         <div className="lg:col-span-1 flex flex-col gap-3">
                             {productImages.map((image, index) => (
                                 <button
@@ -283,7 +284,7 @@ export default function PortableCleanroomMatsContent() {
                         </div>
                     </motion.div>
                 </div>
-            </section>
+            </section> */}
 
             {/* Polymer Mats Vs Peel Off Mats Video Section */}
             <section className="bg-linear-to-b relative from-primary to-[#000e7b] py-16 sm:py-20">
@@ -388,7 +389,7 @@ export default function PortableCleanroomMatsContent() {
             </section>
 
             {/* Warranty Card Section */}
-            <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
+            {/* <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
                 <div className="relative z-10">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -434,7 +435,7 @@ export default function PortableCleanroomMatsContent() {
                         </motion.div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* Key Features/Benefits Section */}
             <section className="bg-white py-12 sm:py-16 md:py-20 relative overflow-hidden">
@@ -595,7 +596,7 @@ export default function PortableCleanroomMatsContent() {
                 {/* Floating Background Icons */}
                 <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
                 </div>
-                <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 relative z-10">
+                <div className="max-w-325 mx-auto px-4 sm:px-6 md:px-8 lg:px-2 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -652,44 +653,7 @@ export default function PortableCleanroomMatsContent() {
             <section className="bg-gray-100 py-4 sm:py-6 sm:pb-24 relative">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
 
-                <div className="max-w-[1300px] relative z-10 mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
-                    {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="space-y-4 flex flex-col"
-                        >
-                            <div className="relative w-full h-auto flex-1">
-                                <Image
-                                    src="/assets/products Page/Size1.png"
-                                    alt="Size 1 Specifications"
-                                    width={1200}
-                                    height={600}
-                                    className="w-full h-auto object-contain rounded-lg bg-white p-4"
-                                />
-                            </div>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="space-y-4 flex flex-col"
-                        >
-                            <div className="relative w-full h-auto flex-1">
-                                <Image
-                                    src="/assets/products Page/Size2.png"
-                                    alt="Size 2 Specifications"
-                                    width={1200}
-                                    height={600}
-                                    className="w-full h-auto object-contain rounded-lg bg-white p-4"
-                                />
-                            </div>
-                        </motion.div>
-                    </div> */}
+                <div className="max-w-325 relative z-10 mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
 
                     {/* Specifications Table */}
                     <motion.div
@@ -734,7 +698,12 @@ export default function PortableCleanroomMatsContent() {
                                 Ready to protect your critical areas?
                             </h2>
                         </div>
-                        <div className="space-y-6">
+                        <div className="space-y-3">
+                            <p className="text-sm flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
+                                <span className="w-3 h-3 inline-block rounded-full bg-white" >
+                                </span>
+                                If you want an alternative size, call us directly for custom sizing.
+                            </p>
                             <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
                                 Contact us today to learn more about CCM Portable Cleanroom Mats and how they can protect your critical areas with superior contamination control.
                             </p>

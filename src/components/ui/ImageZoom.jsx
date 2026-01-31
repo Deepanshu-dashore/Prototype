@@ -131,7 +131,7 @@ export default function ImageZoom({ children, src, alt, zoomLevel = 2.5 }) {
 
             <AnimatePresence>
                 {isOpen && (
-                    <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+                    <div className="fixed inset-0 z-300 mt-16 flex items-center justify-center p-4">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -145,7 +145,7 @@ export default function ImageZoom({ children, src, alt, zoomLevel = 2.5 }) {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.5 }}
                             onClick={() => setIsOpen(false)}
-                            className="absolute top-8 right-8 z-110 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all shadow-xl"
+                            className="absolute top-20 right-8 z-210 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all shadow-xl"
                         >
                             <XMarkIcon className="w-8 h-8" />
                         </motion.button>

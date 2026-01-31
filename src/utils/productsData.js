@@ -7,7 +7,7 @@ export const products = [
     subtitle: "High-Performance Flooring System",
     description:
       "CC HEAVY DUTY Mat is a high-performance flooring system that ensures Up to 99% foot and wheel Bourne particulate removal over six steps and reduces electro static discharge. CC Heavy Duty should be used in areas with heavy footfall traffic, use of forklifts, motorized pallet trucks and heavy trolleys.",
-    image: "/assets/products Page/heavy-duty-new.png",
+    image: "/assets/products Page/HaveyDuty.jpeg",
     gradientColors: {
       primary: "rgb(9, 31, 208)",
       secondary: "rgb(59, 130, 246)",
@@ -17,12 +17,12 @@ export const products = [
     colorOptions: [
       {
         name: "SOLID BLUE",
-        image: "/assets/products Page/SolidBlue.png",
+        image: "/assets/products Page/havydutyBlue.jpeg",
         description: "Classic solid blue color option",
       },
       {
         name: "GREY SPECK",
-        image: "/assets/products Page/GraySpcek.png",
+        image: "/assets/products Page/havydutyGray.jpeg",
         description: "Elegant grey speckled finish",
       },
     ],
@@ -39,36 +39,36 @@ export const products = [
           "Engineered with a unique compound that creates a static dissipative barrier, protecting sensitive electronics and processes.",
         icon: "ShieldCheckIcon",
       },
-      {
-        title: "Extended Life Cycle",
-        description:
-          "Built for maximum durability with a standard life cycle of 4-5 years in high-traffic industrial areas when properly maintained.",
-        icon: "ClockIcon",
-      },
+      // {
+      //   title: "Extended Life Cycle",
+      //   description:
+      //     "Built for maximum durability with a standard life cycle of 4-5 years in high-traffic industrial areas when properly maintained.",
+      //   icon: "ClockIcon",
+      // },
       {
         title: "2-Year Guarantee",
         description:
           "We stand behind our quality with a full 2-year replacement guarantee if our product fails to perform as promoted.",
         icon: "CheckCircleIcon",
       },
-      {
-        title: "Cost Effective",
-        description:
-          "Delivers significant long-term cost savings compared to traditional peel-off mats by reducing waste and constant replacement.",
-        icon: "CurrencyDollarIcon",
-      },
-      {
-        title: "Aesthetic Improvement",
-        description:
-          "Enhances the professional appearance of your workplace with a high-quality, seamless, and integrated flooring solution.",
-        icon: "PaintBrushIcon",
-      },
-      {
-        title: "Eco-Friendly",
-        description:
-          "Fully recyclable and environmentally friendly material, helping your facility meet sustainability goals and reduce waste.",
-        icon: "ArrowPathIcon",
-      },
+      // {
+      //   title: "Cost Effective",
+      //   description:
+      //     "Delivers significant long-term cost savings compared to traditional peel-off mats by reducing waste and constant replacement.",
+      //   icon: "CurrencyDollarIcon",
+      // },
+      // {
+      //   title: "Aesthetic Improvement",
+      //   description:
+      //     "Enhances the professional appearance of your workplace with a high-quality, seamless, and integrated flooring solution.",
+      //   icon: "PaintBrushIcon",
+      // },
+      // {
+      //   title: "Eco-Friendly",
+      //   description:
+      //     "Fully recyclable and environmentally friendly material, helping your facility meet sustainability goals and reduce waste.",
+      //   icon: "ArrowPathIcon",
+      // },
     ],
     sizes: {
       widths: "Available in 60cm, 90cm, 120cm, and 150cm widths.",

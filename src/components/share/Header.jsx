@@ -122,7 +122,7 @@ export default function Header({ onContactClick }) {
                   alt="CC Matting"
                   width={200}
                   height={52}
-                  className="h-10 w-auto object-contain"
+                  className="h-13 w-auto object-contain"
                   priority
                 />
               </span>
@@ -150,7 +150,7 @@ export default function Header({ onContactClick }) {
                         : 'text-neutral-dark hover:text-primary'
                         }`}
                     >
-                      {item.name}
+                      {item.name==="Technical" ? "Compliance" : item.name}
                       <ChevronDownIcon className={`w-4 h-4 transition-transform ${openDropdown === item.name ? 'rotate-180' : ''}`} />
                     </Link>
                     {openDropdown === item.name && (
