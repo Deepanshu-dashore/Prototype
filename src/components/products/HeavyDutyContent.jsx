@@ -253,7 +253,7 @@ export default function HeavyDutyContent({ product }) {
                             className="absolute w-2 h-2 bg-primary/50 rounded-full shadow-sm"
                             animate={{
                                 y: [0, -50, 0],
-                                x: [0, Math.random() * 60 - 30, 0],
+                                x: [0, (i % 5) * 12 - 30, 0],
                                 opacity: [0, 1, 0],
                                 scale: [0.5, 1, 0.5]
                             }}
@@ -264,8 +264,8 @@ export default function HeavyDutyContent({ product }) {
                                 ease: "easeInOut"
                             }}
                             style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`
+                                left: `${(i * 7) % 100}%`,
+                                top: `${(i * 13) % 100}%`
                             }}
                         />
                     ))}
@@ -419,7 +419,7 @@ export default function HeavyDutyContent({ product }) {
 
             {/* Customize To Your Space */}
             <section className="bg-gray-50 py-16 sm:py-20 relative">
-                                <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.05]" aria-hidden />
+                <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.05]" aria-hidden />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

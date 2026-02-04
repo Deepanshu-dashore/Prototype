@@ -6,16 +6,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import {
-    HomeIcon,
-    UserGroupIcon,
-    ExclamationTriangleIcon,
-    LockClosedIcon,
+    SwatchIcon,
+    ArrowPathIcon,
+    Square3Stack3DIcon,
+    CalendarIcon,
+    ShieldCheckIcon,
+    CheckBadgeIcon,
     SparklesIcon,
     CpuChipIcon,
     GiftIcon,
     WrenchScrewdriverIcon,
     Cog6ToothIcon,
-    SwatchIcon
+    HomeIcon,
+    UserGroupIcon,
+    ExclamationTriangleIcon,
+    LockClosedIcon
 } from "@heroicons/react/24/outline";
 import DotGrid from '../share/DotGrid';
 import ImageZoom from '../ui/ImageZoom';
@@ -116,56 +121,32 @@ export default function FeaturesContent() {
         {
             title: "100% Recyclable",
             description: "100% Recyclable and has a very low environmental footprint.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-            )
+            icon: <ArrowPathIcon className="w-6 h-6" />
         },
         {
             title: "8+ Overstrikes",
             description: "The mat is still effective after 8 overstrikes not like a tacky mat which is no longer effective after 2.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            )
+            icon: <Square3Stack3DIcon className="w-6 h-6" />
         },
         {
             title: "4-5 Year Life Cycle",
             description: "Engineered for durability, our mats provide a reliable 4-5 year life cycle in high-traffic areas, offering significant cost savings.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            )
+            icon: <CalendarIcon className="w-6 h-6" />
         },
         {
             title: "Non-Volatile & Non-Toxic",
             description: "The polymer in the mat is totally non-volatile and non-toxic which makes it safe for all cleanroom classifications.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-            )
+            icon: <ShieldCheckIcon className="w-6 h-6" />
         },
         {
             title: "Full 2 Year Warranty",
             description: "We provide a comprehensive 2-year warranty on all mats, ensuring your facility remains protected with guaranteed performance.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-            )
+            icon: <CheckBadgeIcon className="w-6 h-6" />
         },
         {
             title: "Simple Cleaning",
             description: "Simple cleaning procedure, clean with a mop and squeegee dry. The cleaning process removes the contaminants from the mat rendering it like new.",
-            icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                </svg>
-            )
+            icon: <SparklesIcon className="w-6 h-6" />
         }
     ];
 
@@ -218,7 +199,7 @@ export default function FeaturesContent() {
                             className="absolute w-1.5 h-1.5 bg-primary/30 rounded-full shadow-sm"
                             animate={{
                                 y: [0, -40, 0],
-                                x: [0, Math.random() * 40 - 20, 0],
+                                x: [0, (i % 5) * 10 - 20, 0],
                                 opacity: [0, 0.6, 0],
                                 scale: [0.5, 1, 0.5]
                             }}
@@ -229,8 +210,8 @@ export default function FeaturesContent() {
                                 ease: "easeInOut"
                             }}
                             style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`
+                                left: `${(i * 11) % 100}%`,
+                                top: `${(i * 17) % 100}%`
                             }}
                         />
                     ))}
@@ -311,36 +292,36 @@ export default function FeaturesContent() {
 
             {/* What is Polymeric Mat Section - Refactored for Scroll Sync */}
             <section className='relative bg-white'>
-            {/* <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.06]" aria-hidden /> */}
-            <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-600/40 animate-[pulse_3s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
+                {/* <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.06]" aria-hidden /> */}
+                <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-600/40 animate-[pulse_3s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
 
-            <SyncedSideSection
-                videoId="DXUpivYwE0M"
-                videoTitle="What is a Polymeric Mat"
-                bgClass="relative z-10"
-            >
-                <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
-                    <CpuChipIcon className="w-3.5 h-3.5" />
-                    Innovation
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-6 leading-tight">
-                    What is a Polymeric Mat?
-                </h2>
-                <div className="space-y-5 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
-                    <p>
-                        A polymeric mat is manufactured with a patented polymeric compound and a non migratory plasticizer, creating a natural tack and proven to retain up to <strong className="text-neutral-dark font-semibold">Up to 99% of foot and wheel borne particles</strong> from entering your critical areas.
-                    </p>
-                    <p>
-                        The high tack surface is slightly conforming which allows a concentrated loading of particles as you walk or traverse across the mat with a trolley.
-                    </p>
-                    <p>
-                        These properties enable the surface to attract, collect and retain particles ranging in size from over <strong className="text-neutral-dark font-semibold">100 microns down to a few nanometers</strong>.
-                    </p>
-                    <p>
-                        The mats also function due to a phenomena known as <strong className="text-neutral-dark font-semibold">van der wall forces</strong>, a high level of short range electromagnetic forces.
-                    </p>
-                </div>
-            </SyncedSideSection>
+                <SyncedSideSection
+                    videoId="DXUpivYwE0M"
+                    videoTitle="What is a Polymeric Mat"
+                    bgClass="relative z-10"
+                >
+                    <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-6">
+                        <CpuChipIcon className="w-3.5 h-3.5" />
+                        Innovation
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-6 leading-tight">
+                        What is a Polymeric Mat?
+                    </h2>
+                    <div className="space-y-5 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
+                        <p>
+                            A polymeric mat is manufactured with a patented polymeric compound and a non migratory plasticizer, creating a natural tack and proven to retain up to <strong className="text-neutral-dark font-semibold">Up to 99% of foot and wheel borne particles</strong> from entering your critical areas.
+                        </p>
+                        <p>
+                            The high tack surface is slightly conforming which allows a concentrated loading of particles as you walk or traverse across the mat with a trolley.
+                        </p>
+                        <p>
+                            These properties enable the surface to attract, collect and retain particles ranging in size from over <strong className="text-neutral-dark font-semibold">100 microns down to a few nanometers</strong>.
+                        </p>
+                        <p>
+                            The mats also function due to a phenomena known as <strong className="text-neutral-dark font-semibold">van der wall forces</strong>, a high level of short range electromagnetic forces.
+                        </p>
+                    </div>
+                </SyncedSideSection>
             </section>
 
 
@@ -587,73 +568,73 @@ export default function FeaturesContent() {
                         </div>
                     </motion.div>
                 </div>
-                  {/* Installation Gallery */}
-                            <section className="bg-gray-50 py-16 sm:pb-10 sm:py-20 relative">
-                                {/* <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.05]" aria-hidden /> */}
-                                                <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-500/20 animate-[pulse_2s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
+                {/* Installation Gallery */}
+                <section className="bg-gray-50 py-16 sm:pb-10 sm:py-20 relative">
+                    {/* <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.05]" aria-hidden /> */}
+                    <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-500/20 animate-[pulse_2s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
 
-                                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.6 }}
-                                        className="text-center mb-10 sm:mb-12"
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="text-center mb-10 sm:mb-12"
+                        >
+                            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
+                                <SwatchIcon className="w-3 h-3" />
+                                Installation Gallery
+                            </span>
+                            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-3">
+                                CC Matting Installations
+                            </h2>
+                            <p className="text-sm sm:text-base text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
+                                Our contamination control mats have been successfully installed across leading pharmaceutical and cleanroom facilities worldwide.
+                            </p>
+                        </motion.div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[
+                                { src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation" },
+                                { src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility" },
+                                { src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation" },
+                                { src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom" },
+                                { src: "/assets/installation/CCM%20lilly%202.jpeg", name: "Lilly Facility" },
+                                { src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation" },
+                                { src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility" },
+                                { src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg", name: "Cleanroom Installation" },
+                                { src: "/assets/installation/WhatsApp%20Image%202025-05-16%20at%2020.38.58%20(1).jpeg", name: "Industrial Installation" },
+                            ].map((image, index) => (
+                                <motion.div
+                                    key={image.src}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                                    className="group relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300"
+                                >
+                                    <ImageZoom
+                                        src={image.src}
+                                        alt={image.name}
+                                        zoomScale={2}
                                     >
-                                        <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
-                                            <SwatchIcon className="w-3 h-3" />
-                                            Installation Gallery
-                                        </span>
-                                        <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-3">
-                                            CC Matting Installations
-                                        </h2>
-                                        <p className="text-sm sm:text-base text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
-                                            Our contamination control mats have been successfully installed across leading pharmaceutical and cleanroom facilities worldwide.
-                                        </p>
-                                    </motion.div>
-                
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        {[
-                                            { src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation" },
-                                            { src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility" },
-                                            { src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation" },
-                                            { src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom" },
-                                            { src: "/assets/installation/CCM lilly 2.jpeg", name: "Lilly Facility" },
-                                            { src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation" },
-                                            { src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility" },
-                                            { src: "/assets/installation/WhatsApp Image 2024-08-20 at 20.22.45 (1).jpeg", name: "Cleanroom Installation" },
-                                            { src: "/assets/installation/WhatsApp Image 2025-05-16 at 20.38.58 (1).jpeg", name: "Industrial Installation" },
-                                        ].map((image, index) => (
-                                            <motion.div
-                                                key={image.src}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                whileInView={{ opacity: 1, y: 0 }}
-                                                viewport={{ once: true }}
-                                                transition={{ duration: 0.4, delay: index * 0.05 }}
-                                                className="group relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300"
-                                            >
-                                                <ImageZoom
-                                                 src={image.src}
-                                                    alt={image.name}
-                                                    zoomScale={2}
-                                                >
-                                                <Image
-                                                    src={image.src}
-                                                    alt={image.name}
-                                                    fill
-                                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                                    />
-                                                    </ImageZoom>
-                                                <div className=" inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300">
-                                                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-accent">
-                                                        <p className="text-white font-semibold text-sm">{image.name}</p>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                        <Image
+                                            src={image.src}
+                                            alt={image.name}
+                                            fill
+                                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                    </ImageZoom>
+                                    <div className=" inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300">
+                                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-accent">
+                                            <p className="text-white font-semibold text-sm">{image.name}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
             </section>
         </main>
     );

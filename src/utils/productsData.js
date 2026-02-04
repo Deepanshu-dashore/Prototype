@@ -7,7 +7,7 @@ export const products = [
     subtitle: "High-Performance Flooring System",
     description:
       "CC HEAVY DUTY Mat is a high-performance flooring system that ensures Up to 99% foot and wheel Bourne particulate removal over six steps and reduces electro static discharge. CC Heavy Duty should be used in areas with heavy footfall traffic, use of forklifts, motorized pallet trucks and heavy trolleys.",
-    image: "/assets/products Page/HaveyDuty.jpeg",
+    image: "/assets/products%20Page/HaveyDuty.jpeg",
     gradientColors: {
       primary: "rgb(9, 31, 208)",
       secondary: "rgb(59, 130, 246)",
@@ -17,12 +17,12 @@ export const products = [
     colorOptions: [
       {
         name: "SOLID BLUE",
-        image: "/assets/products Page/havydutyBlue.jpeg",
+        image: "/assets/products%20Page/havydutyBlue.jpeg",
         description: "Classic solid blue color option",
       },
       {
         name: "GREY SPECK",
-        image: "/assets/products Page/havydutyGray.jpeg",
+        image: "/assets/products%20Page/havydutyGray.jpeg",
         description: "Elegant grey speckled finish",
       },
     ],
@@ -92,7 +92,7 @@ export const products = [
     subtitle: "Original Ergonomic Bubble Profile Mat",
     description:
       "The CC Classic Ergonomic Mat is the original ergonomic bubble profile mat. The Classic Mat boasts the longest warranty in the industry. Customers still have many of these original mats in service over 20 years later. Available in 2 profiles: Classic and Classic Deluxe.",
-    image: "/assets/products Page/classic-ergonomic-new.jpg",
+    image: "/assets/products%20Page/classic-ergonomic-new.jpg",
     gradientColors: {
       primary: "rgb(59, 130, 246)",
       secondary: "rgb(20, 184, 166)",
@@ -102,12 +102,13 @@ export const products = [
     colorOptions: [
       {
         name: "Classic",
-        image: "/assets/products Page/Classic Ergonomic Mat/Classic.png",
+        image: "/assets/products%20Page/Classic%20Ergonomic%20Mat/Classic.png",
         thickness: '6" (1.5cm)',
       },
       {
         name: "Classic Deluxe",
-        image: "/assets/products Page/Classic Ergonomic Mat/Classic-deluex.png",
+        image:
+          "/assets/products%20Page/Classic%20Ergonomic%20Mat/Classic-deluex.png",
         thickness: '6" (1.5cm)',
       },
     ],
@@ -173,7 +174,8 @@ export const products = [
         "All CC Classic Ergonomic Mat products come with a comprehensive 8-year replacement warranty, providing you with complete peace of mind and protection for your investment. This is the longest warranty in the industry.",
       additionalInfo:
         "Our warranty ensures that your ergonomic mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.",
-      badgeImage: "/assets/products Page/Classic Ergonomic Mat/warrenty.png",
+      badgeImage:
+        "/assets/products%20Page/Classic%20Ergonomic%20Mat/warrenty.png",
     },
   },
   {
@@ -183,7 +185,7 @@ export const products = [
     subtitle: "Durable Polyurethane Ergonomic Mats",
     description:
       "Infinity Series mats are durable polyurethane ergonomic mats with a closed cell surface that resists light moisture and most chemical exposures. Available in ESD version and 3 profiles: Deluxe, Smooth and Bubble.",
-    image: "/assets/products Page/CC Infinity Ergonomic Mat/bg.png",
+    image: "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/bg.png",
     gradientColors: {
       primary: "rgb(59, 130, 246)",
       secondary: "rgb(20, 184, 166)",
@@ -193,17 +195,20 @@ export const products = [
     colorOptions: [
       {
         name: "Infinity Deluxe",
-        image: "/assets/products Page/CC Infinity Ergonomic Mat/deluxe.png",
+        image:
+          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/deluxe.png",
         thickness: '62" (1.5cm)',
       },
       {
         name: "Infinity Smooth",
-        image: "/assets/products Page/CC Infinity Ergonomic Mat/smooth.png",
+        image:
+          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/smooth.png",
         thickness: '43" (1.1cm)',
       },
       {
         name: "Infinity Bubble",
-        image: "/assets/products Page/CC Infinity Ergonomic Mat/dubble.png",
+        image:
+          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/dubble.png",
         thickness: '57" (1.45cm)',
       },
     ],
@@ -265,7 +270,7 @@ export const products = [
       additionalInfo:
         "Our warranty ensures that your ergonomic mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.",
       badgeImage:
-        "/assets/products Page/CC Infinity Ergonomic Mat/warenty6Year.png",
+        "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/warenty6Year.png",
     },
   },
   {
@@ -275,7 +280,7 @@ export const products = [
     subtitle: "Feature Rich Ergonomic Mats",
     description:
       "The CC Complete Series ergonomic mats are feature rich. They can tolerate mild exposure to oils and other liquids while providing enhanced anti-static protection. It is self-extinguishing when introduced to open flame, which qualifies Complete Mats as fire retardant according to standard EN 13501-1. Available in ESD version, and 3 profiles: Deluxe, Smooth and Bubble.",
-    image: "/assets/products Page/complete-ergonomic-new.jpg",
+    image: "/assets/products%20Page/complete-ergonomic-new.jpg",
     gradientColors: {
       primary: "rgb(59, 130, 246)",
       secondary: "rgb(20, 184, 166)",
@@ -286,19 +291,19 @@ export const products = [
       {
         name: "Complete Deluxe",
         image:
-          "/assets/products Page/Complete Ergonomic Mat/complete deluxe.png",
+          "/assets/products%20Page/Complete%20Ergonomic%20Mat/complete%20deluxe.png",
         thickness: '6" (1.5cm)',
       },
       {
         name: "Complete Smooth",
         image:
-          "/assets/products Page/Complete Ergonomic Mat/complete smoth.png",
+          "/assets/products%20Page/Complete%20Ergonomic%20Mat/complete%20smoth.png",
         thickness: '43" (1.1cm)',
       },
       {
         name: "Complete Bubble",
         image:
-          "/assets/products Page/Complete Ergonomic Mat/comlete bubble.png",
+          "/assets/products%20Page/Complete%20Ergonomic%20Mat/comlete%20bubble.png",
         thickness: '55" (1.5cm)',
       },
     ],
@@ -372,7 +377,7 @@ export const products = [
       additionalInfo:
         "Our warranty ensures that your ergonomic mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.",
       badgeImage:
-        "/assets/products Page/Complete Ergonomic Mat/5YearyWarrenty.png",
+        "/assets/products%20Page/Complete%20Ergonomic%20Mat/5YearyWarrenty.png",
     },
   },
 ];

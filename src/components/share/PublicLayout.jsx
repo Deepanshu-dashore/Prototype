@@ -16,7 +16,7 @@ export default function PublicLayout({ children, className = "" }) {
     };
 
     return (
-        <div className={`min-h-screen flex flex-col ${className}`}>
+        <div className={`min-h-screen relative flex flex-col ${className}`}>
             <UtilityBar />
             <Header onContactClick={handleContactClick} />
 

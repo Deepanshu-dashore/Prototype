@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import DotGrid from '../share/DotGrid'
 
 
 export default function CaseStudies() {
@@ -174,7 +175,7 @@ export default function CaseStudies() {
     const timer = setInterval(() => {
       setDirection(1)
       setCurrentIndex(prev => (prev + 1) % caseStudies.length)
-    }, 6000)
+    }, 3000)
 
     return () => clearInterval(timer)
   }, [caseStudies.length, isPaused])
@@ -227,7 +228,7 @@ export default function CaseStudies() {
   return (
     <section id="case-studies" className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-white overflow-hidden">
       {/* Decorative background elements */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {/* <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <motion.svg 
           className="absolute top-0 left-0 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 text-primary/20" 
           viewBox="0 0 100 100" 
@@ -264,8 +265,22 @@ export default function CaseStudies() {
         
         <div className="absolute bottom-0 left-0 w-1 h-16 sm:h-24 md:h-32 bg-gradient-to-t from-primary/20 to-transparent" />
         <div className="absolute bottom-0 right-10 w-1 h-24 sm:h-36 md:h-48 bg-gradient-to-t from-primary/10 to-transparent" />
+      </div> */}
+      {/* Floating Background Icons */}
+      <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+        <DotGrid
+          dotSize={5}
+          gap={15}
+          baseColor="#5360ff20"
+          activeColor="#a4aef8"
+          proximity={120}
+          shockRadius={250}
+          shockStrength={5}
+          resistance={750}
+          returnDuration={1.5}
+        />
       </div>
-      
+
       <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -323,46 +338,46 @@ export default function CaseStudies() {
                       duration: 0.6,
                       ease: [0.4, 0, 0.2, 1],
                     }}
-                      className={`bg-white rounded-xl relative shadow-sm flex flex-col ${isCenter
-                        ? 'p-5 sm:p-6 lg:p-8 w-full max-w-xs lg:max-w-md xl:max-w-lg z-10 shadow-xl border-2 border-primary/20'
-                        : 'p-4 sm:p-5 lg:p-6 w-full max-w-[280px] sm:max-w-sm lg:max-w-md z-0 hover:opacity-90'
-                        }`}
-                      style={{
-                        flex: isCenter ? '1.2' : '0.85',
-                      }}
-                    >
-                      {/* Top: Stars Only */}
-                      <div className={`flex justify-start gap-0.5 ${isCenter ? 'mb-3' : 'mb-2'}`}>
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <svg
-                            key={star}
-                            className={`text-amber-400 ${isCenter ? 'w-4 h-4' : 'w-3 h-3'
-                              }`}
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </div>
-
-                      {/* Quote Icon */}
-                      <div className={`absolute right-2 top-2 ${isCenter ? '' : ''}`}>
-                        <svg className={`text-gray-200 ${isCenter ? 'w-8 h-8' : 'w-6 h-6'
-                          }`} fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                    className={`bg-white rounded-xl relative shadow-sm flex flex-col ${isCenter
+                      ? 'p-5 sm:p-6 lg:p-8 w-full max-w-xs lg:max-w-md xl:max-w-lg z-10 shadow-xl border-2 border-primary/20'
+                      : 'p-4 sm:p-5 lg:p-6 w-full max-w-[280px] sm:max-w-sm lg:max-w-md z-0 hover:opacity-90'
+                      }`}
+                    style={{
+                      flex: isCenter ? '1.2' : '0.85',
+                    }}
+                  >
+                    {/* Top: Stars Only */}
+                    <div className={`flex justify-start gap-0.5 ${isCenter ? 'mb-3' : 'mb-2'}`}>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          className={`text-amber-400 ${isCenter ? 'w-4 h-4' : 'w-3 h-3'
+                            }`}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                      </div>
+                      ))}
+                    </div>
 
-                      {/* Middle: Review Text */}
-                      <div className="min-h-[80px] sm:min-h-[96px] mb-4">
-                        <p className={`text-neutral-dark/75 leading-relaxed text-sm sm:text-base line-clamp-4`}>
-                          "{review.quote}"
-                        </p>
-                      </div>
+                    {/* Quote Icon */}
+                    <div className={`absolute right-2 top-2 ${isCenter ? '' : ''}`}>
+                      <svg className={`text-gray-200 ${isCenter ? 'w-8 h-8' : 'w-6 h-6'
+                        }`} fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                      </svg>
+                    </div>
 
-                      {/* Review Image */}
-                      {/* {review.reviewImage && (
+                    {/* Middle: Review Text */}
+                    <div className="min-h-[80px] sm:min-h-[96px] mb-4">
+                      <p className={`text-neutral-dark/75 leading-relaxed text-sm sm:text-base line-clamp-4`}>
+                        "{review.quote}"
+                      </p>
+                    </div>
+
+                    {/* Review Image */}
+                    {/* {review.reviewImage && (
                         <div className="mb-4 -mx-4 sm:-mx-5 lg:-mx-6">
                           <img
                             src={review.reviewImage}
@@ -375,56 +390,56 @@ export default function CaseStudies() {
                         </div>
                       )} */}
 
-                      {/* Bottom: Company Logo + Company Name + Person Info */}
-                      <div className={`flex items-start justify-between gap-4 mt-auto pt-3 border-t border-gray-100 ${isCenter ? '' : ''}`}>
-                        {/* Left: Company Logo */}
-                        <div className="shrink-0">
-                          {(!review.reviewImage) ? (
-                            <div className={`text-gray-700 font-semibold ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
-                              }`}>
-                              {review.company}
-                            </div>
-                          ) : (
-                            <img
-                              src={review.reviewImage}
-                              alt={review.company}
-                              className={`rounded-lg grayscale hover:grayscale-0 transition-all duration-300  ${isCenter ? 'w-12 h-12 sm:w-14 sm:h-14 grayscale-0'
-                                : 'w-10 h-10 sm:w-16 sm:h-16'
-                                }
+                    {/* Bottom: Company Logo + Company Name + Person Info */}
+                    <div className={`flex items-start justify-between gap-4 mt-auto pt-3 border-t border-gray-100 ${isCenter ? '' : ''}`}>
+                      {/* Left: Company Logo */}
+                      <div className="shrink-0">
+                        {(!review.reviewImage) ? (
+                          <div className={`text-gray-700 font-semibold ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
+                            }`}>
+                            {review.company}
+                          </div>
+                        ) : (
+                          <img
+                            src={review.reviewImage}
+                            alt={review.company}
+                            className={`rounded-lg grayscale hover:grayscale-0 transition-all duration-300  ${isCenter ? 'w-12 h-12 sm:w-14 sm:h-14 grayscale-0'
+                              : 'w-10 h-10 sm:w-16 sm:h-16'
+                              }
                                 ${review.zoomLogo ? 'scale-170 object-cover' : 'object-contain'}
                                 `}
-                              onError={(e) => {
-                                setImageErrors(prev => ({
-                                  ...prev,
-                                  [`${review.id}-img`]: true
-                                }))
-                              }}
-                            />
-                          )}
-                        </div>
+                            onError={(e) => {
+                              setImageErrors(prev => ({
+                                ...prev,
+                                [`${review.id}-img`]: true
+                              }))
+                            }}
+                          />
+                        )}
+                      </div>
 
-                        {/* Right: Person Name + Position */}
-                        <div className="flex-1 min-w-0 text-right">
-                          {/* <div className={`text-gray-700 font-semibold ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
+                      {/* Right: Person Name + Position */}
+                      <div className="flex-1 min-w-0 text-right">
+                        {/* <div className={`text-gray-700 font-semibold ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
                             }`}>
                             {review.company}
                           </div> */}
-                          <div className="mt-1.5">
-                            <h4 className={`font-bold text-neutral-dark truncate ${isCenter ? 'text-sm sm:text-sm' : 'text-xs sm:text-xs'
-                              }`}>
-                              {review.name}
-                            </h4>
-                            <p className={`text-neutral-dark/60 ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
-                              }`}>
-                              {review.position}
-                            </p>
-                          </div>
+                        <div className="mt-1.5">
+                          <h4 className={`font-bold text-neutral-dark truncate ${isCenter ? 'text-sm sm:text-sm' : 'text-xs sm:text-xs'
+                            }`}>
+                            {review.name}
+                          </h4>
+                          <p className={`text-neutral-dark/60 ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
+                            }`}>
+                            {review.position}
+                          </p>
                         </div>
                       </div>
+                    </div>
 
 
 
-                    </motion.div>
+                  </motion.div>
                 )
               })}
             </div>

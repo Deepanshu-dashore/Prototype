@@ -22,7 +22,7 @@ export default function Footer() {
                     alt="CC Matting"
                     width={200}
                     height={45}
-                    className="h-10 sm:h-12 w-auto object-contain"
+                    className="h-10 sm:h-12 w-44 object-contain"
                   />
                 </div>
                 <p className="text-xs text-white/75 leading-relaxed mb-4 max-w-xs">

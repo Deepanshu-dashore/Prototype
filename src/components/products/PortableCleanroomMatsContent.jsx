@@ -26,10 +26,10 @@ export default function PortableCleanroomMatsContent() {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
 
     const productImages = [
-        "/assets/products Page/carosul1.png",
-        "/assets/products Page/carosul2.png",
-        "/assets/products Page/carosul3.png",
-        "/assets/products Page/carosul4.png"
+        "/assets/products%20Page/carosul1.png",
+        "/assets/products%20Page/carosul2.png",
+        "/assets/products%20Page/carosul3.png",
+        "/assets/products%20Page/carosul4.png"
     ];
 
     const features = [
@@ -144,7 +144,7 @@ export default function PortableCleanroomMatsContent() {
                             CCM Portable Cleanroom Mats
                         </h1>
                         <p className="text-lg sm:text-lg text-neutral-dark/70 max-w-4xl mx-auto leading-relaxed">
-                           Designed for facilities that need serious contamination control without permanent installation, our Portable Cleanroom Mats deliver the same performance as our Heavy Duty flooring — but loose laid, flexible, and faster to deploy. For customers considering tacky mats, this is a cleaner, greener, and far more cost-effective alternative that dramatically reduces particulate ingress into critical areas
+                            Designed for facilities that need serious contamination control without permanent installation, our Portable Cleanroom Mats deliver the same performance as our Heavy Duty flooring — but loose laid, flexible, and faster to deploy. For customers considering tacky mats, this is a cleaner, greener, and far more cost-effective alternative that dramatically reduces particulate ingress into critical areas
                         </p>
                     </motion.div>
                 </div>
@@ -166,11 +166,11 @@ export default function PortableCleanroomMatsContent() {
                             <div className="relative w-full h-auto">
                                 <ImageZoom src="/assets/products Page/clenRoomCarousle images/home.jpg" alt="CCM Portable Cleanroom Mats">
                                     <Image
-                                        src="/assets/products Page/CleanRoomMate.png"
+                                        src="/assets/products%20Page/CleanRoomMate.png"
                                         alt="CCM Portable Cleanroom Mats"
                                         width={1100}
                                         height={500}
-                                        className="w-full h-auto object-cover rounded-lg"
+                                        className="w-full h-[410px] object-contain object-center rounded-lg bg-white"
                                     />
                                 </ImageZoom>
                             </div>
@@ -502,7 +502,7 @@ export default function PortableCleanroomMatsContent() {
                             className="absolute w-2 h-2 bg-primary/50 rounded-full shadow-sm"
                             animate={{
                                 y: [0, -50, 0],
-                                x: [0, Math.random() * 60 - 30, 0],
+                                x: [0, (i % 5) * 12 - 30, 0],
                                 opacity: [0, 1, 0],
                                 scale: [0.5, 1, 0.5]
                             }}
@@ -513,8 +513,8 @@ export default function PortableCleanroomMatsContent() {
                                 ease: "easeInOut"
                             }}
                             style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`
+                                left: `${(i * 7) % 100}%`,
+                                top: `${(i * 13) % 100}%`
                             }}
                         />
                     ))}

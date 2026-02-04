@@ -25,7 +25,16 @@ import {
   AcademicCapIcon,
   ServerIcon,
   WrenchScrewdriverIcon,
-  FolderIcon
+  FolderIcon,
+  CheckBadgeIcon,
+  BoltIcon,
+  ChartBarIcon,
+  ExclamationCircleIcon,
+  BriefcaseIcon,
+  BuildingOfficeIcon,
+  UsersIcon,
+  Square3Stack3DIcon,
+  InformationCircleIcon
 } from '@heroicons/react/24/outline'
 import { getAllIndustries } from '../../utils/industriesData'
 
@@ -58,12 +67,12 @@ export default function Header({ onContactClick }) {
 
   const dropdownMenus = {
     Products: [
-      { name: 'CC Heavy Duty', href: '/products/heavy-duty', icon: CubeIcon },
-      { name: 'CC Portable Cleanroom Mats', href: '/products/portable-cleanroom-mats', icon: Square2StackIcon },
+      { name: 'CC Heavy Duty', href: '/products/heavy-duty', icon: Square3Stack3DIcon },
+      { name: 'CC Portable Cleanroom Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
       {
         name: 'Anti-Fatigue Mats',
         href: '#anti-fatigue-mats',
-        icon: SparklesIcon,
+        icon: UsersIcon,
         hasSubMenu: true,
         subItems: [
           { name: 'CC Matting Classic Ergonomic Mat', href: '/products/anti-fatigue-mats/classic-ergonomic-mat' },
@@ -71,7 +80,7 @@ export default function Header({ onContactClick }) {
           { name: 'CC Complete Ergonomic Mat', href: '/products/anti-fatigue-mats/complete-ergonomic-mat' },
         ]
       },
-      { name: 'Entrance Matting Ireland', href: 'https://entrancemattingireland.ie/', icon: HomeIcon },
+      { name: 'Entrance Matting Ireland', href: 'https://entrancemattingireland.ie/', icon: BuildingOfficeIcon },
     ],
     Technical: [
       { name: 'View All Technical Documents', href: '/technical', icon: FolderIcon },
@@ -81,18 +90,16 @@ export default function Header({ onContactClick }) {
       { name: 'CC Matting Warranty', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf', icon: ShieldCheckIcon },
       { name: 'CC Matting Brochure', href: 'https://www.ccmatting.ie/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf', icon: BookOpenIcon },
     ],
-    /*
-    Industries: [
-      { name: 'Nursing Homes', href: '/industries/nursing-homes', icon: HeartIcon },
-      { name: 'Semi Conductor', href: '/industries/semi-conductor', icon: CpuChipIcon },
-      { name: 'Hospitals', href: '/industries/hospitals', icon: BuildingOffice2Icon },
-      { name: 'Pharmaceutical', href: '/industries/pharmaceutical-industry', icon: BeakerIcon },
-      { name: 'Life Science', href: '/industries/life-science', icon: GlobeAmericasIcon },
-      { name: 'Schools/Public Entrances', href: '/industries/schools-public-entrances', icon: AcademicCapIcon },
-      { name: 'Data Centres', href: '/industries/data-centres', icon: ServerIcon },
-      { name: 'Medical Devices', href: '/industries/medical-devices', icon: WrenchScrewdriverIcon },
+    Compliance: [
+      { name: 'Quality & Compliance Overview', href: '/compliance', icon: InformationCircleIcon },
+      { name: 'ISO 9001', href: '/compliance1', icon: CheckBadgeIcon },
+      { name: 'ISO 45001', href: '/compliance2', icon: ShieldCheckIcon },
+      { name: 'Anti-Microbial Efficacy - A', href: '/compliance3', icon: BeakerIcon },
+      { name: 'Anti-Microbial Efficacy - B', href: '/compliance4', icon: BeakerIcon },
+      { name: 'BPR/EPA', href: '/compliance5', icon: GlobeAmericasIcon },
+      { name: 'Static Dissipative Testing', href: '/compliance6', icon: BoltIcon },
+      { name: 'CCMatting Efficacy Data', href: '/compliance7', icon: ChartBarIcon },
     ],
-    */
     Industries: industriesData.map(ind => ({
       name: ind.title.replace('Contamination Control Mats for ', '').replace(' Industry', ''), // Simplified naming logic
       href: `/industries/${ind.slug}`,
@@ -104,7 +111,8 @@ export default function Header({ onContactClick }) {
     { name: 'Home', href: '/', isLink: true },
     { name: 'Features & Benefits', href: '/features-benefits', isLink: true },
     { name: 'Products', href: '#products', isLink: false, hasDropdown: true },
-    { name: 'Technical', href: '/technical', isLink: false, hasDropdown: true },
+    // { name: 'Technical', href: '/technical', isLink: false, hasDropdown: true },
+    { name: 'Compliance', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Industries', href: '/industries', isLink: false, hasDropdown: true },
     { name: 'Blogs', href: '/blog', isLink: true },
   ]
@@ -122,7 +130,7 @@ export default function Header({ onContactClick }) {
                   alt="CC Matting"
                   width={200}
                   height={52}
-                  className="h-13 w-auto object-contain"
+                  className="h-13 w-50 object-contain"
                   priority
                 />
               </span>
@@ -150,7 +158,7 @@ export default function Header({ onContactClick }) {
                         : 'text-neutral-dark hover:text-primary'
                         }`}
                     >
-                      {item.name==="Technical" ? "Compliance" : item.name}
+                      {item.name}
                       <ChevronDownIcon className={`w-4 h-4 transition-transform ${openDropdown === item.name ? 'rotate-180' : ''}`} />
                     </Link>
                     {openDropdown === item.name && (

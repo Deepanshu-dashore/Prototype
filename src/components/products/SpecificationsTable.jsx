@@ -47,12 +47,14 @@ export default function SpecificationsTable() {
                             <div className="lg:col-span-5 bg-white p-6 lg:p-8 flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-gray-100">
                                 <div className="relative w-full aspect-video max-w-xs mb-4 group">
                                     <div className="absolute inset-0 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors duration-500" />
-                                    <ImageZoom src={mat.image} alt={mat.matType}>
+                                    <ImageZoom src={mat.image.replace(/ /g, '%20')} alt={mat.matType}>
                                         <Image
-                                            src={mat.image}
+                                            src={mat.image.replace(/ /g, '%20')}
                                             alt={mat.matType}
                                             fill
-                                            className="object-cover transform group-hover:scale-105 transition-transform duration-500 z-10"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                            priority
                                         />
                                     </ImageZoom>
                                     <div className="text-center left-1/2 -translate-x-1/2 absolute z-10 -bottom-20">

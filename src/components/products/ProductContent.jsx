@@ -263,7 +263,7 @@ export default function ProductContent({ product, slug }) {
                             className="absolute w-2 h-2 bg-primary/50 rounded-full shadow-sm"
                             animate={{
                                 y: [0, -50, 0],
-                                x: [0, Math.random() * 60 - 30, 0],
+                                x: [0, (i % 5) * 12 - 30, 0],
                                 opacity: [0, 1, 0],
                                 scale: [0.5, 1, 0.5]
                             }}
@@ -274,8 +274,8 @@ export default function ProductContent({ product, slug }) {
                                 ease: "easeInOut"
                             }}
                             style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`
+                                left: `${(i * 7) % 100}%`,
+                                top: `${(i * 13) % 100}%`
                             }}
                         />
                     ))}
