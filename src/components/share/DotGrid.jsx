@@ -131,9 +131,9 @@ const DotGrid = ({
                 if (dsq <= proxSq) {
                     const dist = Math.sqrt(dsq);
                     const t = 1 - dist / proximity;
-                    const r = Math.round(baseRgb.r + (activeRgb.r - baseRgb.r) * t);
-                    const g = Math.round(baseRgb.g + (activeRgb.g - baseRgb.g) * t);
-                    const b = Math.round(baseRgb.b + (activeRgb.b - baseRgb.b) * t);
+                    const r = Math.round(baseRgb.r + (activeRgb.r - baseRgb.r));
+                    const g = Math.round(baseRgb.g + (activeRgb.g - baseRgb.g));
+                    const b = Math.round(baseRgb.b + (activeRgb.b - baseRgb.b));
                     style = `rgb(${r},${g},${b})`;
                 }
 

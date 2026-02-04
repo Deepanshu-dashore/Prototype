@@ -4,6 +4,8 @@ import { Blog } from "@/app/lib/models/blog";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import fs from "fs/promises";
 import path from "path";
+import { escapeRegExp } from "@/app/lib/security/validator";
+import { sanitizeHTML, sanitizeText } from "@/app/lib/security/sanitizer";
 
 //Get all blogs with filtering, sorting, and search
 export async function GET(request) {
@@ -29,11 +31,12 @@ export async function GET(request) {
 
     let query = {};
 
-    // Search functionality
-    if (search) {
+    // Search functionality with ReDoS protection
+    if (search && typeof search === 'string') {
+      const escapedSearch = escapeRegExp(search.slice(0, 100)); // Limit search length
       query.$or = [
-        { title: { $regex: search, $options: "i" } },
-        { category: { $regex: search, $options: "i" } },
+        { title: { $regex: escapedSearch, $options: "i" } },
+        { category: { $regex: escapedSearch, $options: "i" } },
       ];
     }
 
@@ -128,17 +131,8 @@ export async function POST(request) {
       readingTime,
       featuredImage,
     } = await request.json();
-    console.log(
-      title,
-      excerpt,
-      category,
-      tags,
-      author,
-      content,
-      featured,
-      readingTime,
-      featuredImage
-    );
+
+    // Validate and sanitize inputs
     if (tags.length === 0 && Array.isArray(tags)) {
       return ApiResponse(400, null, "Tags are required");
     }
@@ -155,16 +149,23 @@ export async function POST(request) {
       return ApiResponse(400, null, "Content is required");
     }
 
-    let slug = title.toLowerCase().replace(/ /g, "-");
+    // Sanitize content to prevent XSS
+    const sanitizedContent = sanitizeHTML(content);
+    const sanitizedTitle = sanitizeText(title);
+    const sanitizedExcerpt = sanitizeText(excerpt);
+    const sanitizedCategory = sanitizeText(category);
+
+    let slug = sanitizedTitle.toLowerCase().replace(/ /g, "-").slice(0, 100);
     slug = `${slug}-${new Date().getTime()}`;
+    
     const blog = await Blog.create({
-      title,
+      title: sanitizedTitle,
       slug,
-      excerpt,
-      category,
-      tags,
-      author,
-      content,
+      excerpt: sanitizedExcerpt,
+      category: sanitizedCategory,
+      tags: tags.map(t => sanitizeText(t)).filter(Boolean),
+      author: author ? sanitizeText(author) : "CC Matting",
+      content: sanitizedContent,
       featured,
       readingTime,
       featuredImage,
@@ -222,6 +223,13 @@ export async function PATCH(request) {
   }
 
   try {
+    // Sanitize inputs
+    const sanitizedTitle = sanitizeText(title);
+    const sanitizedExcerpt = sanitizeText(excerpt);
+    const sanitizedCategory = sanitizeText(category);
+    const sanitizedContent = sanitizeHTML(content);
+    const sanitizedTags = tags.map(t => sanitizeText(t)).filter(Boolean);
+
     const oldBlog = await Blog.findById(id);
     if (!oldBlog) {
       return ApiResponse(400, null, "Blog not found");
@@ -250,12 +258,12 @@ export async function PATCH(request) {
     const res = await Blog.findByIdAndUpdate(
       id,
       {
-        title,
-        excerpt,
-        category,
-        tags,
-        author,
-        content,
+        title: sanitizedTitle,
+        excerpt: sanitizedExcerpt,
+        category: sanitizedCategory,
+        tags: sanitizedTags,
+        author: author ? sanitizeText(author) : "CC Matting",
+        content: sanitizedContent,
         featured,
         readingTime,
         featuredImage,

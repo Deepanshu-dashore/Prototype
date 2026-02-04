@@ -19,6 +19,7 @@ import {
 } from "@heroicons/react/24/outline";
 import DotGrid from '../share/DotGrid';
 import ImageZoom from '../ui/ImageZoom';
+import Aurora from '../share/Aurora';
 
 // YouTube Video Component
 function YouTubeVideo({ videoId, title }) {
@@ -311,7 +312,7 @@ export default function FeaturesContent() {
             {/* What is Polymeric Mat Section - Refactored for Scroll Sync */}
             <section className='relative bg-white'>
             {/* <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.06]" aria-hidden /> */}
-            <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-600/40 animate-[pulse_2s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
+            <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-600/40 animate-[pulse_3s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
 
             <SyncedSideSection
                 videoId="DXUpivYwE0M"
@@ -377,7 +378,7 @@ export default function FeaturesContent() {
                         dotSize={5}
                         gap={15}
                         baseColor="#5360ff20"
-                        activeColor="#5360ff"
+                        activeColor="#a4aef8"
                         proximity={120}
                         shockRadius={250}
                         shockStrength={5}

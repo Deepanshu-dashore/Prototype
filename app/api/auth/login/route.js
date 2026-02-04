@@ -4,31 +4,47 @@ import { ApiError } from "next/dist/server/api-utils";
 import jwt from "jsonwebtoken";
 import connect from "@/app/lib/db/connect";
 import { NextResponse } from "next/server";
+import { comparePasswords } from "@/app/lib/security/passwordHasher";
+import { sanitizeEmail, sanitizeText } from "@/app/lib/security/sanitizer";
+import { isValidEmail } from "@/app/lib/security/validator";
 
 export async function POST(request) {
   await connect();
   try {
     const { name, email, password } = await request.json();
 
-    let user = null;
-    if (!password) {
+    // Validate and sanitize inputs
+    if (!password || typeof password !== 'string') {
       return ApiResponse(400, null, "Password is required");
     }
-    if (!name) {
-      user = await User.findOne({ email }).select("-__v -createdAt -updatedAt");
-    }
-    if (!email) {
-      user = await User.findOne({ name }).select("-__v -createdAt -updatedAt");
-    }
-    if (!name && !email) {
-      return ApiResponse(400, null, "Name or email is required");
+
+    let user = null;
+    
+    if (email) {
+      // Sanitize and validate email
+      const sanitizedEmail = sanitizeEmail(email);
+      if (!isValidEmail(sanitizedEmail)) {
+        return ApiResponse(400, null, "Invalid email format");
+      }
+      user = await User.findOne({ email: sanitizedEmail }).select("-__v -createdAt -updatedAt");
+    } else if (name) {
+      // Sanitize name
+      const sanitizedName = sanitizeText(name);
+      if (!sanitizedName) {
+        return ApiResponse(400, null, "Invalid name format");
+      }
+      user = await User.findOne({ name: sanitizedName }).select("-__v -createdAt -updatedAt");
+    } else {
+      return ApiResponse(400, null, "Email or name is required");
     }
 
     if (!user) {
       return ApiResponse(400, null, "User not found");
     }
 
-    if (user.password !== password) {
+    // Compare hashed passwords using bcrypt
+    const isPasswordValid = await comparePasswords(password, user.password);
+    if (!isPasswordValid) {
       return ApiResponse(401, null, "Invalid credentials");
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
