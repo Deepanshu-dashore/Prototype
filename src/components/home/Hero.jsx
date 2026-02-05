@@ -235,39 +235,41 @@ export default function Hero({ onSecondaryClick }) {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-base sm:text-lg text-justify text-neutral-600 max-w-xl leading-relaxed font-medium "
             >
-              CC Matting manufacture, distribute & install class leading advanced high-tech polymeric matting that eradicates <span className="text-neutral-900 font-semibold">up to 99%</span> of harmful floor based particulate from entering your critical areas. Engineered for excellence and scientifically proven <span className="text-neutral-900 font-semibold">with a 2-Yr replacement warranty.</span> 
+              CC Matting manufacture, distribute & install class leading advanced high-tech polymeric matting that eradicates <span className="text-neutral-900 font-semibold">up to 99%</span> of harmful floor based particulate from entering your critical areas. Engineered for excellence and scientifically proven <span className="text-neutral-900 font-semibold">with a 2-Yr replacement warranty.</span>
             </motion.p>
-             
+
 
             {/* Key Highlights - CE Marking, BPR-EPA, Zero VOCs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.35 }}
-              className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-6"
+              className="flex flex-wrap items-center gap-2.5 sm:gap-6 mb-6"
             >
               {/* CE Marking */}
               <div className="group inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
-                <div className="relative w-6 h-6 bg-gray-100 p-1 border rounded-full flex items-center justify-center shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-neutral-700" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M22 42c-9.941 0-18-8.059-18-18S12.059 6 22 6m22 36c-9.941 0-18-8.059-18-18S34.059 6 44 6M26 24h11"></path></svg>
+                <div className="relative w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-primary/70" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M22 42c-9.941 0-18-8.059-18-18S12.059 6 22 6m22 36c-9.941 0-18-8.059-18-18S34.059 6 44 6M26 24h11"></path></svg>
                 </div>
                 <span className="text-xs font-medium text-neutral-700 tracking-wide">CE Marking</span>
               </div>
 
               {/* BPR - EPA Compliance */}
               <div className="group inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
-                <div className="w-5 h-5 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0112 2.25c-2.6 0-5.01.99-6.8 2.614a11.95 11.95 0 00-2.7 4.236c-.5.5-.5 1.31 0 1.81L3 12l-.5.5a11.95 11.95 0 002.7 4.236A11.959 11.959 0 0112 21.75c2.6 0 5.01-.99 6.8-2.614a11.95 11.95 0 002.7-4.236L22.5 12l.5-.5a11.95 11.95 0 00-2.7-4.236A11.959 11.959 0 0112 2.25z" />
+                <div className=" w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-primary/70" viewBox="0 0 16 16">
+                    <path fill="currentColor" d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"></path>
                   </svg>
                 </div>
-                <span className="text-xs font-medium text-neutral-700 tracking-wide">BPR – EPA Compliance</span>
+                <span className="text-xs font-medium text-neutral-700 tracking-wide">REACH Compliance</span>
               </div>
 
               {/* Zero VOCs */}
               <div className="group inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
-                <div className="w-5 h-5 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-neutral-700" viewBox="0 0 20 20"><path fill="currentColor" d="M9.995 1.998q.598.001 1.174.086l-.218.07A1.41 1.41 0 0 0 10 3.496v.002h-.005a6.5 6.5 0 1 0 6.363 7.823q.146.265.398.449c.219.149.477.228.746.229q.123 0 .243-.019a7.999 7.999 0 1 1-7.75-9.982M9.998 5c1.007 0 1.945.299 2.73.812q.032.066.065.148l.36 1.092c.09.25.25.48.52.691q.21.15.451.21c-.08.17-.12.36-.12.55c0 .271.08.533.24.753s.38.38.65.48l.097.032q.007.115.007.232a5 5 0 1 1-5-5m0 1.5a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7m7.5 5.5h.009l-.005-.001zm-7.5-3.5a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3M17.484 6a.3.3 0 0 1 .285.201l.25.766a1.58 1.58 0 0 0 .999.998l.765.248l.015.004a.303.303 0 0 1 .146.46a.3.3 0 0 1-.146.11l-.765.248a1.58 1.58 0 0 0-.999.998l-.249.766a.302.302 0 0 1-.57 0l-.25-.766a1.58 1.58 0 0 0-.998-1.002l-.765-.248a.303.303 0 0 1-.146-.46a.3.3 0 0 1 .146-.11l.765-.248a1.58 1.58 0 0 0 .984-.998L17.2 6.2a.3.3 0 0 1 .284-.2m-3.006-6a.42.42 0 0 1 .4.282l.348 1.072a2.2 2.2 0 0 0 1.398 1.396l1.072.349l.022.005a.424.424 0 0 1 0 .797l-1.073.349a2.21 2.21 0 0 0-1.398 1.396L14.9 6.718a.423.423 0 0 1-.643.204l-.02-.015a.43.43 0 0 1-.135-.19l-.348-1.07a2.22 2.22 0 0 0-1.399-1.403l-1.072-.348a.424.424 0 0 1 0-.797l1.072-.349a2.21 2.21 0 0 0 1.377-1.396L14.08.282a.42.42 0 0 1 .4-.282"></path></svg>
+                <div className=" w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5 text-primary/70" viewBox="0 0 512 512">
+                    <path fill="currentColor" d="M161.563 19.28c10.093 10.734 16.743 23.678 20.562 37.657c6.202 22.707 5.806 48.148 3.72 74.094c-4.176 51.894-14.58 106.512-2.44 140.407c11.396 31.814 29.668 50.71 49.94 60c8.72 3.998 17.9 6.21 27.186 6.782c22.195-65.084 17.46-148.144-19.06-204.283c48.352 48.234 71.19 121.068 56.436 197.407l-8.78 3.53a90 90 0 0 0 8.093-2.843c41.783-16.87 75.975-66.253 61.75-138.655c-6.536-33.265-28.966-80.165-66.5-116.5c-32.472-31.432-75.827-55.212-130.908-57.594zM445.53 202.813c-.84 12.1-4.638 23.528-10.56 33.907c-10.353 18.14-26.448 33.757-43.876 48.593c-34.856 29.67-75.057 57.156-88.313 85.218c-12.555 26.583-12.884 49.252-6.186 67.283a65.9 65.9 0 0 0 12.625 20.968c53.708-26.787 101.73-80.91 113.81-138.03c.076 59.646-30.63 118.687-86.624 156.906c35.802 14.545 86.282 5.034 121.72-47.75c16.418-24.456 31.558-67.3 30.812-112.875c-.634-38.688-12.264-79.23-43.407-114.217zm-424.874 73.47c-9.483 45.878.708 86.832 19.5 120.656c22.136 39.84 56.682 69.376 83.125 82.343c57.07 27.988 105.514 10.968 129.25-19.53c-67.59-5.1-123.692-40.873-153.436-92.563c39.02 43.428 107.658 66.29 167.562 62.625a65.8 65.8 0 0 0 .47-24.468c-3.214-18.965-14.87-38.447-39.032-55.188c-25.505-17.67-74.045-21.36-119.063-29.625c-22.508-4.13-44.247-9.59-62.28-20.124c-10.323-6.03-19.314-14.06-26.094-24.125z" strokeWidth={13} stroke="currentColor"></path>
+                  </svg>
                 </div>
                 <span className="text-xs font-medium text-neutral-700 tracking-wide">Zero VOCs</span>
               </div>
@@ -318,7 +320,7 @@ export default function Hero({ onSecondaryClick }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5 }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-neutral-200/60"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-10 pt-8 border-t border-neutral-200/60"
             >
               <div className='pl-2'>
                 <div className="text-2xl xl:text-xl font-bold text-neutral-900">Up to 99%</div>
@@ -328,14 +330,14 @@ export default function Hero({ onSecondaryClick }) {
                 <div className="text-2xl xl:text-xl font-bold text-neutral-900">2 Years</div>
                 <div className="text-xs font-medium text-neutral-500 mt-1">Warranty</div>
               </div>
-              <div className="flex items-center justify-start transition-all duration-500 -mt-2.5">
+              <div className="flex -ml-10 items-center justify-start transition-all duration-500 -mt-2.5">
                 <div className="flex items-center justify-center h-15 w-25">
                   <Image src="/new-iso-1.png" alt="ISO 9001" width={430} height={180} className="h-14 w-28 object-contain" />
                 </div>
               </div>
-              <div className="flex items-center justify-start transition-all duration-500">
+              <div className="flex -ml-16 items-center justify-start transition-all duration-500">
                 <div className="flex -mt-1.5 items-center justify-center h-14 w-24">
-                  <Image src="/new-iso-2.png" alt="ISO 14001" width={418} height={180} className="h-13 w-23 object-contain" />
+                  <Image src="/new-iso-2.png" alt="ISO 14001" width={418} height={180} className="h-14 w-23 object-contain" />
                 </div>
               </div>
             </motion.div>
@@ -404,7 +406,7 @@ export default function Hero({ onSecondaryClick }) {
               </div>
             </div> */}
 
-          
+
             {/* <div
               ref={canvasContainerRef}
               className="relative -mt-30 lg:-mt-80 w-full max-w-full h-[700px] xl:h-[800px]"
@@ -444,12 +446,12 @@ export default function Hero({ onSecondaryClick }) {
 
           </motion.div>
         </div>
-        
+
         {/* Video Animation */}
-        <video 
-          autoPlay 
-          loop 
-          muted 
+        <video
+          autoPlay
+          loop
+          muted
           playsInline
           className="
             absolute max-w-full h-auto bottom-10 left-1/2 -translate-x-1/2
@@ -458,7 +460,7 @@ export default function Hero({ onSecondaryClick }) {
             md:w-auto md:top-[-130px] md:left-[430px] md:translate-x-0 md:bottom-auto md:z-auto
           "
         >
-          <source src="Version 1.webm" type="video/webm"/>
+          <source src="Version 1.webm" type="video/webm" />
         </video>
       </div>
 

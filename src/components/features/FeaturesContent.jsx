@@ -129,7 +129,7 @@ export default function FeaturesContent() {
             icon: <Square3Stack3DIcon className="w-6 h-6" />
         },
         {
-            title: "4-5 Year Life Cycle",
+            title: "3–5 Year Life Cycle",
             description: "Engineered for durability, our mats provide a reliable 4-5 year life cycle in high-traffic areas, offering significant cost savings.",
             icon: <CalendarIcon className="w-6 h-6" />
         },
@@ -139,12 +139,12 @@ export default function FeaturesContent() {
             icon: <ShieldCheckIcon className="w-6 h-6" />
         },
         {
-            title: "Full 2 Year Warranty",
+            title: "Manufacturer 2-Year Warranty",
             description: "We provide a comprehensive 2-year warranty on all mats, ensuring your facility remains protected with guaranteed performance.",
             icon: <CheckBadgeIcon className="w-6 h-6" />
         },
         {
-            title: "Simple Cleaning",
+            title: "Ease of Maintenance",
             description: "Simple cleaning procedure, clean with a mop and squeegee dry. The cleaning process removes the contaminants from the mat rendering it like new.",
             icon: <SparklesIcon className="w-6 h-6" />
         }
@@ -278,13 +278,13 @@ export default function FeaturesContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-white text-neutral-dark px-4 py-2 rounded-md text-xs font-medium mb-6 border border-gray-200">
                             <SparklesIcon className="w-3.5 h-3.5" />
-                            Highlights
+                            Key Advantages
                         </span>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
                             Advanced Contamination Control Solutions
                         </h1>
                         <p className="text-lg sm:text-xl text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
-                            Discover how our polymeric matting technology protects your critical areas with proven Up to 99% particle retention.
+                            Discover how our polymeric matting technology protects your critical areas with Up to 99% particulate retention.
                         </p>
                     </motion.div>
                 </div>
@@ -309,10 +309,10 @@ export default function FeaturesContent() {
                     </h2>
                     <div className="space-y-5 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
                         <p>
-                            A polymeric mat is manufactured with a patented polymeric compound and a non migratory plasticizer, creating a natural tack and proven to retain up to <strong className="text-neutral-dark font-semibold">Up to 99% of foot and wheel borne particles</strong> from entering your critical areas.
+                            A polymeric mat is manufactured with a patented polymeric compound and a non migratory plasticizer, creating a natural tack and proven to retain up to <strong className="text-neutral-dark font-semibold">Up to 99% of foot and wheel borne particulate</strong> from entering your critical areas.
                         </p>
                         <p>
-                            The high tack surface is slightly conforming which allows a concentrated loading of particles as you walk or traverse across the mat with a trolley.
+                            The high tack surface is slightly conforming which allows a concentrated loading of particles as you walk or traverse across the mat.
                         </p>
                         <p>
                             These properties enable the surface to attract, collect and retain particles ranging in size from over <strong className="text-neutral-dark font-semibold">100 microns down to a few nanometers</strong>.
@@ -377,10 +377,10 @@ export default function FeaturesContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-gray-100 text-neutral-dark px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <GiftIcon className="w-3.5 h-3.5" />
-                            Key Values
+                            Capability and Value
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
-                            Benefits of Polymeric Mat
+                            Benefits of CCM Heavy-Duty Polymeric Matting
                         </h2>
                         <p className="text-neutral-dark/70 text-sm sm:text-base max-w-3xl mx-auto px-4 sm:px-0">
                             Our advanced polymeric technology offers unparalleled advantages in contamination control, durability, and sustainability.
@@ -445,17 +445,17 @@ export default function FeaturesContent() {
                     <div className="relative">
                         <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-6">
                             <WrenchScrewdriverIcon className="w-3.5 h-3.5" />
-                            Industrial
+                            Our Product
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
                             CC Matting Heavy Duty
                         </h2>
                         <div className="space-y-5 text-sm sm:text-base text-white/70 leading-relaxed mb-8">
                             <p>
-                                The CC Matting heavy duty polymer mat is the <strong className="text-white font-semibold">strongest most durable polymer mat in the world</strong> with a point load bearing of <strong className="text-white font-semibold">130kg/cm²</strong>.
+                                The CC Matting heavy duty polymeric mat is the <strong className="text-white font-semibold">strongest most durable polymer mat in the world</strong> with a point load bearing of <strong className="text-white font-semibold">130kg/cm²</strong>.
                             </p>
                             <p>
-                                All of our current customers employ the use of the heavy duty range in their warehouses and areas where forktrucks or motorized pallet trucks are utilized to eliminate the ingress of harmful particulate into their critical area.
+                                All our current customers employ the CCM heavy duty polymeric mats in pedestrian walkways PALs and MALs and critical areas with heavy footfall traffic, use of forkilfts, motorized pallet trucks and heavy trolleys.
                             </p>
                         </div>
 
@@ -463,7 +463,7 @@ export default function FeaturesContent() {
                             href="/products/heavy-duty"
                             className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white text-white hover:text-primary border border-white/20 rounded-lg font-medium transition-all duration-300 group/btn"
                         >
-                            <span>View Product Details</span>
+                            <span>View Technical Specification</span>
                             <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
@@ -529,10 +529,10 @@ export default function FeaturesContent() {
 
                         <div className="space-y-6 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
                             <p>
-                                We do not use subcontractors to install our mats, it is all completed by our own <strong className="text-neutral-dark font-semibold">inhouse personnel who are fully trained and competent</strong> on the process. The mats are stuck to the floor with a semi permanent adhesive film.
+                                We do not use subcontractors to install our mats, it is all completed by our own <strong className="text-neutral-dark font-semibold">inhouse personnel who are fully trained and competent</strong> on the process. The mats are adhered to the floor with a semi permanent adhesive film.
                             </p>
                             <p>
-                                A diminishing strip of 3mm profile is then applied to all sides to ensure the mat is a <strong className="text-neutral-dark font-semibold">non trip hazard</strong> and also to aid with aesthetics. The mat is chemically sealed to the dim strip and the dim strip to the floor to ensure it is a totally sealed surface and it is not possible for any contaminants to harbour benath or under the mat.
+                                A diminishing strip of 3mm profile is then applied to all sides to ensure the mat is a <strong className="text-neutral-dark font-semibold">non trip hazard</strong> and also to aid with aesthetics. The mat is chemically sealed to the dim strip and the dim strip to the floor to ensure it is a totally sealed surface and it is not possible for any contaminants to harbour under the mat.
                             </p>
                             <p>
                                 This ensures there will be <strong className="text-neutral-dark font-semibold">no possible way that your EM counts can ever be adversely affected</strong>.
@@ -568,73 +568,51 @@ export default function FeaturesContent() {
                         </div>
                     </motion.div>
                 </div>
-                {/* Installation Gallery */}
-                <section className="bg-gray-50 py-16 sm:pb-10 sm:py-20 relative">
-                    {/* <div className="pointer-events-none absolute inset-0 bg-[url('/Shape2.svg')] bg-repeat opacity-[0.05]" aria-hidden /> */}
-                    <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-500/20 animate-[pulse_2s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
+            </section>
 
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="text-center mb-10 sm:mb-12"
-                        >
-                            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
-                                <SwatchIcon className="w-3 h-3" />
-                                Installation Gallery
-                            </span>
-                            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-3">
-                                CC Matting Installations
+            {/* CTA Section */}
+            <section className="bg-white py-16 sm:py-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+                    >
+                        <div>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-3 h-3 rounded-full bg-primary" />
+                                <span className="text-xs font-mono uppercase tracking-[0.15em] text-neutral-dark font-medium">
+                                    ORDER NOW
+                                </span>
+                            </div>
+                            <h2 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
+                                Get a Custom Quote for Your Facility
                             </h2>
-                            <p className="text-sm sm:text-base text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
-                                Our contamination control mats have been successfully installed across leading pharmaceutical and cleanroom facilities worldwide.
-                            </p>
-                        </motion.div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {[
-                                { src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation" },
-                                { src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility" },
-                                { src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation" },
-                                { src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom" },
-                                { src: "/assets/installation/CCM%20lilly%202.jpeg", name: "Lilly Facility" },
-                                { src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation" },
-                                { src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility" },
-                                { src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg", name: "Cleanroom Installation" },
-                                { src: "/assets/installation/WhatsApp%20Image%202025-05-16%20at%2020.38.58%20(1).jpeg", name: "Industrial Installation" },
-                            ].map((image, index) => (
-                                <motion.div
-                                    key={image.src}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: index * 0.05 }}
-                                    className="group relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300"
-                                >
-                                    <ImageZoom
-                                        src={image.src}
-                                        alt={image.name}
-                                        zoomScale={2}
-                                    >
-                                        <Image
-                                            src={image.src}
-                                            alt={image.name}
-                                            fill
-                                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                        />
-                                    </ImageZoom>
-                                    <div className=" inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300">
-                                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-accent">
-                                            <p className="text-white font-semibold text-sm">{image.name}</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
                         </div>
-                    </div>
-                </section>
+                        <div className="space-y-3">
+                            <p className="text-sm flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
+                                <span className="w-3 h-3 inline-block rounded-full bg-white" >
+                                </span>
+                                If you want an alternative size, call us directly for custom sizing.
+                            </p>
+                            <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
+                                Get a free, no-obligation quote tailored to your specific contamination control requirements. Our experts will help you determine the optimal mat configuration and sizing for your facility.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <Link
+                                    href="/contact"
+                                    className="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-primary/90 transition-all duration-300 group"
+                                >
+                                    <span>Request a Quote</span>
+                                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
             </section>
         </main>
     );

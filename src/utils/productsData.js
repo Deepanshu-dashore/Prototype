@@ -6,7 +6,7 @@ export const products = [
     title: "CC HEAVY DUTY",
     subtitle: "High-Performance Flooring System",
     description:
-      "CC HEAVY DUTY Mat is a high-performance flooring system that ensures Up to 99% foot and wheel Bourne particulate removal over six steps and reduces electro static discharge. CC Heavy Duty should be used in areas with heavy footfall traffic, use of forklifts, motorized pallet trucks and heavy trolleys.",
+      "CCM Heavy Duty Mat is a high-performance contamination control flooring system engineered to remove up to 99% of foot- and wheel-borne particulates within six steps, while helping reduce electrostatic discharge.",
     image: "/assets/products%20Page/HaveyDuty.jpeg",
     gradientColors: {
       primary: "rgb(9, 31, 208)",
@@ -15,15 +15,39 @@ export const products = [
     },
     bglinear: "from-blue-600/30 via-blue-500/20 to-primary/30",
     colorOptions: [
-      {
-        name: "SOLID BLUE",
-        image: "/assets/products%20Page/havydutyBlue.jpeg",
-        description: "Classic solid blue color option",
-      },
+      // {
+      //   name: "SOLID BLUE",
+      //   image: "/assets/products%20Page/havydutyBlue.jpeg",
+      //   description: "Classic solid blue color option",
+      // },
       {
         name: "GREY SPECK",
         image: "/assets/products%20Page/havydutyGray.jpeg",
         description: "Elegant grey speckled finish",
+      },
+      {
+        name: "SOLID GREY",
+        image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
+        description: "Professional solid grey finish",
+        // comingSoon: true,
+      },
+      // {
+      //   name: "GREY SPECKLED",
+      //   image: "/assets/products%20Page/havydutyGray.jpeg", // Placeholder - will be updated
+      //   description: "Modern grey speckled variant",
+      //   comingSoon: true,
+      // },
+      {
+        name: "COBALT BLUE",
+        image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
+        description: "Vibrant cobalt blue option",
+        comingSoon: true,
+      },
+      {
+        name: "BLUE SPECKLED",
+        image: "/assets/products%20Page/havydutyGray.jpeg", // Placeholder - will be updated
+        description: "Elegant blue speckled finish",
+        comingSoon: true,
       },
     ],
     benefits: [
@@ -90,8 +114,16 @@ export const products = [
     slug: "classic-ergonomic-mat",
     title: "CC Classic Ergonomic Mat",
     subtitle: "Original Ergonomic Bubble Profile Mat",
-    description:
-      "The CC Classic Ergonomic Mat is the original ergonomic bubble profile mat. The Classic Mat boasts the longest warranty in the industry. Customers still have many of these original mats in service over 20 years later. Available in 2 profiles: Classic and Classic Deluxe.",
+    description: (
+      <span>
+        The CC Classic Ergonomic Mat is the original ergonomic bubble profile
+        mat. The Classic Mat boasts the longest warranty in the industry.
+        <br />
+        Customers still have many of these original mats in service over 20
+        years later.
+        <br /> Available in 2 profiles: Classic and Classic Deluxe.
+      </span>
+    ),
     image: "/assets/products%20Page/classic-ergonomic-new.jpg",
     gradientColors: {
       primary: "rgb(59, 130, 246)",

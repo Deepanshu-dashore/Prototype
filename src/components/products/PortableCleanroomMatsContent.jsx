@@ -34,38 +34,38 @@ export default function PortableCleanroomMatsContent() {
 
     const features = [
         {
-            title: "Portable & Flexible",
-            description: "The main benefit of this system is that the mat can be placed anywhere and moved as per requirements and still provide full contamination control.",
+            title: "Portable & Flexible Placement",
+            description: "Enables placement in multiple locations and can be repositioned as operational requirements change, while maintaining effective contamination control.",
             icon: MapPinIcon
         },
         {
-            title: "No Permanent Adhesion",
-            description: "The product is also ideal where long term adhesion to the floor is not suitable.",
+            title: "Non-Permanent Installation",
+            description: "Ideal for environments where long-term or permanent adhesion to the floor surface is not suitable or permitted.",
             icon: ArrowsPointingOutIcon
         },
         {
-            title: "Double-Sided Tape Ready",
-            description: "The mats feature double-sided tape on the outer edges of the back, ready for use if the customer wants to fix the mat to the floor.",
+            title: "Optional Fixing Method",
+            description: "Supplied with double-sided adhesive tape along the outer rear edges, allowing optional floor fixing when required.",
             icon: WrenchScrewdriverIcon
         },
         {
-            title: "Raised Access Floors",
-            description: "Ideally suited for raised access floors.",
+            title: "Raised Floor Compatible",
+            description: "Specifically suited for use on raised access flooring systems commonly found in cleanroom and controlled environments.",
             icon: CheckBadgeIcon
         },
         {
-            title: "Quick Relocation",
-            description: "The mats can be moved from location to location in a matter of minutes.",
+            title: "Rapid Repositioning",
+            description: "Can be relocated between areas within minutes, supporting dynamic workflows and evolving process layouts.",
             icon: ClockIcon
         },
         {
             title: "Future-Proof Design",
-            description: "Perfectly suited for install to areas that require full contamination control but may have a change of use in the future.",
+            description: "Well suited for critical areas requiring full contamination control, even where future changes in room use or layout are anticipated.",
             icon: ArrowPathIcon
         },
         {
-            title: "Maximum Efficiency",
-            description: "The ease of movement ensures the mat is never made redundant – thus ensuring maximum efficiency of use.",
+            title: "Maximised Utilisation",
+            description: "The ability to relocate the mat ensures it remains in active use, preventing redundancy and maximising operational efficiency.",
             icon: SparklesIcon
         }
     ];
@@ -187,7 +187,7 @@ export default function PortableCleanroomMatsContent() {
                             {[
                                 {
                                     title: "Anti-microbial",
-                                    description: "Silver biocide kills 50+ organisms including MRSA & COVID-19",
+                                    description: "Incorporates Anti-Microbial technology that inhibits the growth of bacteria, fungi, mould, and other microorganisms",
                                     icon: BeakerIcon
                                 },
                                 {
@@ -286,52 +286,6 @@ export default function PortableCleanroomMatsContent() {
                 </div>
             </section> */}
 
-            {/* Polymer Mats Vs Peel Off Mats Video Section */}
-            <section className="bg-linear-to-b relative from-primary to-[#000e7b] py-16 sm:py-20">
-                <div className="absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.07] mix-blend-multiply" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-8"
-                    >
-                        <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-4">
-                            <SparklesIcon className="w-3 h-3" />
-                            Insights
-                        </span>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                            Polymer Mats Vs Peel Off Mats
-                        </h2>
-                        <p className="text-sm text-white/70 max-w-2xl mx-auto">
-                            Discover the advantages of our polymer mats over traditional peel-off mats for superior contamination control.
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="max-w-7xl mx-auto"
-                    >
-                        <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg bg-gray-900">
-                            <video
-                                src="https://www.ccmatting.ie/wp-content/uploads/2024/09/STOP-POLLUTING-THE-ATMOSPHERE-SAVE-MONEY-PROTECT-YOUR-CRITICAL-AREA-FROM-CONTAMINATION.mp4"
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
-                                className="w-full h-full object-cover"
-                            >
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
             {/* Technical Specifications Section */}
             <section className="bg-white py-16 sm:py-20 relative">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
@@ -354,26 +308,6 @@ export default function PortableCleanroomMatsContent() {
                             Comprehensive technical data and specifications for CCM Portable Cleanroom Mats.
                         </p>
                     </motion.div>
-
-
-                    {/* <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="relative w-full flex justify-center mb-16"
-                    >
-                        <div className="max-w-5xl w-full">
-                            <Image
-                                src="/assets/products Page/TechnicalChart.png"
-                                alt="Technical Specifications Chart"
-                                width={1200}
-                                height={800}
-                                className="w-full h-auto object-contain rounded-lg bg-white p-4"
-                            />
-                        </div>
-                    </motion.div> */}
-
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -388,54 +322,190 @@ export default function PortableCleanroomMatsContent() {
                 </div>
             </section>
 
-            {/* Warranty Card Section */}
-            {/* <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
-                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
-                <div className="relative z-10">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Why and Where to Use Cleanroom Mats Section */}
+            {/* Why and Where Section */}
+            <section className="bg-linear-to-b relative from-primary to-[#000e7b] py-16 sm:py-20">
+                <div className="absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.07] mix-blend-multiply" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-12"
+                    >
+                        <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-4">
+                            <SparklesIcon className="w-3 h-3" />
+                            Use Cases & Applications
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                            Why and Where to Use Portable Cleanroom Mats
+                        </h2>
+                        <p className="text-sm sm:text-base text-white/70 max-w-3xl mx-auto leading-relaxed">
+                            Understanding the ideal scenarios and environments where portable cleanroom mats deliver maximum value and contamination control effectiveness.
+                        </p>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                        {/* Why Section */}
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="max-w-6xl mx-auto"
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/20"
                         >
-                            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                                    <div className="bg-gray-100 p-6 sm:p-8 flex items-center justify-center">
-                                        <div className="relative w-full max-w-xs">
-                                            <Image
-                                                src="/assets/WarentyBadge.png"
-                                                alt="Warranty Badge"
-                                                width={600}
-                                                height={600}
-                                                className="w-full h-auto object-cover"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="p-6 sm:p-8 flex flex-col justify-center">
-                                        <h2 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-4">
-                                            Comprehensive Warranty Coverage
-                                        </h2>
-                                        <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
-                                            <ShieldCheckIcon className="w-4 h-4" />
-                                            Policy
-                                        </div>
-                                        <div className="text-neutral-dark/70">
-                                            <p className="text-sm sm:text-base leading-relaxed mb-3">
-                                                All CCM Portable Cleanroom Mat products come with comprehensive warranty coverage, providing you with complete peace of mind and protection for your investment.
-                                            </p>
-                                            <p className="text-sm sm:text-base leading-relaxed">
-                                                Our warranty ensures that your portable cleanroom mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.
-                                            </p>
-                                        </div>
-                                    </div>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                                    <CheckBadgeIcon className="w-6 h-6 text-white" />
                                 </div>
+                                <h3 className="text-2xl sm:text-3xl font-bold text-white">Why Choose Portable Mats</h3>
+                            </div>
+                            <div className="space-y-4">
+                                {[
+                                    {
+                                        title: "Operational Flexibility",
+                                        description: "Adapt to changing facility layouts and process requirements without permanent floor modifications"
+                                    },
+                                    {
+                                        title: "Cost-Effective Alternative",
+                                        description: "Eliminate recurring costs of disposable tacky mats while maintaining superior contamination control"
+                                    },
+                                    {
+                                        title: "No Floor Damage",
+                                        description: "Protect floor surfaces in leased facilities or areas where permanent adhesion is prohibited"
+                                    },
+                                    {
+                                        title: "Rapid Deployment",
+                                        description: "Install and relocate within minutes to respond to urgent contamination control needs"
+                                    },
+                                    {
+                                        title: "Sustainable Solution",
+                                        description: "100% recyclable with 3-5 year lifespan, drastically reducing waste compared to disposable alternatives"
+                                    },
+                                    {
+                                        title: "Multi-Location Use",
+                                        description: "Maximize ROI by moving mats between areas based on operational priorities and schedules"
+                                    }
+                                ].map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
+                                        className="flex gap-3 group"
+                                    >
+                                        <div className="shrink-0 mt-1">
+                                            <div className="w-2 h-2 rounded-full bg-white/60 group-hover:bg-white group-hover:scale-125 transition-all duration-300" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-white font-semibold text-sm sm:text-base mb-1">{item.title}</h4>
+                                            <p className="text-white/70 text-xs sm:text-sm leading-relaxed">{item.description}</p>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </motion.div>
+
+                        {/* Where Section */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/20"
+                        >
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                                    <MapPinIcon className="w-6 h-6 text-white" />
+                                </div>
+                                <h3 className="text-2xl sm:text-3xl font-bold text-white">Where to Deploy</h3>
+                            </div>
+                            <div className="space-y-4">
+                                {[
+                                    {
+                                        title: "Temporary Cleanroom Areas",
+                                        description: "Project-based or seasonal critical zones requiring contamination control for limited durations"
+                                    },
+                                    {
+                                        title: "Raised Access Floors",
+                                        description: "Data centers, laboratories, and facilities with raised flooring systems where permanent adhesion is impractical"
+                                    },
+                                    {
+                                        title: "Leased Facilities",
+                                        description: "Rental or temporary spaces where floor modifications are restricted by lease agreements"
+                                    },
+                                    {
+                                        title: "Multi-Shift Operations",
+                                        description: "Facilities with varying contamination control needs across different production shifts or schedules"
+                                    },
+                                    {
+                                        title: "R&D and Pilot Areas",
+                                        description: "Research facilities and pilot production zones with frequently changing layouts and equipment"
+                                    },
+                                    {
+                                        title: "Emergency Response",
+                                        description: "Rapid deployment for contamination incidents, audits, or temporary critical area expansions"
+                                    },
+                                    {
+                                        title: "Pharmaceutical Manufacturing",
+                                        description: "Clean corridors, airlocks, and transition zones between different classification areas"
+                                    },
+                                    {
+                                        title: "Electronics Assembly",
+                                        description: "ESD-sensitive areas requiring both contamination control and static dissipation"
+                                    }
+                                ].map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
+                                        className="flex gap-3 group"
+                                    >
+                                        <div className="shrink-0 mt-1">
+                                            <div className="w-2 h-2 rounded-full bg-white/60 group-hover:bg-white group-hover:scale-125 transition-all duration-300" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-white font-semibold text-sm sm:text-base mb-1">{item.title}</h4>
+                                            <p className="text-white/70 text-xs sm:text-sm leading-relaxed">{item.description}</p>
+                                        </div>
+                                    </motion.div>
+                                ))}
                             </div>
                         </motion.div>
                     </div>
+
+                    {/* Bottom CTA */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        className="mt-12 text-center"
+                    >
+                        <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+                                    <DocumentTextIcon className="w-5 h-5 text-white" />
+                                </div>
+                                <p className="text-white text-sm sm:text-base font-medium">
+                                    Not sure if portable mats are right for your facility?
+                                </p>
+                            </div>
+                            <Link
+                                href="/contact"
+                                className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-lg font-semibold text-sm hover:bg-white/90 transition-all duration-300 group whitespace-nowrap"
+                            >
+                                <span>Contact Our Experts</span>
+                                <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </div>
+                    </motion.div>
                 </div>
-            </section> */}
+            </section>
 
             {/* Key Features/Benefits Section */}
             <section className="bg-white py-12 sm:py-16 md:py-20 relative overflow-hidden">
@@ -495,8 +565,8 @@ export default function PortableCleanroomMatsContent() {
                 </div>
 
                 {/* Animated dots/particles */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                    {[...Array(25)].map((_, i) => (
+                <div className="absolute border-t border-primary/10 shadow-lg inset-0 pointer-events-none overflow-hidden">
+                    {[...Array(55)].map((_, i) => (
                         <motion.div
                             key={`dot-${i}`}
                             className="absolute w-2 h-2 bg-primary/50 rounded-full shadow-sm"
@@ -606,7 +676,7 @@ export default function PortableCleanroomMatsContent() {
                     >
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <SparklesIcon className="w-3 h-3" />
-                            Key Highlights
+                            Functional Advantages
                         </span>
                         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-dark mb-3">
                             Key Features/Benefits
@@ -650,8 +720,8 @@ export default function PortableCleanroomMatsContent() {
             </section>
 
             {/* Size Images Section */}
-            <section className="bg-gray-100 py-4 sm:py-6 sm:pb-24 relative">
-                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]" aria-hidden />
+            <section className="bg-linear-to-b from-primary to-[#000e7b] py-4 sm:py-6 sm:pb-24 relative">
+                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
 
                 <div className="max-w-325 relative z-10 mx-auto px-4 sm:px-6 md:px-8 lg:px-2">
 
@@ -664,10 +734,10 @@ export default function PortableCleanroomMatsContent() {
                         className="max-w-6xl mx-auto mt-16"
                     >
                         <div className="text-center mb-8">
-                            <h3 className="text-2xl sm:text-3xl font-bold text-neutral-dark mb-3">
+                            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">
                                 Product Specifications
                             </h3>
-                            <p className="text-sm text-neutral-dark/70">
+                            <p className="text-sm text-white/70">
                                 Available sizes and configurations for our portable cleanroom mats
                             </p>
                         </div>
@@ -694,8 +764,8 @@ export default function PortableCleanroomMatsContent() {
                                     ORDER NOW
                                 </span>
                             </div>
-                            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark leading-tight">
-                                Ready to protect your critical areas?
+                            <h2 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
+                                Get a Custom Quote for Your Facility
                             </h2>
                         </div>
                         <div className="space-y-3">
@@ -705,15 +775,18 @@ export default function PortableCleanroomMatsContent() {
                                 If you want an alternative size, call us directly for custom sizing.
                             </p>
                             <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
-                                Contact us today to learn more about CCM Portable Cleanroom Mats and how they can protect your critical areas with superior contamination control.
+                                Get a free, no-obligation quote tailored to your specific contamination control requirements. Our experts will help you determine the optimal mat configuration and sizing for your facility.
                             </p>
-                            <Link
-                                href="/contact"
-                                className="inline-flex items-center gap-2 bg-primary/80 text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-primary transition-all duration-300 group"
-                            >
-                                <span>Order Now</span>
-                                <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </Link>
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <Link
+                                    href="/contact"
+                                    className="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-primary/90 transition-all duration-300 group"
+                                >
+                                    <span>Request a Quote</span>
+                                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+
+                            </div>
                         </div>
                     </motion.div>
                 </div>

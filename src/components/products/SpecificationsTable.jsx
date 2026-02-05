@@ -57,8 +57,8 @@ export default function SpecificationsTable() {
                                             priority
                                         />
                                     </ImageZoom>
-                                    <div className="text-center left-1/2 -translate-x-1/2 absolute z-10 -bottom-20">
-                                        <h4 className="text-lg font-bold text-neutral-900 mb-1">{mat.matType}</h4>
+                                    <div className="text-center left-1/2 -translate-x-1/2 absolute z-10 -bottom-10">
+                                        {/* <h4 className="text-lg font-bold text-neutral-900 mb-1">{mat.matType}</h4> */}
                                         <div className="inline-flex text-nowrap items-center gap-2 px-3 py-1 bg-primary text-white rounded-sm text-[10px] font-bold uppercase tracking-wider">
                                             {mat.trafficSuitability}
                                         </div>
@@ -70,12 +70,12 @@ export default function SpecificationsTable() {
                             <div className="lg:col-span-7 flex flex-col py-2">
                                 <div className="px-6 py-3 border-b border-gray-100 bg-gray-50/30 flex justify-between items-center">
                                     <h5 className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Technical Configuration</h5>
-                                    <span className="text-[10px] font-bold text-primary bg-primary/5 px-2 py-0.5 rounded">ISO CLASS 3-9</span>
+                                    {/* <span className="text-[10px] font-bold text-primary bg-primary/5 px-2 py-0.5 rounded">ISO CLASS 3-9</span> */}
                                 </div>
                                 {/* Data Table (Refined Grid) */}
                                 <div className="border border-gray-200/50 overflow-hidden">
                                     {/* Grid Header */}
-                                    <div className="grid grid-cols-3 divide-x divide-gray-200 border-b border-gray-200 bg-gray-50/50">
+                                    <div className="grid grid-cols-3 divide-x divide-gray-200 border-b border-gray-200 bg-gray-200/80">
                                         <div className="px-6 py-3 text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Width</div>
                                         <div className="px-6 py-3 text-[10px] font-bold text-neutral-500 uppercase tracking-wider text-center">Length</div>
                                         <div className="px-6 py-3 text-[10px] font-bold text-neutral-500 uppercase tracking-wider text-right">Profile</div>
@@ -102,7 +102,7 @@ export default function SpecificationsTable() {
                                 </div>
 
                                 {/* Enhanced Attributes Section (Refined) */}
-                                <div className="p-5 grid grid-cols-2 gap-4 bg-gray-50/20 border-t border-gray-200 border-b lg:border-b-0">
+                                {/* <div className="p-5 grid grid-cols-2 gap-4 bg-gray-50/20 border-t border-gray-200 border-b lg:border-b-0">
                                     <div className="space-y-0.5">
                                         <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-tight">Antimicrobial Efficiency</p>
                                         <p className="text-[11px] font-semibold text-neutral-600">Silver-Ion infused (Up to 99% effective)</p>
@@ -119,7 +119,7 @@ export default function SpecificationsTable() {
                                         <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-tight">Maintenance</p>
                                         <p className="text-[11px] font-semibold text-neutral-600">Detergent/Water Washable</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </motion.div>

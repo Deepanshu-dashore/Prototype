@@ -20,16 +20,16 @@ export default function ComparisonTable() {
                         </span>
                     </div>
                     <div className="col-span-4 relative p-3 shadow-inner border border-gray-200">
-                    <div className="text-center text-white relative px-5 py-3 bg-linear-to-br from-[#0b4bd4] via-[#1d63f2] to-[#3b82f6]">
-                        <span className="text-sm font-bold tracking-wide drop-shadow-md">CCM Portable Cleanroom Mats</span>
-                        <div className="absolute left-1/2 -bottom-2 w-4 h-4 bg-[#1d63f2] -rotate-45 -translate-x-1/2 shadow-md" />
-                    </div>
+                        <div className="text-center text-white relative px-5 py-3 bg-linear-to-br from-[#0b4bd4] via-[#1d63f2] to-[#3b82f6]">
+                            <span className="text-sm font-bold tracking-wide drop-shadow-md">CCM Portable Cleanroom Mats</span>
+                            <div className="absolute left-1/2 -bottom-2 w-4 h-4 bg-[#1d63f2] -rotate-45 -translate-x-1/2 shadow-md" />
+                        </div>
                     </div>
                     <div className="col-span-4 relative p-3 shadow-inner border border-gray-200">
-                    <div className="text-center text-white relative px-8 py-3 z-30 bg-linear-to-br from-[#b91c1c] via-[#ef4444] to-red-700">
-                        <span className="text-sm font-bold tracking-wide drop-shadow-md">Peel Off Mat</span>
-                        <div className="absolute left-1/2 -bottom-2 w-4 h-4 bg-[#ef4444] -rotate-45 -translate-x-1/2 shadow-md" />
-                    </div>
+                        <div className="text-center text-white relative px-8 py-3 z-30 bg-linear-to-br from-[#b91c1c] via-[#ef4444] to-red-700">
+                            <span className="text-sm font-bold tracking-wide drop-shadow-md">Peel Off Mat</span>
+                            <div className="absolute left-1/2 -bottom-2 w-4 h-4 bg-[#ef4444] -rotate-45 -translate-x-1/2 shadow-md" />
+                        </div>
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@ export default function ComparisonTable() {
                                         {row.premium ? "Yes" : "No"}
                                     </span>
                                 ) : (
-                                    <span className="relative z-10 text-sm font-bold text-emerald-700 group-hover/row:text-white group-hover/row:scale-110 group-hover/row:translate-x-1 transition-all duration-500 ease-out drop-shadow-sm">
+                                    <span className="relative z-10 text-sm font-bold text-neutral-800 group-hover/row:text-white group-hover/row:scale-110 group-hover/row:translate-x-1 transition-all duration-500 ease-out drop-shadow-sm">
                                         {row.premium}
                                     </span>
                                 )}
@@ -88,7 +88,7 @@ export default function ComparisonTable() {
                                         {row.standard ? "Yes" : "No"}
                                     </span>
                                 ) : (
-                                    <span className="relative z-10 text-sm font-semibold text-rose-700 group-hover/row:text-white group-hover/row:scale-110 group-hover/row:translate-x-1 transition-all duration-500 ease-out drop-shadow-sm">
+                                    <span className="relative z-10 text-sm font-semibold text-neutral-800 group-hover/row:text-white group-hover/row:scale-110 group-hover/row:translate-x-1 transition-all duration-500 ease-out drop-shadow-sm">
                                         {row.standard}
                                     </span>
                                 )}

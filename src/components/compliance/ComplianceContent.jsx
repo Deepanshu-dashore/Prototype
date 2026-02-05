@@ -22,14 +22,14 @@ export default function ComplianceContent() {
     const [hoveredDoc, setHoveredDoc] = useState(null);
 
     const complianceDocs = [
-        { name: "ISO 9001", description: "Quality Management System Certification", icon: CheckBadgeIcon },
-        { name: "ISO 45001", description: "Occupational Health and Safety Management", icon: ShieldCheckIcon },
-        { name: "Anti-Microbial Efficacy - A", description: "In-depth efficacy testing results - Report A", icon: BeakerIcon },
-        { name: "Anti-Microbial Efficacy - B", description: "In-depth efficacy testing results - Report B", icon: BeakerIcon },
-        { name: "BPR/EPA", description: "Biocidal Products Regulation compliance data", icon: GlobeAmericasIcon },
-        { name: "Static Dissipative Testing", description: "ESD performance and resistance testing", icon: BoltIcon },
-        { name: "CCMatting Efficacy Data", description: "Internal performance and validation data", icon: ChartBarIcon },
-        { name: "SDS Safety Data Sheet", description: "Safety data and material specifications", icon: ExclamationCircleIcon }
+        { name: "ISO 9001", description: "Quality Management System Certification", icon: CheckBadgeIcon, image: "/compliances/CardImage/ISO9001.png" },
+        { name: "ISO 45001", description: "Occupational Health and Safety Management", icon: ShieldCheckIcon, image: "/compliances/CardImage/ISO45001.png" },
+        { name: "Anti-Microbial Efficacy - A", description: "In-depth efficacy testing results - Report A", icon: BeakerIcon, image: "/compliances/CardImage/Anti-Microbial Efficacy - A.png" },
+        { name: "Anti-Microbial Efficacy - B", description: "In-depth efficacy testing results - Report B", icon: BeakerIcon, image: "/compliances/CardImage/Anti-Microbial Efficacy - B.png" },
+        { name: "BPR/EPA", description: "Biocidal Products Regulation compliance data", icon: GlobeAmericasIcon, image: "/compliances/CardImage/EPA.png" },
+        { name: "Static Dissipative Testing", description: "ESD performance and resistance testing", icon: BoltIcon, image: "/compliances/CardImage/StaticDissipativeTesting.png" },
+        { name: "CCMatting Efficacy Data", description: "Internal performance and validation data", icon: ChartBarIcon, image: "/compliances/CardImage/CCMatting Efficacy Data.png" },
+        { name: "SDS Safety Data Sheet", description: "Safety data and material specifications", icon: ExclamationCircleIcon, image: "/compliances/CardImage/SDS Safety Data Sheet.png" }
     ];
 
     const logos = [
@@ -89,8 +89,9 @@ export default function ComplianceContent() {
             </section>
 
             {/* Narrative Sections */}
-            <section className="py-16 sm:py-24 bg-white">
-                <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="py-16 sm:py-24 bg-white relative">
+                {/* <div className="pointer-events-none absolute z-0 bg-linear-to-t from-white to-blue-600/40 animate-[pulse_3s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden /> */}
+                <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     {/* First Narrative */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
                         <motion.div
@@ -112,13 +113,13 @@ export default function ComplianceContent() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="relative aspect-4/3 rounded-2xl overflow-hidden shadow-2xl border border-gray-100"
+                            className="relative aspect-4/3 rounded-2xl overflow-hidden shadow-sm border border-gray-100"
                         >
                             <Image
                                 src="/compliances/matureMItur1stImage.jpg"
                                 alt="Quality Control Testing"
                                 fill
-                                className="object-cover p-10"
+                                className="object-cover p-10 bg-white"
                                 sizes="(max-width: 1024px) 100vw, 50vw"
                             />
                         </motion.div>
@@ -131,7 +132,7 @@ export default function ComplianceContent() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="order-2 lg:order-1 relative aspect-4/3 overflow-hidden shadow-2xl border border-gray-100"
+                            className="order-2 lg:order-1 relative aspect-4/3 overflow-hidden shadow-sm border border-gray-100"
                         >
                             <Image
                                 src="/compliances/tastTube2nd.jpg"
@@ -184,21 +185,38 @@ export default function ComplianceContent() {
                                 transition={{ duration: 0.4, delay: index * 0.05 }}
                                 onMouseEnter={() => setHoveredDoc(index)}
                                 onMouseLeave={() => setHoveredDoc(null)}
-                                className="group relative bg-white border border-gray-100 rounded-xl p-6 hover:shadow-xl transition-all duration-300 flex flex-col"
+                                className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col"
                             >
-                                <div className="w-12 h-12 rounded-lg bg-primary/5 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                                    <doc.icon className="w-6 h-6" />
+                                {/* Document Image Preview */}
+                                <div className="relative w-full h-60 bg-gray-50 overflow-hidden">
+                                    <Image
+                                        src={doc.image}
+                                        alt={doc.name}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                    {/* Icon Overlay */}
+                                    <div className={`absolute top-3 right-3 w-10 h-10 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md group-hover:bg-primary group-hover:text-white transition-colors duration-300 ${index % 2 === 0 ? 'bg-white' : 'bg-primary'}`}>
+                                        <doc.icon className="w-5 h-5" />
+                                    </div>
                                 </div>
-                                <h3 className="font-bold text-neutral-dark mb-2 group-hover:text-primary transition-colors duration-300">{doc.name}</h3>
-                                <p className="text-sm text-neutral-dark/60 mb-6 grow">{doc.description}</p>
 
-                                <div className="flex gap-3 pt-4 border-t border-gray-50">
-                                    <button className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-neutral-dark hover:text-primary transition-colors">
-                                        <EyeIcon className="w-4 h-4" /> Preview
-                                    </button>
-                                    <button className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors">
-                                        <ArrowDownTrayIcon className="w-4 h-4" /> Download
-                                    </button>
+                                {/* Card Content */}
+                                <div className={`p-6 flex relative flex-col flex-1 ${index % 2 === 0 ? 'bg-linear-to-b from-primary to-indigo-600' : ' shadow-xl'}`}>
+
+                                    <div className={`absolute top-0 left-0 w-full h-full bg-[url('/circle-pattern.svg')] bg-repeat ${index % 2 === 0 ? 'opacity-3' : 'opacity-2.5'} pointer-events-none`} />
+
+                                    <h3 className={`font-bold text-lg text-neutral-dark mb-2 ${index % 2 === 0 ? 'text-white' : 'group-hover:text-primary'} transition-colors duration-300`}>{doc.name}</h3>
+                                    <p className={`text-sm text-neutral-dark/60 mb-3 grow ${index % 2 === 0 ? 'text-white' : 'group-hover:text-primary'} transition-colors duration-300`}>{doc.description}</p>
+
+                                    <div className={`flex gap-3 relative z-10 pt-4 border-t ${index % 2 === 0 ? 'border-white/30' : 'border-gray-50'} transition-colors duration-300`}>
+                                        <button className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-neutral-dark transition-colors ${index % 2 === 0 ? 'text-white bg-gray-100/30' : 'group-hover:text-primary hover:text-primary bg-gray-200'} transition-colors duration-300 rounded-xl`}>
+                                            <EyeIcon className="w-4 h-4" /> Preview
+                                        </button>
+                                        <button className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-colors ${index % 2 === 0 ? 'text-primary bg-white' : 'hover:bg-primary/90 bg-primary text-white'} transition-colors duration-300`}>
+                                            <ArrowDownTrayIcon className="w-4 h-4" /> Download
+                                        </button>
+                                    </div>
                                 </div>
                             </motion.div>
                         ))}

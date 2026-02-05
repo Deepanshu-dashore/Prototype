@@ -4,7 +4,6 @@ import { ApiError } from "next/dist/server/api-utils";
 import jwt from "jsonwebtoken";
 import connect from "@/app/lib/db/connect";
 import { NextResponse } from "next/server";
-import { comparePasswords } from "@/app/lib/security/passwordHasher";
 import { sanitizeEmail, sanitizeText } from "@/app/lib/security/sanitizer";
 import { isValidEmail } from "@/app/lib/security/validator";
 
@@ -14,26 +13,30 @@ export async function POST(request) {
     const { name, email, password } = await request.json();
 
     // Validate and sanitize inputs
-    if (!password || typeof password !== 'string') {
+    if (!password || typeof password !== "string") {
       return ApiResponse(400, null, "Password is required");
     }
 
     let user = null;
-    
+
     if (email) {
       // Sanitize and validate email
       const sanitizedEmail = sanitizeEmail(email);
       if (!isValidEmail(sanitizedEmail)) {
         return ApiResponse(400, null, "Invalid email format");
       }
-      user = await User.findOne({ email: sanitizedEmail }).select("-__v -createdAt -updatedAt");
+      user = await User.findOne({ email: sanitizedEmail }).select(
+        "-__v -createdAt -updatedAt",
+      );
     } else if (name) {
       // Sanitize name
       const sanitizedName = sanitizeText(name);
       if (!sanitizedName) {
         return ApiResponse(400, null, "Invalid name format");
       }
-      user = await User.findOne({ name: sanitizedName }).select("-__v -createdAt -updatedAt");
+      user = await User.findOne({ name: sanitizedName }).select(
+        "-__v -createdAt -updatedAt",
+      );
     } else {
       return ApiResponse(400, null, "Email or name is required");
     }
@@ -42,11 +45,11 @@ export async function POST(request) {
       return ApiResponse(400, null, "User not found");
     }
 
-    // Compare hashed passwords using bcrypt
-    const isPasswordValid = await comparePasswords(password, user.password);
-    if (!isPasswordValid) {
+    // Simple password comparison (plain text)
+    if (password !== user.password) {
       return ApiResponse(401, null, "Invalid credentials");
     }
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
@@ -60,7 +63,7 @@ export async function POST(request) {
           email: user.email,
         },
       },
-      { status: 200 }
+      { status: 200 },
     );
 
     // 7️⃣ Set httpOnly cookie

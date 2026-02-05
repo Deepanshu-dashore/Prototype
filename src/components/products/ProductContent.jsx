@@ -101,7 +101,8 @@ export default function ProductContent({ product, slug }) {
                         className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                     >
                         <Link
-                            href="/technical"
+                            target="_blank"
+                            href="https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf"
                             className="inline-flex items-center gap-2 bg-white text-neutral-dark px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-all shadow-md group"
                         >
                             <DocumentTextIcon className="w-5 h-5" />
@@ -399,7 +400,7 @@ export default function ProductContent({ product, slug }) {
                         </p>
                     </div>
 
-                    {benefitImages.length > 0 && (
+                    {/* {benefitImages.length > 0 && (
                         <div className={`grid grid-cols-2 ${benefitImages.length === 3 ? 'md:grid-cols-3' : benefitImages.length === 5 ? 'md:grid-cols-5' : 'md:grid-cols-4'} gap-4 mb-12 max-w-7xl mx-auto`}>
                             {benefitImages.map((num) => (
                                 <div key={num} className="relative w-full aspect-square border border-gray-200 rounded-lg overflow-hidden bg-neutral-500/10">
@@ -423,7 +424,7 @@ export default function ProductContent({ product, slug }) {
                                 </div>
                             ))}
                         </div>
-                    )}
+                    )} */}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
                         {benefits.map((benefit, index) => {
@@ -457,6 +458,8 @@ export default function ProductContent({ product, slug }) {
             {/* Sizes */}
             {product.sizes && (
                 <section className="bg-white py-16 sm:py-20 relative overflow-hidden">
+                    <div className="pointer-events-none absolute bg-linear-to-t from-white to-blue-600/40 animate-[pulse_3s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden />
+                    <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.025]" aria-hidden />
                     {/* Subtle background accents */}
                     <div className="pointer-events-none absolute inset-0" aria-hidden>
                         <div className="absolute -top-12 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -544,6 +547,51 @@ export default function ProductContent({ product, slug }) {
                     </div>
                 </section>
             )}
+
+            {/* CTA Section */}
+            <section className="bg-white py-16 sm:py-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+                    >
+                        <div>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-3 h-3 rounded-full bg-primary" />
+                                <span className="text-xs font-mono uppercase tracking-[0.15em] text-neutral-dark font-medium">
+                                    ORDER NOW
+                                </span>
+                            </div>
+                            <h2 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
+                                Get a Custom Quote for Your Facility
+                            </h2>
+                        </div>
+                        <div className="space-y-3">
+                            <p className="text-sm flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
+                                <span className="w-3 h-3 inline-block rounded-full bg-white" >
+                                </span>
+                                If you want an alternative size, call us directly for custom sizing.
+                            </p>
+                            <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
+                                Get a free, no-obligation quote tailored to your specific contamination control requirements. Our experts will help you determine the optimal mat configuration and sizing for your facility.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <Link
+                                    href="/contact"
+                                    className="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-primary/90 transition-all duration-300 group"
+                                >
+                                    <span>Request a Quote</span>
+                                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
         </main>
     );
 }

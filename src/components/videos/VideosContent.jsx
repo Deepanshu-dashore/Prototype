@@ -89,109 +89,123 @@ export default function VideosContent() {
             {/* Video Gallery Section */}
             <section className="relative">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/square2.svg')] bg-repeat opacity-[0.05]" aria-hidden />
-            <section className="bg-white py-16 sm:py-20 overflow-hidden">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                        {videos.map((video, index) => (
-                            <motion.div
-                                key={`${video.id}-${index}`}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="group relative z-20 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
-                            >
-                                <div className="relative aspect-video bg-neutral-light">
-                                    {playingVideoId === video.id ? (
-                                        <iframe
-                                            src={`${video.embedUrl}?autoplay=1`}
-                                            title={video.title}
-                                            className="w-full h-full"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        />
-                                    ) : (
-                                        <>
-                                            <Image
-                                                src={video.thumbnail}
-                                                alt={video.title}
-                                                width={640}
-                                                height={360}
-                                                className="w-full h-full object-cover"
+                <section className="bg-white py-16 sm:py-20 overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                            {videos.map((video, index) => (
+                                <motion.div
+                                    key={`${video.id}-${index}`}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    className="group relative z-20 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+                                >
+                                    <div className="relative aspect-video bg-neutral-light">
+                                        {playingVideoId === video.id ? (
+                                            <iframe
+                                                src={`${video.embedUrl}?autoplay=1`}
+                                                title={video.title}
+                                                className="w-full h-full"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
                                             />
-                                            <div
-                                                className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors cursor-pointer"
-                                                onClick={() => setPlayingVideoId(video.id)}
-                                            >
-                                                <div className="w-16 h-16 rounded-full bg-white/95 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl">
-                                                    <PlayIcon className="w-8 h-8 text-primary ml-1" aria-hidden="true" />
+                                        ) : (
+                                            <>
+                                                <Image
+                                                    src={video.thumbnail}
+                                                    alt={video.title}
+                                                    width={640}
+                                                    height={360}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                                <div
+                                                    className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors cursor-pointer"
+                                                    onClick={() => setPlayingVideoId(video.id)}
+                                                >
+                                                    <div className="w-16 h-16 rounded-full bg-white/95 flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl">
+                                                        <PlayIcon className="w-8 h-8 text-primary ml-1" aria-hidden="true" />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className={`absolute top-3 left-3 ${video.badgeColor} text-white px-2.5 py-1 rounded-md text-xs font-semibold shadow-lg`}>
-                                                {video.badgeText}
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
+                                                <div className={`absolute top-3 left-3 ${video.badgeColor} text-white px-2.5 py-1 rounded-md text-xs font-semibold shadow-lg`}>
+                                                    {video.badgeText}
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
 
-                                <div className="p-5">
-                                    <h3 className="text-lg font-bold text-neutral-dark mb-2 line-clamp-2">
-                                        {video.title}
-                                    </h3>
-                                    <p className="text-sm text-neutral-dark/70 mb-4 line-clamp-2 leading-relaxed">
-                                        {video.description}
-                                    </p>
-                                    {playingVideoId !== video.id && (
-                                        <button
-                                            onClick={() => setPlayingVideoId(video.id)}
-                                            className="w-full inline-flex items-center justify-center gap-2 bg-gray-50 hover:bg-primary hover:text-white text-neutral-dark px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 border border-gray-200 hover:border-primary group/btn"
-                                        >
-                                            <span>Watch Video</span>
-                                            <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </button>
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Minimalist CTA Section */}
-            <section className=" py-16 sm:pb-20 sm:pt-0 relative overflow-hidden">
-                <div className="pointer-events-none rotate-15 absolute inset-0 bg-[url('/Shape.svg')] bg-repeat opacity-[0.08]" aria-hidden />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="max-w-7xl mx-auto"
-                    >
-                        <div className="bg-linear-to-b flex items-center justify-evenly from-primary/50 via-blue-600 to-indigo-600 rounded-2xl p-8 sm:p-10 lg:p-12 shadow-xl text-center">
-                            
-                            <div className=" text-left">
-                                <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-white mb-4">
-                                Ready to Learn More?
-                            </h2>
-                            <p className="text-base sm:text-base text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
-                                Contact us to discover how our contamination control solutions can protect your facility. Our team is ready to help you find the perfect matting solution for your needs.
-                            </p></div>
-                            <button
-                                onClick={openContactForm}
-                                className="inline-flex  h-fit items-center gap-2 bg-white text-primary px-8 py-3.5 rounded-lg font-semibold text-base hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
-                            >
-                                Get in Touch
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
+                                    <div className="p-5">
+                                        <h3 className="text-lg font-bold text-neutral-dark mb-2 line-clamp-2">
+                                            {video.title}
+                                        </h3>
+                                        <p className="text-sm text-neutral-dark/70 mb-4 line-clamp-2 leading-relaxed">
+                                            {video.description}
+                                        </p>
+                                        {playingVideoId !== video.id && (
+                                            <button
+                                                onClick={() => setPlayingVideoId(video.id)}
+                                                className="w-full inline-flex items-center justify-center gap-2 bg-gray-50 hover:bg-primary hover:text-white text-neutral-dark px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 border border-gray-200 hover:border-primary group/btn"
+                                            >
+                                                <span>Watch Video</span>
+                                                <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
-                    </motion.div>
-                </div>
-            </section>
+                    </div>
+                </section>
+
+
+                {/* CTA Section */}
+                <section className="bg-white py-16 sm:py-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+                        >
+                            <div>
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="w-3 h-3 rounded-full bg-primary" />
+                                    <span className="text-xs font-mono uppercase tracking-[0.15em] text-neutral-dark font-medium">
+                                        ORDER NOW
+                                    </span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
+                                    Get a Custom Quote for Your Facility
+                                </h2>
+                            </div>
+                            <div className="space-y-3">
+                                <p className="text-sm flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
+                                    <span className="w-3 h-3 inline-block rounded-full bg-white" >
+                                    </span>
+                                    If you want an alternative size, call us directly for custom sizing.
+                                </p>
+                                <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
+                                    Get a free, no-obligation quote tailored to your specific contamination control requirements. Our experts will help you determine the optimal mat configuration and sizing for your facility.
+                                </p>
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <button
+                                        onClick={openContactForm}
+                                        className="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-primary/90 transition-all duration-300 group"
+                                    >
+                                        <span>Request a Quote</span>
+                                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
             </section>
         </main>
     );

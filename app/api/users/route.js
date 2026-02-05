@@ -2,7 +2,6 @@ import connect from "@/app/lib/db/connect";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { User } from "@/app/lib/models/user";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
-import { hashPassword } from "@/app/lib/security/passwordHasher";
 import { sanitizeText, sanitizeEmail } from "@/app/lib/security/sanitizer";
 import { isValidEmail } from "@/app/lib/security/validator";
 
@@ -26,7 +25,7 @@ export async function POST(request) {
   await connect();
   try {
     const { name, email, password } = await request.json();
-    
+
     // Validate inputs
     if (!name || !email || !password) {
       return ApiResponse(400, null, "All fields are required");
@@ -43,16 +42,18 @@ export async function POST(request) {
 
     // Validate password strength (minimum 6 characters)
     if (password.length < 6) {
-      return ApiResponse(400, null, "Password must be at least 6 characters long");
+      return ApiResponse(
+        400,
+        null,
+        "Password must be at least 6 characters long",
+      );
     }
 
-    // Hash password before storage
-    const hashedPassword = await hashPassword(password);
-
-    const newUser = await User.create({ 
-      name: sanitizedName, 
-      email: sanitizedEmail, 
-      password: hashedPassword 
+    // Store password directly (plain text)
+    const newUser = await User.create({
+      name: sanitizedName,
+      email: sanitizedEmail,
+      password: password,
     });
     return ApiResponse(201, newUser, "User created successfully");
   } catch (error) {

@@ -285,7 +285,7 @@ export default function WhatSetsApartDark() {
               >
                 {/* Content - Preserving Design */}
                 <div className="flex-1 min-w-0 pr-4 group-hover:z-50">
-                  <h3 className="text-lg sm:text-xl font-semibold transition-colors group-hover:text-white text-neutral-900 mb-1.5">
+                  <h3 className="text-lg sm:text-xl font-semibold transition-colors group-hover:text-white text-neutral-900 mb-1.5 capitalize">
                     {cert.title}
                   </h3>
                   <p className="text-xs sm:text-sm transition-colors group-hover:text-white/80 text-neutral-700 leading-relaxed">

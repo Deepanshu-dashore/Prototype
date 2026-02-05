@@ -81,6 +81,7 @@ export default function Header({ onContactClick }) {
         ]
       },
       { name: 'Entrance Matting Ireland', href: 'https://entrancemattingireland.ie/', icon: BuildingOfficeIcon },
+      { name: 'Logo Mats Ireland', href: 'https://logomatsireland.ie/', icon: BuildingOfficeIcon },
     ],
     Technical: [
       { name: 'View All Technical Documents', href: '/technical', icon: FolderIcon },
