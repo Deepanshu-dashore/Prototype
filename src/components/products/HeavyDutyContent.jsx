@@ -436,7 +436,7 @@ export default function HeavyDutyContent({ product }) {
                         transition={{ duration: 0.6 }}
                         className="text-center mb-10 sm:mb-12"
                     >
-                        <span className="inline-flex items-center gap-1.5 bg-white text-primary px-3 py-1.5 rounded text-xs font-medium mb-4">
+                        <span className="inline-flex items-center gap-1.5 bg-white text-neutral-dark font-semibold px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <SwatchIcon className="w-3 h-3" />
                             Application-Specific Dimensions
                         </span>

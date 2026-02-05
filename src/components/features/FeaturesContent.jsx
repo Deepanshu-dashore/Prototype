@@ -20,7 +20,8 @@ import {
     HomeIcon,
     UserGroupIcon,
     ExclamationTriangleIcon,
-    LockClosedIcon
+    LockClosedIcon,
+    ArrowRightIcon
 } from "@heroicons/react/24/outline";
 import DotGrid from '../share/DotGrid';
 import ImageZoom from '../ui/ImageZoom';

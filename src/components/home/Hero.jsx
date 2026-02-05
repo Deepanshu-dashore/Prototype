@@ -454,13 +454,13 @@ export default function Hero({ onSecondaryClick }) {
           muted
           playsInline
           className="
-            absolute max-w-full h-auto bottom-10 left-1/2 -translate-x-1/2
+            md:absolute max-w-full h-auto bottom-10 left-1/2 md:-translate-x-1/2
             w-auto
             z-0
             md:w-auto md:top-[-130px] md:left-[430px] md:translate-x-0 md:bottom-auto md:z-auto
           "
         >
-          <source src="Version 1.webm" type="video/webm" />
+          <source src="/mateMovement.webm" type="video/webm" />
         </video>
       </div>
 

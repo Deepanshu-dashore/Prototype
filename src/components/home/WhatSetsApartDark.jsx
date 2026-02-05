@@ -7,6 +7,7 @@ import {
   ChartBarIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
+import DotGrid from "../share/DotGrid";
 
 export default function WhatSetsApartDark() {
   const containerRef = useRef(null);
@@ -187,6 +188,19 @@ export default function WhatSetsApartDark() {
         className="pointer-events-none absolute inset-0 overflow-hidden"
         aria-hidden
       >
+        <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+          <DotGrid
+            dotSize={5}
+            gap={15}
+            baseColor="#5360ff20"
+            activeColor="#a4aef8"
+            proximity={120}
+            shockRadius={250}
+            shockStrength={5}
+            resistance={750}
+            returnDuration={1.5}
+          />
+        </div>
         {/* Large circle - top left */}
         <motion.div
           className="absolute -top-32 left-10 w-80 h-80 rounded-full bg-blue-200/25"
