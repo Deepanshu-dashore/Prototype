@@ -7,7 +7,7 @@ export default function SpecificationsTable() {
     const specifications = [
         {
             matType: "WorkSafe",
-            image: "/assets/products Page/clernRoomProduct.jpeg",
+            image: "/assets/installation/CCM Gilead1.jpeg",
             trafficSuitability: "Pedestrian & Light Trolley Traffic",
             color: "blue",
             specs: [
