@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
+import axios from "@/app/lib/utils/axiosConfig";
 import { useRouter } from "next/navigation";
 import UnifiedLogin from "@/src/components/auth/UnifiedLogin";
 

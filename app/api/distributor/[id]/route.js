@@ -30,19 +30,19 @@ export async function PATCH(request, { params }) {
   }
   try {
     const { id } = await params;
-    const { note } = await request.json();
+    const body = await request.json();
 
-    if (!note) {
+    if (!body) {
       return ApiResponse(400, null, "Note content is required");
     }
 
-    const distributor = await DistributorService.addHistoryNote(id, note);
-    return ApiResponse(200, distributor, "History note added successfully");
+    const distributor = await DistributorService.updateDistributor(id, body);
+    return ApiResponse(200, distributor, "Distributor updated successfully");
   } catch (error) {
     return ApiResponse(
       500,
       null,
-      "Error adding history note: " + error.message,
+      "Error updating distributor: " + error.message,
     );
   }
 }

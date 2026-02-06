@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "@/app/lib/utils/axiosConfig";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -34,10 +34,6 @@ export default function DistributorProfile() {
                 setError(res.data?.message || "Failed to fetch profile");
             }
         } catch (err) {
-            if (err.response?.status === 401) {
-                window.location.href = '/distributor/login';
-                return;
-            }
             setError(err.message || "Something went wrong");
         } finally {
             setLoading(false);

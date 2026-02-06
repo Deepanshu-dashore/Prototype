@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import axios from "axios";
+import axios from "@/app/lib/utils/axiosConfig";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { BuildingOfficeIcon } from "@heroicons/react/24/solid";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "@/app/lib/utils/axiosConfig";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeftIcon, LockClosedIcon } from "@heroicons/react/24/outline";
