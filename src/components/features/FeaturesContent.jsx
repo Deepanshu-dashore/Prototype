@@ -335,18 +335,42 @@ export default function FeaturesContent() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="max-w-4xl mx-auto"
+                        className="max-w-7xl mx-auto"
                     >
-                        <h3 className="text-2xl sm:text-3xl font-bold text-neutral-100 mb-6">
-                            Enhanced Performance Properties
-                        </h3>
-                        <div className="space-y-5 text-sm sm:text-base text-neutral-100/70 leading-relaxed">
-                            <p>
-                                To enhance the performance of the material special additives are mixed in to give <strong className="text-white font-semibold">static dissipative and anti-microbial properties</strong>. The anti-microbial properties are due to the an addition of a silver biocide which is impregnated during manufacturing.
-                            </p>
-                            <p>
-                                This ensures it is <strong className="text-white font-semibold">non-leaching and non-diminishing</strong>. The silver biocide is capable of killing over 50 forms of gram negative and gram positive bacteria including <strong className="text-white font-semibold">MRSA, E Coli, SARS and Listeria</strong>.
-                            </p>
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                            <div className="lg:col-span-8">
+                                <h3 className="text-2xl sm:text-3xl font-bold text-neutral-100 mb-6">
+                                    Biomaster™ Antimicrobial Technology
+                                </h3>
+                                <div className="space-y-6 text-sm sm:text-base text-neutral-100/80 leading-relaxed">
+                                    <p>
+                                        CCMatting products incorporate <strong className="text-white font-semibold">"Biomaster™ Antimicrobial Technology"</strong> from Addmaster as an integral part of their polymer composition.
+                                    </p>
+                                    <p>
+                                        This advanced antimicrobial solution inhibits the growth of bacteria, fungi, mould, and other microorganisms, supporting cleaner products, safer processes, and more controlled environments.
+                                    </p>
+                                    <div className="pt-4">
+                                        <Link
+                                            href="#"
+                                            className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 border-2 border-white/20 backdrop-blur-[1px] text-white rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300 shadow-lg shadow-black/20 group/bio"
+                                        >
+                                            <span>Learn more about BioMaster Advantage</span>
+                                            <ArrowRightIcon className="w-4 h-4 group-hover/bio:translate-x-1 transition-transform" />
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="lg:col-span-4 flex justify-center lg:justify-end">
+                                <div className="relative w-48 h-48 sm:min-w-sm sm:h-64 bg-white border-4 divide-y divide-x divide-gray-200 backdrop-blur-md rounded-2xl p-8 flex items-center justify-center group/logo hover:bg-white/15 transition-colors duration-500">
+                                    <Image
+                                        src="/biomasterLogo.png"
+                                        alt="Biomaster Logo"
+                                        width={240}
+                                        height={240}
+                                        className="object-cover relative z-10 drop-shadow-2xl scale-125"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </motion.div>
                 </div>
