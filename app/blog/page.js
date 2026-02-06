@@ -65,14 +65,17 @@ export async function generateMetadata({ searchParams }) {
 }
 
 export default async function BlogPage({ searchParams }) {
-  const { category, search, sort } = await searchParams;
+  const { category, search, sort, page } = await searchParams;
 
   // Fetch initial data on the server using URL parameters
-  const { blogs, categories } = await getPublicBlogs({
-    category,
-    search,
-    sort,
-  });
+  const { blogs, categories, totalPages, totalBlogs, currentPage } =
+    await getPublicBlogs({
+      category,
+      search,
+      sort,
+      page: parseInt(page) || 1,
+      limit: 10,
+    });
 
   return (
     <BlogLayout>
@@ -83,6 +86,9 @@ export default async function BlogPage({ searchParams }) {
           initialCategories={categories}
           currentCategory={category || "All"}
           currentSearch={search || ""}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          totalBlogs={totalBlogs}
         />
       </main>
     </BlogLayout>

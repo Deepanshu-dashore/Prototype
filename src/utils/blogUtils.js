@@ -12,7 +12,7 @@ import mongoose from "mongoose";
 export async function getPublicBlogs(options = {}) {
   await connect();
 
-  const { search, category, sort = "newest" } = options;
+  const { search, category, sort = "newest", page = 1, limit = 10 } = options;
 
   let query = {};
 
@@ -47,11 +47,18 @@ export async function getPublicBlogs(options = {}) {
       sortOption = { createdAt: -1, _id: -1 };
   }
 
-  const blogs = await Blog.find(query)
-    .sort(sortOption)
-    .select("-__v -updatedAt -content")
-    .lean()
-    .exec();
+  const skip = (page - 1) * limit;
+
+  const [blogs, totalBlogs] = await Promise.all([
+    Blog.find(query)
+      .sort(sortOption)
+      .select("-__v -updatedAt -content")
+      .skip(skip)
+      .limit(limit)
+      .lean()
+      .exec(),
+    Blog.countDocuments(query),
+  ]);
 
   // Fully serialize the data for Next.js Server Components
   const serializedBlogs = blogs.map((blog) => ({
@@ -65,7 +72,9 @@ export async function getPublicBlogs(options = {}) {
   return {
     blogs: serializedBlogs,
     categories,
-    totalBlogs: blogs.length,
+    totalBlogs,
+    totalPages: Math.ceil(totalBlogs / limit),
+    currentPage: parseInt(page),
   };
 }
 

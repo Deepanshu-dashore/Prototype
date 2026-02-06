@@ -14,22 +14,42 @@ import {
 import { motion } from "framer-motion";
 
 export default function CategoriesPage() {
-  const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    limit: 10,
+  });
 
-  const fetchCategories = async () => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchCategories(pagination.currentPage);
+    }, 300); // 300ms debounce
+    return () => clearTimeout(timer);
+  }, [pagination.currentPage, searchQuery]);
+
+  const fetchCategories = async (page = 1) => {
     try {
       setLoading(true);
-      const res = await axios.get("/api/blogs/category");
+      const params = new URLSearchParams();
+      params.append("page", page);
+      params.append("limit", pagination.limit);
+      if (searchQuery) params.append("search", searchQuery);
+
+      const res = await axios.get(`/api/blogs/category?${params.toString()}`);
       if (res.data?.success && res.data?.data?.categoriesWithCounts) {
         setCategories(res.data.data.categoriesWithCounts);
+        setPagination((prev) => ({
+          ...prev,
+          totalPages: res.data.data.totalPages,
+          totalItems: res.data.data.totalCategories,
+          currentPage: res.data.data.currentPage,
+        }));
       } else {
         setError(res.data?.message || "Failed to fetch categories");
       }
@@ -37,6 +57,13 @@ export default function CategoriesPage() {
       setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    if (pagination.currentPage !== 1) {
+      setPagination((prev) => ({ ...prev, currentPage: 1 }));
     }
   };
 
@@ -48,10 +75,6 @@ export default function CategoriesPage() {
       year: "numeric",
     });
   };
-
-  const filteredCategories = categories.filter((cat) =>
-    cat.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className="min-h-screen py-8 font-sans">
@@ -96,7 +119,7 @@ export default function CategoriesPage() {
               placeholder="Search categories..."
               className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
             />
           </div>
         </div>
@@ -111,7 +134,7 @@ export default function CategoriesPage() {
             <div className="rounded-lg bg-red-50 p-4 border border-red-100 text-center">
               <p className="text-sm text-red-600 font-medium">{error}</p>
             </div>
-          ) : filteredCategories.length === 0 ? (
+          ) : categories.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-xl border border-gray-100 shadow-sm border-dashed">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-50">
                 <FolderIcon className="h-6 w-6 text-gray-400" />
@@ -126,91 +149,177 @@ export default function CategoriesPage() {
               </p>
             </div>
           ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
-            >
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead className="bg-gray-50/50 border-b border-gray-100">
-                    <tr>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Category Name
-                      </th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Blog Count
-                      </th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        Latest Post
-                      </th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {filteredCategories.map((category, index) => (
-                      <motion.tr
-                        key={category.name}
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                        className="hover:bg-gray-50/60 transition-colors group"
-                      >
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-                              <FolderIcon className="w-5 h-5 text-indigo-600" />
+            <>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+              >
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead className="bg-gray-50/50 border-b border-gray-100">
+                      <tr>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                          Category Name
+                        </th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                          Blog Count
+                        </th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                          Latest Post
+                        </th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {categories.map((category, index) => (
+                        <motion.tr
+                          key={category.name}
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                          className="hover:bg-gray-50/60 transition-colors group"
+                        >
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              <div className="h-10 w-10 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
+                                <FolderIcon className="w-5 h-5 text-indigo-600" />
+                              </div>
+                              <span className="text-sm font-medium text-gray-900">
+                                {category.name}
+                              </span>
                             </div>
-                            <span className="text-sm font-medium text-gray-900">
-                              {category.name}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <DocumentTextIcon className="w-4 h-4 text-gray-400" />
-                            <span className="text-sm text-gray-600 font-medium">
-                              {category.count}
-                            </span>
-                            <span className="text-xs text-gray-400">
-                              {category.count === 1 ? "post" : "posts"}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                            <CalendarIcon className="w-3.5 h-3.5 text-gray-400" />
-                            {formatDate(category.latestBlog)}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <Link
-                            href={`/admin/blogboard?category=${encodeURIComponent(
-                              category.name
-                            )}`}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/5 rounded-lg transition-all"
-                          >
-                            View Posts
-                            <ArrowRightIcon className="w-3.5 h-3.5" />
-                          </Link>
-                        </td>
-                      </motion.tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="px-6 py-4 bg-gray-50/50 border-t border-gray-100">
-                <p className="text-xs text-gray-500">
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-2">
+                              <DocumentTextIcon className="w-4 h-4 text-gray-400" />
+                              <span className="text-sm text-gray-600 font-medium">
+                                {category.count}
+                              </span>
+                              <span className="text-xs text-gray-400">
+                                {category.count === 1 ? "post" : "posts"}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                              <CalendarIcon className="w-3.5 h-3.5 text-gray-400" />
+                              {formatDate(category.latestBlog)}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <Link
+                              href={`/admin/blogboard?category=${encodeURIComponent(
+                                category.name,
+                              )}`}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/5 rounded-lg transition-all"
+                            >
+                              View Posts
+                              <ArrowRightIcon className="w-3.5 h-3.5" />
+                            </Link>
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </motion.div>
+
+              {/* Pagination Controls */}
+              <div className="mt-8 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-sm text-gray-500">
                   Showing{" "}
                   <span className="font-medium text-gray-900">
-                    {filteredCategories.length}
+                    {(pagination.currentPage - 1) * pagination.limit + 1}
                   </span>{" "}
-                  {filteredCategories.length === 1 ? "category" : "categories"}
-                </p>
+                  to{" "}
+                  <span className="font-medium text-gray-900">
+                    {Math.min(
+                      pagination.currentPage * pagination.limit,
+                      pagination.totalItems,
+                    )}
+                  </span>{" "}
+                  of{" "}
+                  <span className="font-medium text-gray-900">
+                    {pagination.totalItems}
+                  </span>{" "}
+                  results
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() =>
+                      setPagination((prev) => ({
+                        ...prev,
+                        currentPage: Math.max(1, prev.currentPage - 1),
+                      }))
+                    }
+                    disabled={pagination.currentPage === 1}
+                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Previous
+                  </button>
+                  <div className="flex items-center gap-1">
+                    {[...Array(pagination.totalPages)].map((_, i) => {
+                      const pageNum = i + 1;
+                      if (
+                        pageNum === 1 ||
+                        pageNum === pagination.totalPages ||
+                        (pageNum >= pagination.currentPage - 1 &&
+                          pageNum <= pagination.currentPage + 1)
+                      ) {
+                        return (
+                          <button
+                            key={pageNum}
+                            onClick={() =>
+                              setPagination((prev) => ({
+                                ...prev,
+                                currentPage: pageNum,
+                              }))
+                            }
+                            className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
+                              pagination.currentPage === pageNum
+                                ? "bg-primary text-white shadow-md"
+                                : "text-gray-600 hover:bg-gray-100"
+                            }`}
+                          >
+                            {pageNum}
+                          </button>
+                        );
+                      } else if (
+                        (pageNum === pagination.currentPage - 2 &&
+                          pageNum > 1) ||
+                        (pageNum === pagination.currentPage + 2 &&
+                          pageNum < pagination.totalPages)
+                      ) {
+                        return (
+                          <span key={pageNum} className="px-1 text-gray-400">
+                            ...
+                          </span>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+                  <button
+                    onClick={() =>
+                      setPagination((prev) => ({
+                        ...prev,
+                        currentPage: Math.min(
+                          pagination.totalPages,
+                          pagination.currentPage + 1,
+                        ),
+                      }))
+                    }
+                    disabled={pagination.currentPage === pagination.totalPages}
+                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
-            </motion.div>
+            </>
           )}
         </div>
       </div>

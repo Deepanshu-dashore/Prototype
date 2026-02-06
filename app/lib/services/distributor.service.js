@@ -43,9 +43,25 @@ export class DistributorService {
     return distributor;
   }
 
-  static async getAllDistributors(filter = {}, projection = {}) {
+  static async getAllDistributors(filter = {}, projection = {}, options = {}) {
     await connect();
-    const distributors = await Distributor.find(filter, projection);
+    const { page, limit } = options;
+
+    if (page && limit) {
+      const skip = (page - 1) * limit;
+      const [distributors, total] = await Promise.all([
+        Distributor.find(filter, projection)
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(limit),
+        Distributor.countDocuments(filter),
+      ]);
+      return { distributors, total };
+    }
+
+    const distributors = await Distributor.find(filter, projection).sort({
+      createdAt: -1,
+    });
     return distributors;
   }
 }

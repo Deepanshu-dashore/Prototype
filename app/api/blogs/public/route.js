@@ -33,7 +33,7 @@ export async function GET(request) {
         return ApiResponse(
           500,
           null,
-          "Error fetching blog: " + dbError.message
+          "Error fetching blog: " + dbError.message,
         );
       }
     }
@@ -51,7 +51,7 @@ export async function GET(request) {
         return ApiResponse(
           500,
           null,
-          "Error fetching blog: " + dbError.message
+          "Error fetching blog: " + dbError.message,
         );
       }
     }
@@ -59,10 +59,15 @@ export async function GET(request) {
     // Search functionality
     const category = request.nextUrl.searchParams.get("category");
 
+    const page = parseInt(request.nextUrl.searchParams.get("page")) || 1;
+    const limit = parseInt(request.nextUrl.searchParams.get("limit")) || 10;
+
     const result = await getPublicBlogs({
       search,
       category,
       sort,
+      page,
+      limit,
     });
 
     // We still want to get some extra stats for the dashboard if needed,
@@ -99,11 +104,13 @@ export async function GET(request) {
       {
         totalCategories: categoriesWithCounts,
         totalBlogs: result.totalBlogs,
+        totalPages: result.totalPages,
+        currentPage: result.currentPage,
         todayBlogCount,
         categories: result.categories,
         blogs: result.blogs,
       },
-      "Blogs fetched successfully"
+      "Blogs fetched successfully",
     );
   } catch (error) {
     console.error("Error in public blogs API:", error);

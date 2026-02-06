@@ -361,7 +361,7 @@ export default function FeaturesContent() {
                                 </div>
                             </div>
                             <div className="lg:col-span-4 flex justify-center lg:justify-end">
-                                <div className="relative w-48 h-48 sm:min-w-sm sm:h-64 bg-white border-4 divide-y divide-x divide-gray-200 backdrop-blur-md rounded-2xl p-8 flex items-center justify-center group/logo hover:bg-white/15 transition-colors duration-500">
+                                <div className="relative w-48 h-48 sm:min-w-sm sm:h-64 bg-white border-4 divide-y divide-x divide-gray-200 backdrop-blur-md rounded-2xl p-8 flex items-center justify-center group/logo transition-colors duration-500">
                                     <Image
                                         src="/biomasterLogo.png"
                                         alt="Biomaster Logo"

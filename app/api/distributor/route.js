@@ -105,8 +105,28 @@ export async function GET(request) {
       };
     }
 
-    const distributors = await DistributorService.getAllDistributors(filter);
-    return ApiResponse(200, distributors, "Distributors fetched successfully");
+    const page = parseInt(request.nextUrl.searchParams.get("page")) || 1;
+    const limit = parseInt(request.nextUrl.searchParams.get("limit")) || 10;
+    const paginate = request.nextUrl.searchParams.get("paginate") === "true";
+
+    const result = await DistributorService.getAllDistributors(
+      filter,
+      {},
+      paginate ? { page, limit } : {},
+    );
+
+    return ApiResponse(
+      200,
+      paginate
+        ? {
+            distributors: result.distributors,
+            totalItems: result.total,
+            totalPages: Math.ceil(result.total / limit),
+            currentPage: page,
+          }
+        : result,
+      "Distributors fetched successfully",
+    );
   } catch (error) {
     return ApiResponse(500, null, "Distributor fetch failed " + error.message);
   }

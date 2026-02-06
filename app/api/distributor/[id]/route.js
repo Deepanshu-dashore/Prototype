@@ -15,7 +15,11 @@ export async function GET(request, { params }) {
     }
     return ApiResponse(200, distributor, "Distributor fetched successfully");
   } catch (error) {
-    return ApiResponse(500, null, "Distributor fetch failed " + error.message);
+    return ApiResponse(
+      500,
+      null,
+      "Error fetching distributor: " + error.message,
+    );
   }
 }
 
@@ -26,30 +30,19 @@ export async function PATCH(request, { params }) {
   }
   try {
     const { id } = await params;
-    const body = await request.json();
-    const distributor = await DistributorService.updateDistributor(id, body);
-    if (!distributor) {
-      return ApiResponse(404, null, "Distributor not found");
-    }
-    return ApiResponse(200, distributor, "Distributor updated successfully");
-  } catch (error) {
-    return ApiResponse(500, null, "Distributor update failed " + error.message);
-  }
-}
+    const { note } = await request.json();
 
-export async function DELETE(request, { params }) {
-  const user = await verifyJWT();
-  if (!user?.id) {
-    return ApiResponse(401, null, "Unauthorized request");
-  }
-  try {
-    const { id } = await params;
-    const distributor = await DistributorService.deleteDistributor(id);
-    if (!distributor) {
-      return ApiResponse(404, null, "Distributor not found");
+    if (!note) {
+      return ApiResponse(400, null, "Note content is required");
     }
-    return ApiResponse(200, distributor, "Distributor deleted successfully");
+
+    const distributor = await DistributorService.addHistoryNote(id, note);
+    return ApiResponse(200, distributor, "History note added successfully");
   } catch (error) {
-    return ApiResponse(500, null, "Distributor delete failed " + error.message);
+    return ApiResponse(
+      500,
+      null,
+      "Error adding history note: " + error.message,
+    );
   }
 }

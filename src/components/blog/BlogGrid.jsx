@@ -12,7 +12,10 @@ export default function BlogGrid({
     initialBlogs = [],
     initialCategories = ['All'],
     currentCategory = 'All',
-    currentSearch = ''
+    currentSearch = '',
+    totalPages = 1,
+    currentPage = 1,
+    totalBlogs = 0
 }) {
     const router = useRouter()
     const pathname = usePathname()
@@ -33,6 +36,7 @@ export default function BlogGrid({
         } else {
             params.delete('search')
         }
+        params.delete('page') // Reset to page 1 on new search
         // Using push to ensure search states are in history
         router.push(`${pathname}?${params.toString()}`, { scroll: false })
     }
@@ -47,7 +51,14 @@ export default function BlogGrid({
         } else {
             params.delete(name)
         }
+        if (name !== 'page') params.delete('page') // Reset page on category/search change
         return params.toString()
+    }
+
+    const handlePageChange = (pageNum) => {
+        const params = new URLSearchParams(searchParams.toString())
+        params.set('page', pageNum)
+        router.push(`${pathname}?${params.toString()}`, { scroll: true })
     }
 
     return (
@@ -79,8 +90,8 @@ export default function BlogGrid({
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
                     {/* Main Content */}
                     <div className="lg:col-span-3">
-                        {/* Featured Post */}
-                        {featuredPost && (
+                        {/* Featured Post - Only show on first page without search */}
+                        {featuredPost && currentPage === 1 && !currentSearch && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -118,15 +129,64 @@ export default function BlogGrid({
                         )}
 
                         {/* Blog Posts List */}
-                        {remainingPosts.length > 0 ? (
+                        {initialBlogs.length > 0 ? (
                             <div className="space-y-6">
                                 <AnimatePresence mode="popLayout" initial={false}>
-                                    {remainingPosts.map((post, index) => (
+                                    {(currentPage === 1 && !currentSearch ? remainingPosts : initialBlogs).map((post, index) => (
                                         <BlogListCard key={post._id || post.id} post={post} index={index} />
                                     ))}
                                 </AnimatePresence>
+
+                                {/* Pagination Controls */}
+                                {totalPages > 1 && (
+                                    <div className="mt-12 flex items-center justify-center gap-2 py-8 border-t border-gray-100">
+                                        <button
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                            disabled={currentPage === 1}
+                                            className="px-4 py-2 border border-gray-200 rounded-xl text-sm font-bold text-neutral-dark hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                        >
+                                            Previous
+                                        </button>
+                                        <div className="flex items-center gap-1.5">
+                                            {[...Array(totalPages)].map((_, i) => {
+                                                const pageNum = i + 1;
+                                                if (
+                                                    pageNum === 1 ||
+                                                    pageNum === totalPages ||
+                                                    (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                                                ) {
+                                                    return (
+                                                        <button
+                                                            key={pageNum}
+                                                            onClick={() => handlePageChange(pageNum)}
+                                                            className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${currentPage === pageNum
+                                                                ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105'
+                                                                : 'text-neutral-dark/60 hover:bg-gray-100'
+                                                                }`}
+                                                        >
+                                                            {pageNum}
+                                                        </button>
+                                                    );
+                                                } else if (
+                                                    (pageNum === currentPage - 2 && pageNum > 1) ||
+                                                    (pageNum === currentPage + 2 && pageNum < totalPages)
+                                                ) {
+                                                    return <span key={pageNum} className="px-1 text-gray-400">...</span>;
+                                                }
+                                                return null;
+                                            })}
+                                        </div>
+                                        <button
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            disabled={currentPage === totalPages}
+                                            className="px-4 py-2 border border-gray-200 rounded-xl text-sm font-bold text-neutral-dark hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                )}
                             </div>
-                        ) : initialBlogs.length === 0 ? (
+                        ) : (
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -146,7 +206,7 @@ export default function BlogGrid({
                                     </Link>
                                 </div>
                             </motion.div>
-                        ) : null}
+                        )}
                     </div>
 
                     {/* Sidebar */}

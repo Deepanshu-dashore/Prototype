@@ -40,11 +40,18 @@ export default function BlogboardPage() {
   const [sortOrder, setSortOrder] = useState("newest");
   const [viewMode, setViewMode] = useState("list"); // 'list' or 'grid'
 
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    limit: 10,
+  });
 
-  const fetchBlogs = async () => {
+  useEffect(() => {
+    fetchBlogs(pagination.currentPage);
+  }, [pagination.currentPage]);
+
+  const fetchBlogs = async (page = 1) => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
@@ -52,21 +59,24 @@ export default function BlogboardPage() {
       if (startDate) params.append("startDate", startDate);
       if (endDate) params.append("endDate", endDate);
       if (sortOrder) params.append("sort", sortOrder);
+      params.append("page", page);
+      params.append("limit", pagination.limit);
 
       const res = await axios.get(`/api/blogs?${params.toString()}`);
       if (res.data?.success) {
         const data = res.data.data;
-        // Handle both old (array) and new (object) response structures for safety during transition
-        if (Array.isArray(data)) {
-          setBlogs(data);
-        } else {
-          setBlogs(data.blogs || []);
-          setStats({
-            totalBlogs: data.totalBlogs || 0,
-            todayCount: data.todayBlogCount || 0,
-            categoryCount: data.totalCategories?.length || 0,
-          });
-        }
+        setBlogs(data.blogs || []);
+        setStats({
+          totalBlogs: data.totalBlogs || 0,
+          todayCount: data.todayBlogCount || 0,
+          categoryCount: data.totalCategories?.length || 0,
+        });
+        setPagination((prev) => ({
+          ...prev,
+          totalPages: data.totalPages,
+          totalItems: data.totalBlogs,
+          currentPage: data.currentPage,
+        }));
       } else {
         setError(res.data?.message || "Failed to fetch blogs");
       }
@@ -74,6 +84,14 @@ export default function BlogboardPage() {
       setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleApplyFilters = () => {
+    if (pagination.currentPage === 1) {
+      fetchBlogs(1);
+    } else {
+      setPagination((prev) => ({ ...prev, currentPage: 1 }));
     }
   };
 
@@ -95,7 +113,7 @@ export default function BlogboardPage() {
       setIsDeleting(true);
       const res = await axios.delete(`/api/blogs?id=${deleteModal.blogId}`);
       if (res.data?.success) {
-        fetchBlogs();
+        fetchBlogs(pagination.currentPage);
         setDeleteModal({ isOpen: false, blogId: null });
       } else {
         alert(res.data?.message || "Failed to delete blog");
@@ -202,6 +220,7 @@ export default function BlogboardPage() {
                 className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleApplyFilters()}
               />
             </div>
 
@@ -243,7 +262,7 @@ export default function BlogboardPage() {
 
               {/* Apply Button */}
               <button
-                onClick={fetchBlogs}
+                onClick={handleApplyFilters}
                 className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2.5 rounded-lg hover:bg-gray-800 shadow-sm transition-all text-sm font-medium"
               >
                 <FunnelIcon className="w-4 h-4" />
@@ -543,6 +562,100 @@ export default function BlogboardPage() {
             </AnimatePresence>
           )}
         </div>
+
+        {/* Pagination Controls */}
+        {!loading && blogs.length > 0 && (
+          <div className="mt-8 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-sm text-gray-500">
+              Showing{" "}
+              <span className="font-medium text-gray-900">
+                {(pagination.currentPage - 1) * pagination.limit + 1}
+              </span>{" "}
+              to{" "}
+              <span className="font-medium text-gray-900">
+                {Math.min(
+                  pagination.currentPage * pagination.limit,
+                  pagination.totalItems,
+                )}
+              </span>{" "}
+              of{" "}
+              <span className="font-medium text-gray-900">
+                {pagination.totalItems}
+              </span>{" "}
+              results
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() =>
+                  setPagination((prev) => ({
+                    ...prev,
+                    currentPage: Math.max(1, prev.currentPage - 1),
+                  }))
+                }
+                disabled={pagination.currentPage === 1}
+                className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Previous
+              </button>
+              <div className="flex items-center gap-1">
+                {[...Array(pagination.totalPages)].map((_, i) => {
+                  const pageNum = i + 1;
+                  if (
+                    pageNum === 1 ||
+                    pageNum === pagination.totalPages ||
+                    (pageNum >= pagination.currentPage - 1 &&
+                      pageNum <= pagination.currentPage + 1)
+                  ) {
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() =>
+                          setPagination((prev) => ({
+                            ...prev,
+                            currentPage: pageNum,
+                          }))
+                        }
+                        className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
+                          pagination.currentPage === pageNum
+                            ? "bg-primary text-white shadow-md"
+                            : "text-gray-600 hover:bg-gray-100"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  } else if (
+                    (pageNum === pagination.currentPage - 2 && pageNum > 1) ||
+                    (pageNum === pagination.currentPage + 2 &&
+                      pageNum < pagination.totalPages)
+                  ) {
+                    return (
+                      <span key={pageNum} className="px-1 text-gray-400">
+                        ...
+                      </span>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+              <button
+                onClick={() =>
+                  setPagination((prev) => ({
+                    ...prev,
+                    currentPage: Math.min(
+                      prev.totalPages,
+                      prev.currentPage + 1,
+                    ),
+                  }))
+                }
+                disabled={pagination.currentPage === pagination.totalPages}
+                className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       <ConfirmationModal
         isOpen={deleteModal.isOpen}

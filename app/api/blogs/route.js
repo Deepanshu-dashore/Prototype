@@ -32,7 +32,7 @@ export async function GET(request) {
     let query = {};
 
     // Search functionality with ReDoS protection
-    if (search && typeof search === 'string') {
+    if (search && typeof search === "string") {
       const escapedSearch = escapeRegExp(search.slice(0, 100)); // Limit search length
       query.$or = [
         { title: { $regex: escapedSearch, $options: "i" } },
@@ -91,21 +91,32 @@ export async function GET(request) {
       },
     });
 
-    const blogs = await Blog.find(query)
-      .sort(sortOption)
-      .select("-__v -updatedAt -excerpt -content -readingTime")
-      .lean()
-      .exec();
+    const page = parseInt(request.nextUrl.searchParams.get("page")) || 1;
+    const limit = parseInt(request.nextUrl.searchParams.get("limit")) || 10;
+    const skip = (page - 1) * limit;
+
+    const [blogs, totalBlogs] = await Promise.all([
+      Blog.find(query)
+        .sort(sortOption)
+        .select("-__v -updatedAt -excerpt -content -readingTime")
+        .skip(skip)
+        .limit(limit)
+        .lean()
+        .exec(),
+      Blog.countDocuments(query),
+    ]);
 
     return ApiResponse(
       200,
       {
         totalCategories: categoriesWithCounts,
-        totalBlogs: blogs.length,
+        totalBlogs,
+        totalPages: Math.ceil(totalBlogs / limit),
+        currentPage: page,
         todayBlogCount,
         blogs,
       },
-      "Blogs fetched successfully"
+      "Blogs fetched successfully",
     );
   } catch (error) {
     return ApiResponse(500, null, "Error fetching blogs: " + error.message);
@@ -157,13 +168,13 @@ export async function POST(request) {
 
     let slug = sanitizedTitle.toLowerCase().replace(/ /g, "-").slice(0, 100);
     slug = `${slug}-${new Date().getTime()}`;
-    
+
     const blog = await Blog.create({
       title: sanitizedTitle,
       slug,
       excerpt: sanitizedExcerpt,
       category: sanitizedCategory,
-      tags: tags.map(t => sanitizeText(t)).filter(Boolean),
+      tags: tags.map((t) => sanitizeText(t)).filter(Boolean),
       author: author ? sanitizeText(author) : "CC Matting",
       content: sanitizedContent,
       featured,
@@ -228,7 +239,7 @@ export async function PATCH(request) {
     const sanitizedExcerpt = sanitizeText(excerpt);
     const sanitizedCategory = sanitizeText(category);
     const sanitizedContent = sanitizeHTML(content);
-    const sanitizedTags = tags.map(t => sanitizeText(t)).filter(Boolean);
+    const sanitizedTags = tags.map((t) => sanitizeText(t)).filter(Boolean);
 
     const oldBlog = await Blog.findById(id);
     if (!oldBlog) {
@@ -245,7 +256,7 @@ export async function PATCH(request) {
         const oldPath = path.join(
           process.cwd(),
           "public",
-          oldBlog.featuredImage
+          oldBlog.featuredImage,
         );
         try {
           await fs.unlink(oldPath);
@@ -268,7 +279,7 @@ export async function PATCH(request) {
         readingTime,
         featuredImage,
       },
-      { new: true }
+      { new: true },
     );
     return ApiResponse(200, res, "Blog updated successfully");
   } catch (error) {
