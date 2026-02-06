@@ -193,17 +193,6 @@ export default function DistributorProfile() {
                                     <p className="text-sm text-gray-500">{distributor.contactPersonNumber}</p>
                                 </div>
                             </div>
-                            {distributor.contactPersonAlterNumber && (
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center shrink-0">
-                                        <PhoneIcon className="w-5 h-5 text-indigo-600" />
-                                    </div>
-                                    <div className="min-w-0">
-                                        <p className="text-sm font-semibold text-gray-900">Alternate Phone</p>
-                                        <p className="text-sm text-gray-500">{distributor.contactPersonAlterNumber}</p>
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </div>

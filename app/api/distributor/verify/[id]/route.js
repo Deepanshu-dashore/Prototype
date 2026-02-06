@@ -1,6 +1,10 @@
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { DistributorService } from "@/app/lib/services/distributor.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import { distributorVerificationTemplate } from "@/app/lib/utils/mailFormtes";
+import { generateSecurePassword } from "@/app/lib/utils/genratePassword";
+import { mail } from "@/app/lib/utils/mail";
+import { hashPassword } from "@/app/lib/security/passwordHasher";
 
 export async function PATCH(request, { params }) {
   const user = await verifyJWT();
@@ -19,9 +23,33 @@ export async function PATCH(request, { params }) {
     if (distributor.verification?.isVerified) {
       return ApiResponse(400, null, "Distributor already verified");
     }
-    distributor.verification.isVerified = true;
-    distributor.verification.verifiedDate = new Date();
+
+    // Generate and hash password
+    const plainPassword = generateSecurePassword();
+    const hashedPassword = await hashPassword(plainPassword);
+
+    // Update distributor
+    distributor.verification = {
+      isVerified: true,
+      verifiedDate: new Date(),
+    };
+    distributor.password = hashedPassword;
     await DistributorService.updateDistributor(id, distributor);
+
+    // Send email with plain password
+    await mail({
+      from: "CC Matting <dashd9396@gmail.com>",
+      to: distributor.companyEmail,
+      subject: "Distributor Verified - CC Matting",
+      body: distributorVerificationTemplate({
+        distributorName: distributor.companyName,
+        companyName: "CC Matting",
+        loginEmail: distributor.companyEmail,
+        password: plainPassword,
+        loginUrl: "https://prototype-alpha-six.vercel.app/distributor/login",
+      }),
+    });
+
     return ApiResponse(
       200,
       { distributor: distributor },

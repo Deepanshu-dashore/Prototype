@@ -27,7 +27,6 @@ export default function EditProfilePage() {
         contactPersonName: "",
         contactPersonEmail: "",
         contactPersonNumber: "",
-        contactPersonAlterNumber: "",
         contactPersonDesignation: "",
         registeredAddress: { city: "", state: "", country: "", pinCode: "" },
         shippingAddress: { city: "", state: "", country: "", pinCode: "" },
@@ -63,7 +62,6 @@ export default function EditProfilePage() {
                     contactPersonName: data.contactPersonName || "",
                     contactPersonEmail: data.contactPersonEmail || "",
                     contactPersonNumber: data.contactPersonNumber || "",
-                    contactPersonAlterNumber: data.contactPersonAlterNumber || "",
                     contactPersonDesignation: data.contactPersonDesignation || "",
                     registeredAddress: {
                         city: data.registeredAddress?.city || "",
@@ -227,10 +225,6 @@ export default function EditProfilePage() {
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                                 <input type="tel" name="contactPersonNumber" value={formData.contactPersonNumber} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Alt. Phone <span className="text-gray-400 font-normal">(Optional)</span></label>
-                                <input type="tel" name="contactPersonAlterNumber" value={formData.contactPersonAlterNumber} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
                             </div>
                         </div>
                     </div>

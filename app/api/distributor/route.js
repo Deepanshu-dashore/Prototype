@@ -2,6 +2,8 @@ import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { hashPassword } from "@/app/lib/security/passwordHasher";
 import { DistributorService } from "@/app/lib/services/distributor.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import { mail } from "@/app/lib/utils/mail";
+import { newDistributorApplicationTemplate } from "@/app/lib/utils/mailFormtes";
 
 export async function POST(request) {
   try {
@@ -14,8 +16,6 @@ export async function POST(request) {
       contactPersonNumber,
       contactPersonEmail,
       contactPersonDesignation,
-      contactPersonAlterNumber,
-      password,
       shippingAddress,
       registeredAddress,
       billingAddress,
@@ -48,13 +48,6 @@ export async function POST(request) {
     ) {
       return ApiResponse(400, null, "Registered Address is required");
     }
-    // if (!shippingAddress) {
-    //   return ApiResponse(400, null, "Shipping Address is required");
-    // }
-    // if (!billingAddress) {
-    //   return ApiResponse(400, null, "Billing Address is required");
-    // }
-
     const distributor = await DistributorService.createDistributor({
       companyEmail,
       companyNumber,
@@ -64,11 +57,21 @@ export async function POST(request) {
       contactPersonNumber,
       contactPersonEmail,
       contactPersonDesignation,
-      password,
-      contactPersonAlterNumber: contactPersonAlterNumber || "",
       shippingAddress: shippingAddress || registeredAddress,
       registeredAddress,
       billingAddress: billingAddress || registeredAddress,
+    });
+    await mail({
+      from: "CC Matting <dashd9396@gmail.com>",
+      to: process.env.ADMIN_EMAIL,
+      subject: "Distributor Request",
+      body: newDistributorApplicationTemplate({
+        apply: new Date(distributor.createdAt).toDateString(),
+        distributorCompany: distributor.companyName,
+        distributorEmail: distributor.companyEmail,
+        distributorPhone: distributor.companyNumber,
+        verificationUrl: "https://prototype-alpha-six.vercel.app/login",
+      }),
     });
     return ApiResponse(
       200,
@@ -76,7 +79,11 @@ export async function POST(request) {
       "Distributor Request send wait for admin approval",
     );
   } catch (error) {
-    return ApiResponse(500, null, "Distributor login failed " + error.message);
+    return ApiResponse(
+      500,
+      null,
+      "Distributor Register failed " + error.message,
+    );
   }
 }
 

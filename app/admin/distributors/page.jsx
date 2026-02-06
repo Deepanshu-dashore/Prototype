@@ -42,12 +42,7 @@ export default function DistributorsPage() {
     const handleVerify = async (id) => {
         try {
             setVerifyingId(id);
-            const res = await axios.patch(`/api/distributor/${id}`, {
-                verification: {
-                    isVerified: true,
-                    verifiedDate: new Date()
-                }
-            });
+            const res = await axios.patch(`/api/distributor/verify/${id}`);
             if (res.data?.success) {
                 // Update local state
                 setDistributors(distributors.map(d =>
@@ -57,7 +52,7 @@ export default function DistributorsPage() {
                 alert(res.data?.message || "Failed to verify distributor");
             }
         } catch (err) {
-            alert(err.message || "Something went wrong during verification");
+            alert(err.response?.data?.message || err.message || "Something went wrong during verification");
         } finally {
             setVerifyingId(null);
         }

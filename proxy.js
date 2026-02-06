@@ -1,28 +1,37 @@
 import { NextResponse } from "next/server";
 
-export function middleware(request) {
+export function proxy(request) {
   const path = request.nextUrl.pathname;
 
-  // Check if it's a distributor route
+  // --- Distributor Protection ---
   if (path.startsWith("/distributor")) {
-    // Define paths that are public
     const isPublicPath =
       path === "/distributor/login" || path === "/distributor/register";
-
-    // Get the token from the cookies
     const token = request.cookies.get("distributorToken")?.value || "";
 
-    // If accessing a protected route without a token, redirect to login
     if (!isPublicPath && !token) {
       return NextResponse.redirect(
         new URL("/distributor/login", request.nextUrl),
       );
     }
-
-    // If accessing a public route WITH a token, redirect to dashboard
     if (isPublicPath && token) {
       return NextResponse.redirect(
         new URL("/distributor/dashboard", request.nextUrl),
+      );
+    }
+  }
+
+  // --- Admin Protection ---
+  if (path.startsWith("/admin") || path === "/login") {
+    const isLoginPage = path === "/login";
+    const token = request.cookies.get("authToken")?.value || "";
+
+    if (!isLoginPage && !token) {
+      return NextResponse.redirect(new URL("/login", request.nextUrl));
+    }
+    if (isLoginPage && token) {
+      return NextResponse.redirect(
+        new URL("/admin/blogboard", request.nextUrl),
       );
     }
   }
@@ -32,5 +41,5 @@ export function middleware(request) {
 
 // Matching Paths
 export const config = {
-  matcher: ["/distributor/:path*"],
+  matcher: ["/distributor/:path*", "/admin/:path*", "/login"],
 };

@@ -1,3 +1,4 @@
+import { DistributorService } from "@/app/lib/services/distributor.service";
 import { OtpService } from "@/app/lib/services/otp.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { otpVerificationTemplate } from "@/app/lib/utils/mailFormtes";
@@ -8,12 +9,20 @@ export async function POST(request) {
     if (!email) {
       return ApiResponse(400, null, "Email is required");
     }
+    const distributor = await DistributorService.getDistributorByEmail(email);
+    if (distributor) {
+      return ApiResponse(
+        409,
+        null,
+        "Distributor already exists with this mail",
+      );
+    }
     const { GenratedOtp, expiresAt } = await OtpService.generateOtp(email);
     console.log("Otp iss-->", GenratedOtp, "........", expiresAt);
     const otpSend = await OtpService.sendOtp(
       email,
       otpVerificationTemplate({ otp: GenratedOtp, expire: "10 minutes", name }),
-      "[EMAIL_ADDRESS]",
+      "CC Matting <dashd9396@gmail.com>",
       "OTP Verification",
     );
     return ApiResponse(otpSend.status, null, otpSend.message);

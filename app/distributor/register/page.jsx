@@ -5,6 +5,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { BuildingOfficeIcon } from "@heroicons/react/24/solid";
 
 export default function DistributorRegister() {
     const router = useRouter();
@@ -39,7 +40,7 @@ export default function DistributorRegister() {
         if (resendTimer > 0) {
             const timer = setInterval(() => {
                 setResendTimer((prev) => prev - 1);
-            }, 1000);
+            }, 10000);
             return () => clearInterval(timer);
         }
     }, [resendTimer]);
@@ -52,10 +53,7 @@ export default function DistributorRegister() {
         contactPersonName: "",
         contactPersonEmail: "",
         contactPersonNumber: "",
-        contactPersonAlterNumber: "",
         contactPersonDesignation: "",
-        password: "",
-        confirmPassword: "",
         registeredAddress: {
             city: "",
             state: "",
@@ -145,11 +143,6 @@ export default function DistributorRegister() {
 
         if (!isVerified) return;
 
-        if (formData.password !== formData.confirmPassword) {
-            setError("Passwords do not match");
-            return;
-        }
-
         setLoading(true);
 
         try {
@@ -173,35 +166,36 @@ export default function DistributorRegister() {
         }
     };
 
-    if (success) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 relative overflow-hidden">
-                {/* Background Elements */}
-                <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-                    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
-                </div>
-
-                <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center relative z-10">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Request Submitted!</h2>
-                    <p className="text-gray-600 mb-8 leading-relaxed">
-                        Your distributor application has been submitted successfully. Our team will review your details and contact you shortly.
-                    </p>
-                    <Link href="/distributor/login" className="inline-block w-full bg-[#160258] text-white py-3.5 rounded-xl font-bold hover:bg-[#1a006d] transition-colors shadow-lg shadow-indigo-900/20">
-                        Back to Login
-                    </Link>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="min-h-screen relative font-sans text-gray-900 bg-neutral-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            {success && (
+                <div className="min-h-screen flex items-center justify-center bg-gray-50/50 backdrop-blur-sm px-4 fixed w-full h-dvh top-0 z-50 overflow-hidden">
+                    {/* Background Elements */}
+                    <div className="absolute inset-0 pointer-events-none">
+                        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+                        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
+                    </div>
+
+                    <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center relative z-10">
+                        <div className="flex items-center justify-center mx-auto mb-6 overflow-hidden">
+                            <Image
+                                src="/requestSubmit.png"
+                                alt="Success"
+                                width={420}
+                                height={420}
+                                className="object-contain scale-105"
+                            />
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-2">Request Submitted!</h2>
+                        <p className="text-gray-600 mb-8 leading-relaxed">
+                            Your distributor application has been submitted successfully. After verification, our team will contact you shortly.
+                        </p>
+                        <Link href="/" className="inline-block w-full bg-[#160258] text-white py-3.5 rounded-xl font-bold hover:bg-[#1a006d] transition-colors shadow-lg shadow-indigo-900/20">
+                            Back to home
+                        </Link>
+                    </div>
+                </div>)}
             {/* Background Image */}
             <div className="fixed inset-0 z-0">
                 <Image
@@ -216,23 +210,28 @@ export default function DistributorRegister() {
 
             <div className="relative z-10 w-full max-w-5xl">
                 <div className="bg-white rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
-                    <div className="p-8 sm:p-12">
-                        <div className="text-center mb-10">
-                            <div className="flex items-center justify-center gap-3 mb-6">
-                                <Image
-                                    src="/CCMate-Logo.jpg"
-                                    alt="Logo"
-                                    width={100}
-                                    height={200}
-                                    className="object-contain h-16 w-auto"
-                                />
-                                <h1 className="text-2xl leading-5 text-nowrap font-extrabold text-primary/50 border-l-4 bg-linear-to-r from-primary/10 to-transparent border-primary/30 p-2 py-3 tracking-tight uppercase">
-                                    Become a Distributor
-                                </h1>
+                    <div className="p-8 sm:p-12 sm:pt-8">
+                        <div className="text-center mb-10 flex justify-between items-center">
+                            <div>
+                                <div className="flex items-center justify-start gap-3 mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-primary/80 p-1 bg-primary/10 rounded-md" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M11.792 20.712q-.367 0-.645-.25q-.278-.248-.278-.654q0-.194.085-.43t.254-.405l3.683-3.682l-.552-.552l-3.677 3.682q-.17.17-.383.254q-.213.085-.433.085q-.386 0-.655-.269t-.268-.654q0-.231.094-.451q.095-.22.239-.365l3.683-3.682l-.547-.547L8.71 16.47q-.15.15-.373.245t-.448.094q-.381 0-.652-.271t-.271-.652q0-.22.084-.433t.254-.383l3.452-3.452l-.552-.546l-3.446 3.452q-.144.144-.367.239q-.224.094-.454.094q-.406 0-.665-.259q-.258-.258-.258-.664q0-.22.084-.433q.085-.213.254-.383l4.94-4.94l2.154 2.16q.275.275.621.389q.347.115.702.115q.723 0 1.208-.476t.485-1.217q0-.35-.135-.706q-.135-.355-.421-.642l-2.648-2.648l.98-.98q.33-.324.797-.507q.467-.184.934-.184q.497 0 .97.184q.473.183.807.518L21.03 8.47q.315.316.499.77q.184.453.184 1.005q0 .5-.187.945q-.186.445-.496.755l-8.421 8.427q-.162.162-.38.25q-.216.089-.436.089m-7.594-7.539l-1.035-1.035q-.425-.419-.64-1.007q-.215-.589-.215-1.15q0-.592.192-1.075t.49-.781l3.937-3.942q.323-.323.72-.513q.395-.19.863-.19q.502 0 .92.179q.42.178.766.524l4.164 4.163q.15.15.244.373t.094.423q0 .4-.261.672q-.262.27-.662.27q-.225 0-.433-.081q-.207-.082-.382-.257l-2.674-2.661z"></path>
+                                    </svg>
+                                    <h1 className="text-2xl leading-5 text-nowrap font-extrabold text-primary/60 border-l-4 bg-linear-to-r from-primary/10 to-transparent border-primary/30 p-2 py-3 tracking-tight uppercase">
+                                        Become a Distributor
+                                    </h1>
+                                </div>
+                                <p className="mt-2 text-sm text-gray-500 max-w-2xl mx-auto">
+                                    Join our global network of partners. Fill in your details below to get started.
+                                </p>
                             </div>
-                            <p className="mt-2 text-lg text-gray-600 max-w-2xl mx-auto">
-                                Join our global network of partners. Fill in your details below to get started.
-                            </p>
+                            <Image
+                                src="/CCMate-Logo.jpg"
+                                alt="Logo"
+                                width={100}
+                                height={200}
+                                className="object-contain h-16 w-auto"
+                            />
                         </div>
                         {error && (
                             <div className="mb-8 bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl flex items-center gap-3">
@@ -243,14 +242,19 @@ export default function DistributorRegister() {
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="space-y-10">
+                        <form onSubmit={handleSubmit} className="space-y-5">
                             {/* Section 1: Company Details */}
                             <div>
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">1</div>
-                                    <h3 className="text-xl font-bold text-gray-900">Company Information</h3>
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                            <path fill="currentColor" fillRule="evenodd" d="M13 3a2 2 0 0 1 1.995 1.85L15 5v14h1V9.5a.5.5 0 0 1 .41-.492L16.5 9H18a2 2 0 0 1 1.995 1.85L20 11v8h1a1 1 0 0 1 .117 1.993L21 21H3a1 1 0 0 1-.117-1.993L3 19h1V5a2 2 0 0 1 1.85-1.995L6 3z" className="duoicon-secondary-layer" opacity={0.3}></path>
+                                            <path fill="currentColor" fillRule="evenodd" d="M11 7H8v2h3zm0 4H8v2h3zm0 4H8v2h3z" className="duoicon-primary-layer"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900">Company Information</h3>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 border p-5 rounded-xl">
                                     <div className="col-span-1">
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">Company Name *</label>
                                         <input
@@ -283,7 +287,7 @@ export default function DistributorRegister() {
                                                 name="companyEmail"
                                                 required
                                                 disabled={isVerified}
-                                                className={`w-full h-12 px-4 bg-gray-50 border ${isVerified ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-200'} rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none`}
+                                                className={`w-full h-12 px-4 bg-gray-50 border ${isVerified ? 'border-blue-600 border-2 bg-blue-50 text-blue-700' : 'border-gray-200'} rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none`}
                                                 placeholder="contact@company.com"
                                                 value={formData.companyEmail}
                                                 onChange={handleChange}
@@ -293,13 +297,17 @@ export default function DistributorRegister() {
                                                     type="button"
                                                     onClick={handleSendOtp}
                                                     disabled={otpLoading || !formData.companyEmail || resendTimer > 0}
-                                                    className="px-4 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 whitespace-nowrap min-w-[100px]"
+                                                    className="px-4 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 whitespace-nowrap min-w-[110px]"
                                                 >
-                                                    {otpLoading ? "Sending..." : resendTimer > 0 ? `Resend In ${resendTimer}s` : otpSent ? "Resend OTP" : "Verify"}
+                                                    {otpLoading ? "Sending..." : resendTimer > 0 ? `Resend ${resendTimer}s` : otpSent ? "Resend OTP" : "Verify"}
                                                 </button>
                                             ) : (
-                                                <span className="flex items-center justify-center px-4 text-green-600 font-bold bg-green-100 rounded-xl">
+                                                <span className="flex items-center justify-center px-4 text-white text-sm gap-1 font-semibold bg-blue-600 rounded-xl">
+
                                                     Verified
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 16 16">
+                                                        <path fill="currentColor" fillRule="evenodd" d="M15 8c0 .982-.472 1.854-1.202 2.402a3 3 0 0 1-.848 2.547a3 3 0 0 1-2.548.849A3 3 0 0 1 8 15a3 3 0 0 1-2.402-1.202a3 3 0 0 1-2.547-.848a3 3 0 0 1-.849-2.548A3 3 0 0 1 1 8c0-.982.472-1.854 1.202-2.402a3 3 0 0 1 .848-2.547a3 3 0 0 1 2.548-.849A3 3 0 0 1 8 1c.982 0 1.854.472 2.402 1.202a3 3 0 0 1 2.547.848c.695.695.978 1.645.849 2.548A3 3 0 0 1 15 8m-3.291-2.843a.75.75 0 0 1 .135 1.052l-4.25 5.5a.75.75 0 0 1-1.151.043l-2.25-2.5a.75.75 0 1 1 1.114-1.004l1.65 1.832l3.7-4.789a.75.75 0 0 1 1.052-.134" clipRule="evenodd"></path>
+                                                    </svg>
                                                 </span>
                                             )}
                                         </div>
@@ -323,7 +331,7 @@ export default function DistributorRegister() {
                                             </div>
                                         )}
                                         {otpMessage && (
-                                            <p className={`text-xs mt-1 ${isVerified ? 'text-green-600' : 'text-blue-600'}`}>
+                                            <p className={`text-xs mt-1 ${isVerified ? 'text-emerald-500' : 'text-blue-600'}`}>
                                                 {otpMessage}
                                             </p>
                                         )}
@@ -347,11 +355,15 @@ export default function DistributorRegister() {
 
                             {/* Section 2: Contact Person */}
                             <div>
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">2</div>
-                                    <h3 className="text-xl font-bold text-gray-900">Primary Contact Person</h3>
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 20 20">
+                                            <path fill="currentColor" d="M10 2a4 4 0 1 0 0 8a4 4 0 0 0 0-8m-4.991 9A2 2 0 0 0 3 13c0 1.691.833 2.966 2.135 3.797C6.417 17.614 8.145 18 10 18q.536 0 1.056-.043a2.2 2.2 0 0 1 .516-1.975l.545-.607a2.07 2.07 0 0 1 2.009-.629l.785.186c.378-.312.607-.68.712-1.121l-.518-.506a1.94 1.94 0 0 1-.457-2.077l.086-.228zm10.575.582l.283-.75c.258-.681 1.062-1.017 1.74-.728l.388.166c.473.202.864.568.947 1.06c.457 2.725-1.908 6.601-4.63 7.59c-.492.178-1.023.04-1.445-.246l-.346-.235a1.184 1.184 0 0 1-.204-1.79l.545-.607a1.07 1.07 0 0 1 1.034-.323l1.225.29q1.457-.91 1.562-2.56l-.878-.859a.94.94 0 0 1-.221-1.008"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900">Primary Contact Person</h3>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6  border p-5 rounded-xl">
                                     <div className="col-span-1">
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
                                         <input
@@ -400,53 +412,6 @@ export default function DistributorRegister() {
                                             onChange={handleChange}
                                         />
                                     </div>
-                                    <div className="col-span-1">
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Alternate Phone</label>
-                                        <input
-                                            type="tel"
-                                            name="contactPersonAlterNumber"
-                                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                                            placeholder="Optional"
-                                            value={formData.contactPersonAlterNumber}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="border-t border-gray-100" />
-
-                            {/* Section 3: Password / Security */}
-                            <div>
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-8 h-8 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-sm">3</div>
-                                    <h3 className="text-xl font-bold text-gray-900">Security</h3>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                                    <div className="col-span-1">
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Password *</label>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            required
-                                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                                            placeholder="Min. 6 characters"
-                                            value={formData.password}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className="col-span-1">
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm Password *</label>
-                                        <input
-                                            type="password"
-                                            name="confirmPassword"
-                                            required
-                                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                                            placeholder="Re-enter password"
-                                            value={formData.confirmPassword}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
                                 </div>
                             </div>
 
@@ -454,11 +419,15 @@ export default function DistributorRegister() {
 
                             {/* Section 4: Address */}
                             <div>
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-sm">4</div>
-                                    <h3 className="text-xl font-bold text-gray-900">Registered Address</h3>
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 20 20">
+                                            <path fill="currentColor" d="M9 2a4 4 0 1 0 0 8a4 4 0 0 0 0-8m-4.991 9A2 2 0 0 0 2 13c0 1.691.833 2.966 2.135 3.797C5.417 17.614 7.145 18 9 18q.617 0 1.21-.057A5.48 5.48 0 0 1 9 14.5c0-1.33.472-2.55 1.257-3.5zM14.5 19a4.5 4.5 0 1 0 0-9a4.5 4.5 0 0 0 0 9m0-7a.5.5 0 0 1 .5.5V14h1.5a.5.5 0 0 1 0 1H15v1.5a.5.5 0 0 1-1 0V15h-1.5a.5.5 0 0 1 0-1H14v-1.5a.5.5 0 0 1 .5-.5"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900">Registered Address</h3>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-6  border p-5 rounded-xl">
                                     <div className="col-span-1">
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">City *</label>
                                         <input
@@ -540,7 +509,7 @@ export default function DistributorRegister() {
                 </div>
 
                 {/* Footer Copyright */}
-                <div className="mt-12 text-center text-sm text-gray-500 pb-8">
+                <div className="mt-12 text-center text-sm text-white pb-8">
                     &copy; {new Date().getFullYear()} CC Matting. All rights reserved.
                 </div>
             </div>
