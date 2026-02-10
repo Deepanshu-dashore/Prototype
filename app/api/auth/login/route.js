@@ -7,6 +7,23 @@ import { NextResponse } from "next/server";
 import { sanitizeEmail, sanitizeText } from "@/app/lib/security/sanitizer";
 import { isValidEmail } from "@/app/lib/security/validator";
 
+// Configure runtime for Vercel
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+// Handle OPTIONS request for CORS
+export async function OPTIONS(request) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+}
+
 export async function POST(request) {
   await connect();
   try {
