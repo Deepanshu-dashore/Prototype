@@ -326,7 +326,7 @@ export default function FeaturesContent() {
             </section>
 
 
-            {/* Anti-Microbial Properties */}
+            {/* Bio Master section */}
             <section className="bg-linear-to-br from-[#0047AB] to-indigo-700 py-16 sm:py-20 relative">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.03]" aria-hidden />
                 <div className="max-w-7xl relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
@@ -338,7 +338,7 @@ export default function FeaturesContent() {
                         className="max-w-7xl mx-auto"
                     >
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                            <div className="lg:col-span-8">
+                            <div className="lg:col-span-7">
                                 <h3 className="text-2xl sm:text-3xl font-bold text-neutral-100 mb-6">
                                     Biomaster™ Antimicrobial Technology
                                 </h3>
@@ -351,7 +351,7 @@ export default function FeaturesContent() {
                                     </p>
                                     <div className="pt-4">
                                         <Link
-                                            href="#"
+                                            href="/biomaster"
                                             className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 border-2 border-white/20 backdrop-blur-[1px] text-white rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300 shadow-lg shadow-black/20 group/bio"
                                         >
                                             <span>Learn more about BioMaster Advantage</span>
@@ -360,14 +360,14 @@ export default function FeaturesContent() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="lg:col-span-4 flex justify-center lg:justify-end">
-                                <div className="relative w-48 h-48 sm:min-w-sm sm:h-64 bg-white border-4 divide-y divide-x divide-gray-200 backdrop-blur-md rounded-2xl p-8 flex items-center justify-center group/logo transition-colors duration-500">
+                            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+                                <div className="relative w-56 h-56 sm:w-[70dvw] sm:h-72 bg-white border-4 divide-y divide-x divide-gray-200 backdrop-blur-md rounded-2xl p-8 flex items-center justify-center group/logo transition-colors duration-500">
                                     <Image
                                         src="/biomasterLogo.png"
                                         alt="Biomaster Logo"
-                                        width={240}
-                                        height={240}
-                                        className="object-cover relative z-10 drop-shadow-2xl scale-125"
+                                        width={320}
+                                        height={320}
+                                        className="object-contain relative z-10 drop-shadow-2xl scale-130 group-hover/logo:scale-125 transition-transform duration-500"
                                     />
                                 </div>
                             </div>
@@ -554,10 +554,10 @@ export default function FeaturesContent() {
 
                         <div className="space-y-6 text-sm sm:text-base text-neutral-dark/70 leading-relaxed">
                             <p>
-                                We do not use subcontractors to install our mats, it is all completed by our own <strong className="text-neutral-dark font-semibold">inhouse personnel who are fully trained and competent</strong> on the process. The mats are adhered to the floor with a semi permanent adhesive film.
+                                We do not use subcontractors to install our mats, it is all completed by our own <strong className="text-neutral-dark font-semibold">in-house personnel who are fully trained and competent</strong> on the process. The mats are adhered to the floor with a semi permanent adhesive film.
                             </p>
                             <p>
-                                A diminishing strip of 3mm profile is then applied to all sides to ensure the mat is a <strong className="text-neutral-dark font-semibold">non trip hazard</strong> and also to aid with aesthetics. The mat is chemically sealed to the dim strip and the dim strip to the floor to ensure it is a totally sealed surface and it is not possible for any contaminants to harbour under the mat.
+                                A diminishing strip of 3mm profile is then applied to all sides to ensure the mat is a <strong className="text-neutral-dark font-semibold">non trip hazard</strong> and also to aid with aesthetics. <br />The mat is chemically sealed to the dim strip and the dim strip to the floor to ensure it is a totally sealed surface and it is not possible for any contaminants to harbour under the mat.
                             </p>
                             <p>
                                 This ensures there will be <strong className="text-neutral-dark font-semibold">no possible way that your EM counts can ever be adversely affected</strong>.

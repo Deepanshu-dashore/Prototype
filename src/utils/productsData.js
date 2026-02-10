@@ -21,22 +21,22 @@ export const products = [
       //   description: "Classic solid blue color option",
       // },
       {
-        name: "GREY SPECK",
-        image: "/assets/products%20Page/havydutyGray.jpeg",
-        description: "Elegant grey speckled finish",
-      },
-      {
         name: "SOLID GREY",
-        image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
+        image: "/assets/products%20Page/havydutyGray.jpeg",
         description: "Professional solid grey finish",
         // comingSoon: true,
       },
       // {
       //   name: "GREY SPECKLED",
-      //   image: "/assets/products%20Page/havydutyGray.jpeg", // Placeholder - will be updated
-      //   description: "Modern grey speckled variant",
-      //   comingSoon: true,
+      // image: "/assets/products%20Page/havydutyGray.jpeg", // Placeholder - will be updated
+      //   description: "Elegant grey speckled finish",
       // },
+      {
+        name: "GREY SPECKLED",
+        image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
+        description: "Modern grey speckled variant",
+        // comingSoon: true,
+      },
       {
         name: "COBALT BLUE",
         image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
@@ -44,7 +44,7 @@ export const products = [
         comingSoon: true,
       },
       {
-        name: "BLUE SPECKLED",
+        name: "BLUE SPECKED",
         image: "/assets/products%20Page/havydutyGray.jpeg", // Placeholder - will be updated
         description: "Elegant blue speckled finish",
         comingSoon: true,
@@ -55,13 +55,13 @@ export const products = [
         title: "Total Particulate Removal",
         description:
           "Proven to remove Up to 99% of foot and wheel-borne contaminants before they enter your critical environment over six full steps.",
-        icon: "CheckBadgeIcon",
+        icon: "SparklesIcon",
       },
       {
         title: "Electro Static Proof",
         description:
           "Engineered with a unique compound that creates a static dissipative barrier, protecting sensitive electronics and processes.",
-        icon: "ShieldCheckIcon",
+        icon: "BoltIcon",
       },
       // {
       //   title: "Extended Life Cycle",
@@ -73,7 +73,7 @@ export const products = [
         title: "2-Year Guarantee",
         description:
           "We stand behind our quality with a full 2-year replacement guarantee if our product fails to perform as promoted.",
-        icon: "CheckCircleIcon",
+        icon: "CheckBadgeIcon",
       },
       // {
       //   title: "Cost Effective",
