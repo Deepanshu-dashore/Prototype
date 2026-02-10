@@ -23,6 +23,7 @@ export default function LoginContent() {
 
             const response = await axios.post('/api/auth/login', requestBody)
 
+
             if (response.data?.data) {
                 const userData = JSON.stringify(response.data.data)
                 const maxAge = 60 * 60 * 24 * 7 // 7 days
