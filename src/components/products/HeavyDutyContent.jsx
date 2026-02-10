@@ -175,82 +175,26 @@ export default function HeavyDutyContent({ product }) {
                 </div>
             </section>
 
-            {/* Warranty & Versatility Section */}
-            <section className="relative bg-linear-to-br from-[#0047AB] via-indigo-800 to-blue-900 py-16 sm:py-24 overflow-hidden">
-                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.05]" aria-hidden />
-                <motion.div
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
-                    transition={{ duration: 10, repeat: Infinity }}
-                    className="absolute -top-24 -left-24 w-96 h-96 bg-white rounded-full blur-3xl pointer-events-none"
-                />
-
+            {/* Warranty */}
+            <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
+                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
                 <div className="relative z-10">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 max-w-6xl mx-auto">
-                            {/* Warranty Card */}
-                            <motion.div
-                                initial={{ opacity: 0, x: -30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8 }}
-                                className="bg-white/95 backdrop-blur-md rounded-[2.5rem] border border-white/20 shadow-2xl overflow-hidden flex flex-col group hover:shadow-primary/20 transition-all duration-500"
-                            >
-                                <div className="bg-neutral-50 p-8 flex items-center justify-center border-b border-neutral-100 group-hover:bg-white transition-colors duration-500">
-                                    <div className="relative">
-                                        <div className="absolute inset-0 bg-primary/10 blur-2xl rounded-full scale-150 animate-pulse" />
-                                        <Image
-                                            src={product.warranty.badgeImage}
-                                            alt="Warranty"
-                                            width={240}
-                                            height={240}
-                                            className="relative z-10 w-44 h-44 object-contain group-hover:scale-110 transition-transform duration-500"
-                                        />
-                                    </div>
+                    <div className="max-w-7xl mx-auto px-4">
+                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-6xl mx-auto">
+                            <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
+                                <div className="bg-gray-100 p-8 flex items-center justify-center md:w-1/2 h-96">
+                                    <Image src={product.warranty.badgeImage} alt="Warranty" width={400} height={400} className="w-full h-96 object-contain" />
                                 </div>
-                                <div className="p-10 flex flex-col justify-center grow">
-                                    <div className="flex items-center gap-2 mb-6">
-                                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                                            <ShieldCheckIcon className="w-5 h-5" />
-                                        </div>
-                                        <span className="text-xs font-bold uppercase tracking-widest text-primary">Certified Guarantee</span>
-                                    </div>
-                                    <h2 className="text-3xl font-bold text-neutral-900 mb-4">{product.warranty.title}</h2>
-                                    <p className="text-neutral-600 leading-relaxed text-sm sm:text-base">
-                                        {product.warranty.description} {product.warranty.additionalInfo}
-                                    </p>
+                                <div className="p-8 flex flex-col justify-center md:w-1/2">
+                                    <h2 className="text-2xl font-bold text-neutral-dark mb-4">{product.warranty.title}</h2>
+                                    <span className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
+                                        <ShieldCheckIcon className="w-4 h-4" /> Coverage
+                                    </span>
+                                    <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
+                                    <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
                                 </div>
-                            </motion.div>
-
-                            {/* Versatility Card */}
-                            <motion.div
-                                initial={{ opacity: 0, x: 30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8 }}
-                                className="bg-white/95 backdrop-blur-md rounded-[2.5rem] border border-white/20 shadow-2xl overflow-hidden flex flex-col group hover:shadow-accent/20 transition-all duration-500"
-                            >
-                                <div className="bg-primary/5 p-8 flex items-center justify-center border-b border-primary/10 group-hover:bg-white transition-colors duration-500 shrink-0">
-                                    <div className="relative">
-                                        <div className="absolute inset-0 bg-accent/20 blur-2xl rounded-full scale-150" />
-                                        <div className="w-44 h-44 flex items-center justify-center">
-                                            <ArrowsRightLeftIcon className="w-24 h-24 text-primary group-hover:rotate-12 group-hover:scale-110 transition-all duration-500" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="p-10 flex flex-col justify-center grow">
-                                    <div className="flex items-center gap-2 mb-6">
-                                        <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
-                                            <SparklesIcon className="w-5 h-5" />
-                                        </div>
-                                        <span className="text-xs font-bold uppercase tracking-widest text-accent">Intelligent Design</span>
-                                    </div>
-                                    <h2 className="text-3xl font-bold text-neutral-900 mb-4">Engineered for Versatility</h2>
-                                    <p className="text-neutral-600 leading-relaxed text-sm sm:text-base">
-                                        Designed for versatility, it can be installed across pedestrian walkways, PALs, MALs, and other critical controlled areas, providing consistent contamination control in environments that experience both routine movement and intensive operational traffic.
-                                    </p>
-                                </div>
-                            </motion.div>
-                        </div>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
