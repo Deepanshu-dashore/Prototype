@@ -191,7 +191,7 @@ export default function PortableCleanroomMatsContent() {
                                     icon: BeakerIcon
                                 },
                                 {
-                                    title: "Static dissipative 10¹⁰ OM",
+                                    title: "Static dissipative 10¹⁰ ohm",
                                     description: "Prevents electrostatic discharge in sensitive environments",
                                     icon: BoltIcon
                                 },

@@ -36,16 +36,16 @@ export default function CTASection() {
           >
             <div className="flex flex-col sm:flex-row h-full">
               {/* Image Left Side */}
-              <div className="relative w-full sm:w-2/5 h-40 sm:h-full min-h-[160px] overflow-hidden bg-neutral-50">
+              <div className="relative w-full sm:w-2/5 aspect-square h-40 sm:h-full min-h-[160px] overflow-hidden bg-neutral-50">
                 <Image
-                  src="/assets/contactSectionHome/service.png"
+                  src="/Becomeadistributor.jpeg"
                   alt="Distributor Services"
                   width={400}
                   height={300}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              
+
               {/* Content Right Side */}
               <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
                 <div>
@@ -60,7 +60,7 @@ export default function CTASection() {
                   href="/contact"
                   className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-neutral-100 text-neutral-700 font-medium rounded-lg hover:bg-neutral-200 transition-colors duration-200 text-xs sm:text-sm min-h-[40px] w-full sm:w-auto"
                 >
-                  <span>Click here if you are a distributor</span>
+                  <span>Click here to know more</span>
                   <ArrowRightIcon className="w-4 h-4" />
                 </Link>
               </div>
@@ -77,21 +77,21 @@ export default function CTASection() {
           >
             <div className="flex flex-col sm:flex-row h-full">
               {/* Image Left Side */}
-              <div className="relative w-full sm:w-2/5 h-40 sm:h-full min-h-[160px] overflow-hidden bg-neutral-50">
+              <div className="relative w-full sm:w-2/5 h-40 aspect-square sm:h-full min-h-[160px] overflow-hidden bg-neutral-50">
                 <Image
-                  src="/assets/aboutHomeSection/mat-installation-new.png"
+                  src="/InstallCCMats.jpeg"
                   alt="Professional Installation"
                   width={400}
                   height={300}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              
+
               {/* Content Right Side */}
               <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
                 <div>
                   <h3 className="text-lg sm:text-xl font-semibold text-neutral-dark mb-2 sm:mb-3">
-                    Install CCMats 
+                    Install CCMats
                   </h3>
                   <p className="text-neutral-dark/70 text-xs sm:text-sm mb-4">
                     Get professional installation services for CC Matting solutions tailored to your needs.

@@ -7,7 +7,7 @@ export default function SpecificationsTable() {
     const specifications = [
         {
             matType: "WorkSafe",
-            image: "/assets/installation/CCM Gilead1.jpeg",
+            image: "/assets/products Page/SpecificationImg.png",
             trafficSuitability: "Pedestrian & Light Trolley Traffic",
             color: "blue",
             specs: [
@@ -78,7 +78,7 @@ export default function SpecificationsTable() {
                                     <div className="grid grid-cols-3 divide-x divide-gray-200 border-b border-gray-200 bg-gray-200/80">
                                         <div className="px-6 py-3 text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Width</div>
                                         <div className="px-6 py-3 text-[10px] font-bold text-neutral-500 uppercase tracking-wider text-center">Length</div>
-                                        <div className="px-6 py-3 text-[10px] font-bold text-neutral-500 uppercase tracking-wider text-right">Profile</div>
+                                        <div className="px-6 py-3 text-[10px] font-bold text-neutral-500 uppercase tracking-wider text-right">Thickness</div>
                                     </div>
 
                                     {/* Grid Body */}

@@ -338,7 +338,7 @@ export default function CaseStudies() {
                       duration: 0.6,
                       ease: [0.4, 0, 0.2, 1],
                     }}
-                    className={`bg-white rounded-xl relative shadow-sm flex flex-col ${isCenter
+                    className={`bg-gray-50 rounded-xl relative shadow-sm flex flex-col ${isCenter
                       ? 'p-5 sm:p-6 lg:p-8 w-full max-w-xs lg:max-w-md xl:max-w-lg z-10 shadow-xl border-2 border-primary/20'
                       : 'p-4 sm:p-5 lg:p-6 w-full max-w-[280px] sm:max-w-sm lg:max-w-md z-0 hover:opacity-90'
                       }`}
@@ -404,9 +404,9 @@ export default function CaseStudies() {
                             src={review.reviewImage}
                             alt={review.company}
                             className={`rounded-lg grayscale hover:grayscale-0 transition-all duration-300  ${isCenter ? 'w-12 h-12 sm:w-14 sm:h-14 grayscale-0'
-                              : 'w-10 h-10 sm:w-16 sm:h-16'
+                              : 'w-10 h-10 sm:w-18 sm:h-18'
                               }
-                                ${review.zoomLogo ? 'scale-170 object-cover' : 'object-contain'}
+                                ${review.zoomLogo ? 'scale-190 object-cover' : 'object-contain'}
                                 `}
                             onError={(e) => {
                               setImageErrors(prev => ({

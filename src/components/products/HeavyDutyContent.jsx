@@ -182,16 +182,18 @@ export default function HeavyDutyContent({ product }) {
                     <div className="max-w-7xl mx-auto px-4">
                         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-6xl mx-auto">
                             <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
-                                <div className="bg-gray-100 p-8 flex items-center justify-center md:w-1/2 h-96">
+                                <div className="bg-gray-100 p-8 py-2 flex items-center justify-center md:w-1/3 h-96">
                                     <Image src={product.warranty.badgeImage} alt="Warranty" width={400} height={400} className="w-full h-96 object-contain" />
                                 </div>
-                                <div className="p-8 flex flex-col justify-center md:w-1/2">
+                                <div className="p-8 flex flex-col justify-center md:w-2/3">
                                     <h2 className="text-2xl font-bold text-neutral-dark mb-4">{product.warranty.title}</h2>
                                     <span className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4 w-fit">
                                         <ShieldCheckIcon className="w-4 h-4" /> Coverage
                                     </span>
                                     <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
                                     <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
+                                    <p className="text-sm text-neutral-dark/70 mt-3">{product.warranty.additionalInfo2}</p>
+
                                 </div>
                             </div>
                         </motion.div>
@@ -498,15 +500,15 @@ export default function HeavyDutyContent({ product }) {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[
-                            { zoom: true, src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation", logo: "/assets/Our Valuable Customers/asset 15.gif", company: "Gilead" },
-                            { zoom: true, src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility", logo: "/assets/Our Valuable Customers/asset 10.png", company: "Gilead" },
-                            { zoom: false, src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation", logo: "/assets/Our Valuable Customers/asset 25.png", company: "Lilly" },
-                            { zoom: false, src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
-                            { zoom: false, src: "/assets/installation/CCM%20lilly%202.jpeg", name: "Lilly Facility", logo: "/assets/Our Valuable Customers/asset 14.jpeg", company: "Lilly" },
-                            { zoom: false, src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation", logo: "/assets/Our Valuable Customers/asset 23.png", company: "Stryker" },
-                            { zoom: false, src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility", logo: "/assets/Our Valuable Customers/asset 19.jpeg", company: "Wuxi" },
-                            { zoom: false, src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg", name: "Cleanroom Installation", logo: "/assets/Our Valuable Customers/asset 16.png", company: "phzer" },
-                            { zoom: false, src: "/assets/installation/WhatsApp%20Image%202025-05-16%20at%2020.38.58%20(1).jpeg", name: "Industrial Installation", logo: "/assets/Our Valuable Customers/asset 18.png", company: "msds" },
+                            { demnsions: "w-30 h-10 object-cover", src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation", logo: "/assets/Our Valuable Customers/asset 15.gif", company: "Gilead" },
+                            { demnsions: "w-43 pt-3 h-10 object-cover", src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility", logo: "/assets/Our Valuable Customers/asset 10.png", company: "Gilead" },
+                            { demnsions: "w-32 h-auto mt-2 mb-2", src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation", logo: "/assets/Our Valuable Customers/asset 25.png", company: "Lilly" },
+                            { demnsions: "w-18 h-auto object-cover", src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
+                            { demnsions: "w-10 h-auto object-cover", src: "/assets/installation/CCM%20lilly%202.jpeg", name: "Lilly Facility", logo: "/assets/Our Valuable Customers/asset 14.jpeg", company: "Lilly" },
+                            { demnsions: "w-44 my-1.5 h-auto object-cover", src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation", logo: "/assets/Our Valuable Customers/asset 23.png", company: "Stryker" },
+                            { demnsions: "w-32 h-auto object-cover", src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility", logo: "/assets/Our Valuable Customers/asset 19.jpeg", company: "Wuxi" },
+                            { demnsions: "w-16 h h-auto object-cover", src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg", name: "Cleanroom Installation", logo: "/assets/Our Valuable Customers/asset 16.png", company: "phzer" },
+                            { demnsions: "w-22 h-auto object-cover", src: "/assets/installation/WhatsApp%20Image%202025-05-16%20at%2020.38.58%20(1).jpeg", name: "Industrial Installation", logo: "/assets/Our Valuable Customers/asset 18.png", company: "msds" },
                         ].map((image, index) => (
                             <motion.div
                                 key={image.src}
@@ -531,13 +533,13 @@ export default function HeavyDutyContent({ product }) {
                                 <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent transition-opacity duration-300">
                                     <div className="absolute bottom-0 left-0 right-0 p-4">
                                         {image.logo ? (
-                                            <div className="bg-white rounded-lg p-3 inline-block shadow-lg">
+                                            <div className="bg-white w-full rounded-lg p-3 inline-block shadow-lg">
                                                 <Image
                                                     src={image.logo}
                                                     alt={image.company}
                                                     width={120}
                                                     height={40}
-                                                    className={`${image.zoom ? "h-8 w-40 object-cover" : "h-7  w-auto"} object-contain`}
+                                                    className={`${image.demnsions}`}
                                                 />
                                             </div>
                                         ) : (
@@ -601,94 +603,3 @@ export default function HeavyDutyContent({ product }) {
         </main>
     );
 }
-
-// {/* Sizes */}
-// {product.sizes && (
-//     <section className="bg-white py-16 sm:py-20 relative overflow-hidden">
-//         {/* Subtle background accents */}
-//         <div className="pointer-events-none absolute inset-0" aria-hidden>
-//             <div className="absolute -top-12 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-//             <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-200/20 rounded-full blur-3xl" />
-//             <div className="absolute inset-x-0 top-1/2 h-px bg-linear-to-r from-transparent via-primary/15 to-transparent" />
-//         </div>
-
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-//             <div className="text-center mb-12">
-//                 <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark mb-4">
-//                     Available Sizes & Customization
-//                 </h2>
-//                 <p className="text-neutral-dark/60 max-w-2xl mx-auto">
-//                     Flexible sizing options to meet your specific industrial requirements
-//                 </p>
-//             </div>
-
-//             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-//                 {/* Widths Card */}
-//                 <motion.div
-//                     initial={{ opacity: 0, y: 20 }}
-//                     whileInView={{ opacity: 1, y: 0 }}
-//                     viewport={{ once: true }}
-//                     transition={{ duration: 0.5 }}
-//                     className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
-//                 >
-//                     <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-primary via-indigo-500 to-primary" />
-//                     <div className="flex flex-col h-full gap-4 relative z-10">
-//                         <div className="flex items-center gap-3">
-//                             <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
-//                                 <ArrowsRightLeftIcon className="w-6 h-6" />
-//                             </div>
-//                             <h3 className="text-xl font-bold text-neutral-dark">Widths</h3>
-//                         </div>
-//                         <p className="text-sm text-neutral-dark/70 leading-relaxed">
-//                             {product.sizes.widths}
-//                         </p>
-//                     </div>
-//                 </motion.div>
-
-//                 {/* Standard Lengths Card */}
-//                 <motion.div
-//                     initial={{ opacity: 0, y: 20 }}
-//                     whileInView={{ opacity: 1, y: 0 }}
-//                     viewport={{ once: true }}
-//                     transition={{ duration: 0.5, delay: 0.1 }}
-//                     className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
-//                 >
-//                     <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-indigo-500 via-primary to-indigo-500" />
-//                     <div className="flex flex-col h-full gap-4 relative z-10">
-//                         <div className="flex items-center gap-3">
-//                             <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
-//                                 <ListBulletIcon className="w-6 h-6" />
-//                             </div>
-//                             <h3 className="text-xl font-bold text-neutral-dark">Standard Lengths</h3>
-//                         </div>
-//                         <p className="text-sm text-neutral-dark/70 leading-relaxed">
-//                             {product.sizes.standardLengths}
-//                         </p>
-//                     </div>
-//                 </motion.div>
-
-//                 {/* Custom Sizes Card */}
-//                 <motion.div
-//                     initial={{ opacity: 0, y: 20 }}
-//                     whileInView={{ opacity: 1, y: 0 }}
-//                     viewport={{ once: true }}
-//                     transition={{ duration: 0.5, delay: 0.2 }}
-//                     className="relative overflow-hidden bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300 group"
-//                 >
-//                     <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-primary via-indigo-500 to-primary" />
-//                     <div className="flex flex-col h-full gap-4 relative z-10">
-//                         <div className="flex items-center gap-3">
-//                             <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
-//                                 <WrenchScrewdriverIcon className="w-6 h-6" />
-//                             </div>
-//                             <h3 className="text-xl font-bold text-neutral-dark">Custom Sizes</h3>
-//                         </div>
-//                         <p className="text-sm text-neutral-dark/70 leading-relaxed">
-//                             {product.sizes.customSizes}
-//                         </p>
-//                     </div>
-//                 </motion.div>
-//             </div>
-//         </div>
-//     </section>
-// )}

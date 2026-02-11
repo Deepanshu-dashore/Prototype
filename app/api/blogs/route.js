@@ -161,7 +161,7 @@ export async function POST(request) {
     }
 
     // Sanitize content to prevent XSS
-    const sanitizedContent = sanitizeHTML(content);
+    const sanitizedContent = await sanitizeHTML(content);
     const sanitizedTitle = sanitizeText(title);
     const sanitizedExcerpt = sanitizeText(excerpt);
     const sanitizedCategory = sanitizeText(category);
@@ -238,7 +238,7 @@ export async function PATCH(request) {
     const sanitizedTitle = sanitizeText(title);
     const sanitizedExcerpt = sanitizeText(excerpt);
     const sanitizedCategory = sanitizeText(category);
-    const sanitizedContent = sanitizeHTML(content);
+    const sanitizedContent = await sanitizeHTML(content);
     const sanitizedTags = tags.map((t) => sanitizeText(t)).filter(Boolean);
 
     const oldBlog = await Blog.findById(id);

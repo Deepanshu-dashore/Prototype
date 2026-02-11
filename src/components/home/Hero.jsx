@@ -322,7 +322,7 @@ export default function Hero({ onSecondaryClick }) {
               transition={{ duration: 0.7, delay: 0.5 }}
               className="grid grid-cols-2 sm:grid-cols-4 gap-10 pt-8 border-t border-neutral-200/60"
             >
-              <div className='pl-2'>
+              <div className=''>
                 <div className="text-2xl xl:text-xl font-bold text-neutral-900">Up to 99%</div>
                 <div className="text-xs font-medium text-neutral-500 mt-1">Protection Rate</div>
               </div>
@@ -330,15 +330,11 @@ export default function Hero({ onSecondaryClick }) {
                 <div className="text-2xl xl:text-xl font-bold text-neutral-900">2 Years</div>
                 <div className="text-xs font-medium text-neutral-500 mt-1">Warranty</div>
               </div>
-              <div className="flex -ml-10 items-center justify-start transition-all duration-500 -mt-2.5">
-                <div className="flex items-center justify-center h-15 w-25">
-                  <Image src="/new-iso-1.png" alt="ISO 9001" width={430} height={180} className="h-14 w-28 object-contain" />
-                </div>
+              <div className="-ml-4 md:-ml-6">
+                <Image src="/new-iso-1.png" alt="ISO 9001" width={430} height={180} className="h-14 w-28 object-contain" />
               </div>
-              <div className="flex -ml-16 items-center justify-start transition-all duration-500">
-                <div className="flex -mt-1.5 items-center justify-center h-14 w-24">
-                  <Image src="/new-iso-2.png" alt="ISO 14001" width={418} height={180} className="h-14 w-23 object-contain" />
-                </div>
+              <div className="-ml-4 md:-ml-6">
+                <Image src="/new-iso-2.png" alt="ISO 14001" width={418} height={180} className="h-14 w-28 object-contain" />
               </div>
             </motion.div>
           </motion.div>

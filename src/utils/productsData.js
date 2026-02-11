@@ -106,6 +106,8 @@ export const products = [
         "All CC Matting products come with a comprehensive 2-year replacement warranty, providing you with complete peace of mind and protection for your investment.",
       additionalInfo:
         "Our warranty ensures that your contamination control mats maintain their high performance standards throughout the warranty period.",
+      additionalInfo2:
+        "Designed for versatility, it can be installed across pedestrian walkways, PALs, MALs, and other critical controlled areas, providing consistent contamination control in environments that experience both routine movement and intensive operational traffic.",
       badgeImage: "/assets/WarentyBadge.png",
     },
   },

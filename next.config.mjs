@@ -20,8 +20,6 @@ const nextConfig = {
   env: {
     GOOGLE_SHEET_URL: process.env.GOOGLE_SHEET_URL,
   },
-  // Exclude problematic packages from server component bundling
-  serverComponentsExternalPackages: ["isomorphic-dompurify", "jsdom"],
 };
 
 export default nextConfig;
