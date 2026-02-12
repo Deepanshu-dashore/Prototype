@@ -129,7 +129,7 @@ export default function Footer() {
                 <ul className="space-y-2">
                   <li>
                     <Link href="/products/heavy-duty" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CC Heavy Duty
+                      CCM Heavy Duty Mats
                     </Link>
                   </li>
                   <li>
@@ -139,19 +139,19 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link href="/products/anti-fatigue-mats/classic-ergonomic-mat" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CC Classic Ergonomic Mat
+                      CCM Classic Ergonomic Mats
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link href="/products/anti-fatigue-mats/infinity-ergonomic-mat" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CC Infinity Ergonomic Mat
+                      CCM Infinity Ergonomic Mats
                     </Link>
                   </li>
                   <li>
-                    <Link href="/products/anti-fatigue-mats/complete-ergonomic-mat" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CC Complete Ergonomic Mat
+                    <Link href="/products/anti-fatigue-mats/complete-ergonomic-mat" className="text-sm md:text-nowrap text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
+                      CCM Complete Ergonomic Mats
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
 

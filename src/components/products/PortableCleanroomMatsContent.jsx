@@ -191,7 +191,7 @@ export default function PortableCleanroomMatsContent() {
                                     icon: BeakerIcon
                                 },
                                 {
-                                    title: "Static dissipative 10¹⁰ ohm",
+                                    title: "Static dissipative",
                                     description: "Prevents electrostatic discharge in sensitive environments",
                                     icon: BoltIcon
                                 },
@@ -218,8 +218,15 @@ export default function PortableCleanroomMatsContent() {
                                     >
                                         <div className="flex-1 min-w-0 pr-4 group-hover:z-50">
                                             <h3 className="text-base sm:text-lg font-semibold transition-colors group-hover:text-white text-neutral-900 mb-1.5">
-                                                {benefit.title}
+                                                {benefit.title === "Static dissipative" ? (
+                                                    <>
+                                                        Static dissipative 10<sup>10</sup> ohm
+                                                    </>
+                                                ) : (
+                                                    benefit.title
+                                                )}
                                             </h3>
+
                                             <p className="text-sm sm:text-sm transition-colors group-hover:text-white/80 text-neutral-700 leading-relaxed">
                                                 {benefit.description}
                                             </p>

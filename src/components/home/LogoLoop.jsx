@@ -59,7 +59,7 @@ export default function LogoLoop({
     const animate = (currentTime) => {
       const deltaTime = currentTime - lastTime
       lastTime = currentTime
-      
+
       // Cap delta time to prevent large jumps when tab is inactive
       const deltaSeconds = Math.min(deltaTime / 1000, 0.1)
 
@@ -143,7 +143,7 @@ export default function LogoLoop({
 
   return (
     <div
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden h-full"
       style={{
         rotate: `${direction === 'right' ? '180deg' : '0deg'}`,
         maskImage: fadeOut
@@ -178,11 +178,10 @@ export default function LogoLoop({
               }}
             >
               <div
-                className={`flex items-center justify-center transition-all duration-300 ${
-                  showCard
-                    ? `bg-white rounded-md shadow-sm hover:shadow-md p-4 h-full border border-neutral-100`
-                    : ''
-                } ${scaleOnHover ? 'hover:scale-105' : ''}`}
+                className={`flex items-center justify-center transition-all duration-300 ${showCard
+                  ? `bg-white rounded-md shadow-sm hover:shadow-md p-4 h-full border border-neutral-100`
+                  : ''
+                  } ${scaleOnHover ? 'hover:scale-105' : ''}`}
                 style={{
                   width: showCard ? '100%' : 'auto',
                   height: showCard ? '100%' : 'auto',
@@ -215,7 +214,7 @@ export default function LogoLoop({
                     loading="lazy"
                   />
                 ) : (
-                  <div style={logoStyle} className="flex items-center justify-center">
+                  <div style={logoStyle} className="flex items-center justify-center h-full w-full">
                     {logo.node}
                   </div>
                 )}

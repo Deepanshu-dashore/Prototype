@@ -34,7 +34,7 @@ export default function ContactFormSection() {
   return (
     <>
       {/* Technical Support & Documentation Section */}
-      <section className="bg-white py-16 sm:py-20">
+      {/* <section className="bg-white py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -43,7 +43,7 @@ export default function ContactFormSection() {
             transition={{ duration: 0.6 }}
             className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
           >
-            {/* Left Section - Badge + Heading */}
+            Left Section - Badge + Heading
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-3 h-3 rounded-full bg-primary"></div>
@@ -56,7 +56,7 @@ export default function ContactFormSection() {
               </h2>
             </div>
 
-            {/* Right Section - Description + Button */}
+            Right Section - Description + Button
             <div className="space-y-6">
               <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
                 Access comprehensive technical documentation, data sheets, and specifications for all our products.
@@ -72,7 +72,7 @@ export default function ContactFormSection() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* Industries Section */}
       <section className="bg-gray-50 py-16 sm:py-20">
@@ -116,7 +116,7 @@ export default function ContactFormSection() {
 
           {/* Continuous Loop Carousel */}
           <div className="overflow-hidden relative">
-            <div 
+            <div
               className="flex gap-6 animate-scroll"
               style={{ width: 'max-content' }}
               onMouseEnter={(e) => e.currentTarget.style.animationPlayState = 'paused'}
@@ -129,15 +129,22 @@ export default function ContactFormSection() {
                   <Link
                     key={`${industry.slug}-${index}`}
                     href={`/industries/${industry.slug}`}
-                    className="shrink-0 w-fit bg-white rounded-xl border border-gray-200 p-3 py-2 hover:border-primary/30 hover:shadow-lg transition-all duration-300 group"
+                    className={`shrink-0 w-fit relative ${index % 2 === 0 ? 'bg-white' : 'bg-primary'} rounded-xl border border-gray-200 p-3 py-2 hover:border-primary/30 hover:shadow-lg transition-all duration-300 group`}
                   >
+                    <div
+                      className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.02]"
+                      aria-hidden
+                    />
                     {/* Industry Name */}
-                    <h3 className="text-base text-nowrap font-bold flex gap-2 items-center text-neutral-dark/90 group-hover:text-primary transition-colors line-clamp-2">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center transition-colors">
-                        <Icon className="w-5 h-5 text-primary" />
+                    <h3 className={`text-base relative z-20 text-nowrap font-bold flex gap-2 items-center ${index % 2 === 0 ? 'text-neutral-dark/90' : 'text-white'} group-hover:text-primary transition-colors line-clamp-2`}>
+                      <div className={`w-10 h-10 rounded-lg ${index % 2 === 0 ? 'bg-primary/10' : 'bg-white/20'} group-hover:bg-primary/20 flex items-center justify-center transition-colors`}>
+                        <Icon className={`w-5 h-5 ${index % 2 === 0 ? 'text-primary' : 'text-white'}`} />
                       </div>
                       {displayTitle}
                     </h3>
+                    <p className={`text-xs relative z-20 ml-3 text-wrap max-w-xs mt-5 font-semibold flex gap-2 items-center ${index % 2 === 0 ? 'text-neutral-dark/90' : 'text-white'} group-hover:text-primary transition-colors`}>
+                      {industry.description}
+                    </p>
                   </Link>
                 )
               })}

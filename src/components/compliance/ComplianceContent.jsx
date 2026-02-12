@@ -17,6 +17,7 @@ import {
     ExclamationCircleIcon
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import LogoLoop from "../home/LogoLoop";
 
 export default function ComplianceContent() {
     const [hoveredDoc, setHoveredDoc] = useState(null);
@@ -174,53 +175,72 @@ export default function ComplianceContent() {
                             Access our full suite of compliance certificates and efficacy data sheets.
                         </p>
                     </div>
+                    <div className="h-[60dvh] relative">
+                        <LogoLoop
+                            showCard={false}
+                            gap={20}
+                            // scaleOnHover
+                            hoverSpeed={1.5}
+                            duration={10}
+                            logos={
+                                complianceDocs.map((doc, index) => {
+                                    return {
+                                        node: <motion.div
+                                            key={doc.name}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.4, delay: index * 0.05 }}
+                                            onMouseEnter={() => setHoveredDoc(index)}
+                                            onMouseLeave={() => setHoveredDoc(null)}
+                                            className="group relative bg-white border border-gray-200 mt-auto rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col"
+                                        >
+                                            {/* Document Image Preview */}
+                                            <div className="relative w-full h-60 bg-gray-50 overflow-hidden">
+                                                <Image
+                                                    src={doc.image}
+                                                    alt={doc.name}
+                                                    fill
+                                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                                />
+                                                {/* Icon Overlay */}
+                                                <div className={`absolute top-3 right-3 w-10 h-10 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md group-hover:bg-primary group-hover:text-white transition-colors duration-300 ${index % 2 === 0 ? 'bg-white' : 'bg-primary'}`}>
+                                                    <doc.icon className="w-5 h-5" />
+                                                </div>
+                                            </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {complianceDocs.map((doc, index) => (
-                            <motion.div
-                                key={doc.name}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: index * 0.05 }}
-                                onMouseEnter={() => setHoveredDoc(index)}
-                                onMouseLeave={() => setHoveredDoc(null)}
-                                className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col"
-                            >
-                                {/* Document Image Preview */}
-                                <div className="relative w-full h-60 bg-gray-50 overflow-hidden">
-                                    <Image
-                                        src={doc.image}
-                                        alt={doc.name}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                    {/* Icon Overlay */}
-                                    <div className={`absolute top-3 right-3 w-10 h-10 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md group-hover:bg-primary group-hover:text-white transition-colors duration-300 ${index % 2 === 0 ? 'bg-white' : 'bg-primary'}`}>
-                                        <doc.icon className="w-5 h-5" />
-                                    </div>
-                                </div>
+                                            {/* Card Content */}
+                                            <div className={`p-6 flex relative flex-col flex-1 ${index % 2 === 0 ? 'bg-linear-to-b from-primary to-indigo-600' : ' shadow-xl'}`}>
 
-                                {/* Card Content */}
-                                <div className={`p-6 flex relative flex-col flex-1 ${index % 2 === 0 ? 'bg-linear-to-b from-primary to-indigo-600' : ' shadow-xl'}`}>
+                                                <div className={`absolute top-0 left-0 w-full h-full bg-[url('/circle-pattern.svg')] bg-repeat ${index % 2 === 0 ? 'opacity-3' : 'opacity-2.5'} pointer-events-none`} />
 
-                                    <div className={`absolute top-0 left-0 w-full h-full bg-[url('/circle-pattern.svg')] bg-repeat ${index % 2 === 0 ? 'opacity-3' : 'opacity-2.5'} pointer-events-none`} />
+                                                <h3 className={`font-bold text-lg text-neutral-dark mb-2 ${index % 2 === 0 ? 'text-white' : 'group-hover:text-primary'} transition-colors duration-300`}>{doc.name}</h3>
+                                                <p className={`text-sm text-neutral-dark/60 mb-3 grow ${index % 2 === 0 ? 'text-white' : 'group-hover:text-primary'} transition-colors duration-300`}>{doc.description}</p>
 
-                                    <h3 className={`font-bold text-lg text-neutral-dark mb-2 ${index % 2 === 0 ? 'text-white' : 'group-hover:text-primary'} transition-colors duration-300`}>{doc.name}</h3>
-                                    <p className={`text-sm text-neutral-dark/60 mb-3 grow ${index % 2 === 0 ? 'text-white' : 'group-hover:text-primary'} transition-colors duration-300`}>{doc.description}</p>
-
-                                    <div className={`flex gap-3 relative z-10 pt-4 border-t ${index % 2 === 0 ? 'border-white/30' : 'border-gray-50'} transition-colors duration-300`}>
-                                        <button className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-neutral-dark transition-colors ${index % 2 === 0 ? 'text-white bg-gray-100/30' : 'group-hover:text-primary hover:text-primary bg-gray-200'} transition-colors duration-300 rounded-xl`}>
-                                            <EyeIcon className="w-4 h-4" /> Preview
-                                        </button>
-                                        <button className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-colors ${index % 2 === 0 ? 'text-primary bg-white' : 'hover:bg-primary/90 bg-primary text-white'} transition-colors duration-300`}>
-                                            <ArrowDownTrayIcon className="w-4 h-4" /> Download
-                                        </button>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                                <div className={`flex gap-3 relative z-10 pt-4 border-t ${index % 2 === 0 ? 'border-white/30' : 'border-gray-50'} transition-colors duration-300`}>
+                                                    {/* <button className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold text-neutral-dark transition-colors ${index % 2 === 0 ? 'text-white bg-gray-100/30' : 'group-hover:text-primary hover:text-primary bg-gray-200'} transition-colors duration-300 rounded-xl`}>
+                                                        <EyeIcon className="w-4 h-4" /> Preview
+                                                    </button>
+                                                    <button className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-colors ${index % 2 === 0 ? 'text-primary bg-white' : 'hover:bg-primary/90 bg-primary text-white'} transition-colors duration-300`}>
+                                                        <ArrowDownTrayIcon className="w-4 h-4" /> Download
+                                                    </button> */}
+                                                    <div className={`flex items-center text-xs font-semibold transition-colors mt-2 
+                                                        ${index % 2 === 0 ? 'text-white/80 group-hover/detail:text-white' : 'text-primary/80 group-hover/detail:text-primary'}`}
+                                                    >
+                                                        Learn More
+                                                        <svg className="w-3 h-3 ml-1 transform group-hover/detail:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                        , src: false
+                                    }
+                                })
+                            } />
                     </div>
+
                 </div>
             </section>
 

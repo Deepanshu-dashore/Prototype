@@ -1,6 +1,7 @@
 import PublicLayout from "../../src/components/share/PublicLayout";
 import ContactHero from "../../src/components/contact/ContactHero";
 import ContactFormSection from "../../src/components/contact/ContactFormSection";
+import Distibutor from "@/src/components/contact/Distibutor";
 
 export const metadata = {
   title: "Contact Us | CC Matting | Contamination Control Support",
@@ -23,6 +24,7 @@ export default function ContactPage() {
     <PublicLayout className="bg-white">
       <main className="grow">
         <ContactHero />
+        <Distibutor />
         <ContactFormSection />
       </main>
     </PublicLayout>

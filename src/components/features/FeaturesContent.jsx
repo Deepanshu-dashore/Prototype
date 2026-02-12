@@ -319,7 +319,7 @@ export default function FeaturesContent() {
                             These properties enable the surface to attract, collect and retain particles ranging in size from over <strong className="text-neutral-dark font-semibold">100 microns down to a few nanometers</strong>.
                         </p>
                         <p>
-                            The mats also function due to a phenomena known as <strong className="text-neutral-dark font-semibold">van der wall forces</strong>, a high level of short range electromagnetic forces.
+                            The mats also function due to a phenomena known as <strong className="text-neutral-dark font-semibold">Van der Waals forces</strong>, a high level of short range electromagnetic forces.
                         </p>
                     </div>
                 </SyncedSideSection>

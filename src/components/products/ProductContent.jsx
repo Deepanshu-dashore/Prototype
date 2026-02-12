@@ -82,7 +82,7 @@ export default function ProductContent({ product, slug }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
-                        className="text-4xl max-w-4xl mx-auto sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight tracking-tight drop-shadow-lg"
+                        className="text-4xl max-w-6xl mx-auto sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight tracking-tight drop-shadow-lg"
                     >
                         {product.title}
                     </motion.h1>
@@ -158,7 +158,7 @@ export default function ProductContent({ product, slug }) {
                                 <div className="mb-8">
                                     <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                                         <SwatchIcon className="w-3 h-3" />
-                                        {product.colorOptions.length === 2 ? "Customization" : "Variations"}
+                                        {"Variations"}
                                     </span>
                                     <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark">
                                         {product.colorOptions.length === 2 ? "Colour Options Available" : "Profile Options Available"}

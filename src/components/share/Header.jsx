@@ -67,17 +67,17 @@ export default function Header({ onContactClick }) {
 
   const dropdownMenus = {
     Products: [
-      { name: 'CC Heavy Duty', href: '/products/heavy-duty', icon: Square3Stack3DIcon },
-      { name: 'CC Portable Cleanroom Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
+      { name: 'CCM Heavy Duty', href: '/products/heavy-duty', icon: Square3Stack3DIcon },
+      { name: 'CCM Portable Cleanroom Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
       {
         name: 'Anti-Fatigue Mats',
         href: '#anti-fatigue-mats',
         icon: UsersIcon,
         hasSubMenu: true,
         subItems: [
-          { name: 'CC Matting Classic Ergonomic Mat', href: '/products/anti-fatigue-mats/classic-ergonomic-mat' },
-          { name: 'CC Infinity Ergonomic Mat', href: '/products/anti-fatigue-mats/infinity-ergonomic-mat' },
-          { name: 'CC Complete Ergonomic Mat', href: '/products/anti-fatigue-mats/complete-ergonomic-mat' },
+          { name: 'CCM Matting Classic Ergonomic Mat', href: '/products/anti-fatigue-mats/classic-ergonomic-mat' },
+          { name: 'CCM Infinity Ergonomic Mat', href: '/products/anti-fatigue-mats/infinity-ergonomic-mat' },
+          { name: 'CCM Complete Ergonomic Mat', href: '/products/anti-fatigue-mats/complete-ergonomic-mat' },
         ]
       },
       { name: 'Entrance Matting Ireland', href: 'https://entrancemattingireland.ie/', icon: BuildingOfficeIcon },

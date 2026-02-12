@@ -168,7 +168,7 @@ export default function HeavyDutyContent({ product }) {
                                 <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark">Colour Options Available</h2>
                             </div>
                             <p className="text-base text-neutral-dark/70 leading-relaxed mb-4">
-                                Choose from Solid Grey and Grey Speckled, with Cobalt Blue and Blue Speckled scheduled for release. All colour variants are produced to identical performance specifications, ensuring uniform durability and suitability for cleanroom and controlled environments.
+                                Choose from Solid Grey and Grey Speckled, with Cobalt Blue and Blue Speckled scheduled for release soon. All colour variants are produced to identical performance specifications, ensuring uniform durability and suitability for cleanroom and controlled environments.
                             </p>
                         </motion.div>
                     </div>
@@ -179,10 +179,10 @@ export default function HeavyDutyContent({ product }) {
             <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
                 <div className="relative z-10">
-                    <div className="max-w-7xl mx-auto px-4">
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-6xl mx-auto">
+                    <div className="max-w-7xl mx-auto px-4 grid grid-cols-10 gap-10">
+                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto col-span-7">
                             <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
-                                <div className="bg-gray-100 p-8 py-2 flex items-center justify-center md:w-1/3 h-96">
+                                <div className="bg-gray-100 p-8 py-2 flex items-center justify-center md:w-1/2 h-72">
                                     <Image src={product.warranty.badgeImage} alt="Warranty" width={400} height={400} className="w-full h-96 object-contain" />
                                 </div>
                                 <div className="p-8 flex flex-col justify-center md:w-2/3">
@@ -192,9 +192,32 @@ export default function HeavyDutyContent({ product }) {
                                     </span>
                                     <p className="text-sm text-neutral-dark/70 mb-3">{product.warranty.description}</p>
                                     <p className="text-sm text-neutral-dark/70">{product.warranty.additionalInfo}</p>
-                                    <p className="text-sm text-neutral-dark/70 mt-3">{product.warranty.additionalInfo2}</p>
+                                    {/* <p className="text-sm text-neutral-dark/70 mt-3">{product.warranty.additionalInfo2}</p> */}
 
                                 </div>
+                            </div>
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto col-span-3">
+                            <div className="bg-white relative rounded-2xl border border-gray-200 shadow-lg overflow-hidden p-5 h-full">
+                                <p className="text-base text-neutral-dark/70 mt-8">{product.warranty.additionalInfo2}</p>
+
+                                <div className="flex gap-3 items-center mt-6">
+                                    <div className="w-1.5 h-1.5 bg-primary/80 rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-primary/70 rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-primary/60 rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-primary/50 rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-primary/40 rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-primary/30 rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-primary/20 rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-primary/10 rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-primary/5 rounded-full" />
+                                </div>
+                                <div className="absolute -bottom-14 -right-10 w-36 aspect-video bg-primary/20 mt-8 rounded-full" />
+                                <div className="absolute -bottom-14 -right-16 w-36 aspect-video bg-primary/20 mt-8 rounded-full" />
+                                <div className="absolute -bottom-14 -right-22 w-36 aspect-video bg-primary/20 mt-8 rounded-full" />
+                                <div className="absolute -top-22 -left-10 w-36 aspect-video bg-primary/20 mt-8 rounded-full" />
+                                <div className="absolute -top-22 -left-16 w-36 aspect-video bg-primary/20 mt-8 rounded-full" />
+                                <div className="absolute -top-22 -left-22 w-36 aspect-video bg-primary/20 mt-8 rounded-full" />
                             </div>
                         </motion.div>
                     </div>

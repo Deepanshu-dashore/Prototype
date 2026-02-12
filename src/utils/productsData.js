@@ -3,10 +3,10 @@ export const products = [
   {
     id: 1,
     slug: "heavy-duty",
-    title: "CC HEAVY DUTY",
+    title: "CCM HEAVY DUTY MATS",
     subtitle: "High-Performance Flooring System",
     description:
-      "CCM Heavy Duty Mat is a high-performance contamination control flooring system engineered to remove up to 99% of foot- and wheel-borne particulates within six steps, while helping reduce electrostatic discharge.",
+      "CCM Heavy Duty Polymeric Mat is a high-performance contamination control flooring system engineered to remove up to 99% of foot- and wheel-borne particulates within six steps, while helping reduce electrostatic discharge.",
     image: "/assets/products%20Page/HaveyDuty.jpeg",
     gradientColors: {
       primary: "rgb(9, 31, 208)",
@@ -32,15 +32,15 @@ export const products = [
       //   description: "Elegant grey speckled finish",
       // },
       {
-        name: "GREY SPECKLED",
-        image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
-        description: "Modern grey speckled variant",
-        // comingSoon: true,
-      },
-      {
         name: "COBALT BLUE",
         image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
         description: "Vibrant cobalt blue option",
+        // comingSoon: true,
+      },
+      {
+        name: "GREY SPECKLED",
+        image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
+        description: "Modern grey speckled variant",
         comingSoon: true,
       },
       {
@@ -103,7 +103,7 @@ export const products = [
     warranty: {
       title: "2 Years of Warranty",
       description:
-        "All CC Matting products come with a comprehensive 2-year replacement warranty, providing you with complete peace of mind and protection for your investment.",
+        "All CCM Matting products come with a comprehensive 2-year replacement warranty, providing you with complete peace of mind and protection for your investment.",
       additionalInfo:
         "Our warranty ensures that your contamination control mats maintain their high performance standards throughout the warranty period.",
       additionalInfo2:
@@ -114,11 +114,11 @@ export const products = [
   {
     id: 2,
     slug: "classic-ergonomic-mat",
-    title: "CC Classic Ergonomic Mat",
+    title: "CCM Classic Ergonomic Mats",
     subtitle: "Original Ergonomic Bubble Profile Mat",
     description: (
       <span>
-        The CC Classic Ergonomic Mat is the original ergonomic bubble profile
+        The CCM Classic Ergonomic Mat is the original ergonomic bubble profile
         mat. The Classic Mat boasts the longest warranty in the industry.
         <br />
         Customers still have many of these original mats in service over 20
@@ -205,7 +205,7 @@ export const products = [
     warranty: {
       title: "8 Years of Longlasting Warranty",
       description:
-        "All CC Classic Ergonomic Mat products come with a comprehensive 8-year replacement warranty, providing you with complete peace of mind and protection for your investment. This is the longest warranty in the industry.",
+        "All CCM Classic Ergonomic Mat products come with a comprehensive 8-year replacement warranty, providing you with complete peace of mind and protection for your investment. This is the longest warranty in the industry.",
       additionalInfo:
         "Our warranty ensures that your ergonomic mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.",
       badgeImage:
@@ -215,7 +215,7 @@ export const products = [
   {
     id: 3,
     slug: "infinity-ergonomic-mat",
-    title: "CC Infinity Ergonomic Mat",
+    title: "CCM Infinity Ergonomic Mats",
     subtitle: "Durable Polyurethane Ergonomic Mats",
     description:
       "Infinity Series mats are durable polyurethane ergonomic mats with a closed cell surface that resists light moisture and most chemical exposures. Available in ESD version and 3 profiles: Deluxe, Smooth and Bubble.",
@@ -300,7 +300,7 @@ export const products = [
     warranty: {
       title: "6 Years of Warranty",
       description:
-        "All CC Infinity Ergonomic Mat products come with a comprehensive 6-year replacement warranty, providing you with complete peace of mind and protection for your investment.",
+        "All CCM Infinity Ergonomic Mat products come with a comprehensive 6-year replacement warranty, providing you with complete peace of mind and protection for your investment.",
       additionalInfo:
         "Our warranty ensures that your ergonomic mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.",
       badgeImage:
@@ -310,10 +310,10 @@ export const products = [
   {
     id: 4,
     slug: "complete-ergonomic-mat",
-    title: "CC Complete Ergonomic Mat",
+    title: "CCM Complete Ergonomic Mat",
     subtitle: "Feature Rich Ergonomic Mats",
     description:
-      "The CC Complete Series ergonomic mats are feature rich. They can tolerate mild exposure to oils and other liquids while providing enhanced anti-static protection. It is self-extinguishing when introduced to open flame, which qualifies Complete Mats as fire retardant according to standard EN 13501-1. Available in ESD version, and 3 profiles: Deluxe, Smooth and Bubble.",
+      "The CCM Complete Series ergonomic mats are feature rich. They can tolerate mild exposure to oils and other liquids while providing enhanced anti-static protection. It is self-extinguishing when introduced to open flame, which qualifies Complete Mats as fire retardant according to standard EN 13501-1. Available in ESD version, and 3 profiles: Deluxe, Smooth and Bubble.",
     image: "/assets/products%20Page/complete-ergonomic-new.jpg",
     gradientColors: {
       primary: "rgb(59, 130, 246)",
@@ -407,7 +407,7 @@ export const products = [
     warranty: {
       title: "5 Years of Warranty",
       description:
-        "All CC Complete Ergonomic Mat products come with a comprehensive 5-year replacement warranty, providing you with complete peace of mind and protection for your investment.",
+        "All CCM Complete Ergonomic Mat products come with a comprehensive 5-year replacement warranty, providing you with complete peace of mind and protection for your investment.",
       additionalInfo:
         "Our warranty ensures that your ergonomic mats maintain their high performance standards throughout the warranty period, with full replacement coverage if our product fails to perform as promoted.",
       badgeImage:
