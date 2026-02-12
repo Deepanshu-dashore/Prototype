@@ -44,7 +44,8 @@ export async function POST(request) {
       !registeredAddress.city ||
       !registeredAddress.state ||
       !registeredAddress.country ||
-      !registeredAddress.pinCode
+      !registeredAddress.pinCode ||
+      !registeredAddress.street
     ) {
       return ApiResponse(400, null, "Registered Address is required");
     }

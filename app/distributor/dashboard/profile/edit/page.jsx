@@ -28,9 +28,9 @@ export default function EditProfilePage() {
         contactPersonEmail: "",
         contactPersonNumber: "",
         contactPersonDesignation: "",
-        registeredAddress: { city: "", state: "", country: "", pinCode: "" },
-        shippingAddress: { city: "", state: "", country: "", pinCode: "" },
-        billingAddress: { city: "", state: "", country: "", pinCode: "" },
+        registeredAddress: { street: "", additionalInfo: "", city: "", state: "", country: "", pinCode: "" },
+        shippingAddress: { street: "", additionalInfo: "", city: "", state: "", country: "", pinCode: "" },
+        billingAddress: { street: "", additionalInfo: "", city: "", state: "", country: "", pinCode: "" },
     });
 
     useEffect(() => {
@@ -64,18 +64,24 @@ export default function EditProfilePage() {
                     contactPersonNumber: data.contactPersonNumber || "",
                     contactPersonDesignation: data.contactPersonDesignation || "",
                     registeredAddress: {
+                        street: data.registeredAddress?.street || "",
+                        additionalInfo: data.registeredAddress?.additionalInfo || "",
                         city: data.registeredAddress?.city || "",
                         state: data.registeredAddress?.state || "",
                         country: data.registeredAddress?.country || "",
                         pinCode: data.registeredAddress?.pinCode || "",
                     },
                     shippingAddress: {
+                        street: data.shippingAddress?.street || "",
+                        additionalInfo: data.shippingAddress?.additionalInfo || "",
                         city: data.shippingAddress?.city || "",
                         state: data.shippingAddress?.state || "",
                         country: data.shippingAddress?.country || "",
                         pinCode: data.shippingAddress?.pinCode || "",
                     },
                     billingAddress: {
+                        street: data.billingAddress?.street || "",
+                        additionalInfo: data.billingAddress?.additionalInfo || "",
                         city: data.billingAddress?.city || "",
                         state: data.billingAddress?.state || "",
                         country: data.billingAddress?.country || "",
@@ -233,6 +239,14 @@ export default function EditProfilePage() {
                     <div className="p-8">
                         <h3 className="text-lg font-semibold text-gray-900 mb-6">Registered Address</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+                                <input type="text" name="registeredAddress.street" value={formData.registeredAddress.street} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Additional Info</label>
+                                <input type="text" name="registeredAddress.additionalInfo" value={formData.registeredAddress.additionalInfo} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                            </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
                                 <input type="text" name="registeredAddress.city" value={formData.registeredAddress.city} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
@@ -262,6 +276,14 @@ export default function EditProfilePage() {
                             </label>
                         </div>
                         <div className={`grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 transition-opacity ${sameAsRegistered.shipping ? 'opacity-50 pointer-events-none' : ''}`}>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+                                <input type="text" name="shippingAddress.street" value={formData.shippingAddress.street} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Additional Info</label>
+                                <input type="text" name="shippingAddress.additionalInfo" value={formData.shippingAddress.additionalInfo} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                            </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
                                 <input type="text" name="shippingAddress.city" value={formData.shippingAddress.city} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
@@ -291,6 +313,14 @@ export default function EditProfilePage() {
                             </label>
                         </div>
                         <div className={`grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 transition-opacity ${sameAsRegistered.billing ? 'opacity-50 pointer-events-none' : ''}`}>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+                                <input type="text" name="billingAddress.street" value={formData.billingAddress.street} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Additional Info</label>
+                                <input type="text" name="billingAddress.additionalInfo" value={formData.billingAddress.additionalInfo} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                            </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
                                 <input type="text" name="billingAddress.city" value={formData.billingAddress.city} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />

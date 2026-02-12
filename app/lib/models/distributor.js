@@ -1,10 +1,13 @@
 import { Schema, model, models } from "mongoose";
 
 const addressSchema = new Schema({
+  street: { type: String },
   city: { type: String },
   state: { type: String },
   country: { type: String },
   pinCode: { type: String },
+  additionalInfo: { type: String }, // Added as per request
+  additionalDetails: { type: String }, // Keeping existing field just in case
   _id: false,
 });
 

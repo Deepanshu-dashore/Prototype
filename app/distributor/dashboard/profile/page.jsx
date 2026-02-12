@@ -204,6 +204,7 @@ export default function DistributorProfile() {
                             <div className="flex-1">
                                 <h4 className="font-semibold text-gray-900 mb-1">Registered Address</h4>
                                 <p className="text-sm text-gray-600 leading-relaxed">
+                                    {distributor.registeredAddress.street}, {distributor.registeredAddress.additionalInfo && `${distributor.registeredAddress.additionalInfo}, `}
                                     {distributor.registeredAddress.city}, {distributor.registeredAddress.state}, {distributor.registeredAddress.country} - {distributor.registeredAddress.pinCode}
                                 </p>
                             </div>
@@ -217,6 +218,7 @@ export default function DistributorProfile() {
                                 <div className="flex-1">
                                     <h4 className="font-semibold text-gray-900 mb-1">Shipping Address</h4>
                                     <p className="text-sm text-gray-600 leading-relaxed">
+                                        {distributor.shippingAddress.street || distributor.registeredAddress.street}, {distributor.shippingAddress.additionalInfo || distributor.registeredAddress.additionalInfo ? `${distributor.shippingAddress.additionalInfo || distributor.registeredAddress.additionalInfo}, ` : ""}
                                         {distributor.shippingAddress.city || distributor.registeredAddress.city}, {distributor.shippingAddress.state || distributor.registeredAddress.state}, {distributor.shippingAddress.country || distributor.registeredAddress.country} - {distributor.shippingAddress.pinCode || distributor.registeredAddress.pinCode}
                                     </p>
                                 </div>
@@ -231,6 +233,7 @@ export default function DistributorProfile() {
                                 <div className="flex-1">
                                     <h4 className="font-semibold text-gray-900 mb-1">Billing Address</h4>
                                     <p className="text-sm text-gray-600 leading-relaxed">
+                                        {distributor.billingAddress.street || distributor.registeredAddress.street}, {distributor.billingAddress.additionalInfo || distributor.registeredAddress.additionalInfo ? `${distributor.billingAddress.additionalInfo || distributor.registeredAddress.additionalInfo}, ` : ""}
                                         {distributor.billingAddress.city || distributor.registeredAddress.city}, {distributor.billingAddress.state || distributor.registeredAddress.state}, {distributor.billingAddress.country || distributor.registeredAddress.country} - {distributor.billingAddress.pinCode || distributor.registeredAddress.pinCode}
                                     </p>
                                 </div>

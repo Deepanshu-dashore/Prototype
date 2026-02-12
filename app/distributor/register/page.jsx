@@ -55,10 +55,12 @@ export default function DistributorRegister() {
         contactPersonNumber: "",
         contactPersonDesignation: "",
         registeredAddress: {
+            street: "",
             city: "",
             state: "",
             country: "",
             pinCode: "",
+            additionalInfo: "",
         },
         sameAddress: true,
     });
@@ -427,7 +429,30 @@ export default function DistributorRegister() {
                                     </div>
                                     <h3 className="text-lg font-bold text-gray-900">Registered Address</h3>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-6  border p-5 rounded-xl">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6 border p-5 rounded-xl">
+                                    <div className="col-span-1 md:col-span-2">
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Street Address *</label>
+                                        <input
+                                            type="text"
+                                            name="registeredAddress.street"
+                                            required
+                                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                            placeholder="123 Main St, Apt 4B"
+                                            value={formData.registeredAddress.street}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-span-1 md:col-span-2">
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Additional Info</label>
+                                        <input
+                                            type="text"
+                                            name="registeredAddress.additionalInfo"
+                                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                            placeholder="Landmark, building name, etc."
+                                            value={formData.registeredAddress.additionalInfo}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
                                     <div className="col-span-1">
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">City *</label>
                                         <input
