@@ -23,7 +23,8 @@ export default function EditProfilePage() {
         companyName: "",
         companyEmail: "",
         companyNumber: "", // Editable per request
-        yearOfEstablishment: "",
+        website: "",
+        linkedin: "",
         contactPersonName: "",
         contactPersonEmail: "",
         contactPersonNumber: "",
@@ -58,7 +59,8 @@ export default function EditProfilePage() {
                     companyName: data.companyName || "",
                     companyEmail: data.companyEmail || "",
                     companyNumber: data.companyNumber || "",
-                    yearOfEstablishment: data.yearOfEstablishment || "",
+                    website: data.website || "",
+                    linkedin: data.linkedin || "",
                     contactPersonName: data.contactPersonName || "",
                     contactPersonEmail: data.contactPersonEmail || "",
                     contactPersonNumber: data.contactPersonNumber || "",
@@ -206,8 +208,12 @@ export default function EditProfilePage() {
                                 <input type="tel" name="companyNumber" value={formData.companyNumber} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Year of Establishment</label>
-                                <input type="number" name="yearOfEstablishment" value={formData.yearOfEstablishment} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Company Website</label>
+                                <input type="url" name="website" value={formData.website} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="https://www.company.com" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn Profile</label>
+                                <input type="url" name="linkedin" value={formData.linkedin} onChange={handleChange} className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" placeholder="https://www.linkedin.com/company/..." />
                             </div>
                         </div>
                     </div>

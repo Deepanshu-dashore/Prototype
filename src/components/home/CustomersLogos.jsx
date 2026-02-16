@@ -6,38 +6,38 @@ import LogoLoop from './LogoLoop'
 export default function CustomersLogos() {
   // Combine all logos into one array for a single horizontal banner
   const allLogos = [
-    { src: '/assets/Our Valuable Customers/asset 2.png', alt: 'Customer Logo 1',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 3.png', alt: 'Customer Logo 2',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 4.png', alt: 'Customer Logo 3',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 5.png', alt: 'Customer Logo 4',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 6.png', alt: 'Customer Logo 5',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 7.png', alt: 'Customer Logo 6',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 8.png', alt: 'Customer Logo 7',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 9.png', alt: 'Customer Logo 8',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 10.png', alt: 'Customer Logo 9',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 11.png', alt: 'Customer Logo 10',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 12.png', alt: 'Customer Logo 11',zoom:true },
-    { src: '/assets/Our Valuable Customers/NIBRT.webp', alt: 'Customer Logo NIBRT',zoom:false },
-    { src: '/assets/Our Valuable Customers/Bristol.png', alt: 'Customer Logo Bristol',zoom:false },
-     ]
+    { src: '/assets/Our Valuable Customers/asset 2.png', alt: 'Customer Logo 1', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 3.png', alt: 'Customer Logo 2', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 4.png', alt: 'Customer Logo 3', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 5.png', alt: 'Customer Logo 4', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 6.png', alt: 'Customer Logo 5', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 7.png', alt: 'Customer Logo 6', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 8.png', alt: 'Customer Logo 7', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 9.png', alt: 'Customer Logo 8', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 10.png', alt: 'Customer Logo 9', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 11.png', alt: 'Customer Logo 10', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 12.png', alt: 'Customer Logo 11', zoom: true },
+    { src: '/assets/Our Valuable Customers/NIBRT.webp', alt: 'Customer Logo NIBRT', zoom: false },
+    { src: '/assets/Our Valuable Customers/Bristol.png', alt: 'Customer Logo Bristol', zoom: false },
+  ]
 
   const secondRowLogos = [
-    { src: '/assets/Our Valuable Customers/Apleona.png', alt: 'Customer Logo Apleona',zoom:false },
-    { src: '/assets/Our Valuable Customers/AnalogDevices.png', alt: 'Customer Logo AnalogDevices',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 13.jpeg', alt: 'Customer Logo 12',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 14.jpeg', alt: 'Customer Logo 13',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 15.gif', alt: 'Customer Logo 14',zoom:true },
-    { src: '/assets/Our Valuable Customers/asset 16.png', alt: 'Customer Logo 15',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 17.png', alt: 'Customer Logo 16',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 18.png', alt: 'Customer Logo 17',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 19.jpeg', alt: 'Customer Logo 18',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 20.png', alt: 'Customer Logo 19',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 21.png', alt: 'Customer Logo 20',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 22.png', alt: 'Customer Logo 21',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 23.png', alt: 'Customer Logo 22',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 24.png', alt: 'Customer Logo 23',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 25.png', alt: 'Customer Logo 24',zoom:false },
-    { src: '/assets/Our Valuable Customers/asset 26.png', alt: 'Customer Logo 25',zoom:false },
+    { src: '/assets/Our Valuable Customers/Apleona.png', alt: 'Customer Logo Apleona', zoom: false },
+    { src: '/assets/Our Valuable Customers/AnalogDevices.png', alt: 'Customer Logo AnalogDevices', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 13.jpeg', alt: 'Customer Logo 12', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 14.jpeg', alt: 'Customer Logo 13', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 15.gif', alt: 'Customer Logo 14', zoom: true },
+    { src: '/assets/Our Valuable Customers/asset 16.png', alt: 'Customer Logo 15', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 17.png', alt: 'Customer Logo 16', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 18.png', alt: 'Customer Logo 17', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 19.jpeg', alt: 'Customer Logo 18', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 20.png', alt: 'Customer Logo 19', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 21.png', alt: 'Customer Logo 20', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 22.png', alt: 'Customer Logo 21', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 23.png', alt: 'Customer Logo 22', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 24.png', alt: 'Customer Logo 23', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 25.png', alt: 'Customer Logo 24', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 26.png', alt: 'Customer Logo 25', zoom: false },
   ];
 
   return (
@@ -83,7 +83,7 @@ export default function CustomersLogos() {
               logos={secondRowLogos}
               speed={50}
               direction="left"
-              logoHeight={98}
+              logoHeight={96}
               gap={10}
               hoverSpeed={0}
               scaleOnHover
@@ -91,7 +91,7 @@ export default function CustomersLogos() {
               fadeOutColor="#fafafa"
               ariaLabel="Customer logos row 1"
               cardWidth={160}
-              cardHeight={120}
+              cardHeight={130}
               showCard={true}
             />
           </div>

@@ -49,7 +49,8 @@ export default function DistributorRegister() {
         companyName: "",
         companyEmail: "",
         companyNumber: "",
-        yearOfEstablishment: "",
+        website: "",
+        linkedin: "",
         contactPersonName: "",
         contactPersonEmail: "",
         contactPersonNumber: "",
@@ -62,6 +63,8 @@ export default function DistributorRegister() {
             pinCode: "",
             additionalInfo: "",
         },
+        question1: false,
+        question2: "",
         sameAddress: true,
     });
 
@@ -270,19 +273,18 @@ export default function DistributorRegister() {
                                         />
                                     </div>
                                     <div className="col-span-1">
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Year of Establishment *</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Company Website</label>
                                         <input
-                                            type="number"
-                                            name="yearOfEstablishment"
-                                            required
+                                            type="url"
+                                            name="website"
                                             className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
-                                            placeholder="YYYY"
-                                            value={formData.yearOfEstablishment}
+                                            placeholder="https://www.company.com"
+                                            value={formData.website}
                                             onChange={handleChange}
                                         />
                                     </div>
                                     <div className="col-span-1">
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Official Email *</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
                                         <div className="flex gap-2">
                                             <input
                                                 type="email"
@@ -339,7 +341,7 @@ export default function DistributorRegister() {
                                         )}
                                     </div>
                                     <div className="col-span-1">
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Official Phone *</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Phone No. *</label>
                                         <input
                                             type="tel"
                                             name="companyNumber"
@@ -391,7 +393,7 @@ export default function DistributorRegister() {
                                         />
                                     </div>
                                     <div className="col-span-1">
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Personal Email *</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
                                         <input
                                             type="email"
                                             name="contactPersonEmail"
@@ -403,7 +405,7 @@ export default function DistributorRegister() {
                                         />
                                     </div>
                                     <div className="col-span-1">
-                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Direct Phone *</label>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Phone No. *</label>
                                         <input
                                             type="tel"
                                             name="contactPersonNumber"
@@ -411,6 +413,17 @@ export default function DistributorRegister() {
                                             className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                                             placeholder="Direct mobile or extension"
                                             value={formData.contactPersonNumber}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="col-span-1">
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">LinkedIn Profile</label>
+                                        <input
+                                            type="url"
+                                            name="linkedin"
+                                            className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                            placeholder="https://www.linkedin.com/company/..."
+                                            value={formData.linkedin}
                                             onChange={handleChange}
                                         />
                                     </div>
@@ -496,6 +509,35 @@ export default function DistributorRegister() {
                                             value={formData.registeredAddress.pinCode}
                                             onChange={handleChange}
                                         />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="text-gray-600 mt-5">
+                                <div className="flex gap-16">
+                                    <p>
+                                        <span className="h-2 w-2 bg-primary/50 rounded-full inline-block mr-2"></span>
+                                        Your the apart of cc mate already (temp Question)</p>
+                                    <div className="flex gap-10">
+                                        <label className="flex gap-2">
+                                            <input onChange={handleChange} id="question1-yes" type="radio" name="question1" value={true} />
+                                            <label htmlFor="question1-yes" className="cursor-pointer">Yes</label>
+                                        </label>
+                                        <label className="flex gap-2">
+                                            <input onChange={handleChange} id="question1-no" type="radio" name="question1" value={false} />
+                                            <label htmlFor="question1-no" className="cursor-pointer">No</label>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="mt-4">
+                                    <p>
+                                        <span className="h-2 w-2 bg-primary/50 rounded-full inline-block mr-2"></span>
+                                        Any other information (temp Question)</p>
+                                    <div className="flex gap-10">
+                                        <textarea
+                                            onChange={handleChange}
+                                            value={formData.question2}
+                                            className="w-full px-4 py-2 mt-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+                                            name="question2" id="question2" cols="30" rows="5"></textarea>
                                     </div>
                                 </div>
                             </div>

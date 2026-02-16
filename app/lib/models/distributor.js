@@ -16,8 +16,9 @@ const distributorSchema = new Schema(
     companyName: { type: String, required: true },
     companyEmail: { type: String, required: true },
     companyNumber: { type: String, required: true },
-    yearOfEstablishment: { type: String },
     password: { type: String },
+    linkedin: { type: String },
+    website: { type: String },
     contactPersonName: { type: String, required: true },
     contactPersonEmail: { type: String, required: true },
     contactPersonDesignation: { type: String, required: true },
@@ -29,6 +30,8 @@ const distributorSchema = new Schema(
       isVerified: { type: Boolean, default: false },
       verifiedDate: { type: Date },
     },
+    question1: { type: Boolean, default: false },
+    question2: { type: String },
     history: [
       {
         date: { type: Date },

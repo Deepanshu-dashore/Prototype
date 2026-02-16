@@ -179,7 +179,7 @@ export default function LogoLoop({
             >
               <div
                 className={`flex items-center justify-center transition-all duration-300 ${showCard
-                  ? `bg-white rounded-md shadow-sm hover:shadow-md p-4 h-full border border-neutral-100`
+                  ? `bg-white overflow-hidden rounded-md shadow-sm hover:shadow-md p-4 h-full border border-neutral-100`
                   : ''
                   } ${scaleOnHover ? 'hover:scale-105' : ''}`}
                 style={{

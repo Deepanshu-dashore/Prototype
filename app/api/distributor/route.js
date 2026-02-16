@@ -11,7 +11,8 @@ export async function POST(request) {
       companyName,
       companyEmail,
       companyNumber,
-      yearOfEstablishment,
+      linkedin,
+      website,
       contactPersonName,
       contactPersonNumber,
       contactPersonEmail,
@@ -22,12 +23,7 @@ export async function POST(request) {
     } = await request.json();
 
     // company details
-    if (
-      !companyName ||
-      !companyEmail ||
-      !companyNumber ||
-      !yearOfEstablishment
-    ) {
+    if (!companyName || !companyEmail || !companyNumber) {
       return ApiResponse(400, null, "All Company details are required");
     }
     // contact person details
@@ -52,7 +48,8 @@ export async function POST(request) {
     const distributor = await DistributorService.createDistributor({
       companyEmail,
       companyNumber,
-      yearOfEstablishment,
+      linkedin,
+      website,
       companyName,
       contactPersonName,
       contactPersonNumber,
