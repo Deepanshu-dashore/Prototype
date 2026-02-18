@@ -139,7 +139,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link href="/products/anti-fatigue-mats/classic-ergonomic-mat" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CCM Classic Ergonomic Mats
+                      CCM Ergonomic Mats
                     </Link>
                   </li>
                   {/* <li>

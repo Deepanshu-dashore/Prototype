@@ -79,6 +79,14 @@ All of these properties combine to ensure that your semi-conductor facility is b
       "Protects particles from 100 microns to nanometres",
       "Optimal protection for staff and contractors",
     ],
+    clients: [
+      {
+        name: "Analog Devices",
+        logo: "/assets/Our Valuable Customers/AnalogDevices.png",
+      },
+      { name: "Jabil", logo: "/assets/Our Valuable Customers/asset 15.gif" },
+      { name: "Intel", logo: "/assets/Our Valuable Customers/intel.jpg" },
+    ],
     ctaText: "Get a quote for semi-conductor",
     ctaLink: "/contact",
   },
@@ -108,6 +116,20 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       "Aesthetic improvement in workplace appearance",
       "Recyclable and environmentally friendly",
       "Anti-Microbial – Silver Biocide kills 50+ organisms including MRSA & COVID-19",
+    ],
+    clients: [
+      {
+        name: "Marymount",
+        logo: "/assets/Our Valuable Customers/asset 12.png",
+      },
+      {
+        name: "St. James Hospital",
+        logo: "/assets/Our Valuable Customers/asset 15.gif",
+      },
+      {
+        name: "Bon Secours",
+        logo: "/assets/Our Valuable Customers/asset 14.jpeg",
+      },
     ],
     ctaText: "Get a quote for hospitals",
     ctaLink: "/contact",
@@ -146,6 +168,44 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       "Protects viable and non-viable particle environments",
       "Durable polymer composition with van der Waals particle attraction",
     ],
+    clients: [
+      {
+        name: "LEO Pharma",
+        logo: "/assets/Our Valuable Customers/asset 2.png",
+      },
+      { name: "Hovione", logo: "/assets/Our Valuable Customers/asset 6.png" },
+      {
+        name: "Wyeth Nutrition",
+        logo: "/assets/Our Valuable Customers/asset 10.png",
+      },
+      { name: "Pfizer", logo: "/assets/Our Valuable Customers/asset 16.png" },
+      { name: "Lilly", logo: "/assets/Our Valuable Customers/asset 17.png" },
+      { name: "MSD", logo: "/assets/Our Valuable Customers/asset 18.png" },
+      {
+        name: "WuXi Biologics",
+        logo: "/assets/Our Valuable Customers/asset 19.jpeg",
+      },
+      {
+        name: "BioMarin",
+        logo: "/assets/Our Valuable Customers/asset 20.png",
+      },
+      { name: "Gilead", logo: "/assets/Our Valuable Customers/asset 22.png" },
+      {
+        name: "Bristol-Myers Squibb",
+        logo: "/assets/Our Valuable Customers/asset 23.png",
+      },
+      { name: "Alexion", logo: "/assets/Our Valuable Customers/asset 25.png" },
+      {
+        name: "Regeneron",
+        logo: "/assets/Our Valuable Customers/Regeneron.png",
+      },
+      { name: "Sanofi", logo: "/assets/Our Valuable Customers/sanofi.webp" },
+      { name: "doTERRA", logo: "/assets/Our Valuable Customers/doTERRA.jpg" },
+      { name: "Merck", logo: "/asset" },
+      { name: "NIBRT", logo: "/assets/Our Valuable Customers/NIBRT.webp" },
+      { name: "AbbVie", logo: "https://logo.clearbit.com/abbvie.com" },
+      { name: "Abbott", logo: "https://logo.clearbit.com/abbott.com" },
+    ],
     ctaText: "Get a quote for pharmaceutical industry",
     ctaLink: "/contact",
   },
@@ -178,6 +238,9 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       "Huge cost savings vs. peel-off mats",
       "Eco-friendly and recyclable composition",
       "Silver Biocide kills 50+ organisms including MRSA & COVID-19",
+    ],
+    clients: [
+      { name: "Zoetis", logo: "/assets/Our Valuable Customers/zoetis.png" },
     ],
     ctaText: "Get a quote for laboratory settings",
     ctaLink: "/contact",
@@ -237,6 +300,13 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       "Long-lasting & cost-effective vs. peel-off mats",
       "Removable and repositionable for deep cleaning",
     ],
+    clients: [
+      {
+        name: "Meta (Facebook)",
+        logo: "/assets/Our Valuable Customers/meta.avif",
+      },
+      { name: "Datalec", logo: "/assets/Our Valuable Customers/datalec.png" },
+    ],
     ctaText: "Get a quote for data centres",
     ctaLink: "/contact",
   },
@@ -265,6 +335,24 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       "Eco-friendly, recyclable design",
       "Anti-Microbial Silver Biocide kills MRSA & COVID-19",
     ],
+    clients: [
+      {
+        name: "GE Healthcare",
+        logo: "/assets/Our Valuable Customers/asset 7.png",
+      },
+      { name: "FIRE1", logo: "/assets/Our Valuable Customers/asset 8.png" },
+      { name: "Stryker", logo: "/assets/Our Valuable Customers/img12.jpg" },
+      {
+        name: "DePuy Synthes",
+        logo: "/assets/Our Valuable Customers/asset 21.png",
+      },
+      { name: "Alcon", logo: "/assets/Our Valuable Customers/asset 26.png" },
+      {
+        name: "Aerie Pharmaceuticals",
+        logo: "/assets/Our Valuable Customers/asset 24.png",
+      },
+      { name: "Unisurge", logo: "https://logo.clearbit.com/unisurge.com" },
+    ],
     ctaText: "Get a quote for medical devices",
     ctaLink: "/contact",
   },
@@ -291,6 +379,9 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       "Heavy-duty durability for industrial environments",
       "Reduces rework and scrap rates",
       "improves overall facility cleanliness",
+    ],
+    clients: [
+      { name: "Valeo", logo: "/assets/Our Valuable Customers/valeo.png" },
     ],
     ctaText: "Get a quote for automotive",
     ctaLink: "/contact",
@@ -319,6 +410,7 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       "Traps debris from boots and equipment wheels",
       "Static-dissipative options available within range",
     ],
+    clients: [],
     ctaText: "Get a quote for aviation",
     ctaLink: "/contact",
   },

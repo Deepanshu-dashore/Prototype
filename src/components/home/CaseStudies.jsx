@@ -14,149 +14,97 @@ export default function CaseStudies() {
 
   const caseStudies = [
     {
-      "id": 1,
-      "count": 1,
-      "name": "Nigel Delaney",
-      "position": "Equipment Engineer",
-      "company": "Analog Devices",
-      "img": "/images/clients/analog-devices.png",
-      "quote": "Excellent communication and feedback from product selection to post install maintenance.",
-      "companyLogo": "https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Outstanding Customer Service",
-      "reviewImage": "/assets/Our Valuable Customers/asset 2.png",
-      "zoomLogo": true
+      id: 1,
+      count: 1,
+      name: "Steven Dee",
+      position: "Associate Scientist, Tech Services",
+      company: "Gilead Sciences Ireland",
+      img: "assets/Our Valuable Customers/asset 22.png",
+      companyLogo: "assets/Our Valuable Customers/asset 22.png",
+      quote: "Having a local company supply these products is great. Due to the nature of this business, things sometimes need to be turned around quickly and that's when companies like this are invaluable to organisations.",
+      category: "Fast & Reliable Service",
+      reviewImage: "/assets/Our Valuable Customers/gilead.png",
+      zoomLogo: false
     },
     {
-      "id": 2,
-      "count": 2,
-      "name": "O'Reilly",
-      "position": "Value Stream Leader",
-      "company": "GEHC",
-      "img": "/images/clients/gehc.png",
-      "quote": "I have found CC Matting to be excellent to deal with. Extremely professional and their advice is honest and not just chasing sales. They have been flexible to meet production and audit schedules when required and this is much appreciated. I couldn't recommend Brendan and his team highly enough.",
-      "companyLogo": "https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Professional & Reliable Partnership",
-      "reviewImage": "",
-      "zoomLogo": true
+      id: 2,
+      count: 2,
+      name: "Majella O'Brien",
+      position: "Aseptic Lead",
+      company: "WuXi Vaccines",
+      img: "assets/Our Valuable Customers/asset 19.png",
+      companyLogo: "assets/Our Valuable Customers/asset 19.jpeg",
+      quote: "Great product and excellent installation. CC Matting are a great business to work with. Brendan and his team were very approachable, helpful and informative even after installation. Would highly recommend them.",
+      category: "Excellent Installation & Support",
+      reviewImage: "/assets/Our Valuable Customers/wuxi.png",
+      zoomLogo: true
     },
     {
-      "id": 3,
-      "count": 3,
-      "name": "Scott Farmer",
-      "position": "Assistant Facilities Manager",
-      "company": "CBRE",
-      "img": "/images/clients/cbre.png",
-      "quote": "Great service, always responds to mails and phone calls, very clean install, would not hesitate to recommend service to any other pharma site.",
-      "companyLogo": "https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Efficient Installation Process",
-      "reviewImage": "",
-      "zoomLogo": true
+      id: 3,
+      count: 3,
+      name: "Richard Keohane",
+      position: "Facilities Engineer",
+      company: "Stryker",
+      img: "/images/clients/stryker.png",
+      quote: "I found CC Matting to be very professional and well informed about their products. They provided ample training for my staff and check in periodically to see if anything is required and complete an annual check on their products. Very dependable company and would have no problem recommending them.",
+      companyLogo: "assets/Our Valuable Customers/img12.jpg",
+      category: "Professional & Dependable",
+      reviewImage: "/assets/Our Valuable Customers/stryker.png",
+      zoomLogo: false
     },
     {
-      "id": 4,
-      "count": 4,
-      "name": "Colin Byrne",
-      "position": "Production Compliance Officer",
-      "company": "GE Healthcare",
-      "img": "/images/clients/ge-healthcare.png",
-      "quote": "Very efficient response to questions, pricing, quotations and installation.",
-      "companyLogo": "9https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Quick Response Time",
-      "reviewImage": "/assets/Our Valuable Customers/asset 3.png",
-      "zoomLogo": true
+      id: 4,
+      count: 4,
+      name: "Nigel Delaney",
+      position: "Equipment Engineer",
+      company: "Analog Devices",
+      img: "/images/clients/analog-devices.png",
+      quote: "Excellent communication and feedback from product selection to post install maintenance.",
+      companyLogo: "assets/Our Valuable Customers/AnalogDevices.png",
+      category: "Outstanding Customer Service",
+      reviewImage: "/assets/Our Valuable Customers/analog-devices.png",
+      zoomLogo: true
     },
     {
-      "id": 5,
-      "count": 5,
-      "name": "Helen Duffy",
-      "position": "Operations Manager",
-      "company": "BidvestNoonan",
-      "img": "/images/clients/bidvestnoonan.png",
-      "quote": "Have highly recommended CC Matting to colleagues",
-      "companyLogo": "3https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Highly Recommended",
-      "reviewImage": "/assets/Our Valuable Customers/asset 5.png",
-      "zoomLogo": true
+      id: 5,
+      count: 5,
+      name: "Colin Byrne",
+      position: "Production Compliance Officer",
+      company: "GE Healthcare",
+      img: "/images/clients/ge-healthcare.png",
+      quote: "Very efficient response to questions, pricing, quotations and installation.",
+      companyLogo: "assets/Our Valuable Customers/asset 7.png",
+      category: "Efficient & Responsive",
+      reviewImage: "/assets/Our Valuable Customers/ge-healthcare.png",
+      zoomLogo: true
     },
     {
-      "id": 6,
-      "count": 6,
-      "name": "Garreth O Donovan",
-      "position": "Utilities Engineer",
-      "company": "Biomarin",
-      "img": "/images/clients/biomarin.png",
-      "quote": "I found CC matting very professional from start to finish of the installation of the mats.",
-      "companyLogo": "8https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Professional Installation",
-      "reviewImage": "/assets/Our Valuable Customers/asset 6.png",
-      "zoomLogo": true
+      id: 6,
+      count: 6,
+      name: "Garreth O Donovan",
+      position: "Utilities Engineer",
+      company: "Biomarin",
+      img: "/images/clients/biomarin.png",
+      quote: "I found CC Matting very professional from start to finish of the installation of the mats.",
+      companyLogo: "assets/Our Valuable Customers/asset 20.png",
+      category: "Professional Installation",
+      reviewImage: "/assets/Our Valuable Customers/biomarin.png",
+      zoomLogo: false
     },
     {
-      "id": 7,
-      "count": 7,
-      "name": "Vivienne Ahern",
-      "position": "Assoc Manager Operations",
-      "company": "Stryker",
-      "img": "/images/clients/stryker.png",
-      "quote": "Excellent service and aftercare provided by CCMatting. Both Brendan and Donal are a pleasure to deal with. We look forward to working with them and using their high quality products again in the future",
-      "companyLogo": "7https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Excellent Aftercare Service",
-      "reviewImage": "/assets/Our Valuable Customers/asset 7.png",
-      "zoomLogo": true
-    },
-    {
-      "id": 8,
-      "count": 8,
-      "name": "Richard Keohane",
-      "position": "Facilities Engineer",
-      "company": "STRYKER",
-      "img": "/images/clients/stryker.png",
-      "quote": "I found CC Matting to be very professional and well informed about their products. They provided ample training for my staff and check in periodically to see if anything is required and complete an annual check on their products. Very dependable company and would have no problem in recommending them to other companies.",
-      "companyLogo": "1https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Comprehensive Support & Training",
-      "reviewImage": "/assets/Our Valuable Customers/asset 11.png",
-      "zoomLogo": true
-    },
-    {
-      "id": 9,
-      "count": 9,
-      "name": "Steven Dee",
-      "position": "Associate Scientist, Tech Services",
-      "company": "GILEAD SCIENCES IRELAND",
-      "img": "/images/clients/gilead.png",
-      "quote": "Having a local company supply these products is great, due to the nature of this business, things sometimes need to be turned around quickly and thats when companies like this are invaluable to organisations.",
-      "companyLogo": "6https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Fast Turnaround & Local Support",
-      "reviewImage": "/assets/Our Valuable Customers/asset 13.jpeg",
-      "zoomLogo": false
-    },
-    {
-      "id": 10,
-      "count": 10,
-      "name": "Denis Dragoman",
-      "position": "GMP Lead",
-      "company": "Apleona/ BMS",
-      "img": "/images/clients/bms.png",
-      "quote": "Brendan and Donal from CC Matting are always professional, any issues or requests are always dealt with urgency. Great products. Also to mention their input for Contamination Control Strategy requirements of EudraLex Annex 1. Great company to work with.",
-      "companyLogo": "5https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Regulatory Compliance Expertise",
-      "reviewImage": "",
-      "zoomLogo": false
-    },
-    {
-      "id": 11,
-      "count": 11,
-      "name": "Colm Moynihan",
-      "position": "Project Ops lead",
-      "company": "DePuy Synthes",
-      "img": "/images/clients/depuy.png",
-      "quote": "Top quality. Efficient. Great after sales service.",
-      "companyLogo": "https://pub-c5e31b5cdafb419fb247a8ac2e78df7a.r2.dev/public/assets/images/mock/avatar/avatar-25.webp",
-      "category": "Top Quality Products",
-      "reviewImage": "/assets/Our Valuable Customers/asset 16.png",
-      "zoomLogo": false
+      id: 7,
+      count: 7,
+      name: "Denis Dragoman",
+      position: "GMP Lead",
+      company: "Apleona / BMS",
+      img: "/images/clients/apleona-bms.png",
+      quote: "Brendan and Donal from CC Matting are always professional. Any issues or requests are dealt with urgency. Great products. Also to mention their input for Contamination Control Strategy requirements of EudraLex Annex 1. Great company to work with.",
+      companyLogo: "assets/Our Valuable Customers/asset 23.png",
+      category: "Strategic Compliance Support",
+      reviewImage: "/assets/Our Valuable Customers/apleona-bms.png",
+      zoomLogo: true
     }
-  ]
+  ];
 
   // Handle window resize for mobile view
   useEffect(() => {
@@ -227,45 +175,6 @@ export default function CaseStudies() {
 
   return (
     <section id="case-studies" className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-white overflow-hidden">
-      {/* Decorative background elements */}
-      {/* <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <motion.svg 
-          className="absolute top-0 left-0 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 text-primary/20" 
-          viewBox="0 0 100 100" 
-          fill="currentColor"
-          animate={{
-            y: [0, 30, 0],
-            opacity: [0.2, 0.4, 0.2]
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <circle cx="50" cy="50" r="50" />
-        </motion.svg>
-        
-        <motion.svg 
-          className="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 text-primary/20" 
-          viewBox="0 0 100 100" 
-          fill="currentColor"
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <circle cx="50" cy="50" r="50" />
-        </motion.svg>
-        
-        <div className="absolute bottom-0 left-0 w-1 h-16 sm:h-24 md:h-32 bg-gradient-to-t from-primary/20 to-transparent" />
-        <div className="absolute bottom-0 right-10 w-1 h-24 sm:h-36 md:h-48 bg-gradient-to-t from-primary/10 to-transparent" />
-      </div> */}
       {/* Floating Background Icons */}
       <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
         <DotGrid
@@ -376,37 +285,23 @@ export default function CaseStudies() {
                       </p>
                     </div>
 
-                    {/* Review Image */}
-                    {/* {review.reviewImage && (
-                        <div className="mb-4 -mx-4 sm:-mx-5 lg:-mx-6">
-                          <img
-                            src={review.reviewImage}
-                            alt={`${review.company} Review`}
-                            className="w-full h-32 sm:h-40 object-cover object-center rounded-lg"
-                            onError={(e) => {
-                              e.target.style.display = 'none'
-                            }}
-                          />
-                        </div>
-                      )} */}
-
                     {/* Bottom: Company Logo + Company Name + Person Info */}
                     <div className={`flex items-start justify-between gap-4 mt-auto pt-3 border-t border-gray-100 ${isCenter ? '' : ''}`}>
                       {/* Left: Company Logo */}
                       <div className="shrink-0">
-                        {(!review.reviewImage) ? (
+                        {(!review.companyLogo) ? (
                           <div className={`text-gray-700 font-semibold ${isCenter ? 'text-xs sm:text-sm' : 'text-xs'
                             }`}>
                             {review.company}
                           </div>
                         ) : (
                           <img
-                            src={review.reviewImage}
+                            src={review.companyLogo}
                             alt={review.company}
-                            className={`rounded-lg grayscale hover:grayscale-0 transition-all duration-300  ${isCenter ? 'w-12 h-12 sm:w-14 sm:h-14 grayscale-0'
-                              : 'w-10 h-10 sm:w-18 sm:h-18'
+                            className={`rounded-lg grayscale object-contain hover:grayscale-0 transition-all duration-300  ${isCenter ? 'w-12 h-12 sm:w-20 sm:h-20 grayscale-0'
+                              : 'w-10 h-10 sm:w-16 sm:h-16'
                               }
-                                ${review.zoomLogo ? 'scale-190 object-cover' : 'object-contain'}
+                                ${review.zoomLogo && 'scale-140 ml-2'}
                                 `}
                             onError={(e) => {
                               setImageErrors(prev => ({

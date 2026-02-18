@@ -28,7 +28,20 @@ export default function HeavyDutyContent({ product }) {
         "/assets/products%20Page/HavyDuty-custSpace/2.jpeg",
         "/assets/products%20Page/HavyDuty-custSpace/3.jpeg",
         "/assets/products%20Page/HavyDuty-custSpace/4.jpeg",
+        "/assets/products%20Page/HavyDuty-custSpace/5.jpeg",
     ];
+    const Installation = [
+        { demnsions: "w-32 h-auto object-cover", src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility", logo: "/assets/Our Valuable Customers/asset 19.jpeg", company: "Wuxi" },
+        { demnsions: "w-22 h-auto object-cover", src: "/assets/installation/WhatsApp%20Image%202025-05-16%20at%2020.38.58%20(1).jpeg", name: "Merck", company: "Merck" },
+        { demnsions: "w-20 h-10 object-cover", src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg", logo: "/assets/Our Valuable Customers/asset 7.png", name: "Cleanroom Installation", company: "GE Healthcare" },
+        { demnsions: "w-44 my-1.5 h-auto object-cover", src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation", logo: "/assets/Our Valuable Customers/asset 23.png", company: "Stryker" },
+        { demnsions: "w-18 h-auto object-cover", src: "/assets/installation/CCM%20lilly%202.jpeg", name: "Lilly Facility", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
+        { demnsions: "w-18 h-auto object-cover", src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
+        { demnsions: "w-18 h-auto object-cover", src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
+        { demnsions: "w-32 h-9 object-cover", src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation", logo: "/assets/Our Valuable Customers/asset 22.png", company: "Gilead" },
+        { demnsions: "w-32 h-9 object-cover", src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility", logo: "/assets/Our Valuable Customers/asset 22.png", company: "Gilead" },
+    ];
+
     const iconMap = {
         CheckBadgeIcon,
         ShieldCheckIcon,
@@ -522,19 +535,9 @@ export default function HeavyDutyContent({ product }) {
                     </motion.div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[
-                            { demnsions: "w-30 h-10 object-cover", src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation", logo: "/assets/Our Valuable Customers/asset 15.gif", company: "Gilead" },
-                            { demnsions: "w-43 pt-3 h-10 object-cover", src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility", logo: "/assets/Our Valuable Customers/asset 10.png", company: "Gilead" },
-                            { demnsions: "w-32 h-auto mt-2 mb-2", src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation", logo: "/assets/Our Valuable Customers/asset 25.png", company: "Lilly" },
-                            { demnsions: "w-18 h-auto object-cover", src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
-                            { demnsions: "w-10 h-auto object-cover", src: "/assets/installation/CCM%20lilly%202.jpeg", name: "Lilly Facility", logo: "/assets/Our Valuable Customers/asset 14.jpeg", company: "Lilly" },
-                            { demnsions: "w-44 my-1.5 h-auto object-cover", src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation", logo: "/assets/Our Valuable Customers/asset 23.png", company: "Stryker" },
-                            { demnsions: "w-32 h-auto object-cover", src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility", logo: "/assets/Our Valuable Customers/asset 19.jpeg", company: "Wuxi" },
-                            { demnsions: "w-16 h h-auto object-cover", src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg", name: "Cleanroom Installation", logo: "/assets/Our Valuable Customers/asset 16.png", company: "phzer" },
-                            { demnsions: "w-22 h-auto object-cover", src: "/assets/installation/WhatsApp%20Image%202025-05-16%20at%2020.38.58%20(1).jpeg", name: "Industrial Installation", logo: "/assets/Our Valuable Customers/asset 18.png", company: "msds" },
-                        ].map((image, index) => (
+                        {Installation.map((image, index) => (
                             <motion.div
-                                key={image.src}
+                                key={image.name + index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}

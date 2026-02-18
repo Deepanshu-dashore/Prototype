@@ -94,6 +94,101 @@ export default function IndustryContent({ industry }) {
                 </div>
             </section>
 
+
+
+            {/* Clients Section */}
+            {industry.clients && industry.clients.length > 0 && (
+                <section className="bg-white border-t border-gray-100 overflow-hidden">
+                    {/* Banner + Logo Grid Layout */}
+                    <div className="max-w-7xl mx-auto mt-5">
+                        <div className="flex flex-col">
+
+                            {/* Left: Colored Banner Panel */}
+                            <motion.div
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                className="relative  bg-linear-to-t from-primary via-indigo-600 to-indigo-800 w-full shrink-0 flex flex-col  justify-center px-8 py-12 lg:py-10 overflow-hidden"
+                            >
+                                {/* Decorative geometric accent */}
+                                <div className="absolute z-10 -right-8 -bottom-8 w-40 h-40 border-20 border-white/10 rotate-12 rounded-sm pointer-events-none" />
+                                <div className="absolute z-10 -right-4 -top-4 w-24 h-24 border-12 border-white/10 -rotate-6 rounded-sm pointer-events-none" />
+                                <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
+
+                                <span className="inline-flex items-center gap-1.5 bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded mb-5 w-fit backdrop-blur-sm">
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    Our Clients
+                                </span>
+
+                                <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight mb-4">
+                                    Some of our{" "}
+                                    <span className="text-white/90">
+                                        {industry.clientsLabel || industry.title
+                                            .replace("Contamination Control Mats for ", "")
+                                            .replace(" Industry", "")}
+                                    </span>{" "}
+                                    clients
+                                </h2>
+
+                                <p className="text-white/70 text-sm leading-relaxed">
+                                    Trusted by leading organisations across the{" "}
+                                    {(industry.clientsLabel || industry.title
+                                        .replace("Contamination Control Mats for ", "")
+                                        .replace(" Industry", "")).toLowerCase()}{" "}
+                                    sector to deliver world-class contamination control.
+                                </p>
+
+                                <div className="mt-8 flex items-center gap-2 text-white/60 text-xs font-medium">
+                                    <div className="w-8 h-px bg-white/40" />
+                                    {industry.clients.length} trusted {(industry.clientsLabel || industry.title
+                                        .replace("Contamination Control Mats for ", "")
+                                        .replace(" Industry", "")).toLowerCase()} Industris clients
+                                </div>
+                            </motion.div>
+
+                            {/* Right: Logo Grid */}
+                            <div className="flex-1 px-6 sm:px-10 py-10 lg:py-12">
+                                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-0 divide-x divide-y divide-gray-100">
+                                    {industry.clients.map((client, index) => (
+                                        <motion.div
+                                            key={index}
+                                            initial={{ opacity: 0 }}
+                                            whileInView={{ opacity: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.4, delay: index * 0.04 }}
+                                            className="group flex border border-gray-100 overflow-hidden flex-col items-center justify-center gap-2 px-4 py-6 hover:bg-gray-50 transition-colors duration-200 cursor-default"
+                                            title={client.name}
+                                        >
+                                            <div className="h-10 flex items-center justify-center">
+                                                <img
+                                                    src={client.logo}
+                                                    alt={client.name}
+                                                    className="max-h-26 max-w-[120px] grayscale-100 transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:grayscale-0 w-auto object-contain"
+                                                    onError={(e) => {
+                                                        e.currentTarget.style.display = 'none';
+                                                        e.currentTarget.nextSibling.style.display = 'flex';
+                                                    }}
+                                                />
+                                                <span className="hidden items-center justify-center text-[10px] font-bold text-neutral-dark/50 group-hover:text-neutral-dark/70 text-center leading-tight px-1">
+                                                    {client.name}
+                                                </span>
+                                            </div>
+                                            <span className="text-[12.25px] text-neutral-dark font-medium text-center leading-tight transition-colors duration-200 max-w-32 truncate mt-6">
+                                                {client.name}
+                                            </span>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* Benefits Section */}
             {industry.benefits && industry.benefits.length > 0 && (
                 <section className="relative bg-linear-to-br from-primary via-indigo-600 to-indigo-800 py-12 sm:py-16 overflow-hidden">
@@ -143,7 +238,6 @@ export default function IndustryContent({ industry }) {
                 </section>
             )}
 
-            {/* Related Industries */}
             <section className="bg-white py-16 sm:py-20 border-t border-gray-100 relative overflow-hidden">
                 {/* Animated background accents */}
                 <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
