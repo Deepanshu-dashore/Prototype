@@ -176,13 +176,13 @@ export default function ContactHero() {
                 </p>
               </div>
 
-              <div className="space-y-4">
+              {/* <div className="space-y-4">
                 <p className="text-base text-neutral-dark/70 leading-relaxed max-w-xl">
                   We design and manufacture high-performance polymeric contamination control mats for cleanrooms, pharmaceutical facilities, healthcare environments, and high-traffic industrial areas.
 
                   Our advanced matting technology delivers up to 99% particle retention, ensuring maximum protection for critical controlled environments.
                 </p>
-              </div>
+              </div> */}
             </div>
 
             <div className="mt-12 lg:mt-0 pt-8 space-y-6">
@@ -201,9 +201,6 @@ export default function ContactHero() {
                   <PhoneIcon className="w-5 h-5" />
                   Call Now
                 </a>
-              </div>
-
-              <div className="border-t flex gap-5 border-gray-200 pt-6">
                 <p className="text-sm pl-3 border-l-3 border-gray-200 text-neutral-dark/50 leading-relaxed">
                   <Link className="flex item-center gap-2 text-primary opacity-60 hover:opacity-100 transition-all duration-300" href="https://www.linkedin.com/company/ccmatting/">
                     <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
@@ -212,7 +209,11 @@ export default function ContactHero() {
                     <span className='text-primary font-bold'>LinkedIn</span>
                   </Link>
                 </p>
-                <p className="text-sm pl-3 border-l-3 border-gray-200 text-neutral-dark/50 leading-relaxed">
+              </div>
+
+              <div className="border-t flex gap-5 border-gray-200 pt-6">
+
+                {/* <p className="text-sm pl-3 border-l-3 border-gray-200 text-neutral-dark/50 leading-relaxed">
                   <Link className="flex item-center gap-2 text-red-500  opacity-60 hover:opacity-100 transition-all duration-300" href="https://www.youtube.com/@ccmatting5879">
                     <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
                       <path fill="currentColor" d="m10 15l5.19-3L10 9zm11.56-7.83c.13.47.22 1.1.28 1.9c.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83c-.25.9-.83 1.48-1.73 1.73c-.47.13-1.33.22-2.65.28c-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44c-.9-.25-1.48-.83-1.73-1.73c-.13-.47-.22-1.1-.28-1.9c-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83c.25-.9.83-1.48 1.73-1.73c.47-.13 1.33-.22 2.65-.28c1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44c.9.25 1.48.83 1.73 1.73"></path>
@@ -227,7 +228,7 @@ export default function ContactHero() {
                     </svg>
                     <span className='text-inherit font-bold'>Website</span>
                   </Link>
-                </p>
+                </p> */}
               </div>
             </div>
           </motion.div>
