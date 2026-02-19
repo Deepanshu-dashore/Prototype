@@ -56,9 +56,7 @@ export default function ContactHero() {
   const baseProducts = allProducts.map(product => product.title)
   const productOptions = [
     ...baseProducts,
-    "Anti-fingerprint Mat - Portable",
-    "Anti-fingerprint Mat - Heavy Duty",
-    "Anti-fingerprint Mat - Custom Size"
+    "Anti-fingerprint Mat"
   ]
 
   // Close dropdowns when clicking outside
