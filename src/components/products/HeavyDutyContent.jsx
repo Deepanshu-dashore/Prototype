@@ -31,16 +31,113 @@ export default function HeavyDutyContent({ product }) {
         "/assets/products%20Page/HavyDuty-custSpace/5.jpeg",
     ];
     const Installation = [
-        { demnsions: "w-32 h-auto object-cover", src: "/assets/installation/Wuxi.jpeg", name: "Wuxi Facility", logo: "/assets/Our Valuable Customers/asset 19.jpeg", company: "Wuxi" },
-        { demnsions: "w-22 h-auto object-cover", src: "/assets/installation/WhatsApp%20Image%202025-05-16%20at%2020.38.58%20(1).jpeg", name: "Merck", company: "Merck" },
-        { demnsions: "w-20 h-10 object-cover", src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg", logo: "/assets/Our Valuable Customers/asset 7.png", name: "Cleanroom Installation", company: "GE Healthcare" },
-        { demnsions: "w-44 my-1.5 h-auto object-cover", src: "/assets/installation/CCM Stryker.jpg.jpeg", name: "Stryker Installation", logo: "/assets/Our Valuable Customers/asset 23.png", company: "Stryker" },
-        { demnsions: "w-18 h-auto object-cover", src: "/assets/installation/CCM%20lilly%202.jpeg", name: "Lilly Facility", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
-        { demnsions: "w-18 h-auto object-cover", src: "/assets/installation/CCM Lilly3.jpeg", name: "Lilly Cleanroom", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
-        { demnsions: "w-18 h-auto object-cover", src: "/assets/installation/CCM Lilly2.jpeg", name: "Lilly Installation", logo: "/assets/Our Valuable Customers/asset 17.png", company: "Lilly" },
-        { demnsions: "w-32 h-9 object-cover", src: "/assets/installation/CCM Gilead1.jpeg", name: "Gilead Installation", logo: "/assets/Our Valuable Customers/asset 22.png", company: "Gilead" },
-        { demnsions: "w-32 h-9 object-cover", src: "/assets/installation/CCM Gilead2.jpeg", name: "Gilead Facility", logo: "/assets/Our Valuable Customers/asset 22.png", company: "Gilead" },
+        {
+            demnsions: "w-32 h-auto object-cover",
+            src: "/assets/installation/Wuxi.jpeg",
+            name: "Wuxi Installation",
+            logo: "/assets/Our Valuable Customers/asset 19.jpeg",
+            company: "Wuxi"
+        },
+        {
+            demnsions: "w-32 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM - Abbvie.jpeg",
+            name: "AbbVie Installation",
+            // logo: "/assets/Our Valuable Customers/abbvie.png",
+            company: "AbbVie"
+        },
+        {
+            demnsions: "w-28 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM - Gilead - Speckled.jpeg",
+            name: "Gilead Installation",
+            logo: "/assets/Our Valuable Customers/asset 22.png",
+            company: "Gilead"
+        },
+        {
+            demnsions: "w-18 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM - Lilly.jpeg",
+            name: "Lilly Installation",
+            logo: "/assets/Our Valuable Customers/asset 17.png",
+            company: "Lilly"
+        },
+        {
+            demnsions: "w-26 -mt-7 h-auto object-contain",
+            src: "/assets/products Page/installation/CCM - Jabil.jpeg",
+            name: "Jabil Installation",
+            logo: "/assets/Our Valuable Customers/asset 15.gif",
+            company: "Jabil"
+        },
+        {
+            demnsions: "w-50 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM - Bristol Myers Squibb.jpeg",
+            name: "Bristol Myers Squibb Installation",
+            logo: "/assets/Our Valuable Customers/asset 23.png",
+            company: "Bristol Myers Squibb"
+        },
+        {
+            demnsions: "w-32 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM - Abbott Vascular.jpeg",
+            name: "Abbott Installation",
+            // logo: "/assets/Our Valuable Customers/abbott.png",
+            company: "Abbott"
+        },
+        {
+            demnsions: "w-28 -mt-8 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM Stryker Limerick Gowning area.jpeg",
+            name: "Stryker Installation",
+            logo: "/assets/Our Valuable Customers/asset 11.png",
+            company: "Stryker"
+        },
+        {
+            demnsions: "w-20 -mt-4.5 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM - Intel.jpeg",
+            name: "Intel Installation",
+            logo: "/assets/Our Valuable Customers/intel.jpg",
+            company: "Intel"
+        },
+        {
+            demnsions: "w-26 h- 10 auto object-cover",
+            src: "/assets/products Page/installation/CCM - MSD.jpeg",
+            name: "MSD Installation",
+            logo: "/assets/Our Valuable Customers/asset 18.png",
+            company: "MSD"
+        },
+        {
+            demnsions: "w-24 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM - Zoetis.jpeg",
+            name: "Zoetis Installation",
+            logo: "/assets/Our Valuable Customers/zoetis.png",
+            company: "Zoetis"
+        },
+        {
+            demnsions: "w-auto h-22 -mt-6 object-cover",
+            src: "/assets/products Page/installation/CCM - Regeneron.jpeg",
+            name: "Regeneron Installation",
+            logo: "/assets/Our Valuable Customers/regeneron.png",
+            company: "Regeneron"
+        },
+        {
+            demnsions: "w-20 -mt-4 h-auto object-cover",
+            src: "/assets/products Page/installation/CCM - Valeo.jpeg",
+            name: "Valeo Installation",
+            logo: "/assets/Our Valuable Customers/valeo.png",
+            company: "Valeo"
+        },
+        {
+            demnsions: "w-32 -mt-6 h-auto object-cover",
+            src: "/assets/installation/WhatsApp%20Image%202025-05-16%20at%2020.38.58%20(1).jpeg",
+            logo: "/assets/Our Valuable Customers/merck logo.avif",
+            name: "Merck Installation",
+            company: "Merck"
+        },
+        {
+            demnsions: "w-20 h-10 object-cover",
+            src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg",
+            logo: "/assets/Our Valuable Customers/asset 7.png",
+            name: "GE Healthcare Installation",
+            company: "GE Healthcare"
+        }
     ];
+
 
     const iconMap = {
         CheckBadgeIcon,
@@ -559,7 +656,7 @@ export default function HeavyDutyContent({ product }) {
                                 <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent transition-opacity duration-300">
                                     <div className="absolute bottom-0 left-0 right-0 p-4">
                                         {image.logo ? (
-                                            <div className="bg-white w-full rounded-lg p-3 inline-block shadow-lg">
+                                            <div className="bg-white w-full rounded-lg p-3 inline-block shadow-lg max-h-16 overflow-hidden">
                                                 <Image
                                                     src={image.logo}
                                                     alt={image.company}
