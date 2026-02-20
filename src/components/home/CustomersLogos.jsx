@@ -34,7 +34,7 @@ export default function CustomersLogos() {
     { src: '/assets/Our Valuable Customers/asset 20.png', alt: 'Customer Logo 19', zoom: false },
     { src: '/assets/Our Valuable Customers/asset 21.png', alt: 'Customer Logo 20', zoom: false },
     { src: '/assets/Our Valuable Customers/asset 22.png', alt: 'Customer Logo 21', zoom: false },
-    { src: '/assets/Our Valuable Customers/asset 23.png', alt: 'Customer Logo 22', zoom: false },
+    { src: '/assets/Our Valuable Customers/asset 23.jpeg', alt: 'Customer Logo 22', zoom: false },
     { src: '/assets/Our Valuable Customers/asset 24.png', alt: 'Customer Logo 23', zoom: false },
     { src: '/assets/Our Valuable Customers/asset 25.png', alt: 'Customer Logo 24', zoom: false },
     { src: '/assets/Our Valuable Customers/asset 26.png', alt: 'Customer Logo 25', zoom: false },

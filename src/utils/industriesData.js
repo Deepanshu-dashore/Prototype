@@ -192,7 +192,7 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       { name: "Gilead", logo: "/assets/Our Valuable Customers/asset 22.png" },
       {
         name: "Bristol-Myers Squibb",
-        logo: "/assets/Our Valuable Customers/asset 23.png",
+        logo: "/assets/Our Valuable Customers/asset 23.jpeg",
       },
       { name: "Alexion", logo: "/assets/Our Valuable Customers/asset 25.png" },
       {
@@ -201,10 +201,10 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       },
       { name: "Sanofi", logo: "/assets/Our Valuable Customers/sanofi.webp" },
       { name: "doTERRA", logo: "/assets/Our Valuable Customers/doTERRA.jpg" },
-      { name: "Merck", logo: "/asset" },
+      { name: "Merck", logo: "/assets/Our Valuable Customers/merck logo.avif" },
       { name: "NIBRT", logo: "/assets/Our Valuable Customers/NIBRT.webp" },
-      { name: "AbbVie", logo: "https://logo.clearbit.com/abbvie.com" },
-      { name: "Abbott", logo: "https://logo.clearbit.com/abbott.com" },
+      { name: "AbbVie", logo: "/assets/Our Valuable Customers/abbvie.svg" },
+      { name: "Abbott", logo: "/assets/Our Valuable Customers/abbott.png" },
     ],
     ctaText: "Get a quote for pharmaceutical industry",
     ctaLink: "/contact",

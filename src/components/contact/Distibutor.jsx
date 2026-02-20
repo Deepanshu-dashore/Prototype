@@ -180,6 +180,9 @@ export default function DistributorSection() {
                                     Partner with CCMatting to strengthen your portfolio, unlock new market opportunities, and build
                                     a long-term, mutually beneficial collaboration.
                                 </p>
+
+                                                    {/* Bottom CTA */}
+                
                             </div>
 
                             {/* <div className="flex flex-col sm:flex-row gap-4 pt-2">
@@ -224,6 +227,21 @@ export default function DistributorSection() {
                         </div>
                     </motion.div>
                 </div>
+                    <motion.div
+                        initial={{ opacity: 1, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                        className="mt-12 text-center opacity-100"
+                    >
+                        <Link
+                            href="/distributor/register"
+                            className="relative inline-flex opacity-100 items-center gap-2 bg-white text-primary px-10 py-4 rounded-lg font-extrabold text-lg  transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 group"
+                        >
+                            Register as a Distributor
+                            <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </motion.div>
             </section>
 
             {/* ── Section 3: Benefits of Becoming a Distributor ── */}
@@ -327,22 +345,7 @@ export default function DistributorSection() {
                         })}
                     </div>
 
-                    {/* Bottom CTA */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        className="mt-12 text-center"
-                    >
-                        <Link
-                            href="/distributor/register"
-                            className="inline-flex items-center gap-2 bg-primary text-white px-10 py-4 rounded-lg font-bold text-sm hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 group"
-                        >
-                            Register as a Distributor
-                            <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                    </motion.div>
+
                 </div>
             </section>
         </>

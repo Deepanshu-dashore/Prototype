@@ -99,7 +99,7 @@ export default function CaseStudies() {
       company: "Apleona / BMS",
       img: "/images/clients/apleona-bms.png",
       quote: "Brendan and Donal from CC Matting are always professional. Any issues or requests are dealt with urgency. Great products. Also to mention their input for Contamination Control Strategy requirements of EudraLex Annex 1. Great company to work with.",
-      companyLogo: "assets/Our Valuable Customers/asset 23.png",
+      companyLogo: "assets/Our Valuable Customers/asset 23.jpeg",
       category: "Strategic Compliance Support",
       reviewImage: "/assets/Our Valuable Customers/apleona-bms.png",
       zoomLogo: true

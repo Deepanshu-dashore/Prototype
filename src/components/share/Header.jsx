@@ -70,12 +70,12 @@ export default function Header({ onContactClick }) {
       { name: 'CCM Heavy Duty', href: '/products/heavy-duty', icon: Square3Stack3DIcon },
       { name: 'CCM Portable Cleanroom Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
       {
-        name: 'Anti-Fatigue Mats',
+        name: 'CCM Anti-Fatigue Mats',
         href: '#anti-fatigue-mats',
         icon: UsersIcon,
         hasSubMenu: true,
         subItems: [
-          { name: 'CCM Matting Classic Ergonomic Mat', href: '/products/anti-fatigue-mats/classic-ergonomic-mat' },
+          { name: 'CCM Classic Ergonomic Mat', href: '/products/anti-fatigue-mats/classic-ergonomic-mat' },
           { name: 'CCM Infinity Ergonomic Mat', href: '/products/anti-fatigue-mats/infinity-ergonomic-mat' },
           { name: 'CCM Complete Ergonomic Mat', href: '/products/anti-fatigue-mats/complete-ergonomic-mat' },
         ]

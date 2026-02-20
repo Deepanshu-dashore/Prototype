@@ -1,10 +1,13 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
+import { PhoneIcon, EnvelopeIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 
 export default function Footer() {
+  const [isErgoOpen, setIsErgoOpen] = useState(false)
+
   return (
     <footer className="bg-linear-to-b from-[#041bc6] to-[#000151] w-full border-t border-primary">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -137,10 +140,37 @@ export default function Footer() {
                       CCM Portable Cleanroom Mats
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/products/anti-fatigue-mats/classic-ergonomic-mat" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CCM Ergonomic Mats
-                    </Link>
+                  <li
+                    className="flex flex-col relative"
+                    onMouseEnter={() => setIsErgoOpen(true)}
+                    onMouseLeave={() => setIsErgoOpen(false)}
+                  >
+                    <button
+                      onClick={() => setIsErgoOpen(!isErgoOpen)}
+                      className="text-sm text-white/80 hover:text-white transition-colors duration-200 flex items-center justify-between hover:translate-x-0.5 w-full text-left"
+                    >
+                      <span>CCM Anti-Fatigue Mats</span>
+                      <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform duration-200 ${isErgoOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {isErgoOpen && (
+                      <ul className="mt-2 ml-3 space-y-2 border-l border-white/10 pl-3">
+                        <li>
+                          <Link href="/products/anti-fatigue-mats/classic-ergonomic-mat" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            Classic Ergonomic Mat
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/products/anti-fatigue-mats/infinity-ergonomic-mat" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            Infinity Ergonomic Mat
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/products/anti-fatigue-mats/complete-ergonomic-mat" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            Complete Ergonomic Mat
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
                   </li>
                   {/* <li>
                     <Link href="/products/anti-fatigue-mats/infinity-ergonomic-mat" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
@@ -197,7 +227,7 @@ export default function Footer() {
           {/* Bottom Bar - ISO Logos & Copyright */}
           <div className="pt-4 border-t border-white/15 flex flex-col sm:flex-row items-center justify-center gap-4">
             <div className="text-xs text-center text-white/75 font-medium">
-              © 2025 CC Matting. All rights reserved.
+              © 2026 CC Matting. All rights reserved.
             </div>
           </div>
         </div>
