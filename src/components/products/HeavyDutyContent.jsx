@@ -28,7 +28,7 @@ export default function HeavyDutyContent({ product }) {
         "/assets/products%20Page/HavyDuty-custSpace/2.jpeg",
         "/assets/products%20Page/HavyDuty-custSpace/3.jpeg",
         "/assets/products%20Page/HavyDuty-custSpace/4.jpeg",
-        "/assets/products%20Page/HavyDuty-custSpace/5.jpeg",
+      
     ];
     const Installation = [
         {
@@ -42,7 +42,7 @@ export default function HeavyDutyContent({ product }) {
             demnsions: "w-32 h-auto object-cover",
             src: "/assets/products Page/installation/CCM - Abbvie.jpeg",
             name: "AbbVie Installation",
-            // logo: "/assets/Our Valuable Customers/abbvie.png",
+            logo: "/assets/Our Valuable Customers/abbvie.svg",
             company: "AbbVie"
         },
         {
@@ -77,7 +77,7 @@ export default function HeavyDutyContent({ product }) {
             demnsions: "w-32 h-auto object-cover",
             src: "/assets/products Page/installation/CCM - Abbott Vascular.jpeg",
             name: "Abbott Installation",
-            // logo: "/assets/Our Valuable Customers/abbott.png",
+            logo: "/assets/Our Valuable Customers/abbott.png",
             company: "Abbott"
         },
         {
@@ -278,7 +278,7 @@ export default function HeavyDutyContent({ product }) {
                                 <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark">Colour Options Available</h2>
                             </div>
                             <p className="text-base text-neutral-dark/70 leading-relaxed mb-4">
-                                Choose from Solid Grey and Grey Speckled, with Cobalt Blue and Blue Speckled scheduled for release soon. All colour variants are produced to identical performance specifications, ensuring uniform durability and suitability for cleanroom and controlled environments.
+                                Choose from Solid Grey, Grey Speckled, and Cobalt Blue. <br/> Blue Speckled scheduled for release soon. All colour variants are produced to identical performance specifications, ensuring uniform durability and suitability for cleanroom and controlled environments.
                             </p>
                         </motion.div>
                     </div>
@@ -656,7 +656,7 @@ export default function HeavyDutyContent({ product }) {
                                 <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent transition-opacity duration-300">
                                     <div className="absolute bottom-0 left-0 right-0 p-4">
                                         {image.logo ? (
-                                            <div className="bg-white w-full rounded-lg p-3 inline-block shadow-lg max-h-16 overflow-hidden">
+                                            <div className="bg-white w-full rounded-lg p-3 inline-block shadow-lg h-16 overflow-hidden">
                                                 <Image
                                                     src={image.logo}
                                                     alt={image.company}

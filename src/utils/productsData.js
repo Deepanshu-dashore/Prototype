@@ -39,12 +39,12 @@ export const products = [
       },
       {
         name: "GREY SPECKLED",
-        image: "/assets/products%20Page/havydutyBlue.jpeg", // Placeholder - will be updated
+        image: "/assets/products%20Page/GreySpeckled.jpeg", // Placeholder - will be updated
         description: "Modern grey speckled variant",
-        comingSoon: true,
+        // comingSoon: true,
       },
       {
-        name: "BLUE SPECKED",
+        name: "BLUE SPECKLED",
         image: "/assets/products%20Page/havydutyGray.jpeg", // Placeholder - will be updated
         description: "Elegant blue speckled finish",
         comingSoon: true,

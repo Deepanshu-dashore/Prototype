@@ -141,12 +141,6 @@ export default function IndustryContent({ industry }) {
                                     sector to deliver world-class contamination control.
                                 </p>
 
-                                <div className="mt-8 flex items-center gap-2 text-white/60 text-xs font-medium">
-                                    <div className="w-8 h-px bg-white/40" />
-                                    {industry.clients.length} trusted {(industry.clientsLabel || industry.title
-                                        .replace("Contamination Control Mats for ", "")
-                                        .replace(" Industry", "")).toLowerCase()} Industris clients
-                                </div>
                             </motion.div>
 
                             {/* Right: Logo Grid */}
@@ -159,14 +153,14 @@ export default function IndustryContent({ industry }) {
                                             whileInView={{ opacity: 1 }}
                                             viewport={{ once: true }}
                                             transition={{ duration: 0.4, delay: index * 0.04 }}
-                                            className="group flex border border-gray-100 overflow-hidden flex-col items-center justify-center gap-2 px-4 py-6 hover:bg-gray-50 transition-colors duration-200 cursor-default"
+                                            className="group flex border border-gray-100 overflow-hidden flex-col items-center justify-center gap-2 px-4 py-6  transition-colors duration-200 cursor-default"
                                             title={client.name}
                                         >
                                             <div className="h-10 flex items-center justify-center">
                                                 <img
                                                     src={client.logo}
                                                     alt={client.name}
-                                                    className="max-h-26 max-w-[120px] grayscale-100 transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:grayscale-0 w-auto object-contain"
+                                                    className="max-h-26 max-w-[120px] 0 w-auto object-contain"
                                                     onError={(e) => {
                                                         e.currentTarget.style.display = 'none';
                                                         e.currentTarget.nextSibling.style.display = 'flex';

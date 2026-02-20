@@ -164,7 +164,7 @@ export default function ContactHero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col justify-between py-2 lg:py-8"
+            className="flex flex-col  py-2 lg:py-8"
           >
             <div className="space-y-6">
               <div>
@@ -175,11 +175,11 @@ export default function ContactHero() {
                     CCMatting
                   </span>
                 </h1>
-                <p className="text-lg lg:text-2xl font-semibold text-blue-900 mb-4 leading-snug text-justify">
+                <p className="text-lg lg:text-2xl font-semibold text-blue-900 mb-4 leading-snug  ">
                   A trusted global manufacturer of advanced contamination
                   control matting solutions.
                 </p>
-                <p className="text-lg text-neutral-dark/70 leading-relaxed text-justify max-w-xl">
+                <p className="text-lg text-neutral-dark/70 leading-relaxed  max-w-xl">
                   We provide innovative solutions for cleanrooms, critical
                   environments, and high-traffic areas. Our polymeric matting
                   technology ensures{" "}
@@ -217,9 +217,11 @@ export default function ContactHero() {
                   <PhoneIcon className="w-5 h-5" />
                   Call Now
                 </a>
-                <p className="text-sm pl-3 border-l-3 border-gray-200 text-neutral-dark/50 leading-relaxed">
+              
+              </div>
+                <p className="text-sm   leading-relaxed">
                   <Link
-                    className="flex item-center gap-2 text-primary opacity-60 hover:opacity-100 transition-all duration-300"
+                    className="flex item-center gap-2 text-primary opacity-100 hover:opacity-100 transition-all duration-300"
                     href="https://www.linkedin.com/company/ccmatting/"
                   >
                     <svg
@@ -236,26 +238,10 @@ export default function ContactHero() {
                     <span className="text-primary font-bold">LinkedIn</span>
                   </Link>
                 </p>
-              </div>
-
+{/* 
               <div className="border-t flex gap-5 border-gray-200 pt-6">
-                {/* <p className="text-sm pl-3 border-l-3 border-gray-200 text-neutral-dark/50 leading-relaxed">
-                  <Link className="flex item-center gap-2 text-red-500  opacity-60 hover:opacity-100 transition-all duration-300" href="https://www.youtube.com/@ccmatting5879">
-                    <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 24 24">
-                      <path fill="currentColor" d="m10 15l5.19-3L10 9zm11.56-7.83c.13.47.22 1.1.28 1.9c.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83c-.25.9-.83 1.48-1.73 1.73c-.47.13-1.33.22-2.65.28c-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44c-.9-.25-1.48-.83-1.73-1.73c-.13-.47-.22-1.1-.28-1.9c-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83c.25-.9.83-1.48 1.73-1.73c.47-.13 1.33-.22 2.65-.28c1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44c.9.25 1.48.83 1.73 1.73"></path>
-                    </svg>
-                    <span className='text-inherit font-bold'>Youtube</span>
-                  </Link>
-                </p>
-                <p className="text-sm pl-3 border-l-3 border-gray-200 text-neutral-dark/50 leading-relaxed">
-                  <Link className="flex item-center gap-2 text-emerald-600  opacity-60 hover:opacity-100 transition-all duration-300" href="https://www.ccmatting.ie/">
-                    <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M24 4.75a3 3 0 0 0-3-3H3a3 3 0 0 0-3 3v14.5a3 3 0 0 0 3 3h18a3 3 0 0 0 3-3Zm-2.25 2A.25.25 0 0 1 22 7v5.5a.25.25 0 0 1-.25.25h-12a.25.25 0 0 1-.25-.25V7a.25.25 0 0 1 .25-.25Zm-12.1-3a1 1 0 0 1 1.7 0a.91.91 0 0 1 0 1a1 1 0 0 1-1.7 0a.91.91 0 0 1 0-1m-3.5 0a1 1 0 0 1 1.7 0a.91.91 0 0 1 0 1a1 1 0 0 1-1.7 0a.91.91 0 0 1 0-1m-3.56.09a1 1 0 0 1 1.76-.09a.91.91 0 0 1 0 1a1 1 0 0 1-1.7 0a1 1 0 0 1-.15-.5a1.1 1.1 0 0 1 .09-.41M8 20a.25.25 0 0 1-.25.25H3a1 1 0 0 1-1-1V7a.25.25 0 0 1 .25-.25h5.5A.25.25 0 0 1 8 7Zm14-.75a1 1 0 0 1-1 1H9.75A.25.25 0 0 1 9.5 20v-5.5a.25.25 0 0 1 .25-.25h12a.25.25 0 0 1 .25.25Z"></path>
-                    </svg>
-                    <span className='text-inherit font-bold'>Website</span>
-                  </Link>
-                </p> */}
-              </div>
+
+              </div> */}
             </div>
           </motion.div>
 

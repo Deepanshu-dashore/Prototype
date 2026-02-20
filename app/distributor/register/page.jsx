@@ -516,7 +516,7 @@ export default function DistributorRegister() {
                                 <div className="flex gap-16">
                                     <p>
                                         <span className="h-2 w-2 bg-primary/50 rounded-full inline-block mr-2"></span>
-                                        Your the apart of cc mate already (temp Question)</p>
+                                        Is your company currently active in the cleanroom and/or contamination control industry?</p>
                                     <div className="flex gap-10">
                                         <label className="flex gap-2">
                                             <input onChange={handleChange} id="question1-yes" type="radio" name="question1" value={true} />
@@ -531,7 +531,7 @@ export default function DistributorRegister() {
                                 <div className="mt-4">
                                     <p>
                                         <span className="h-2 w-2 bg-primary/50 rounded-full inline-block mr-2"></span>
-                                        Any other information (temp Question)</p>
+                                        Please provide a brief overview of your company, including your experience in the industry, target markets, and how you see CCMatting products adding value to your business.</p>
                                     <div className="flex gap-10">
                                         <textarea
                                             onChange={handleChange}

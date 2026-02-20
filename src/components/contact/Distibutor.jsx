@@ -74,7 +74,7 @@ export default function DistributorSection() {
                                 <strong className="text-neutral-dark font-semibold">Enterprise Ireland</strong>.
                             </p>
 
-                            <div className="flex flex-wrap gap-4 pt-2">
+                            {/* <div className="flex flex-wrap gap-4 pt-2">
                                 <Link
                                     href="/contact#become-distributor"
                                     className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg group"
@@ -88,7 +88,7 @@ export default function DistributorSection() {
                                 >
                                     Distributor Login
                                 </Link>
-                            </div>
+                            </div> */}
                         </motion.div>
 
                         {/* RIGHT — 30% Enterprise Ireland logo panel */}
@@ -99,14 +99,14 @@ export default function DistributorSection() {
                             transition={{ duration: 0.6, delay: 0.15 }}
                             className="lg:col-span-3 flex justify-center lg:justify-end"
                         >
-                            <div className="relative w-full max-w-[280px] bg-gradient-to-br from-gray-50 to-white border border-gray-100 rounded-2xl p-8 shadow-lg flex flex-col items-center justify-center gap-4 group hover:shadow-xl transition-shadow duration-300">
+                            <div className="relative w-full max-w-[280px] bg-gradient-to-br  bg-primary rounded-2xl p-8 shadow-lg flex flex-col items-center justify-center gap-4 group hover:shadow-xl transition-shadow duration-300">
                                 {/* Decorative corner accent */}
-                                <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-bl-3xl rounded-tr-2xl pointer-events-none" />
+                                <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-3xl rounded-tr-2xl pointer-events-none" />
 
                                 {/* Enterprise Ireland logo — using img with fallback text */}
                                 <div className="w-full flex items-center justify-center">
                                     <img
-                                        src="https://www.enterprise-ireland.com/en/images/ei-logo.png"
+                                        src="/assets/enterprise-ireland-logo.png"
                                         alt="Enterprise Ireland"
                                         className="max-h-16 max-w-[180px] object-contain"
                                         onError={(e) => {
@@ -114,20 +114,20 @@ export default function DistributorSection() {
                                             e.currentTarget.nextSibling.style.display = "flex";
                                         }}
                                     />
-                                    <div className="hidden flex-col items-center justify-center text-center">
-                                        <GlobeAltIcon className="w-10 h-10 text-primary mb-2" />
-                                        <span className="text-sm font-bold text-neutral-dark">Enterprise Ireland</span>
-                                    </div>
+                                    {/* <div className="hidden flex-col items-center justify-center text-center">
+                                        <GlobeAltIcon className="w-10 h-10 text-white mb-2" />
+                                        <span className="text-sm font-bold text-white">Enterprise Ireland</span>
+                                    </div> */}
                                 </div>
 
-                                <p className="text-xs text-neutral-dark/50 text-center leading-relaxed">
+                                <p className="text-xs text-white text-center leading-relaxed">
                                     Supported by Enterprise Ireland for worldwide distribution
                                 </p>
 
                                 <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
-                                <div className="flex items-center gap-2 text-xs text-primary font-semibold">
-                                    <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                                <div className="flex items-center gap-2 text-xs text-white font-semibold">
+                                    <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
                                     Globally Supported
                                 </div>
                             </div>

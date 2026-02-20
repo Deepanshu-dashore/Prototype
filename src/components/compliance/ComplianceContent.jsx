@@ -152,11 +152,13 @@ export default function ComplianceContent() {
                         >
                             <h2 className="text-3xl font-bold text-neutral-dark mb-6">International Standards & Legislation</h2>
                             <p className="text-lg text-neutral-dark/70 leading-relaxed mb-6">
-                                CC Matting aims to meet all national and international standards and specifications including UKCA, CE marking, REACH, and Cal Prop 65. We meet the national and international legislation relating to the protection of human health and the environment from the use of chemicals.
-                            </p>
-                            <p className="text-lg text-neutral-dark/70 leading-relaxed">
+Our manufacturing processes are continuously audited to meet strict in-house quality standards.
+All critical materials are rigorously tested to ensure consistent performance in demanding environments.
+We comply with national and international standards, including CE, REACH, and BPR/EPA regulations.
+Our supply chain is strictly monitored to ensure SVHC substances are absent or within safe limits                            </p>
+                            {/* <p className="text-lg text-neutral-dark/70 leading-relaxed">
                                 We strictly monitor our supply chain to ensure any chemicals on the REACH Substances of Very High Concern (SVHC) are not present or are below acceptable levels in our products.
-                            </p>
+                            </p> */}
                         </motion.div>
                     </div>
                 </div>
