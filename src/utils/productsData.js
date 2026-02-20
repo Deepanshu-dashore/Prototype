@@ -136,13 +136,13 @@ export const products = [
     colorOptions: [
       {
         name: "Classic",
-        image: "/assets/products%20Page/Classic%20Ergonomic%20Mat/Classic.png",
+        image: "/assets/products%20Page/Classic%20Ergonomic%20Mat/Classic.jpeg",
         thickness: '6" (1.5cm)',
       },
       {
         name: "Classic Deluxe",
         image:
-          "/assets/products%20Page/Classic%20Ergonomic%20Mat/Classic-deluex.png",
+          "/assets/products%20Page/Classic%20Ergonomic%20Mat/Classic-deluex.jpeg",
         thickness: '6" (1.5cm)',
       },
     ],
@@ -230,19 +230,19 @@ export const products = [
       {
         name: "Infinity Deluxe",
         image:
-          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/deluxe.png",
+          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/deluxe.jpeg",
         thickness: '62" (1.5cm)',
       },
       {
         name: "Infinity Smooth",
         image:
-          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/smooth.png",
+          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/smooth.jpeg",
         thickness: '43" (1.1cm)',
       },
       {
         name: "Infinity Bubble",
         image:
-          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/dubble.png",
+          "/assets/products%20Page/CC%20Infinity%20Ergonomic%20Mat/dubble.jpeg",
         thickness: '57" (1.45cm)',
       },
     ],
@@ -325,19 +325,19 @@ export const products = [
       {
         name: "Complete Deluxe",
         image:
-          "/assets/products%20Page/Complete%20Ergonomic%20Mat/complete%20deluxe.png",
+          "/assets/products%20Page/Complete%20Ergonomic%20Mat/complete%20deluxe.jpeg",
         thickness: '6" (1.5cm)',
       },
       {
         name: "Complete Smooth",
         image:
-          "/assets/products%20Page/Complete%20Ergonomic%20Mat/complete%20smoth.png",
+          "/assets/products%20Page/Complete%20Ergonomic%20Mat/complete%20smoth.jpeg",
         thickness: '43" (1.1cm)',
       },
       {
         name: "Complete Bubble",
         image:
-          "/assets/products%20Page/Complete%20Ergonomic%20Mat/comlete%20bubble.png",
+          "/assets/products%20Page/Complete%20Ergonomic%20Mat/comlete%20bubble.jpeg",
         thickness: '55" (1.5cm)',
       },
     ],
