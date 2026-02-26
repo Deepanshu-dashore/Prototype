@@ -16,6 +16,7 @@ import {
   CalendarIcon,
   ExclamationCircleIcon,
   PencilSquareIcon,
+  ArchiveBoxIcon,
 } from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
@@ -402,7 +403,7 @@ export default function ProductsPage() {
           <div className="flex items-center gap-3">
             {/* Total badge */}
             <div className="bg-indigo-50 border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
-              <CubeIcon className="w-5 h-5 text-indigo-600" />
+              <ArchiveBoxIcon className="w-5 h-5 text-indigo-600" />
               <div className="flex items-center gap-2">
                 <p className="text-xs text-indigo-600 font-medium">
                   Total Products
@@ -428,18 +429,26 @@ export default function ProductsPage() {
         </div>
 
         {/* ── Search Bar ── */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
-          <div className="relative">
+        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row gap-4 justify-start items-center">
+          <div className="relative w-full md:w-72">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
             </div>
             <input
               type="text"
-              placeholder="Search by product code or description..."
-              className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+              placeholder="Search by code or description..."
+              className="block w-full pl-9 pr-20 py-2 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
               value={searchQuery}
               onChange={handleSearchChange}
+              onKeyDown={(e) => e.key === "Enter" && fetchProducts(1)}
             />
+            <button
+              onClick={() => fetchProducts(1)}
+              className="absolute right-1 top-1 bottom-1 px-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md text-xs font-medium transition-colors"
+              type="button"
+            >
+              Search
+            </button>
           </div>
         </div>
 
@@ -456,7 +465,7 @@ export default function ProductsPage() {
           ) : products.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-xl border border-dashed border-gray-200 shadow-sm">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50">
-                <CubeIcon className="h-7 w-7 text-indigo-400" />
+                <ArchiveBoxIcon className="h-7 w-7 text-indigo-400" />
               </div>
               <h3 className="mt-3 text-sm font-semibold text-gray-900">
                 {searchQuery ? "No products found" : "No products yet"}
@@ -514,7 +523,7 @@ export default function ProductsPage() {
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
                               <div className="h-10 w-10 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-                                <CubeIcon className="w-5 h-5 text-indigo-600" />
+                                <ArchiveBoxIcon className="w-5 h-5 text-indigo-600" />
                               </div>
                               <span className="text-sm font-semibold text-gray-900 font-mono tracking-wide">
                                 {product.code}

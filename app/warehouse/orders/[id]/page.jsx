@@ -14,7 +14,7 @@ import {
     ClipboardDocumentListIcon
 } from "@heroicons/react/24/outline";
 
-export default function AdminOrderDetailsPage() {
+export default function WarehouseOrderDetailsPage() {
     const params = useParams();
     const id = params?.id;
     const router = useRouter();
@@ -119,22 +119,6 @@ export default function AdminOrderDetailsPage() {
                                 {formatDate(order?.createdAt)}
                             </p>
                         </div>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        {/* Fake Dropdown for status to match design */}
-                        {/* <div className="px-4 py-2 border border-gray-200 bg-white rounded-lg text-sm font-bold text-gray-700 flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors">
-                            {order?.status || "Status"}
-                            <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
-                        <button className="px-4 py-2 border border-gray-200 bg-white rounded-lg text-sm font-bold text-gray-700 flex items-center gap-2 hover:bg-gray-50 transition-colors">
-                            <PrinterIcon className="w-4 h-4" /> Print
-                        </button> */}
-                        {/* <button className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-gray-800 transition-colors">
-                            <PencilIcon className="w-4 h-4" /> Edit
-                        </button> */}
                     </div>
                 </div>
 

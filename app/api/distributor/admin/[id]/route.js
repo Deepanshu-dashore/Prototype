@@ -11,16 +11,25 @@ export async function GET(request, { params }) {
   try {
     const { id } = await params;
     const searchParams = request.nextUrl.searchParams;
-    const limit = searchParams.get("limit") || 5;
+    const limit = searchParams.get("limit") || 10;
     const page = searchParams.get("page") || 1;
     const distributor = await DistributorService.getDistributor(id);
     if (!distributor) {
       return ApiResponse(404, null, "Distributor not found");
     }
-    let history = await OrderService.getAllOrders({ orderBy: id, limit, page });
+    const skip = (page - 1) * limit;
+    let history = await OrderService.getAllOrders(
+      { orderBy: id },
+      { skip, limit },
+      "_id orderItems po invoice createdAt status",
+    );
     return ApiResponse(
       200,
-      { ...distributor, orders: history.orders, total: history.total },
+      {
+        ...distributor.toObject(),
+        history: history.orders,
+        totalOrders: history.total,
+      },
       "Distributor fetched successfully",
     );
   } catch (error) {

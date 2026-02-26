@@ -7,13 +7,14 @@ import {
     DocumentTextIcon,
     FolderIcon,
     UserGroupIcon,
-    CubeIcon
+    CubeIcon,
+    ArchiveBoxIcon
 } from '@heroicons/react/24/outline'
 
 const navigation = [
     { name: 'Blogs', href: '/admin/blogboard', icon: DocumentTextIcon },
     { name: 'Categories', href: '/admin/categories', icon: FolderIcon },
-    { name: 'Products', href: '/admin/products', icon: CubeIcon },
+    { name: 'Products', href: '/admin/products', icon: ArchiveBoxIcon },
     { name: 'Orders', href: '/admin/orders', icon: DocumentTextIcon },
     { name: 'Distributors', href: '/admin/distributors', icon: UserGroupIcon },
 ]

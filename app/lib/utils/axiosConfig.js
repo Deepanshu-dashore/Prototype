@@ -20,8 +20,11 @@ const getCookie = (name) => {
 // Request interceptor to add auth headers
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Check for both admin and distributor tokens
-    const token = getCookie("authToken") || getCookie("distributorToken");
+    // Check for admin, distributor, and warehouse tokens
+    const token =
+      getCookie("authToken") ||
+      getCookie("distributorToken") ||
+      getCookie("warehouseToken");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -41,9 +44,10 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // Handle 401 Unauthorized errors
     if (error.response?.status === 401) {
-      const isDistributorPortal =
-        typeof window !== "undefined" &&
-        window.location.pathname.startsWith("/distributor");
+      const pathname =
+        typeof window !== "undefined" ? window.location.pathname : "";
+      const isDistributorPortal = pathname.startsWith("/distributor");
+      const isWarehousePortal = pathname.startsWith("/warehouse");
 
       // Clear relevant cookies
       if (isDistributorPortal) {
@@ -51,6 +55,12 @@ axiosInstance.interceptors.response.use(
           "distributorToken=; max-age=0; path=/; SameSite=Strict";
         if (typeof window !== "undefined") {
           window.location.href = "/distributor/login";
+        }
+      } else if (isWarehousePortal) {
+        document.cookie = "warehouse_user=; max-age=0; path=/; SameSite=Strict";
+        document.cookie = "warehouseToken=; max-age=0; path=/; SameSite=Strict";
+        if (typeof window !== "undefined") {
+          window.location.href = "/warehouse/login";
         }
       } else {
         document.cookie = "user=; max-age=0; path=/; SameSite=Strict";

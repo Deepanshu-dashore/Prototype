@@ -7,13 +7,12 @@ import {
     MagnifyingGlassIcon,
     UserGroupIcon,
     CheckBadgeIcon,
-    XCircleIcon,
     EyeIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
-export default function DistributorsPage() {
+export default function WarehouseDistributorsPage() {
     const [distributors, setDistributors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -74,7 +73,6 @@ export default function DistributorsPage() {
             setVerifyingId(id);
             const res = await axios.patch(`/api/distributor/verify/${id}`);
             if (res.data?.success) {
-                // Update local state
                 setDistributors(distributors.map(d =>
                     d._id === id ? { ...d, verification: { ...d.verification, isVerified: true, verifiedDate: new Date() } } : d
                 ));
@@ -121,7 +119,7 @@ export default function DistributorsPage() {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Distributor Management</h1>
+                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Warehouse Distributor Management</h1>
                         <p className="text-sm text-gray-500 mt-1">Manage and verify registered distributors.</p>
                     </div>
                     <div className="flex items-center gap-3">
@@ -143,7 +141,6 @@ export default function DistributorsPage() {
 
                 {/* Stats & Search */}
                 <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row gap-4 justify-start items-center mb-6">
-
                     <div className="relative w-full md:w-72">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
@@ -191,15 +188,11 @@ export default function DistributorsPage() {
                                     </tr>
                                 ) : error ? (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-red-500">
-                                            {error}
-                                        </td>
+                                        <td colSpan="5" className="px-6 py-12 text-center text-red-500">{error}</td>
                                     </tr>
                                 ) : distributors.length === 0 ? (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
-                                            No distributors found.
-                                        </td>
+                                        <td colSpan="5" className="px-6 py-12 text-center text-gray-500">No distributors found.</td>
                                     </tr>
                                 ) : (
                                     distributors.map((dist) => (
@@ -228,9 +221,7 @@ export default function DistributorsPage() {
                                                     </span>
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">
-                                                {formatDate(dist.createdAt)}
-                                            </td>
+                                            <td className="px-6 py-4 text-sm text-gray-500">{formatDate(dist.createdAt)}</td>
                                             <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
                                                 {!dist.verification?.isVerified && (
                                                     <button
@@ -242,30 +233,14 @@ export default function DistributorsPage() {
                                                         <CheckBadgeIcon className="w-3.5 h-3.5" />
                                                     </button>
                                                 )}
-                                                {dist.verification?.isVerified && (
-                                                    <button
-                                                        disabled={true}
-                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-gray-300 text-gray-600 hover:bg-gray-400 transition-colors disabled:opacity-50"
-                                                    >
-                                                        Verified
-                                                        <CheckBadgeIcon className="w-3.5 h-3.5" />
-                                                    </button>
-                                                )}
                                                 <Link
-                                                    href={`/admin/distributors/${dist._id}`}
+                                                    href={`/warehouse/distributors/${dist._id}`}
                                                     className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
-                                                    title="View Details">
+                                                    title="View Details"
+                                                >
                                                     View
                                                     <EyeIcon className="w-3.5 h-3.5" />
                                                 </Link>
-                                                <button
-                                                    onClick={() => handleDelete(dist._id)}
-                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
-                                                    title="Delete Distributor"
-                                                >
-                                                    Delete
-                                                    <TrashIcon className="w-3.5 h-3.5" />
-                                                </button>
                                             </td>
                                         </tr>
                                     ))
@@ -274,7 +249,7 @@ export default function DistributorsPage() {
                         </table>
                     </div>
 
-                    {/* Pagination Controls */}
+                    {/* Pagination */}
                     {!loading && distributors.length > 0 && (
                         <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row items-center justify-between gap-4">
                             <div className="text-sm text-gray-500">
@@ -284,44 +259,14 @@ export default function DistributorsPage() {
                                 <button
                                     onClick={() => setPagination(prev => ({ ...prev, currentPage: Math.max(1, prev.currentPage - 1) }))}
                                     disabled={pagination.currentPage === 1}
-                                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
                                 >
                                     Previous
                                 </button>
-                                <div className="flex items-center gap-1">
-                                    {[...Array(pagination.totalPages)].map((_, i) => {
-                                        const pageNum = i + 1;
-                                        // Show current page, first, last, and pages around current
-                                        if (
-                                            pageNum === 1 ||
-                                            pageNum === pagination.totalPages ||
-                                            (pageNum >= pagination.currentPage - 1 && pageNum <= pagination.currentPage + 1)
-                                        ) {
-                                            return (
-                                                <button
-                                                    key={pageNum}
-                                                    onClick={() => setPagination(prev => ({ ...prev, currentPage: pageNum }))}
-                                                    className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${pagination.currentPage === pageNum
-                                                        ? 'bg-primary text-white shadow-md'
-                                                        : 'text-gray-600 hover:bg-gray-100'
-                                                        }`}
-                                                >
-                                                    {pageNum}
-                                                </button>
-                                            );
-                                        } else if (
-                                            (pageNum === pagination.currentPage - 2 && pageNum > 1) ||
-                                            (pageNum === pagination.currentPage + 2 && pageNum < pagination.totalPages)
-                                        ) {
-                                            return <span key={pageNum} className="px-1 text-gray-400">...</span>;
-                                        }
-                                        return null;
-                                    })}
-                                </div>
                                 <button
                                     onClick={() => setPagination(prev => ({ ...prev, currentPage: Math.min(prev.totalPages, prev.currentPage + 1) }))}
                                     disabled={pagination.currentPage === pagination.totalPages}
-                                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
                                 >
                                     Next
                                 </button>

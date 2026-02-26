@@ -5,7 +5,7 @@ export class OrderService {
   static async createOrder(data) {
     return await Order.create(data);
   }
-  static async getAllOrders(filter = {}, options = {}) {
+  static async getAllOrders(filter = {}, options = {}, select = "") {
     await connect();
     const { skip, limit } = options;
     const [orders, total] = await Promise.all([
@@ -14,7 +14,8 @@ export class OrderService {
         .skip(skip || 0)
         .limit(limit || 0)
         .populate("orderBy", "companyName companyEmail companyNumber")
-        .populate("orderItems.product", "code description"),
+        .populate("orderItems.product", "code description")
+        .select(select),
       Order.countDocuments(filter),
     ]);
     return { orders, total };

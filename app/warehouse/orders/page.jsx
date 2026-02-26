@@ -30,7 +30,7 @@ const STATUS_OPTIONS = [
     "CANCELLED",
 ];
 
-export default function AdminOrdersPage() {
+export default function WarehouseOrdersPage() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -95,9 +95,7 @@ export default function AdminOrdersPage() {
             } else {
                 setError(res.data?.message || "Failed to fetch orders");
             }
-            console.trace("Order details", res.data.data)
         } catch (err) {
-            console.log("Order list error", err)
             setError(err.message || "Something went wrong");
         } finally {
             setLoading(false);
@@ -216,7 +214,7 @@ export default function AdminOrdersPage() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-                            Order Management
+                            Warehouse Order Management
                         </h1>
                         <p className="text-sm text-gray-500 mt-1">Monitor and manage distributor orders, track status and update documents.</p>
                     </div>
@@ -335,7 +333,7 @@ export default function AdminOrdersPage() {
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center">
+                                        <td colSpan="6" className="px-6 py-12 text-center">
                                             <div className="flex flex-col items-center justify-center gap-2">
                                                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
                                                 <span className="text-sm text-gray-500">Loading orders...</span>
@@ -344,11 +342,11 @@ export default function AdminOrdersPage() {
                                     </tr>
                                 ) : error ? (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-red-500">{error}</td>
+                                        <td colSpan="6" className="px-6 py-12 text-center text-red-500">{error}</td>
                                     </tr>
                                 ) : orders.length === 0 ? (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-gray-500">No orders found.</td>
+                                        <td colSpan="6" className="px-6 py-12 text-center text-gray-500">No orders found.</td>
                                     </tr>
                                 ) : (
                                     orders.map((order) => (
@@ -360,7 +358,7 @@ export default function AdminOrdersPage() {
                                                         <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
                                                     </svg>
                                                 </div>
-                                                <Link href={`/admin/orders/${order._id}`} className="font-semibold text-gray-800 underline-offset-2 hover:text-primary hover:underline">
+                                                <Link href={`/warehouse/orders/${order._id}`} className="font-semibold text-gray-800 underline-offset-2 hover:text-primary hover:underline">
                                                     #{order._id.slice(-6).toUpperCase()}
                                                 </Link>
                                             </td>
@@ -435,7 +433,7 @@ export default function AdminOrdersPage() {
                                             <td className="px-6 py-4 text-right">
                                                 <div className="flex items-center justify-end gap-2">
                                                     <Link
-                                                        href={`/admin/orders/${order._id}`}
+                                                        href={`/warehouse/orders/${order._id}`}
                                                         className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
                                                         title="View Details"
                                                     >
@@ -450,14 +448,6 @@ export default function AdminOrdersPage() {
                                                         Edit
                                                         <PencilSquareIcon className="w-3.5 h-3.5" />
                                                     </button>
-                                                    {/* <button
-                                                        onClick={() => setDeleteModal({ isOpen: true, orderId: order._id })}
-                                                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600 border border-red-600 text-white text-[12.25px] rounded-md hover:bg-red-500 hover:border-red-200 transition-all shadow-sm"
-                                                        title="Delete Order"
-                                                    >
-                                                        Delete
-                                                        <TrashIcon className="w-3.5 h-3.5" />
-                                                    </button> */}
                                                 </div>
                                             </td>
                                         </tr>
@@ -495,9 +485,6 @@ export default function AdminOrdersPage() {
             {updateModal.isOpen && (
                 <div className="fixed inset-0 z-50 overflow-y-auto bg-gray-500/20 backdrop-blur-[2px]">
                     <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                        {/* <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-                            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                        </div> */}
                         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
                         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-10 z-50">
@@ -555,7 +542,6 @@ export default function AdminOrdersPage() {
                     </div>
                 </div>
             )}
-            {/* Confirmation Modal for Delete */}
             <ConfirmationModal
                 isOpen={deleteModal.isOpen}
                 onClose={() => setDeleteModal({ isOpen: false, orderId: null })}

@@ -28,17 +28,28 @@ export default function DistributorOrdersPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [productList, setProductList] = useState(null);
 
-    useEffect(() => {
-        fetchOrders();
-        fetchProducts();
-    }, []);
+    const [pagination, setPagination] = useState({
+        currentPage: 1,
+        totalItems: 0,
+        limit: 10
+    });
 
-    const fetchOrders = async () => {
+    useEffect(() => {
+        fetchOrders(pagination.currentPage);
+        fetchProducts();
+    }, [pagination.currentPage]);
+
+    const fetchOrders = async (page = 1) => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/order/distributor");
+            const res = await axios.get(`/api/order/distributor?page=${page}&limit=${pagination.limit}`);
             if (res.data?.success) {
-                setOrders(res.data.data || []);
+                setOrders(res.data.data.orders || []);
+                setPagination(prev => ({
+                    ...prev,
+                    totalItems: res.data.data.totalItems || 0,
+                    currentPage: page
+                }));
             } else {
                 setError(res.data?.message || "Failed to fetch orders");
             }
@@ -171,7 +182,7 @@ export default function DistributorOrdersPage() {
                                 {loading ? (
                                     <span className="inline-block w-8 h-5 bg-indigo-200 rounded animate-pulse"></span>
                                 ) : (
-                                    orders.length
+                                    pagination.totalItems
                                 )}
                             </p>
                         </div>
@@ -345,6 +356,30 @@ export default function DistributorOrdersPage() {
                             </div>
                         )}
                     </div>
+                    {/* Pagination Controls */}
+                    {!loading && orders.length > 0 && (
+                        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                            <span className="text-sm text-gray-500">
+                                Showing {orders.length} of {pagination.totalItems} orders
+                            </span>
+                            <div className="flex gap-2">
+                                <button
+                                    disabled={pagination.currentPage === 1}
+                                    onClick={() => setPagination(p => ({ ...p, currentPage: p.currentPage - 1 }))}
+                                    className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md hover:bg-white disabled:opacity-50 transition-colors"
+                                >
+                                    Previous
+                                </button>
+                                <button
+                                    disabled={pagination.currentPage * pagination.limit >= pagination.totalItems}
+                                    onClick={() => setPagination(p => ({ ...p, currentPage: p.currentPage + 1 }))}
+                                    className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md hover:bg-white disabled:opacity-50 transition-colors"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>)}
         </div>
     );
