@@ -67,9 +67,13 @@ export async function POST(request) {
       return ApiResponse(401, null, "Invalid credentials");
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+    const token = jwt.sign(
+      { id: user._id, role: "admin" },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      },
+    );
     const response = NextResponse.json(
       {
         success: true,

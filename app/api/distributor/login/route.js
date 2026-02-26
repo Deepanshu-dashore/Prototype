@@ -24,9 +24,13 @@ export async function POST(request) {
       return ApiResponse(401, null, "Invalid Credentials");
     }
 
-    const token = jwt.sign({ id: distributor._id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+    const token = jwt.sign(
+      { id: distributor._id, role: "distributor" },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      },
+    );
 
     return ApiResponse(
       200,

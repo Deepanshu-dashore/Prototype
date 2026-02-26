@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { headers, cookies } from "next/headers";
 
-export const verifyJWT = async () => {
+export const verifyDistributorJWT = async () => {
   try {
     let token = null;
 
@@ -14,7 +14,7 @@ export const verifyJWT = async () => {
     // If no token in header, check cookies
     if (!token) {
       const cookieStore = await cookies();
-      token = cookieStore.get("authToken")?.value;
+      token = cookieStore.get("distributorToken")?.value;
     }
 
     // If still no token, return null

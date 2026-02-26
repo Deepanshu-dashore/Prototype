@@ -9,7 +9,9 @@ import {
     CheckBadgeIcon,
     XCircleIcon,
     EyeIcon,
+    TrashIcon,
 } from "@heroicons/react/24/outline";
+import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
 export default function DistributorsPage() {
     const [distributors, setDistributors] = useState([]);
@@ -17,6 +19,8 @@ export default function DistributorsPage() {
     const [error, setError] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [verifyingId, setVerifyingId] = useState(null);
+    const [deleteModal, setDeleteModal] = useState({ isOpen: false, distId: null });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -81,6 +85,28 @@ export default function DistributorsPage() {
             alert(err.response?.data?.message || err.message || "Something went wrong during verification");
         } finally {
             setVerifyingId(null);
+        }
+    };
+
+    const handleDelete = (id) => {
+        setDeleteModal({ isOpen: true, distId: id });
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteModal.distId) return;
+        try {
+            setIsDeleting(true);
+            const res = await axios.delete(`/api/distributor/${deleteModal.distId}`);
+            if (res.data?.success) {
+                fetchDistributors(pagination.currentPage);
+                setDeleteModal({ isOpen: false, distId: null });
+            } else {
+                alert(res.data?.message || "Failed to delete distributor");
+            }
+        } catch (err) {
+            alert(err.response?.data?.message || err.message || "Something went wrong during deletion");
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -227,11 +253,19 @@ export default function DistributorsPage() {
                                                 )}
                                                 <Link
                                                     href={`/admin/distributors/${dist._id}`}
-                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
-                                                >
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
+                                                    title="View Details">
                                                     View
                                                     <EyeIcon className="w-3.5 h-3.5" />
                                                 </Link>
+                                                <button
+                                                    onClick={() => handleDelete(dist._id)}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
+                                                    title="Delete Distributor"
+                                                >
+                                                    Delete
+                                                    <TrashIcon className="w-3.5 h-3.5" />
+                                                </button>
                                             </td>
                                         </tr>
                                     ))
@@ -296,6 +330,17 @@ export default function DistributorsPage() {
                     )}
                 </div>
             </div>
+
+            <ConfirmationModal
+                isOpen={deleteModal.isOpen}
+                onClose={() => setDeleteModal({ isOpen: false, distId: null })}
+                onConfirm={confirmDelete}
+                title="Delete Distributor"
+                message="Are you sure you want to permanently delete this distributor? This action cannot be undone."
+                type="delete"
+                confirmText="Delete Distributor"
+                isLoading={isDeleting}
+            />
         </div>
     );
 }

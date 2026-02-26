@@ -1,5 +1,6 @@
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { DistributorService } from "@/app/lib/services/distributor.service";
+import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 
 export async function GET(request, { params }) {
@@ -9,11 +10,19 @@ export async function GET(request, { params }) {
   }
   try {
     const { id } = await params;
+    const searchParams = request.nextUrl.searchParams;
+    const limit = searchParams.get("limit") || 5;
+    const page = searchParams.get("page") || 1;
     const distributor = await DistributorService.getDistributor(id);
     if (!distributor) {
       return ApiResponse(404, null, "Distributor not found");
     }
-    return ApiResponse(200, distributor, "Distributor fetched successfully");
+    let history = await OrderService.getAllOrders({ orderBy: id, limit, page });
+    return ApiResponse(
+      200,
+      { ...distributor, orders: history.orders, total: history.total },
+      "Distributor fetched successfully",
+    );
   } catch (error) {
     return ApiResponse(
       500,

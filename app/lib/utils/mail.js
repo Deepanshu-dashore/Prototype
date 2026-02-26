@@ -1,6 +1,11 @@
 import { transporter } from "../config/NodeMailler";
 
-export const mail = async ({ to, subject, body, from }) => {
+export const mail = async ({
+  to,
+  subject,
+  body,
+  from = `${process.env.EMAIL_FROM}`,
+}) => {
   try {
     await transporter.sendMail({
       from,

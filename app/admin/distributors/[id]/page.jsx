@@ -31,7 +31,7 @@ export default function DistributorDetailsPage({ params }) {
     const fetchDistributor = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`/api/distributor/${id}`);
+            const res = await axios.get(`/api/distributor/admin/${id}`);
             if (res.data?.success) {
                 setDistributor(res.data.data);
             } else {

@@ -376,3 +376,309 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
 </html>
 `;
 };
+
+export const orderCreatedTemplate = ({
+  orderId,
+  orderDate,
+  distributorName,
+  totalItems,
+  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  companyName = "CC Matting",
+  supportEmail = "support@ccmatting.com",
+}) => {
+  return `
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <title>Order Confirmation</title>
+</head>
+
+<body style="margin:0;padding:0;background-color:#f2f4f8;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#212121;">
+
+<table width="100%" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <td align="center" style="padding:24px 12px;">
+
+      <!-- Main Container -->
+      <table width="600" cellpadding="0" cellspacing="0"
+        style="background:#ffffff;border-radius:8px;overflow:hidden;">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:#111827;padding:20px;text-align:center;">
+            <img src="${logoUrl}" alt="${companyName}"
+              width="150"
+              style="display:block;margin:auto;border:none;" />
+          </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="padding:32px 36px;">
+
+            <h1 style="font-size:20px;margin:0 0 16px 0;color:#111827;">
+              Order Successfully Created
+            </h1>
+
+            <p style="font-size:14px;line-height:22px;margin:0 0 14px 0;">
+              Hello <strong>${distributorName || "Distributor"}</strong>,
+            </p>
+
+            <p style="font-size:14px;line-height:22px;margin:0 0 20px 0;">
+              Your order has been successfully created in our system.
+              Below are the order details for your reference.
+            </p>
+
+            <!-- Order Summary Box -->
+            <table width="100%" cellpadding="0" cellspacing="0"
+              style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;">
+              <tr>
+                <td style="padding:18px;">
+
+                  <p style="margin:0 0 10px 0;font-size:14px;">
+                    <strong>Order ID:</strong> ${orderId}
+                  </p>
+
+                  <p style="margin:0 0 10px 0;font-size:14px;">
+                    <strong>Order Date:</strong> ${orderDate}
+                  </p>
+
+                  <p style="margin:0 0 10px 0;font-size:14px;">
+                    <strong>Total Items:</strong> ${totalItems}
+                  </p>
+
+                </td>
+              </tr>
+            </table>
+
+            <p style="font-size:13px;line-height:20px;margin:20px 0 0 0;">
+              Our operations team will now begin processing your order.
+              You will receive further updates once it is dispatched.
+            </p>
+
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr>
+          <td>
+            <hr style="border:none;border-top:1px solid #e5e7eb;margin:0;" />
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background:#f9fafb;padding:18px 36px;text-align:center;">
+            <p style="font-size:12px;color:#555;margin:0;">
+              If you have any questions regarding this order, please contact
+              <a href="mailto:${supportEmail}"
+                 style="color:#111827;text-decoration:underline;">
+                ${supportEmail}
+              </a>
+            </p>
+            <p style="font-size:11px;color:#9ca3af;margin:8px 0 0 0;">
+              © 2026 ${companyName}. All rights reserved.
+            </p>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
+`;
+};
+
+export const distributorOrderStatusTemplate = ({
+  distributorName,
+  orderId,
+  orderDate,
+  totalItems,
+  status,
+  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  companyName = "CC Matting",
+  supportEmail = "support@ccmatting.com",
+  brandColor = "#0b3aa4",
+}) => {
+  const statusStyleMap = {
+    CREATED: { bg: "#e0f2fe", text: "#0369a1", border: "#bae6fd" },
+    APPROVED: { bg: "#dcfce7", text: "#166534", border: "#bbf7d0" },
+    PROCESSING: { bg: "#fef3c7", text: "#92400e", border: "#fde68a" },
+    SHIPPEMENT: { bg: "#ede9fe", text: "#5b21b6", border: "#ddd6fe" },
+    DELIVERED: { bg: "#d1fae5", text: "#065f46", border: "#a7f3d0" },
+    RECEIVED: { bg: "#d1fae5", text: "#065f46", border: "#a7f3d0" },
+    CANCELLED: { bg: "#fee2e2", text: "#991b1b", border: "#fecaca" },
+  };
+
+  const currentStatus = statusStyleMap[status?.toUpperCase()] || {
+    bg: "#f3f4f6",
+    text: "#374151",
+    border: "#e5e7eb",
+  };
+
+  return `
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="x-apple-disable-message-reformatting" />
+<title>Order Status Update</title>
+</head>
+
+<body style="margin:0;padding:0;background-color:#f3f4f6;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#111827;">
+
+<table width="100%" cellpadding="0" cellspacing="0" align="center">
+<tr>
+<td align="center" style="padding:32px 12px;">
+
+<table width="600" cellpadding="0" cellspacing="0"
+style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.06);">
+
+<!-- HEADER -->
+<tr>
+<td style="background:${brandColor};padding:24px;text-align:center;">
+  <img src="${logoUrl}" alt="${companyName}"
+    width="160"
+    style="display:block;margin:auto;border:none;" />
+</td>
+</tr>
+
+<!-- BODY -->
+<tr>
+<td style="padding:40px 42px;">
+
+  <h1 style="font-size:22px;margin:0 0 20px 0;color:#111827;">
+    Order Status Notification
+  </h1>
+
+  <p style="font-size:14px;line-height:22px;margin:0 0 14px 0;">
+    Dear <strong>${distributorName || "Distributor"}</strong>,
+  </p>
+
+  <p style="font-size:14px;line-height:22px;margin:0 0 24px 0;color:#374151;">
+    This is to inform you that the status of your order has been updated in our system.
+    Please review the summary below.
+  </p>
+
+  <!-- ORDER SUMMARY CARD -->
+  <table width="100%" cellpadding="0" cellspacing="0"
+    style="border:1px solid #e5e7eb;border-radius:10px;">
+    <tr>
+      <td style="padding:22px;">
+
+        <table width="100%" cellpadding="0" cellspacing="0">
+
+          <tr>
+            <td style="padding-bottom:12px;font-size:12.25px;">
+              <strong>Order ID:</strong> ${orderId}
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:12px;font-size:12.25px;">
+              <strong>Order Date:</strong> ${orderDate}
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:12px;font-size:12.25px;">
+              <strong>Total Items:</strong> ${totalItems}
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-top:6px;font-size:12.25px;">
+              <strong>Status:</strong>
+              <span style="
+                display:inline-block;
+                min-width:90px;
+                text-align:center;
+                padding:3px 6px;
+                margin-left:8px;
+                font-size:10px;
+                font-weight:600;
+                border-radius:4px;
+                background:${currentStatus.bg};
+                color:${currentStatus.text};
+                border:1px solid ${currentStatus.border};
+                box-shadow:0 1px 2px rgba(0,0,0,0.05);
+              ">
+                ${status}
+              </span>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <p style="font-size:13px;line-height:20px;margin:24px 0 10px 0;color:#4b5563;">
+    You may log in to your distributor dashboard to view full order details,
+    invoices, and tracking information.
+  </p>
+
+  <!-- CTA BUTTON -->
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td align="center" style="padding:28px 0 10px 0;">
+        <a href="https://prototype-alpha-six.vercel.app/distributor/dashboard/orders"
+           style="
+            background:${brandColor};
+            color:#ffffff;
+            padding:14px 30px;
+            text-decoration:none;
+            font-size:14px;
+            font-weight:600;
+            border-radius:6px;
+            display:inline-block;
+            letter-spacing:0.3px;">
+          View Order Details
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <p style="font-size:12px;color:#6b7280;margin-top:22px;">
+    For any clarification regarding this order update, please contact our support team.
+  </p>
+
+</td>
+</tr>
+
+<!-- FOOTER -->
+<tr>
+<td style="background:#f9fafb;padding:20px 36px;text-align:center;border-top:1px solid #e5e7eb;">
+  <p style="font-size:12px;color:#555;margin:0;">
+    Support:
+    <a href="mailto:${supportEmail}"
+       style="color:${brandColor};text-decoration:underline;">
+      ${supportEmail}
+    </a>
+  </p>
+  <p style="font-size:11px;color:#9ca3af;margin:8px 0 0 0;">
+    © ${new Date().getFullYear()} ${companyName}. All rights reserved.
+  </p>
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+`;
+};

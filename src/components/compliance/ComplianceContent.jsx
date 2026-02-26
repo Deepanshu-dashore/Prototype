@@ -35,8 +35,8 @@ export default function ComplianceContent() {
 
     const logos = [
         { src: "/compliances/ce-mark.webp", alt: "CE Marking" },
-        { src: "/compliances/ISO9001.webp", alt: "ISO 9001" },
-        { src: "/compliances/ISO14001.webp", alt: "ISO 14001" },
+        { src: "/new-iso-1.png", alt: "ISO 9001" },
+        { src: "/new-iso-2.png", alt: "ISO 14001" },
         { src: "/compliances/reach.webp", alt: "REACH Compliance" }
     ];
 
@@ -73,7 +73,7 @@ export default function ComplianceContent() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-center max-w-4xl mx-auto"
+                        className="text-center max-w-6xl mx-auto"
                     >
                         <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
                             <ShieldCheckIcon className="w-3.5 h-3.5" />
@@ -82,84 +82,42 @@ export default function ComplianceContent() {
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
                             Quality & <span className="text-primary">Compliance</span>
                         </h1>
-                        <p className="text-lg sm:text-xl text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
+                        <p className="text-lg sm:text-2xl text-neutral-dark/70 max-w-6xl mx-auto leading-relaxed">
                             CC Matting is committed to the highest standards of quality, safety, and environmental responsibility.
+                        </p>
+                        <p className="text-lg sm:text-xl text-neutral-dark/80 mt-4 max-w-6xl font-medium mx-auto leading-relaxed">
+                            "Our manufacturing processes are continuously audited to meet strict in-house quality standards.
+                            All critical materials are <strong>rigorously tested</strong> to ensure consistent performance in demanding environments.<br />
+                            We comply with national and international standards, including <strong>CE, REACH,</strong> and <strong>BPR/EPA regulations.</strong>
+                            Our supply chain is strictly monitored to ensure SVHC substances are absent or within safe limits"
                         </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Narrative Sections */}
-            <section className="py-16 sm:py-24 bg-white relative">
-                {/* <div className="pointer-events-none absolute z-0 bg-linear-to-t from-white to-blue-600/40 animate-[pulse_3s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden /> */}
-                <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    {/* First Narrative */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <h2 className="text-3xl font-bold text-neutral-dark mb-6">Manufacturing Quality Control</h2>
-                            <p className="text-lg text-neutral-dark/70 leading-relaxed mb-6">
-                                Our manufacturing processes are continuously monitored with both internal and external audits to ensure that our products meet our in-house quality standards and tolerances. CC Matting has developed an Integrated Management System (IMS) that meets the requirements of BS EN ISO 9001:2015 and BS EN ISO 14001:2015.
-                            </p>
-                            <p className="text-lg text-neutral-dark/70 leading-relaxed">
-                                All critical materials are rigorously tested prior to production to ensure full compliance and consistent performance in the most demanding environments.
-                            </p>
-                        </motion.div>
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="relative aspect-4/3 rounded-2xl overflow-hidden shadow-sm border border-gray-100"
-                        >
-                            <Image
-                                src="/compliances/matureMItur1stImage.jpg"
-                                alt="Quality Control Testing"
-                                fill
-                                className="object-cover p-10 bg-white"
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                            />
-                        </motion.div>
-                    </div>
-
-                    {/* Second Narrative */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="order-2 lg:order-1 relative aspect-4/3 overflow-hidden shadow-sm border border-gray-100"
-                        >
-                            <Image
-                                src="/compliances/tastTube2nd.jpg"
-                                alt="Laboratory Compliance Testing"
-                                fill
-                                className="object-cover p-10"
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                            />
-                        </motion.div>
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="order-1 lg:order-2"
-                        >
-                            <h2 className="text-3xl font-bold text-neutral-dark mb-6">International Standards & Legislation</h2>
-                            <p className="text-lg text-neutral-dark/70 leading-relaxed mb-6">
-Our manufacturing processes are continuously audited to meet strict in-house quality standards.
-All critical materials are rigorously tested to ensure consistent performance in demanding environments.
-We comply with national and international standards, including CE, REACH, and BPR/EPA regulations.
-Our supply chain is strictly monitored to ensure SVHC substances are absent or within safe limits                            </p>
-                            {/* <p className="text-lg text-neutral-dark/70 leading-relaxed">
-                                We strictly monitor our supply chain to ensure any chemicals on the REACH Substances of Very High Concern (SVHC) are not present or are below acceptable levels in our products.
-                            </p> */}
-                        </motion.div>
+            {/* Logos Section */}
+            <section className="py-20 bg-linear-to-b from-primary to-indigo-600 relative">
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('/circle-pattern.svg')] bg-repeat opacity-6 pointer-events-none" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-wrap justify-center items-center gap-12 lg:gap-22 transition-all duration-500">
+                        {logos.map((logo, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1 }}
+                                className="relative w-32 h-20 sm:w-44 sm:h-26 bg-white border-4 border-gray-300 rounded-lg"
+                            >
+                                <Image
+                                    src={logo.src}
+                                    alt={logo.alt}
+                                    fill
+                                    className="object-contain p-2.5"
+                                    sizes="160px"
+                                />
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -246,35 +204,8 @@ Our supply chain is strictly monitored to ensure SVHC substances are absent or w
                 </div>
             </section>
 
-            {/* Logos Section */}
-            <section className="py-20 bg-linear-to-b from-primary to-indigo-600 relative">
-                <div className="absolute top-0 left-0 w-full h-full bg-[url('/circle-pattern.svg')] bg-repeat opacity-6 pointer-events-none" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-wrap justify-center items-center gap-12 lg:gap-22 transition-all duration-500">
-                        {logos.map((logo, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="relative w-32 h-20 sm:w-44 sm:h-26 bg-white border-4 border-gray-300 rounded-lg"
-                            >
-                                <Image
-                                    src={logo.src}
-                                    alt={logo.alt}
-                                    fill
-                                    className="object-contain p-2.5"
-                                    sizes="160px"
-                                />
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* CTA Section */}
-            <section className="bg-white py-16 sm:py-20">
+            {/* <section className="bg-white py-16 sm:py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -311,7 +242,82 @@ Our supply chain is strictly monitored to ensure SVHC substances are absent or w
                         </div>
                     </motion.div>
                 </div>
-            </section>
+            </section> */}
         </main>
     );
 }
+//  {/* Narrative Sections */}
+//             <section className="py-16 sm:py-24 bg-white relative">
+//                 {/* <div className="pointer-events-none absolute z-0 bg-linear-to-t from-white to-blue-600/40 animate-[pulse_3s_infinite] inset-0 bg-repeat opacity-[0.05]" aria-hidden /> */}
+//                 <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+//                     {/* First Narrative */}
+//                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+//                         <motion.div
+//                             initial={{ opacity: 0, x: -20 }}
+//                             whileInView={{ opacity: 1, x: 0 }}
+//                             viewport={{ once: true }}
+//                             transition={{ duration: 0.6 }}
+//                         >
+//                             <h2 className="text-3xl font-bold text-neutral-dark mb-6">Manufacturing Quality Control</h2>
+//                             <p className="text-lg text-neutral-dark/70 leading-relaxed mb-6">
+//                                 Our manufacturing processes are continuously monitored with both internal and external audits to ensure that our products meet our in-house quality standards and tolerances. CC Matting has developed an Integrated Management System (IMS) that meets the requirements of BS EN ISO 9001:2015 and BS EN ISO 14001:2015.
+//                             </p>
+//                             <p className="text-lg text-neutral-dark/70 leading-relaxed">
+//                                 All critical materials are rigorously tested prior to production to ensure full compliance and consistent performance in the most demanding environments.
+//                             </p>
+//                         </motion.div>
+//                         <motion.div
+//                             initial={{ opacity: 0, scale: 0.95 }}
+//                             whileInView={{ opacity: 1, scale: 1 }}
+//                             viewport={{ once: true }}
+//                             transition={{ duration: 0.6 }}
+//                             className="relative aspect-4/3 rounded-2xl overflow-hidden shadow-sm border border-gray-100"
+//                         >
+//                             <Image
+//                                 src="/compliances/matureMItur1stImage.jpg"
+//                                 alt="Quality Control Testing"
+//                                 fill
+//                                 className="object-cover p-10 bg-white"
+//                                 sizes="(max-width: 1024px) 100vw, 50vw"
+//                             />
+//                         </motion.div>
+//                     </div>
+
+//                     {/* Second Narrative */}
+//                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+//                         <motion.div
+//                             initial={{ opacity: 0, scale: 0.95 }}
+//                             whileInView={{ opacity: 1, scale: 1 }}
+//                             viewport={{ once: true }}
+//                             transition={{ duration: 0.6 }}
+//                             className="order-2 lg:order-1 relative aspect-4/3 overflow-hidden shadow-sm border border-gray-100"
+//                         >
+//                             <Image
+//                                 src="/compliances/tastTube2nd.jpg"
+//                                 alt="Laboratory Compliance Testing"
+//                                 fill
+//                                 className="object-cover p-10"
+//                                 sizes="(max-width: 1024px) 100vw, 50vw"
+//                             />
+//                         </motion.div>
+//                         <motion.div
+//                             initial={{ opacity: 0, x: 20 }}
+//                             whileInView={{ opacity: 1, x: 0 }}
+//                             viewport={{ once: true }}
+//                             transition={{ duration: 0.6 }}
+//                             className="order-1 lg:order-2"
+//                         >
+//                             <h2 className="text-3xl font-bold text-neutral-dark mb-6">International Standards & Legislation</h2>
+//                             <p className="text-lg text-neutral-dark/70 leading-relaxed mb-6">
+//                                 Our manufacturing processes are continuously audited to meet strict in-house quality standards.
+//                                 All critical materials are rigorously tested to ensure consistent performance in demanding environments.
+//                                 We comply with national and international standards, including CE, REACH, and BPR/EPA regulations.
+//                                 Our supply chain is strictly monitored to ensure SVHC substances are absent or within safe limits.
+//                             </p>
+//                             {/* <p className="text-lg text-neutral-dark/70 leading-relaxed">
+//                                 We strictly monitor our supply chain to ensure any chemicals on the REACH Substances of Very High Concern (SVHC) are not present or are below acceptable levels in our products.
+//                             </p> */}
+//                         </motion.div>
+//                     </div>
+//                 </div>
+//             </section>
