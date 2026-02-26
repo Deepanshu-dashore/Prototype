@@ -3,6 +3,7 @@ import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import roleVerify from "@/app/lib/middlewares/roleVerify";
 import Product from "@/app/lib/models/product";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 
 // GET all products (with pagination & search)
 export async function GET(request) {
