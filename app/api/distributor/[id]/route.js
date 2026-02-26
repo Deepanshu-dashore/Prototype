@@ -1,10 +1,12 @@
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
+import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { DistributorService } from "@/app/lib/services/distributor.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 
 export async function GET(request, { params }) {
   const user = await verifyJWT();
-  if (!user?.id) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
   try {
@@ -52,6 +54,7 @@ export async function DELETE(request, { params }) {
   if (!user?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
+
   try {
     const { id } = await params;
     const distributor = await DistributorService.deleteDistributor(id);

@@ -1,13 +1,15 @@
 import connect from "@/app/lib/db/connect";
 import { verifyDistributorJWT } from "@/app/lib/middlewares/verifyDistibutorJwt";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
+import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import mongoose from "mongoose";
 
 export async function GET(request) {
   const user = await verifyJWT();
-  if (!user?.id) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
   await connect();

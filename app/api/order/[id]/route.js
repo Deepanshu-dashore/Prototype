@@ -1,15 +1,17 @@
 import connect from "@/app/lib/db/connect";
 import roleVerify from "@/app/lib/middlewares/roleVerify";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
+import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 
 export async function PATCH(request, { params }) {
   const user = await verifyJWT();
-  if (!user) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
-  if (!roleVerify(["admin", "distributor"], user)) {
+  if (!roleVerify(["admin", "distributor", "warehouse"], user || warehouse)) {
     return ApiResponse(403, null, "Forbidden: insufficient permissions");
   }
   await connect();
@@ -28,10 +30,11 @@ export async function PATCH(request, { params }) {
 
 export async function GET(request, { params }) {
   const user = await verifyJWT();
-  if (!user) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
-  if (!roleVerify(["admin", "distributor"], user)) {
+  if (!roleVerify(["admin", "distributor", "warehouse"], user || warehouse)) {
     return ApiResponse(403, null, "Forbidden: insufficient permissions");
   }
   await connect();
@@ -49,10 +52,11 @@ export async function GET(request, { params }) {
 
 export async function DELETE(request, { params }) {
   const user = await verifyJWT();
-  if (!user) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
-  if (!roleVerify(["admin"], user)) {
+  if (!roleVerify(["admin", "distributor", "warehouse"], user || warehouse)) {
     return ApiResponse(403, null, "Forbidden: insufficient permissions");
   }
   await connect();

@@ -1,6 +1,7 @@
 import connect from "@/app/lib/db/connect";
 import roleVerify from "@/app/lib/middlewares/roleVerify";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
+import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { mail } from "@/app/lib/utils/mail";
@@ -8,10 +9,11 @@ import { distributorOrderStatusTemplate } from "@/app/lib/utils/mailFormtes";
 
 export async function PATCH(request, { params }) {
   const user = await verifyJWT();
-  if (!user) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
-  if (!roleVerify(["admin"], user)) {
+  if (!roleVerify(["admin", "warehouse"], user || warehouse)) {
     return ApiResponse(403, null, "Forbidden: insufficient permissions");
   }
   await connect();
