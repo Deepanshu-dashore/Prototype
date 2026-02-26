@@ -1,4 +1,5 @@
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
+import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { DistributorService } from "@/app/lib/services/distributor.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { distributorVerificationTemplate } from "@/app/lib/utils/mailFormtes";
@@ -8,7 +9,8 @@ import { hashPassword } from "@/app/lib/security/passwordHasher";
 
 export async function PATCH(request, { params }) {
   const user = await verifyJWT();
-  if (!user?.id) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
   try {

@@ -1,11 +1,13 @@
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
+import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { DistributorService } from "@/app/lib/services/distributor.service";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 
 export async function GET(request, { params }) {
   const user = await verifyJWT();
-  if (!user?.id) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
   try {

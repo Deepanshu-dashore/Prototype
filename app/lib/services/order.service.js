@@ -1,5 +1,7 @@
 import connect from "../db/connect";
 import Order from "../models/order";
+import Distributor from "../models/distributor";
+import Product from "../models/product";
 
 export class OrderService {
   static async createOrder(data) {
@@ -14,8 +16,7 @@ export class OrderService {
         .skip(skip || 0)
         .limit(limit || 0)
         .populate("orderBy", "companyName companyEmail companyNumber")
-        .populate("orderItems.product", "code description")
-        .select(select),
+        .populate("orderItems.product", "code description"),
       Order.countDocuments(filter),
     ]);
     return { orders, total };
