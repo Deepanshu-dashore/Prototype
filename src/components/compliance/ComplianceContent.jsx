@@ -85,7 +85,7 @@ export default function ComplianceContent() {
                         <p className="text-lg sm:text-2xl text-neutral-dark/70 max-w-6xl mx-auto leading-relaxed">
                             CC Matting is committed to the highest standards of quality, safety, and environmental responsibility.
                         </p>
-                        <p className="text-lg sm:text-xl text-neutral-dark/80 mt-4 max-w-6xl font-medium mx-auto leading-relaxed">
+                        <p className="text-lg sm:text-xl text-neutral-dark/70 mt-4 max-w-6xl mx-auto leading-relaxed">
                             "Our manufacturing processes are continuously audited to meet strict in-house quality standards.
                             All critical materials are <strong>rigorously tested</strong> to ensure consistent performance in demanding environments.<br />
                             We comply with national and international standards, including <strong>CE, REACH,</strong> and <strong>BPR/EPA regulations.</strong>
