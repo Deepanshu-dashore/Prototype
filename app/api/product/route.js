@@ -7,7 +7,8 @@ import { ApiResponse } from "@/app/lib/utils/apiResponse";
 // GET all products (with pagination & search)
 export async function GET(request) {
   const user = await verifyJWT();
-  if (!user?.id) {
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
   await connect();
