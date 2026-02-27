@@ -7,8 +7,92 @@ import { usePathname } from 'next/navigation';
 import {
     Bars3Icon,
     XMarkIcon,
-    ArrowLeftOnRectangleIcon
+    ArrowLeftOnRectangleIcon,
+    ChevronDownIcon,
+    ChevronUpIcon
 } from '@heroicons/react/24/outline';
+
+function NavItem({ item, pathname, setMobileMenuOpen }) {
+    const hasChildren = item.children && item.children.length > 0;
+    const isActive = pathname === item.href || (hasChildren && item.children.some(child => pathname === child.href));
+
+    // State for collapsible sub-menu
+    const [isOpen, setIsOpen] = useState(isActive);
+
+    if (hasChildren) {
+        return (
+            <div className="space-y-1">
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className={`
+                        w-full group flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all
+                        ${isActive
+                            ? 'bg-gray-50 text-gray-900 border border-gray-100'
+                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        }
+                    `}
+                >
+                    <div className="flex items-center gap-3">
+                        <item.icon className={`
+                            w-5 h-5 transition-colors
+                            ${isActive ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600'}
+                        `} />
+                        {item.name}
+                    </div>
+                    {isOpen ? (
+                        <ChevronUpIcon className="w-4 h-4 text-gray-400" />
+                    ) : (
+                        <ChevronDownIcon className="w-4 h-4 text-gray-400" />
+                    )}
+                </button>
+
+                {isOpen && (
+                    <div className="pl-11 space-y-1">
+                        {item.children.map((child) => {
+                            const isChildActive = pathname === child.href;
+                            return (
+                                <Link
+                                    key={child.name}
+                                    href={child.href}
+                                    className={`
+                                        flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all
+                                        ${isChildActive
+                                            ? 'text-primary bg-primary/5'
+                                            : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                                        }
+                                    `}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    {child.name}
+                                </Link>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    return (
+        <Link
+            href={item.href}
+            className={`
+                group flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-all
+                ${isActive
+                    ? 'bg-primary text-white shadow-md shadow-primary/20'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                }
+            `}
+            onClick={() => setMobileMenuOpen(false)}
+        >
+            <item.icon className={`
+                w-5 h-5 transition-colors
+                ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-600'}
+            `} />
+            {item.name}
+        </Link>
+    );
+}
 
 export default function DashboardSidebar({
     title = "CC Matting",
@@ -66,29 +150,14 @@ export default function DashboardSidebar({
                         <p className="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
                             Menu
                         </p>
-                        {navigation.map((item) => {
-                            const isActive = pathname === item.href;
-                            return (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className={`
-                                        group flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-all
-                                        ${isActive
-                                            ? 'bg-primary text-white shadow-md shadow-primary/20'
-                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                                        }
-                                    `}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    <item.icon className={`
-                                        w-5 h-5 transition-colors
-                                        ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-600'}
-                                    `} />
-                                    {item.name}
-                                </Link>
-                            );
-                        })}
+                        {navigation.map((item) => (
+                            <NavItem
+                                key={item.name}
+                                item={item}
+                                pathname={pathname}
+                                setMobileMenuOpen={setMobileMenuOpen}
+                            />
+                        ))}
                     </nav>
 
                     {/* Logout and User Profile */}

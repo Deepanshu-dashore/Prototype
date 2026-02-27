@@ -24,8 +24,7 @@ export async function PUT(request, { params }) {
   if (!user?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
-  const role = roleVerify(["admin"], user);
-  if (!role?.verify) {
+  if (!roleVerify(["admin"], user)) {
     return ApiResponse(403, null, "Forbidden: insufficient permissions");
   }
   await connect();
@@ -68,8 +67,7 @@ export async function DELETE(request, { params }) {
   if (!user?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
-  const role = roleVerify(["admin"], user);
-  if (!role?.verify) {
+  if (!roleVerify(["admin"], user)) {
     return ApiResponse(403, null, "Forbidden: insufficient permissions");
   }
   await connect();

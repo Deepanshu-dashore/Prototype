@@ -1,9 +1,5 @@
 const roleVerify = (roles = [], user) => {
-  if (roles.find((role) => role === user.role)) {
-    return { verify: true };
-  } else {
-    return { verify: false };
-  }
+  return roles.some((role) => role.toLowerCase() === user?.role?.toLowerCase());
 };
 
 export default roleVerify;

@@ -8,15 +8,27 @@ import {
     FolderIcon,
     UserGroupIcon,
     CubeIcon,
-    ArchiveBoxIcon
+    ArchiveBoxIcon,
+    Squares2X2Icon,
+    BellIcon,
+    Cog6ToothIcon
 } from '@heroicons/react/24/outline'
 
 const navigation = [
-    { name: 'Blogs', href: '/admin/blogboard', icon: DocumentTextIcon },
-    { name: 'Categories', href: '/admin/categories', icon: FolderIcon },
+    { name: 'Dashboard', href: '/admin', icon: Squares2X2Icon },
+    {
+        name: 'Blogs',
+        icon: DocumentTextIcon,
+        children: [
+            { name: 'All post', href: '/admin/blogboard' },
+            { name: 'Categories', href: '/admin/categories' },
+        ]
+    },
     { name: 'Products', href: '/admin/products', icon: ArchiveBoxIcon },
     { name: 'Orders', href: '/admin/orders', icon: DocumentTextIcon },
     { name: 'Distributors', href: '/admin/distributors', icon: UserGroupIcon },
+    // { name: 'Notifications', href: '/admin/notifications', icon: BellIcon },
+    // { name: 'Settings', href: '/admin/settings', icon: Cog6ToothIcon },
 ]
 
 export default function Sidebar() {

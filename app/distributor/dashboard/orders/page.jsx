@@ -62,7 +62,7 @@ export default function DistributorOrdersPage() {
 
     const fetchProducts = async () => {
         try {
-            const res = await axios.get("/api/product?limit=100");
+            const res = await axios.get("/api/product/list?limit=100");
             if (res.data?.success) {
                 setProducts(res.data.data.products || []);
             }

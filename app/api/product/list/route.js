@@ -1,11 +1,9 @@
 import connect from "@/app/lib/db/connect";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
-import roleVerify from "@/app/lib/middlewares/roleVerify";
+import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import Product from "@/app/lib/models/product";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
-import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 
-// GET all products (with pagination & search)
 export async function GET(request) {
   const user = await verifyJWT();
   const warehouse = await verifyWarehouseJWT();
@@ -31,12 +29,12 @@ export async function GET(request) {
     }
 
     const [products, totalProducts] = await Promise.all([
-      Product.find(query)
+      Product.find({ ...query, visibility: true })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
         .lean(),
-      Product.countDocuments(query),
+      Product.countDocuments({ ...query, visibility: true }),
     ]);
 
     return ApiResponse(
@@ -51,41 +49,5 @@ export async function GET(request) {
     );
   } catch (error) {
     return ApiResponse(500, null, "Error fetching products: " + error.message);
-  }
-}
-
-// POST create product
-export async function POST(request) {
-  const user = await verifyJWT();
-  if (!user?.id) {
-    return ApiResponse(401, null, "Unauthorized request");
-  }
-  if (!roleVerify(["admin"], user)) {
-    return ApiResponse(403, null, "Forbidden: insufficient permissions");
-  }
-  await connect();
-  try {
-    const { code, description } = await request.json();
-
-    if (!code || !code.trim()) {
-      return ApiResponse(400, null, "Product code is required");
-    }
-    if (!description || !description.trim()) {
-      return ApiResponse(400, null, "Product description is required");
-    }
-
-    // Check uniqueness
-    const existing = await Product.findOne({ code: code.trim() });
-    if (existing) {
-      return ApiResponse(409, null, "A product with this code already exists");
-    }
-
-    const product = await Product.create({
-      code: code.trim(),
-      description: description.trim(),
-    });
-    return ApiResponse(201, product, "Product created successfully");
-  } catch (error) {
-    return ApiResponse(500, null, "Error creating product: " + error.message);
   }
 }

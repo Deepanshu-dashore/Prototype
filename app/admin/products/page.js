@@ -378,6 +378,21 @@ export default function ProductsPage() {
     }
   };
 
+  const toggleVisibility = async (id) => {
+    try {
+      const res = await axios.patch("/api/product/status", { id });
+      if (res.status === 200 || res.data?.success) {
+        fetchProducts(pagination.currentPage);
+      } else {
+        alert(res.data?.message || "Failed to update visibility");
+      }
+    } catch (err) {
+      alert(
+        err.response?.data?.message || err.message || "Something went wrong",
+      );
+    }
+  };
+
   const formatDate = (date) => {
     if (!date) return "—";
     return new Date(date).toLocaleDateString("en-IN", {
@@ -505,6 +520,9 @@ export default function ProductsPage() {
                         <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                           Created
                         </th>
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                          Visibility
+                        </th>
                         <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
                           Actions
                         </th>
@@ -525,7 +543,7 @@ export default function ProductsPage() {
                               <div className="h-10 w-10 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
                                 <ArchiveBoxIcon className="w-5 h-5 text-indigo-600" />
                               </div>
-                              <span className="text-sm font-semibold text-gray-900 font-mono tracking-wide">
+                              <span className="text-sm font-semibold text-gray-800 tracking-wide">
                                 {product.code}
                               </span>
                             </div>
@@ -541,9 +559,32 @@ export default function ProductsPage() {
                           {/* Created date */}
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                              <CalendarIcon className="w-3.5 h-3.5 text-gray-400" />
+                              <CalendarIcon className="w-3.5 h-3.5 text-gray-500" />
                               {formatDate(product.createdAt)}
                             </div>
+                          </td>
+
+                          {/* Visibility */}
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => toggleVisibility(product._id)}
+                              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 ${
+                                product.visibility !== false
+                                  ? "bg-indigo-500"
+                                  : "bg-gray-300"
+                              }`}
+                              role="switch"
+                              aria-checked={product.visibility !== false}
+                              title="Toggle Visibility"
+                            >
+                              <span
+                                className={`pointer-events-none translate-y-0.5 inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                  product.visibility !== false
+                                    ? "translate-x-5.5"
+                                    : "translate-x-0.5"
+                                }`}
+                              />
+                            </button>
                           </td>
 
                           {/* Actions */}
@@ -557,14 +598,14 @@ export default function ProductsPage() {
                                 Edit
                                 <PencilSquareIcon className="w-3.5 h-3.5" />
                               </button>
-                              <button
+                              {/* <button
                                 onClick={() => handleDelete(product._id)}
                                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
                                 title="Delete Product"
                               >
                                 Delete
                                 <TrashIcon className="w-3.5 h-3.5" />
-                              </button>
+                              </button> */}
                             </div>
                           </td>
                         </motion.tr>
