@@ -81,7 +81,7 @@ export default function DistributorDetailsPage({ params }) {
     }
 
     return (
-        <div className="min-h-screen py-8 font-sans bg-gray-50/30">
+        <div className="min-h-screen py-8 font-sans">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">

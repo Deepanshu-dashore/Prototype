@@ -125,11 +125,11 @@ export default function DistributorsPage() {
                         <p className="text-sm text-gray-500 mt-1">Manage and verify registered distributors.</p>
                     </div>
                     <div className="flex items-center gap-3">
-                        <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
-                            <UserGroupIcon className="w-5 h-5 text-blue-600" />
+                        <div className="bg-white border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
+                            <UserGroupIcon className="w-5 h-5 text-indigo-600" />
                             <div className="flex items-center gap-2">
-                                <p className="text-xs text-blue-600 font-medium">Total Distributors</p>
-                                <p className="text-base font-bold bg-blue-900 text-white rounded px-2">
+                                <p className="text-xs text-indigo-600 font-medium">Total Distributors</p>
+                                <p className="text-base font-bold bg-indigo-900 text-white rounded px-2">
                                     {loading ? (
                                         <span className="inline-block w-8 h-5 bg-blue-200 rounded animate-pulse"></span>
                                     ) : (

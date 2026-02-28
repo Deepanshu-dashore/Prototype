@@ -94,7 +94,7 @@ export default function AdminOrderDetailsPage() {
     );
 
     return (
-        <div className="min-h-screen py-8 font-sans bg-[#f8fafc] pb-24">
+        <div className="min-h-screen py-8 font-sans pb-24">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
                 {/* Header Section */}

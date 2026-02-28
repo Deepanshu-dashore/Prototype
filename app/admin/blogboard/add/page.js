@@ -44,10 +44,10 @@ export default function AddBlogPage() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']
+      "image/*": [".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"],
     },
     maxFiles: 1,
-    multiple: false
+    multiple: false,
   });
 
   // Sync contentEditable with formData only if content was changed from outside
@@ -143,7 +143,7 @@ export default function AddBlogPage() {
       setError(
         err.response?.data?.message ||
           err.message ||
-          "An error occurred while creating the blog"
+          "An error occurred while creating the blog",
       );
     } finally {
       setLoading(false);
@@ -151,7 +151,7 @@ export default function AddBlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 relative">
+    <div className="min-h-screen py-8 relative">
       <EditorInstructions />
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
@@ -432,8 +432,8 @@ export default function AddBlogPage() {
                 {...getRootProps()}
                 className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
                   isDragActive
-                    ? 'border-primary bg-primary/5'
-                    : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
+                    ? "border-primary bg-primary/5"
+                    : "border-gray-300 bg-gray-50 hover:bg-gray-100"
                 }`}
               >
                 <input {...getInputProps()} />
@@ -455,10 +455,13 @@ export default function AddBlogPage() {
                   </svg>
                   <p className="mb-2 text-sm text-gray-500">
                     {isDragActive ? (
-                      <span className="font-semibold text-primary">Drop the image here</span>
+                      <span className="font-semibold text-primary">
+                        Drop the image here
+                      </span>
                     ) : (
                       <>
-                        <span className="font-semibold">Click to upload</span> or drag and drop
+                        <span className="font-semibold">Click to upload</span>{" "}
+                        or drag and drop
                       </>
                     )}
                   </p>

@@ -163,13 +163,13 @@ export default function AdminDashboard() {
             iconColor: "text-teal-500",
         },
         {
-            label: "Total Products",
-            value: data?.dashboardCard?.totalProducts ?? 0,
-            Icon: ({ className }) => (<svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 32 32">
-                <path fill="currentColor" d="M17.615 2.55a4.5 4.5 0 0 0-3.23 0L11.3 3.736l13 5l4.485-1.725a3.3 3.3 0 0 0-.868-.499zm3.9 7.258l-13.001-5l-4.43 1.704q-.481.186-.87.5L16 11.928zM2 9.545q0-.422.105-.818L15 13.687v15.95a4.5 4.5 0 0 1-.615-.187L4.083 25.488A3.25 3.25 0 0 1 2 22.455zM17.615 29.45q-.302.117-.615.188V13.687l12.895-4.96q.104.396.105.818v12.91a3.25 3.25 0 0 1-2.083 3.033z" strokeWidth={1} stroke="currentColor"></path>
+            label: "Unverified Distributors",
+            value: data?.dashboardCard?.totalUnverifyDistributors ?? 0,
+            Icon: ({ className }) => (<svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24">
+                <path fill="currentColor" d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3s1.34 3 3 3m-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5S5 6.34 5 8s1.34 3 3 3m0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5m8 0c-.29 0-.62.02-.97.05c1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5" />
             </svg>),
-            iconBg: "bg-purple-100/60",
-            iconColor: "text-purple-500",
+            iconBg: "bg-rose-100/60",
+            iconColor: "text-rose-500",
         },
     ];
 
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-[#F7F8FA] p-6 px-16 font-sans">
+        <div className="min-h-screen p-6 px-16 font-sans">
             {/* ── Header ── */}
             <div className="flex items-center justify-between mb-6">
                 <div>

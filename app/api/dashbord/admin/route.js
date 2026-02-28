@@ -22,10 +22,14 @@ export async function GET() {
       totalPendingOrders: 0,
       totalProducts: 0,
       totalDistributors: 0,
+      totalUnverifyDistributors: 0,
     };
     dashboardCard.totalOrders = await Order.countDocuments();
     dashboardCard.totalProducts = await Product.countDocuments();
     dashboardCard.totalDistributors = await Distributor.countDocuments();
+    dashboardCard.totalUnverifyDistributors = await Distributor.countDocuments({
+      "verification.isVerified": false,
+    });
     dashboardCard.totalPendingOrders = await Order.countDocuments({
       status: "PENDING",
     });

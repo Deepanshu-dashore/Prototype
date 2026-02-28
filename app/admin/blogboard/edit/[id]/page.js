@@ -180,7 +180,7 @@ export default function EditBlogPage() {
       setError(
         err.response?.data?.message ||
           err.message ||
-          "An error occurred while updating the blog"
+          "An error occurred while updating the blog",
       );
       setShowSaveModal(false); // Close modal on error to show error message on form
     } finally {
@@ -197,7 +197,7 @@ export default function EditBlogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 relative">
+    <div className="min-h-screen py-8 relative">
       <EditorInstructions />
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
