@@ -4,6 +4,35 @@ import Distributor from "../models/distributor";
 import Product from "../models/product";
 
 export class OrderService {
+  static async getOrderStatusCounts() {
+    await connect();
+    const [
+      pending,
+      processed,
+      shipment,
+      delivered,
+      received,
+      cancelled,
+      allTotal,
+    ] = await Promise.all([
+      Order.countDocuments({ status: "PENDING" }),
+      Order.countDocuments({ status: "PROCESSED" }),
+      Order.countDocuments({ status: "SHIPMENT" }),
+      Order.countDocuments({ status: "DELIVERED" }),
+      Order.countDocuments({ status: "RECEIVED" }),
+      Order.countDocuments({ status: "CANCELLED" }),
+      Order.countDocuments(),
+    ]);
+    return {
+      pending,
+      processed,
+      shipment,
+      delivered,
+      received,
+      cancelled,
+      allTotal,
+    };
+  }
   static async createOrder(data) {
     return await Order.create(data);
   }

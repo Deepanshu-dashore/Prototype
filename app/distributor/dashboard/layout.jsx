@@ -53,7 +53,7 @@ export default function DistributorLayout({ children }) {
             />
 
             <div className="pl-64 h-full overflow-y-auto">
-                <main className="flex-1 w-full">
+                <main className="flex-1 w-full py-8">
                     {children}
                 </main>
             </div>

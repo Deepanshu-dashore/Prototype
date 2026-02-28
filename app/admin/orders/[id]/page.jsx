@@ -45,22 +45,22 @@ export default function AdminOrderDetailsPage() {
     const getStatusStyle = (status) => {
         switch (status) {
             case "PENDING":
-                return "bg-yellow-100 text-yellow-700 border-yellow-200";
+                return "bg-amber-50 text-amber-700 border-amber-200";
 
             case "PROCESSED":
-                return "bg-blue-100 text-blue-700 border-blue-200";
+                return "bg-sky-50 text-sky-700 border-sky-200";
 
-            case "SHIPPEMENT":
-                return "bg-orange-100 text-orange-700 border-orange-200";
+            case "SHIPMENT":
+                return "bg-purple-50 text-purple-700 border-purple-200";
 
             case "DELIVERED":
-                return "bg-green-100 text-green-700 border-green-200";
+                return "bg-emerald-50 text-emerald-700 border-emerald-200";
 
             case "RECEIVED":
-                return "bg-teal-100 text-teal-700 border-teal-200";
+                return "bg-teal-50 text-teal-700 border-teal-200";
 
             case "CANCELLED":
-                return "bg-red-100 text-red-700 border-red-200";
+                return "bg-rose-50 text-rose-700 border-rose-200";
 
             default:
                 return "bg-gray-100 text-gray-700 border-gray-200";

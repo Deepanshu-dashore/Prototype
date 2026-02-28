@@ -49,6 +49,17 @@ export async function GET(request) {
       limit,
     });
 
+    // Fetch status-wise counts for cards
+    const {
+      pending,
+      processed,
+      shipment,
+      delivered,
+      received,
+      cancelled,
+      allTotal,
+    } = await OrderService.getOrderStatusCounts();
+
     return ApiResponse(
       200,
       {
@@ -56,6 +67,15 @@ export async function GET(request) {
         totalItems: total,
         totalPages: Math.ceil(total / limit),
         currentPage: page,
+        statusCounts: {
+          PENDING: pending,
+          PROCESSED: processed,
+          SHIPMENT: shipment,
+          DELIVERED: delivered,
+          RECEIVED: received,
+          CANCELLED: cancelled,
+          TOTAL: allTotal,
+        },
       },
       "Orders fetched successfully",
     );

@@ -512,7 +512,7 @@ export const distributorOrderStatusTemplate = ({
     CREATED: { bg: "#e0f2fe", text: "#0369a1", border: "#bae6fd" },
     APPROVED: { bg: "#dcfce7", text: "#166534", border: "#bbf7d0" },
     PROCESSING: { bg: "#fef3c7", text: "#92400e", border: "#fde68a" },
-    SHIPPEMENT: { bg: "#ede9fe", text: "#5b21b6", border: "#ddd6fe" },
+    SHIPMENT: { bg: "#ede9fe", text: "#5b21b6", border: "#ddd6fe" },
     DELIVERED: { bg: "#d1fae5", text: "#065f46", border: "#a7f3d0" },
     RECEIVED: { bg: "#d1fae5", text: "#065f46", border: "#a7f3d0" },
     CANCELLED: { bg: "#fee2e2", text: "#991b1b", border: "#fecaca" },

@@ -20,11 +20,12 @@ import {
     FunnelIcon
 } from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
+import { toUpperCase } from "zod";
 
 const STATUS_OPTIONS = [
     // "PENDING",
     "PROCESSED",
-    "SHIPPEMENT",
+    "SHIPMENT",
     "DELIVERED",
     "RECEIVED",
     "CANCELLED",
@@ -66,6 +67,15 @@ export default function WarehouseOrdersPage() {
     const [filterStatus, setFilterStatus] = useState("ALL");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [statusCounts, setStatusCounts] = useState({
+        PENDING: 0,
+        PROCESSED: 0,
+        SHIPMENT: 0,
+        DELIVERED: 0,
+        RECEIVED: 0,
+        CANCELLED: 0,
+        TOTAL: 0
+    });
 
     useEffect(() => {
         fetchOrders(pagination.currentPage);
@@ -92,6 +102,9 @@ export default function WarehouseOrdersPage() {
                     totalPages: data.totalPages || 1,
                     currentPage: data.currentPage || page,
                 }));
+                if (data.statusCounts) {
+                    setStatusCounts(data.statusCounts);
+                }
             } else {
                 setError(res.data?.message || "Failed to fetch orders");
             }
@@ -186,54 +199,142 @@ export default function WarehouseOrdersPage() {
     const getStatusColor = (status) => {
         switch (status) {
             case "PENDING":
-                return "bg-yellow-100 text-yellow-700 border-yellow-200";
+                return "bg-amber-50 text-amber-700 border-amber-200";
 
             case "PROCESSED":
-                return "bg-blue-100 text-blue-700 border-blue-200";
+                return "bg-sky-50 text-sky-700 border-sky-200";
 
-            case "SHIPPEMENT":
-                return "bg-orange-100 text-orange-700 border-orange-200";
+            case "SHIPMENT":
+                return "bg-purple-50 text-purple-700 border-purple-200";
 
             case "DELIVERED":
-                return "bg-green-100 text-green-700 border-green-200";
+                return "bg-emerald-50 text-emerald-700 border-emerald-200";
 
             case "RECEIVED":
-                return "bg-teal-100 text-teal-700 border-teal-200";
+                return "bg-teal-50 text-teal-700 border-teal-200";
 
             case "CANCELLED":
-                return "bg-red-100 text-red-700 border-red-200";
+                return "bg-rose-50 text-rose-700 border-rose-200";
 
             default:
                 return "bg-gray-100 text-gray-700 border-gray-200";
         }
     };
 
+    const statCards = [
+        {
+            label: "Pending",
+            count: statusCounts.PENDING,
+            icon: ({ className, style }) => (
+                <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M18.65 19.35L16.5 17.2V14h1v2.79l1.85 1.85zM17 10c.34 0 .67.03 1 .08V5h-2v3H8V5H6v15h4.68A6.995 6.995 0 0 1 17 10m-5-5c-.55 0-1-.45-1-1s.45-1 1-1s1 .45 1 1s-.45 1-1 1" opacity={0.3}></path>
+                    <path fill="currentColor" d="M17 12c-2.76 0-5 2.24-5 5s2.24 5 5 5s5-2.24 5-5s-2.24-5-5-5m1.65 7.35L16.5 17.2V14h1v2.79l1.85 1.85zM18 3h-3.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H6c-1.1 0-2 .9-2 2v15c0 1.1.9 2 2 2h6.11a6.7 6.7 0 0 1-1.42-2H6V5h2v3h8V5h2v5.08c.71.1 1.38.31 2 .6V5c0-1.1-.9-2-2-2m-6 2c-.55 0-1-.45-1-1s.45-1 1-1s1 .45 1 1s-.45 1-1 1"></path>
+                </svg>
+            ),
+            colorClass: "amber"
+        },
+        {
+            label: "Processed",
+            count: statusCounts.PROCESSED,
+            icon: ({ className, style }) => (
+                <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 256 256">
+                    <path fill="currentColor" d="M225.86 102.82c-3.77-3.94-7.67-8-9.14-11.57c-1.36-3.27-1.44-8.69-1.52-13.94c-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52c-3.56-1.47-7.63-5.37-11.57-9.14C146.28 23.51 138.44 16 128 16s-18.27 7.51-25.18 14.14c-3.94 3.77-8 7.67-11.57 9.14c-3.25 1.36-8.69 1.44-13.94 1.52c-9.76.15-20.82.31-28.51 8s-7.8 18.75-8 28.51c-.08 5.25-.16 10.67-1.52 13.94c-1.47 3.56-5.37 7.63-9.14 11.57C23.51 109.72 16 117.56 16 128s7.51 18.27 14.14 25.18c3.77 3.94 7.67 8 9.14 11.57c1.36 3.27 1.44 8.69 1.52 13.94c.15 9.76.31 20.82 8 28.51s18.75 7.85 28.51 8c5.25.08 10.67.16 13.94 1.52c3.56 1.47 7.63 5.37 11.57 9.14c6.9 6.63 14.74 14.14 25.18 14.14s18.27-7.51 25.18-14.14c3.94-3.77 8-7.67 11.57-9.14c3.27-1.36 8.69-1.44 13.94-1.52c9.76-.15 20.82-.31 28.51-8s7.85-18.75 8-28.51c.08-5.25.16-10.67 1.52-13.94c1.47-3.56 5.37-7.63 9.14-11.57c6.63-6.9 14.14-14.74 14.14-25.18s-7.51-18.27-14.14-25.18m-52.2 6.84l-56 56a8 8 0 0 1-11.32 0l-24-24a8 8 0 0 1 11.32-11.32L112 148.69l50.34-50.35a8 8 0 0 1 11.32 11.32"></path>
+                </svg>
+            ),
+            colorClass: "sky"
+        },
+        {
+            label: "Shipment",
+            count: statusCounts.SHIPMENT,
+            icon: ({ className, style }) => (
+                <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
+                    <path fill="currentColor" fillRule="evenodd" d="M6 4.5h3.5v6.625a.75.75 0 0 0 1.5 0V4.5h3.75c.6 0 1 .4 1 1v8.837a3.5 3.5 0 0 0-2 3.163h-1a3.5 3.5 0 0 0-5.5-2.873a3.5 3.5 0 0 0-5.5 2.873c-.6 0-1-.5-1-1v-11c0-.6.4-1 1-1H4.5v6.625a.75.75 0 0 0 1.5 0zm1.25 13a2 2 0 1 1-4 0a2 2 0 0 1 4 0m0 0a2 2 0 1 1 4 0a2 2 0 0 1-4 0m10 2a2 2 0 1 0 0-4a2 2 0 0 0 0 4m0-12V14a3.5 3.5 0 0 1 3.5 3.5h1.5c.6 0 1-.5 1-1v-4.3c0-.4-.3-.8-.7-.9l-2.3-.8l-1.7-2.6c-.2-.2-.5-.4-.8-.4z" clipRule="evenodd"></path>
+                </svg>
+            ),
+            colorClass: "purple"
+        },
+        {
+            label: "Delivered",
+            count: statusCounts.DELIVERED,
+            icon: ({ className, style }) => (
+                <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M19 6H5a3 3 0 0 0-3 3v2.72L8.837 14h6.326L22 11.72V9a3 3 0 0 0-3-3" opacity={0.5}></path>
+                    <path fill="currentColor" d="M10 6V5h4v1h2V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v1zm-1.163 8L2 11.72V18a3.003 3.003 0 0 0 3 3h14a3.003 3.003 0 0 0 3-3v-6.28L15.163 14z"></path>
+                </svg>
+            ),
+            colorClass: "emerald"
+        },
+        {
+            label: "Received",
+            count: statusCounts.RECEIVED,
+            icon: ({ className, style }) => (
+                <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9z" className="duoicon-secondary-layer" opacity={0.3}></path>
+                    <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
+                </svg>
+            ),
+            colorClass: "teal"
+        },
+        {
+            label: "Cancelled",
+            count: statusCounts.CANCELLED,
+            icon: ({ className, style }) => (
+                <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"></path>
+                </svg>
+            ),
+            colorClass: "rose"
+        }
+    ];
+
     return (
         <div className="min-h-screen py-8 font-sans">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-                            Warehouse Order Management
-                        </h1>
-                        <p className="text-sm text-gray-500 mt-1">Monitor and manage distributor orders, track status and update documents.</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <div className="bg-indigo-50 border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
-                            <ClipboardDocumentListIcon className="w-5 h-5 text-indigo-600" />
-                            <div className="flex items-center gap-2">
-                                <p className="text-xs text-indigo-600 font-medium">
-                                    Total Orders
-                                </p>
-                                <p className="text-base font-bold bg-indigo-900 text-white rounded px-2">
-                                    {loading ? (
-                                        <span className="inline-block w-8 h-5 bg-indigo-200 rounded animate-pulse"></span>
-                                    ) : (
-                                        pagination.totalItems
-                                    )}
-                                </p>
+                <div className="flex flex-col mb-8">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+                                Warehouse Order Management
+                            </h1>
+                            <p className="text-sm text-gray-500 mt-1">Monitor and manage distributor orders, track status and update documents.</p>
+                        </div>
+
+                        {/* Total Orders Card - Separate Style */}
+                        <div className="flex items-center gap-3 shrink-0">
+                            <div className="bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-2.5 flex items-center gap-2 shadow-xs group hover:shadow-md transition-all">
+                                <ClipboardDocumentListIcon className="w-5 h-5 text-indigo-600 group-hover:scale-110 transition-transform" />
+                                <div className="flex items-center gap-2">
+                                    <p className="text-xs text-indigo-600 font-bold uppercase tracking-wider">
+                                        Total Orders
+                                    </p>
+                                    <p className="text-base font-black bg-indigo-900 text-white rounded-md px-2.5 py-0.5 shadow-sm min-w-[32px] text-center">
+                                        {loading ? (
+                                            <span className="inline-block w-6 h-5 bg-white/20 rounded animate-pulse"></span>
+                                        ) : (
+                                            statusCounts.TOTAL.toLocaleString()
+                                        )}
+                                    </p>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Status Stats Cards - Integrated Grid (6 status cards) */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 bg-white rounded-xl shadow-sm border border-gray-100 p-3">
+                        {statCards.map((card, idx) => (
+                            <StatusCountCard
+                                key={idx}
+                                onclick={() => {
+                                    setFilterStatus(card.label.toUpperCase());
+                                    fetchOrders(1);
+                                }}
+                                label={card.label}
+                                count={card.count}
+                                icon={card.icon}
+                                loading={loading}
+                                colorClass={card.colorClass}
+                            />
+                        ))}
                     </div>
                 </div>
 
@@ -553,5 +654,46 @@ export default function WarehouseOrdersPage() {
                 isLoading={isDeleting}
             />
         </div>
+    );
+}
+
+function StatusCountCard({ label, count, icon: Icon, loading, colorClass, onclick }) {
+    const colorMap = {
+        indigo: { bg: "#eef2ff", border: "#e0e7ff", text: "#4f46e5", badge: "#3730a3" },
+        amber: { bg: "#fffbeb", border: "#fef3c7", text: "#d97706", badge: "#92400e" },
+        sky: { bg: "#f0f9ff", border: "#e0f2fe", text: "#0284c7", badge: "#075985" },
+        purple: { bg: "#f5f3ff", border: "#ede9fe", text: "#7c3aed", badge: "#5b21b6" },
+        emerald: { bg: "#ecfdf5", border: "#d1fae5", text: "#059669", badge: "#065f46" },
+        teal: { bg: "#f0fdfa", border: "#ccfbf1", text: "#0d9488", badge: "#115e59" },
+        rose: { bg: "#fff1f2", border: "#ffe4e6", text: "#e11d48", badge: "#9f1239" }
+    };
+
+    const colors = colorMap[colorClass] || colorMap.indigo;
+
+    return (
+        <button
+            onClick={onclick}
+            style={{ backgroundColor: colors.bg, borderColor: colors.border }}
+            className={`border rounded-md px-3 py-2 flex items-center gap-2.5 shadow-xs hover:shadow-sm transition-all group`}
+        >
+            <div style={{ backgroundColor: colors.text + "30" }} className="flex transform-3d transition-all duration-300 items-center justify-center w-12 h-8 rounded-md">
+                <Icon className={`w-5 h-5 shrink-0 group-hover:scale-110 transition-transform`} style={{ color: colors.text }} />
+            </div>
+            <div className="flex items-center justify-between gap-2 w-full">
+                <p className="text-xs font-semibold capitalize whitespace-nowrap" style={{ color: colors.text }}>
+                    {label}
+                </p>
+                <div
+                    style={{ backgroundColor: colors.badge }}
+                    className={`min-w-[32px] text-center font-black text-base text-white rounded-sm px-2 py-0.5 shadow-sm`}
+                >
+                    {loading ? (
+                        <span className="inline-block w-4 h-4 bg-white/20 rounded animate-pulse"></span>
+                    ) : (
+                        count.toLocaleString()
+                    )}
+                </div>
+            </div>
+        </button>
     );
 }

@@ -23,7 +23,7 @@ const orderSchema = new Schema(
       enum: [
         "PENDING",
         "PROCESSED",
-        "SHIPPEMENT",
+        "SHIPMENT",
         "DELIVERED",
         "RECEIVED",
         "CANCELLED",

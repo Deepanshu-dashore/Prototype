@@ -53,7 +53,7 @@ export default function DistributorProfile() {
     const showBilling = !!distributor.billingAddress;
 
     return (
-        <div className="max-w-7xl mx-auto pb-10 space-y-8">
+        <div className="max-w-6xl mx-auto pb-10 space-y-8 ">
             {/* Banner & Header Section */}
             <div className="relative rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-200">
                 {/* Banner Image */}

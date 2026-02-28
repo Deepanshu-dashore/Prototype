@@ -46,7 +46,7 @@ export async function GET() {
     });
     dashboardCard.totalShippedOrders = await Order.countDocuments({
       orderBy: distributorId,
-      status: "SHIPPEMENT",
+      status: "SHIPMENT",
     });
 
     // ── Order overview graph (orders per day, current distributor) ────────────

@@ -5,7 +5,7 @@ import axios from 'axios'
 import DashboardSidebar from '@/src/components/layout/DashboardSidebar'
 import {
     UserGroupIcon,
-    ClipboardDocumentListIcon
+    ClipboardDocumentListIcon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [

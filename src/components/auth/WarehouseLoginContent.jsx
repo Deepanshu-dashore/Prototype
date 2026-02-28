@@ -32,7 +32,7 @@ export default function WarehouseLoginContent() {
                 )}; max-age=${maxAge}; path=/; SameSite=Strict`;
             }
 
-            router.push("/warehouse/dashboard");
+            router.push("/warehouse/orders");
             router.refresh();
         } catch (err) {
             if (err.response?.data?.message) {
