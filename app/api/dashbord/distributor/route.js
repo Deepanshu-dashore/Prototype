@@ -7,7 +7,10 @@ import Product from "@/app/lib/models/product";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import mongoose from "mongoose";
 
-export async function GET() {
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const range = searchParams.get("range") || "yearly"; // yearly, monthly, currentMonth
+
   const user = await verifyDistributorJWT();
   if (!user) {
     return ApiResponse(401, false, "Unauthorized");
@@ -15,6 +18,7 @@ export async function GET() {
   if (!roleVerify(["distributor"], user)) {
     return ApiResponse(403, false, "Forbidden");
   }
+
   try {
     await connect();
 
@@ -49,30 +53,66 @@ export async function GET() {
       status: "SHIPMENT",
     });
 
-    // ── Order overview graph (orders per day, current distributor) ────────────
+    // ── Order overview graph (Distribution) ──────────────────────────────────
+    let matchStage = { orderBy: distributorId };
+    let groupStage = {
+      _id: {
+        month: { $month: "$createdAt" },
+        year: { $year: "$createdAt" },
+      },
+      count: { $sum: 1 },
+    };
+    let sortStage = {
+      "_id.year": 1,
+      "_id.month": 1,
+    };
+
+    const now = new Date();
+    if (range === "yearly") {
+      matchStage.createdAt = {
+        $gte: new Date(now.getFullYear(), 0, 1),
+        $lte: new Date(now.getFullYear(), 11, 31, 23, 59, 59),
+      };
+    } else if (range === "monthly") {
+      matchStage.createdAt = {
+        $gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000),
+      };
+      groupStage = {
+        _id: {
+          day: { $dayOfMonth: "$createdAt" },
+          month: { $month: "$createdAt" },
+          year: { $year: "$createdAt" },
+        },
+        count: { $sum: 1 },
+      };
+      sortStage = {
+        "_id.year": 1,
+        "_id.month": 1,
+        "_id.day": 1,
+      };
+    } else if (range === "currentMonth") {
+      matchStage.createdAt = {
+        $gte: new Date(now.getFullYear(), now.getMonth(), 1),
+      };
+      groupStage = {
+        _id: {
+          day: { $dayOfMonth: "$createdAt" },
+          month: { $month: "$createdAt" },
+          year: { $year: "$createdAt" },
+        },
+        count: { $sum: 1 },
+      };
+      sortStage = {
+        "_id.year": 1,
+        "_id.month": 1,
+        "_id.day": 1,
+      };
+    }
+
     const OrderOverViewGraph = await Order.aggregate([
-      {
-        $match: {
-          orderBy: distributorId,
-        },
-      },
-      {
-        $group: {
-          _id: {
-            day: { $dayOfMonth: "$createdAt" },
-            month: { $month: "$createdAt" },
-            year: { $year: "$createdAt" },
-          },
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $sort: {
-          "_id.year": 1,
-          "_id.month": 1,
-          "_id.day": 1,
-        },
-      },
+      { $match: matchStage },
+      { $group: groupStage },
+      { $sort: sortStage },
     ]);
 
     // ── Order by status graph (current distributor) ───────────────────────────
@@ -104,7 +144,7 @@ export async function GET() {
       .populate("orderItems.product", "code")
       .select("-po -invoice -updatedAt -__v");
 
-    // Distributor profile information ———————————————————————————————————//
+    // Distributor profile information ──────────────────────────────────────────
     const distributor = await Distributor.findById(distributorId).select(
       "companyName companyEmail companyNumber",
     );
@@ -123,6 +163,7 @@ export async function GET() {
       "Dashboard data",
     );
   } catch (error) {
+    console.error("Distributor Dashboard error:", error);
     return ApiResponse(500, error, "Internal server error");
   }
 }
