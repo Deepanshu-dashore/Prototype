@@ -301,7 +301,12 @@ export default function ProductsPage() {
     isOpen: false,
     productId: null,
   });
+  const [visibilityModal, setVisibilityModal] = useState({
+    isOpen: false,
+    productId: null,
+  });
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // Debounced fetch on search / page change
   useEffect(() => {
@@ -509,21 +514,21 @@ export default function ProductsPage() {
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
-                    <thead className="bg-gray-50/50 border-b border-gray-100">
+                    <thead className="bg-gray-100/70 border-b border-gray-100">
                       <tr>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                           Product Code
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                           Description
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                           Created
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                           Visibility
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right">
                           Actions
                         </th>
                       </tr>
@@ -535,7 +540,7 @@ export default function ProductsPage() {
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.04 }}
-                          className="hover:bg-gray-50/60 transition-colors group"
+                          className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
                         >
                           {/* Code */}
                           <td className="px-6 py-4">
@@ -567,7 +572,12 @@ export default function ProductsPage() {
                           {/* Visibility */}
                           <td className="px-6 py-4">
                             <button
-                              onClick={() => toggleVisibility(product._id)}
+                              onClick={() =>
+                                setVisibilityModal({
+                                  isOpen: true,
+                                  productId: product._id,
+                                })
+                              }
                               className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 ${
                                 product.visibility !== false
                                   ? "bg-indigo-500"
@@ -749,6 +759,58 @@ export default function ProductsPage() {
         type="delete"
         confirmText="Delete Product"
         isLoading={isDeleting}
+      />
+      <ConfirmationModal
+        isOpen={visibilityModal.isOpen}
+        icon={({ className }) => (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+            viewBox="0 0 24 24"
+          >
+            <defs>
+              <path
+                id="SVGnvzg3hCy"
+                fill="currentColor"
+                d="M15.92 12.799Q16 12.41 16 12a4 4 0 0 0-4.799-3.92zM8.667 9.788a4 4 0 0 0 5.545 5.545z"
+              ></path>
+            </defs>
+            <g fill="none">
+              <use
+                href="#SVGnvzg3hCy"
+                fillRule="evenodd"
+                clipRule="evenodd"
+              ></use>
+              <path
+                fill="currentColor"
+                fillOpacity={0.25}
+                fillRule="evenodd"
+                d="m15.787 16.909l-8.929-8.93c-1.314.986-2.373 2.138-3.046 2.955c-.388.472-.582.707-.582 1.066s.194.594.582 1.066C5.232 14.79 8.364 18 12 18c1.353 0 2.636-.445 3.787-1.091M9.577 6.456A7 7 0 0 1 12 6c3.636 0 6.768 3.21 8.188 4.934c.388.472.582.707.582 1.066s-.194.594-.582 1.066a19.5 19.5 0 0 1-1.95 2.05z"
+                clipRule="evenodd"
+              ></path>
+              <use
+                href="#SVGnvzg3hCy"
+                fillRule="evenodd"
+                clipRule="evenodd"
+              ></use>
+              <path
+                stroke="currentColor"
+                strokeWidth={1.2}
+                d="m8 5l12 12"
+              ></path>
+            </g>
+          </svg>
+        )}
+        onClose={() => setVisibilityModal({ isOpen: false, productId: null })}
+        onConfirm={() => {
+          toggleVisibility(visibilityModal.productId);
+          setVisibilityModal({ isOpen: false, productId: null });
+        }}
+        title="Visbility Update"
+        message="Are you sure you want to update visbility of this product?"
+        type="edit"
+        confirmText="Update Visibility"
+        isLoading={isUpdating}
       />
     </div>
   );

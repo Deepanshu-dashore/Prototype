@@ -157,18 +157,18 @@ export default function CategoriesPage() {
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
-                    <thead className="bg-gray-50/50 border-b border-gray-100">
+                    <thead className="bg-gray-100/70 border-b border-gray-100">
                       <tr>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                           Category Name
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                           Blog Count
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                           Latest Post
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right">
                           Actions
                         </th>
                       </tr>
@@ -180,7 +180,7 @@ export default function CategoriesPage() {
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.05 }}
-                          className="hover:bg-gray-50/60 transition-colors group"
+                          className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
                         >
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">

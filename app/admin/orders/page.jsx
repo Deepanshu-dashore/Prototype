@@ -322,14 +322,14 @@ export default function AdminOrdersPage() {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden min-h-[400px]">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
-                            <thead className="bg-gray-50/50 border-b border-gray-100">
+                            <thead className="bg-gray-100/70 border-b border-gray-100">
                                 <tr>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Order Info</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Order Date</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Distributor</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">PO / Invoice</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Info</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Date</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Distributor</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">PO / Invoice</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
@@ -351,8 +351,8 @@ export default function AdminOrdersPage() {
                                         <td colSpan="5" className="px-6 py-12 text-center text-gray-500">No orders found.</td>
                                     </tr>
                                 ) : (
-                                    orders.map((order) => (
-                                        <tr key={order._id} className="hover:bg-gray-50/60 transition-colors">
+                                    orders.map((order, index) => (
+                                        <tr key={order._id} className={`hover:bg-gray-50/60 transition-colors ${index % 2 !== 0 ? 'bg-slate-50' : 'bg-white'}`}>
                                             <td className="px-6 py-4 flex items-center gap-2 font-mono text-sm text-gray-800 hover:text-primary">
                                                 <div className="p-2 bg-primary/10 rounded-md">
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-primary" viewBox="0 0 24 24">
@@ -481,7 +481,8 @@ export default function AdminOrdersPage() {
                                 </button>
                                 <button
                                     onClick={() => setPagination(p => ({ ...p, currentPage: p.currentPage + 1 }))}
-                                    className="px-3 py-1 text-xs border border-gray-300 rounded hover:bg-white"
+                                    disabled={10 >= pagination.totalItems}
+                                    className="px-3 py-1 text-xs border border-gray-300 rounded hover:bg-white disabled:opacity-50"
                                 >
                                     Next
                                 </button>

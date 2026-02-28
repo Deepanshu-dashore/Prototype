@@ -12,14 +12,15 @@ export default function ConfirmationModal({
     type = "delete", // 'delete' | 'save' | 'info'
     confirmText = "Confirm",
     cancelText = "Cancel",
+    icon = null,
     isLoading = false,
 }) {
     if (!isOpen) return null;
 
     const isDelete = type === "delete";
-    const Icon = isDelete ? ExclamationTriangleIcon : CheckCircleIcon;
-    const iconColor = isDelete ? "text-red-600" : "text-emerald-600";
-    const iconBg = isDelete ? "bg-red-50" : "bg-emerald-50";
+    const Icon = isDelete ? ExclamationTriangleIcon : icon ? icon : CheckCircleIcon;
+    const iconColor = isDelete ? "text-red-600" : "text-blue-600";
+    const iconBg = isDelete ? "bg-red-50" : "bg-blue-50";
     const buttonColor = isDelete ? "bg-red-600 hover:bg-red-700" : "bg-primary hover:bg-primary/90";
 
     return (
@@ -52,7 +53,7 @@ export default function ConfirmationModal({
                             </button>
 
                             <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full ${iconBg} mb-5`}>
-                                <Icon className={`h-8 w-8 ${iconColor}`} />
+                                <Icon className={`h-9 w-9 ${iconColor}`} />
                             </div>
 
                             <h3 className="text-xl font-bold text-gray-900 mb-2">
