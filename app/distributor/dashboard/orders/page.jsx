@@ -149,34 +149,34 @@ export default function DistributorOrdersPage() {
     };
 
     if (loading) return (
-        <div className="flex justify-center items-center h-64">
+        <div className="flex justify-center items-center h-64 max-w-6xl mx-auto">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
     );
 
     return (
         <div className="max-w-6xl mx-auto px-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            <div className="flex flex-row sm:items-center justify-between gap-4 mb-8">
                 <div className="flex items-center gap-3">
-                    <div className="p-3 bg-primary/10 rounded-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-primary" viewBox="0 0 24 24">
+                    <div className="md:p-3 p-2 bg-primary/10 rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="md:w-6 md:h-6 w-5 h-5 text-primary" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9z" className="duoicon-secondary-layer" opacity={0.3}></path>
                             <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
                         </svg>
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">
+                        <h1 className="md:text-2xl text-lg font-bold text-gray-800">
                             My Orders
                         </h1>
-                        <p className="text-sm text-gray-500">Track your orders and place new ones</p>
+                        <p className="md:text-sm md:inline hidden text-[10px] text-gray-500">Track your orders and place new ones</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="bg-indigo-50 border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
+                    <div className="bg-white border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
                         <ClipboardDocumentListIcon className="w-5 h-5 text-indigo-600" />
                         <div className="flex items-center gap-2">
                             <p className="text-xs text-indigo-600 font-medium">
-                                Total Categories
+                                Total <span className="md:block hidden">Categories</span>
                             </p>
                             <p className="text-base font-bold bg-indigo-900 text-white rounded px-2">
                                 {loading ? (
@@ -192,7 +192,7 @@ export default function DistributorOrdersPage() {
                         className="inline-flex text-sm items-center justify-center gap-2 bg-primary text-white px-4 py-2.5 rounded-xl hover:bg-primary/90 transition-all shadow-sm font-medium"
                     >
                         <PlusIcon className="w-5 h-5" />
-                        New Order
+                        <span className="md:block hidden">New Order</span>
                     </button>
                 </div>
             </div>
@@ -222,7 +222,7 @@ export default function DistributorOrdersPage() {
                                     <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100">
+                            <tbody className="divide-y divide-gray-100 text-nowrap">
                                 {orders.map((order) => (
                                     <tr key={order._id} className="hover:bg-gray-50/50 transition-colors">
                                         <td className="px-6 py-4 flex items-center gap-2 font-mono text-sm text-gray-800 hover:text-primary">

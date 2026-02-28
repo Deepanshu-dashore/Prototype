@@ -44,7 +44,7 @@ export default function DistributorLayout({ children }) {
     ];
 
     return (
-        <div className="h-screen bg-gray-50 overflow-hidden">
+        <div className="h-screen overflow-hidden">
             <DashboardSidebar
                 title="Distributor Portal"
                 navigation={navItems}
@@ -52,7 +52,7 @@ export default function DistributorLayout({ children }) {
                 logoutAction={handleLogout}
             />
 
-            <div className="pl-64 h-full overflow-y-auto">
+            <div className="lg:pl-64 lg:pt-0 pt-16 h-full overflow-y-auto bg-linear-to-t from-blue-400/5 to-primary/5">
                 <main className="flex-1 w-full py-8">
                     {children}
                 </main>

@@ -113,13 +113,14 @@ export default function AdminDashboard() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeFilter, setActiveFilter] = useState("All");
+    const [graphRange, setGraphRange] = useState("yearly"); // yearly, monthly, currentMonth
 
-    useEffect(() => { fetchDashboardData(); }, []);
+    useEffect(() => { fetchDashboardData(graphRange); }, [graphRange]);
 
-    const fetchDashboardData = async () => {
+    const fetchDashboardData = async (range = graphRange) => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/dashbord/admin");
+            const res = await axios.get(`/api/dashbord/admin?range=${range}`);
             console.log(res.data);
             if (res.data?.success) setData(res.data.data);
         } catch (e) {
@@ -173,8 +174,19 @@ export default function AdminDashboard() {
         },
     ];
 
+    function formatChartLabel(item, range) {
+        const { _id } = item;
+        if (range === "yearly") {
+            return MONTHS[(_id.month || 1) - 1] + " " + String(_id.year || "").slice(2);
+        }
+        // For monthly/currentMonth, _id contains day, month, year
+        const day = _id.day || 1;
+        const mon = MONTHS[(_id.month || 1) - 1];
+        return `${day} ${mon}`;
+    }
+
     const overviewData = (data?.OrderOverViewGraph || []).map(item => ({
-        name: formatMonth(item),
+        name: formatChartLabel(item, graphRange),
         orders: item.count,
     }));
     // Fallback demo data
@@ -228,7 +240,7 @@ export default function AdminDashboard() {
                     </button>
 
                     {/* Admin Badge */}
-                    <div className="flex items-center gap-2.5 bg-gradient-to-br from-indigo-600 to-blue-600 text-white px-4 py-2 rounded-xl shadow-md shadow-blue-200">
+                    <div className="flex items-center gap-2.5 bg-linear-to-br from-indigo-600 to-blue-600 text-white px-4 py-2 rounded-xl shadow-md shadow-blue-200">
                         <div className="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center text-xs font-extrabold">
                             A
                         </div>
@@ -261,11 +273,20 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
                 {/* Area Chart – spans 3 */}
                 <div className="lg:col-span-3 bg-white rounded-2xl px-5 pt-4 pb-2 shadow-sm border border-gray-100">
-                    <div className="flex items-center justify-between mb-2">
-                        <h2 className="text-sm font-semibold text-gray-900">Orders Overview</h2>
-                        {/* <button className="text-xs text-gray-400 flex items-center gap-1 hover:text-gray-600">
-                            Last 30 days <ChevronRightIcon className="w-3 h-3 rotate-90" />
-                        </button> */}
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 className="text-sm font-bold text-gray-900">Orders Overview</h2>
+                            <p className="text-[10px] text-gray-400">Activity distribution by {graphRange === "yearly" ? "month" : "day"}</p>
+                        </div>
+                        <select
+                            value={graphRange}
+                            onChange={(e) => setGraphRange(e.target.value)}
+                            className="text-[11px] font-bold text-gray-600 border border-gray-100 bg-gray-50/50 rounded-lg px-2 py-1 outline-none hover:border-blue-200 transition-all cursor-pointer shadow-sm"
+                        >
+                            <option value="yearly">Yearly View</option>
+                            <option value="monthly">Last 30 Days</option>
+                            <option value="currentMonth">Current Month</option>
+                        </select>
                     </div>
                     <ResponsiveContainer width="100%" height={220}>
                         <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>

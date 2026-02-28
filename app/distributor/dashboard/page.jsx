@@ -174,15 +174,16 @@ export default function DistributorDashboard() {
     const [user, setUser] = useState({ companyName: "Defualt distributor", companyEmail: "distributor@gmail.com", initials: "DD" });
     const [reorderingId, setReorderingId] = useState(null);
     const [productList, setProductList] = useState(null);
+    const [graphRange, setGraphRange] = useState("yearly"); // yearly, monthly, currentMonth
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(graphRange);
+    }, [graphRange]);
 
-    const fetchData = async () => {
+    const fetchData = async (range = graphRange) => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/dashbord/distributor");
+            const res = await axios.get(`/api/dashbord/distributor?range=${range}`);
             if (res.data?.success) {
                 setData(res.data.data)
                 setUser({ ...res.data.data.distributor, initials: res.data.data.distributor.companyName.split(" ").map((n) => n[0]).join("").slice(0, 2) });
@@ -285,8 +286,19 @@ export default function DistributorDashboard() {
     ];
 
     // ── Chart data ─────────────────────────────────────────────────────────────
+    function formatChartLabel(item, range) {
+        const { _id } = item;
+        if (range === "yearly") {
+            return MONTHS[(_id.month || 1) - 1] + " " + String(_id.year || "").slice(2);
+        }
+        // For monthly/currentMonth, _id contains day, month, year
+        const day = _id.day || 1;
+        const mon = MONTHS[(_id.month || 1) - 1];
+        return `${day} ${mon}`;
+    }
+
     const overviewData = (data?.OrderOverViewGraph || []).map(item => ({
-        name: formatDayLabel(item),
+        name: formatChartLabel(item, graphRange),
         orders: item.count,
     }));
     const chartData = overviewData.length > 0 ? overviewData : [
@@ -330,11 +342,11 @@ export default function DistributorDashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-[#F7F8FA] font-sans -mt-8">
+        <div className="min-h-screen font-sans -mt-8">
 
             {/* ── Top Bar ── */}
             <div className="flex items-center mb-2 justify-between px-6 py-3 bg-white border-b border-gray-100 sticky top-0 z-10">
-                <h1 className="text-[18px] font-bold text-gray-900 tracking-tight">Distributor Dashboard</h1>
+                <h1 className="md:text-[18px] text-sm font-bold text-gray-900 tracking-tight">Distributor Dashboard</h1>
 
                 <div className="flex items-center gap-3">
                     {/* Notification Bell (matches admin style) */}
@@ -344,7 +356,7 @@ export default function DistributorDashboard() {
                     </button>
 
                     {/* Distributor Badge (matches admin dashboard style) */}
-                    <div className="flex items-center gap-2.5 bg-linear-to-br from-indigo-600 to-blue-600 text-white px-4 py-1.5 rounded-xl shadow-md shadow-blue-200 cursor-pointer hover:shadow-lg transition-all group/badge">
+                    <div className="md:flex hidden items-center gap-2.5 bg-linear-to-br from-indigo-600 to-blue-600 text-white px-4 py-1.5 rounded-xl shadow-md shadow-blue-200 cursor-pointer hover:shadow-lg transition-all group/badge">
                         <div className="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center text-[11px] font-extrabold uppercase line-clamp-1 overflow-hidden truncate">
                             {user.initials}
                         </div>
@@ -377,11 +389,12 @@ export default function DistributorDashboard() {
                         <div className="flex items-end justify-between gap-4">
 
                             {/* Left: avatar + name + email */}
-                            <div className="flex items-end gap-4">
+
+                            <div className="md:flex hidden items-end gap-4">
                                 {/* Avatar circle */}
-                                <div className="relative w-16 h-16 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden flex items-center justify-center shrink-0 mb-[-6px]">
+                                <div className="relative md:w-16 md:h-16 w-12 h-12 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden flex items-center justify-center shrink-0 mb-[-6px]">
                                     <div className="pointer-events-none absolute z-10 inset-0 bg-[url('/square.svg')] bg-repeat opacity-[0.08]" aria-hidden />
-                                    <div className="w-full h-full uppercase rounded-full bg-linear-to-br from-indigo-400 to-blue-600 text-white flex items-center justify-center text-2xl font-bold">
+                                    <div className="w-full h-full uppercase rounded-full bg-linear-to-br from-indigo-400 to-blue-600 text-white flex items-center justify-center md:text-xl text-lg font-bold">
                                         {user.initials}
                                     </div>
                                 </div>
@@ -389,7 +402,7 @@ export default function DistributorDashboard() {
                                 {/* Text */}
                                 <div className="pb-1 drop-shadow-md">
                                     <div className="flex items-center gap-2">
-                                        <h2 className="text-white font-bold text-lg leading-tight">{user.companyName}</h2>
+                                        <h2 className="text-white font-bold lg:text-lg text-sm leading-tight">{user.companyName}</h2>
                                         {/* Same verified seal SVG as profile page */}
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 bg-blue-500 rounded-full p-1 text-white" viewBox="0 0 256 256">
                                             <path fill="currentColor" d="M228.75 100.05c-3.52-3.67-7.15-7.46-8.34-10.33c-1.06-2.56-1.14-7.83-1.21-12.47c-.15-10-.34-22.44-9.18-31.27s-21.27-9-31.27-9.18c-4.64-.07-9.91-.15-12.47-1.21c-2.87-1.19-6.66-4.82-10.33-8.34C148.87 20.46 140.05 12 128 12s-20.87 8.46-27.95 15.25c-3.67 3.52-7.46 7.15-10.33 8.34c-2.56 1.06-7.83 1.14-12.47 1.21c-10 .2-22.44.34-31.25 9.2s-9 21.25-9.2 31.25c-.07 4.64-.15 9.91-1.21 12.47c-1.19 2.87-4.82 6.66-8.34 10.33C20.46 107.13 12 116 12 128s8.46 20.87 15.25 28c3.52 3.67 7.15 7.46 8.34 10.33c1.06 2.56 1.14 7.83 1.21 12.47c.15 10 .34 22.44 9.18 31.27s21.27 9 31.27 9.18c4.64.07 9.91.15 12.47 1.21c2.87 1.19 6.66 4.82 10.33 8.34C107.13 235.54 116 244 128 244s20.87-8.46 27.95-15.25c3.67-3.52 7.46-7.15 10.33-8.34c2.56-1.06 7.83-1.14 12.47-1.21c10-.15 22.44-.34 31.27-9.18s9-21.27 9.18-31.27c.07-4.64.15-9.91 1.21-12.47c1.19-2.87 4.82-6.66 8.34-10.33c6.79-7.08 15.25-15.9 15.25-27.95s-8.46-20.87-15.25-27.95m-17.32 39.29c-4.82 5-10.28 10.72-13.19 17.76c-2.82 6.8-2.93 14.16-3 21.29c-.08 5.36-.19 12.71-2.15 14.66s-9.3 2.07-14.66 2.15c-7.13.11-14.49.22-21.29 3c-7 2.91-12.73 8.37-17.76 13.19c-3.6 3.45-8.98 8.61-11.38 8.61s-7.78-5.16-11.34-8.57c-5-4.82-10.72-10.28-17.76-13.19c-6.8-2.82-14.16-2.93-21.29-3c-5.36-.08-12.71-.19-14.66-2.15s-2.07-9.3-2.15-14.66c-.11-7.13-.22-14.49-3-21.29c-2.91-7-8.37-12.73-13.19-17.76C41.16 135.78 36 130.4 36 128s5.16-7.78 8.57-11.34c4.82-5 10.28-10.72 13.19-17.76c2.82-6.8 2.93-14.16 3-21.29C60.88 72.25 61 64.9 63 63s9.3-2.07 14.66-2.15c7.13-.11 14.49-.22 21.29-3c7-2.91 12.73-8.37 17.76-13.19C120.22 41.16 125.6 36 128 36s7.78 5.16 11.34 8.57c5 4.82 10.72 10.28 17.76 13.19c6.8 2.82 14.16 2.93 21.29 3c5.36.08 12.71.19 14.66 2.15s2.07 9.3 2.15 14.66c.11 7.13.22 14.49 3 21.29c2.91 7 8.37 12.73 13.19 17.76c3.41 3.56 8.57 8.94 8.57 11.34s-5.12 7.82-8.53 11.38m-34.94-43.83a12 12 0 0 1 0 17l-56 56a12 12 0 0 1-17 0l-24-24a12 12 0 1 1 17-17L112 143l47.51-47.52a12 12 0 0 1 16.98.03" stroke="currentColor"></path>
@@ -413,7 +426,7 @@ export default function DistributorDashboard() {
                                         <path fill="currentColor" d="M7.5 18a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3m9 0a1.5 1.5 0 1 1 0 3a1.5 1.5 0 0 1 0-3"></path>
                                     </svg>
 
-                                    Quick Order
+                                    <span className="lg:inline hidden">Quick</span> Order
                                 </Link>
                                 <button
                                     onClick={() => {
@@ -428,8 +441,8 @@ export default function DistributorDashboard() {
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24">
                                         <path fill="currentColor" d="m17.275 20.25l3.475-3.45l-1.05-1.05l-2.425 2.375l-.975-.975l-1.05 1.075zM6 9h12V7H6zm12 14q-2.075 0-3.537-1.463T13 18t1.463-3.537T18 13t3.538 1.463T23 18t-1.463 3.538T18 23M3 22V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v6.675q-.7-.35-1.463-.513T18 11H6v2h7.1q-.425.425-.787.925T11.675 15H6v2h5.075q-.05.25-.062.488T11 18q0 1.05.288 2.013t.862 1.837L12 22l-1.5-1.5L9 22l-1.5-1.5L6 22l-1.5-1.5z"></path>
-                                    </svg>
-                                    Reorder Last Order
+                                    </svg>Reorder Last
+                                    <span className="lg:inline hidden">Order</span>
                                 </button>
                             </div>
                         </div>
@@ -440,12 +453,12 @@ export default function DistributorDashboard() {
                     {cards.map(({ label, value, Icon, iconBg, iconColor }, i) => (
                         <div key={i} className="bg-white rounded-2xl p-3.5 shadow-sm border border-gray-100 flex flex-col gap-2">
                             <div className="flex items-center gap-2">
-                                <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center shrink-0`}>
-                                    <Icon cls={`w-5 h-5 ${iconColor}`} />
+                                <div className={`md:w-8 md:h-8 w-6 h-6 rounded-lg ${iconBg} flex items-center justify-center shrink-0`}>
+                                    <Icon cls={`md:w-5 md:h-5 w-4 h-4 ${iconColor}`} />
                                 </div>
-                                <p className="text-sm text-gray-700 leading-tight">{label}</p>
+                                <p className="md:text-sm text-xs text-gray-700 leading-tight">{label}</p>
                             </div>
-                            <p className="text-2xl font-semibold text-gray-900 mt-0.5 pl-2">{value.toLocaleString()}</p>
+                            <p className="md:text-2xl text-lg font-semibold text-gray-900 mt-0.5 pl-2">{value.toLocaleString()}</p>
                         </div>
                     ))}
                 </div>
@@ -462,10 +475,19 @@ export default function DistributorDashboard() {
                         {/* Area Chart */}
                         <div className="lg:col-span-3 bg-white rounded-2xl px-5 pt-4 pb-2 shadow-sm border border-gray-100">
                             <div className="flex items-center justify-between mb-5">
-                                <h2 className="text-sm font-semibold text-gray-900">Orders Overview</h2>
-                                {/* <button className="flex items-center gap-1 text-xs text-gray-400 border border-gray-200 rounded-lg px-2.5 py-1 hover:border-gray-300 transition-colors">
-                                    Last 30 days <ChevronDownIcon className="w-3 h-3" />
-                                </button> */}
+                                <div>
+                                    <h2 className="text-sm font-semibold text-gray-900">Orders Overview</h2>
+                                    <p className="text-[10px] text-gray-400">Activity distribution by {graphRange === "yearly" ? "month" : "day"}</p>
+                                </div>
+                                <select
+                                    value={graphRange}
+                                    onChange={(e) => setGraphRange(e.target.value)}
+                                    className="text-[11px] font-bold text-gray-600 border border-gray-100 bg-gray-50/50 rounded-lg px-2 py-1 outline-none hover:border-blue-200 transition-all cursor-pointer shadow-sm"
+                                >
+                                    <option value="yearly">Yearly View</option>
+                                    <option value="monthly">Last 30 Days</option>
+                                    <option value="currentMonth">Current Month</option>
+                                </select>
                             </div>
                             <ResponsiveContainer width="100%" height={220}>
                                 <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -28, bottom: 0 }}>
@@ -603,8 +625,8 @@ export default function DistributorDashboard() {
                                             : "—";
                                         const itemCount = Array.isArray(order.orderItems) ? order.orderItems.length : 0;
                                         return (
-                                            <tr key={order._id} className="hover:bg-gray-50/60 relative transition-colors">
-                                                <td className="px-5 py-3 text-xs font-semibold text-gray-700 font-mono w-52">{orderId}</td>
+                                            <tr key={order._id} className="hover:bg-gray-50/60 text-nowrap relative transition-colors">
+                                                <td className="px-5 py-3 text-xs font-semibold text-gray-700 font-mono w-52 ">{orderId}</td>
                                                 <td className="px-3 py-3">
                                                     <span className="text-xs bg-blue-50 text-indigo-600 border border-blue-100 rounded-lg px-2 py-0.5 font-medium">{dateStr}</span>
                                                 </td>
