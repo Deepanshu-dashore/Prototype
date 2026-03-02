@@ -10,21 +10,11 @@ export default function WarehouseAuthGuard({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    const isLoginPage = pathname === "/warehouse/login";
+    const isLoginPage = pathname === "/login";
 
     useEffect(() => {
         const checkAuth = async () => {
-            // Bypass for login page
             if (isLoginPage) {
-                setIsLoading(false);
-                return;
-            }
-
-            // Check for cookie first
-            const hasToken = document.cookie.split(';').some((item) => item.trim().startsWith('warehouseToken='));
-
-            if (!hasToken) {
-                router.push("/warehouse/login");
                 setIsLoading(false);
                 return;
             }
@@ -34,18 +24,21 @@ export default function WarehouseAuthGuard({ children }) {
                 if (response.data?.success && response.data?.data?.authenticated) {
                     setIsAuthenticated(true);
                 } else {
-                    router.push("/warehouse/login");
+                    if (!isLoginPage) {
+                        router.push("/login");
+                    }
                 }
             } catch (error) {
-                console.error("Warehouse auth verification failed:", error);
-                router.push("/warehouse/login");
+                if (!isLoginPage) {
+                    router.push("/login");
+                }
             } finally {
                 setIsLoading(false);
             }
         };
 
         checkAuth();
-    }, [router, isLoginPage]);
+    }, [pathname, isLoginPage]);
 
     if (isLoading) {
         return (
@@ -58,14 +51,9 @@ export default function WarehouseAuthGuard({ children }) {
         );
     }
 
-    // Allow displaying children on login page regardless of auth status
-    if (isLoginPage) {
+    if (isLoginPage || isAuthenticated) {
         return <>{children}</>;
     }
 
-    if (!isAuthenticated) {
-        return null;
-    }
-
-    return <>{children}</>;
+    return null;
 }

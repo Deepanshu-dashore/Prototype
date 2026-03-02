@@ -80,15 +80,28 @@ export default function UnifiedLogin({
                                     {field.label}
                                 </label>
                                 <div className="relative">
-                                    <input
-                                        type={field.name === "password" && showPassword ? "text" : field.type}
+                                    {field.type === "select" ? <select
                                         name={field.name}
-                                        value={formState[field.name] || ""}
-                                        onChange={handleChange}
+                                        value={field.state || formState[field.name] || ""}
+                                        onChange={field.onChange || handleChange}
                                         placeholder={field.placeholder}
                                         required
                                         className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                    />
+                                    >
+                                        {field.options.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </select> : <input
+                                        type={field.name === "password" && showPassword ? "text" : field.type}
+                                        name={field.name}
+                                        value={formState[field.name] || ""}
+                                        onChange={field.onChange || handleChange}
+                                        placeholder={field.placeholder}
+                                        required
+                                        className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                                    />}
                                     {field.name === "password" && (
                                         <button
                                             type="button"

@@ -18,10 +18,11 @@ export default function ConfirmationModal({
     if (!isOpen) return null;
 
     const isDelete = type === "delete";
-    const Icon = isDelete ? ExclamationTriangleIcon : icon ? icon : CheckCircleIcon;
-    const iconColor = isDelete ? "text-red-600" : "text-blue-600";
-    const iconBg = isDelete ? "bg-red-50" : "bg-blue-50";
-    const buttonColor = isDelete ? "bg-red-600 hover:bg-red-700" : "bg-primary hover:bg-primary/90";
+    const isLogout = type === "logout";
+    const Icon = isDelete ? ExclamationTriangleIcon : isLogout ? icon : icon ? icon : CheckCircleIcon;
+    const iconColor = isDelete ? "text-red-600" : isLogout ? "text-red-600" : "text-blue-600";
+    const iconBg = isDelete ? "bg-red-50" : isLogout ? "bg-red-50" : "bg-blue-50";
+    const buttonColor = isDelete ? "bg-red-600 hover:bg-red-700" : isLogout ? "bg-red-600 hover:bg-red-700" : "bg-primary hover:bg-primary/90";
 
     return (
         <AnimatePresence>

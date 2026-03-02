@@ -64,40 +64,7 @@ function StatusBadge({ status }) {
 }
 
 // Matching notification icons from the design
-const NOTIF_LIST = [
-    {
-        title: "New High Priority Order",
-        desc: "Order #113, has arrived: at3éfer!tse orde.",
-        time: "9:32 AM",
-        bgColor: "bg-red-100",
-        textColor: "text-red-500",
-        Icon: ShoppingCartIcon,
-    },
-    {
-        title: "Distributor License Expiring Soon",
-        desc: "Thuredum porics dukse àn1l229",
-        time: "3:22 AM",
-        bgColor: "bg-amber-100",
-        textColor: "text-amber-500",
-        Icon: ExclamationTriangleIcon,
-    },
-    {
-        title: "Low Stock Alert",
-        desc: "Product listing·asea lélcting 1238.",
-        time: "8:23 AM",
-        bgColor: "bg-blue-100",
-        textColor: "text-blue-500",
-        Icon: CubeIcon,
-    },
-    {
-        title: "Payment Received",
-        desc: "Product listing·updated. 4#10131.",
-        time: "6:23 AM",
-        bgColor: "bg-indigo-100",
-        textColor: "text-indigo-500",
-        Icon: CreditCardIcon,
-    },
-];
+
 
 // Custom donut center label
 function DonutCenter({ totalOrders }) {
@@ -234,10 +201,10 @@ export default function AdminDashboard() {
 
                 <div className="flex items-center gap-3">
                     {/* Notification Bell */}
-                    <button className="relative w-10 h-10 flex items-center justify-center bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md hover:border-blue-100 transition-all group">
+                    {/* <button className="relative w-10 h-10 flex items-center justify-center bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md hover:border-blue-100 transition-all group">
                         <BellIcon className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
                         <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white animate-pulse" />
-                    </button>
+                    </button> */}
 
                     {/* Admin Badge */}
                     <div className="flex items-center gap-2.5 bg-linear-to-br from-indigo-600 to-blue-600 text-white px-4 py-2 rounded-xl shadow-md shadow-blue-200">
@@ -452,47 +419,64 @@ export default function AdminDashboard() {
                     </div>
                 </div>
 
-                {/* Priority Notifications – 2 cols */}
+                {/* Distributor Verification Requests – 2 cols */}
                 <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 px-5 pt-4 pb-5">
                     <div className="flex items-center justify-between mb-3">
-                        <h2 className="text-sm font-semibold text-gray-900">Priority Notifications</h2>
-                        <button className="text-xs text-blue-500 font-medium flex items-center gap-0.5 hover:underline">
+                        <h2 className="text-sm font-semibold text-gray-900">New Distributor Requests</h2>
+                        <Link href="/admin/distributors" className="text-xs text-blue-500 font-medium flex items-center gap-0.5 hover:underline">
                             View All <ChevronRightIcon className="w-3 h-3" />
-                        </button>
+                        </Link>
                     </div>
 
-                    {/* Filter tabs matching the design */}
-                    <div className="flex items-center gap-1.5 mb-4">
-                        {["All", "High", "Medium", "Low"].map((f) => (
-                            <button
-                                key={f}
-                                onClick={() => setActiveFilter(f)}
-                                className={`px-2.5 py-1 text-[11px] font-semibold rounded-md transition-all ${activeFilter === f
-                                    ? "bg-rose-50 text-rose-500 ring-1 ring-rose-200"
-                                    : "text-gray-400 hover:text-gray-600"
-                                    }`}
-                            >
-                                {f}
-                            </button>
-                        ))}
-                    </div>
+                    <p className="text-[10px] text-gray-400 mb-4 uppercase tracking-wider font-semibold">Pending Verification</p>
 
-                    {/* Notification items */}
-                    <div className="space-y-4">
-                        {NOTIF_LIST.map(({ title, desc, time, bgColor, textColor, Icon }, i) => (
-                            <div key={i} className="flex items-start gap-3 group cursor-pointer">
-                                <div className={`w-9 h-9 shrink-0 rounded-xl ${bgColor} flex items-center justify-center`}>
-                                    <Icon className={`w-4.5 h-4.5 ${textColor}`} style={{ width: 18, height: 18 }} />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-start justify-between gap-1">
-                                        <p className="text-xs font-semibold text-gray-800 leading-snug">{title}</p>
-                                        <span className="text-[10px] text-gray-400 whitespace-nowrap mt-0.5">{time}</span>
+                    {/* Request items */}
+                    <div className="space-y-4 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
+                        {(data?.recentNewDirtubutors || []).map((dist, i) => {
+                            const timeAgo = new Date(dist.createdAt).toLocaleDateString("en-IN", {
+                                day: "numeric",
+                                month: "short"
+                            });
+                            const initials = dist.companyName
+                                ?.split(" ")
+                                .map(w => w[0])
+                                .join("")
+                                .slice(0, 2)
+                                .toUpperCase() || "D";
+
+                            return (
+                                <Link
+                                    key={dist._id}
+                                    href={`/admin/distributors`}
+                                    className="flex items-start gap-3 group cursor-pointer hover:bg-gray-50/50 p-2 -m-2 rounded-xl transition-all"
+                                >
+                                    <div className={`w-10 h-10 shrink-0 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-xs font-bold text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all`}>
+                                        {initials}
                                     </div>
-                                    <p className="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{desc}</p>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-start justify-between gap-1">
+                                            <p className="text-xs font-bold text-gray-800 leading-snug truncate group-hover:text-blue-600 transition-colors">
+                                                {dist.companyName}
+                                            </p>
+                                            <span className="text-[10px] text-gray-400 whitespace-nowrap mt-0.5">{timeAgo}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 mt-0.5">
+                                            <UserGroupIcon className="w-3 h-3 text-gray-400" />
+                                            <p className="text-[11px] text-gray-500 truncate">{dist.contactPersonName || "Unknown"}</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            );
+                        })}
+
+                        {(!data?.recentNewDirtubutors || data.recentNewDirtubutors.length === 0) && (
+                            <div className="flex flex-col items-center justify-center py-10 opacity-60">
+                                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-2">
+                                    <UserGroupIcon className="w-6 h-6 text-gray-300" />
                                 </div>
+                                <p className="text-xs text-gray-400 font-medium">No pending requests</p>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </div>
             </div>

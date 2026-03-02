@@ -9,6 +9,7 @@ export default function LoginContent() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [role, setRole] = useState('admin')
 
     useEffect(() => {
         // Clear all cookies on same site
@@ -54,14 +55,47 @@ export default function LoginContent() {
         }
     }
 
+    const handleWarehouseSubmit = async (formData) => {
+        setError("");
+        setLoading(true);
+
+        try {
+            const { name, password } = formData;
+            const response = await axios.post("/api/warehouse/login", {
+                name,
+                password,
+            });
+
+            if (response.data?.data) {
+                const { warehouse, warehouseToken } = response.data.data;
+                const maxAge = 60 * 60 * 24 * 7; // 7 days
+                document.cookie = `warehouse_user=${encodeURIComponent(
+                    JSON.stringify(warehouse)
+                )}; max-age=${maxAge}; path=/; SameSite=Strict`;
+            }
+
+            router.push("/warehouse/orders");
+        } catch (err) {
+            if (err.response?.data?.message) {
+                setError(err.response.data.message);
+            } else if (err.message) {
+                setError(err.message);
+            } else {
+                setError("An error occurred. Please try again.");
+            }
+            setLoading(false);
+        }
+    };
+
     return (
         <UnifiedLogin
             title="Admin Login"
-            onSubmit={handleSubmit}
+            onSubmit={role === "admin" ? handleSubmit : handleWarehouseSubmit}
             loading={loading}
             error={error}
             fields={[
-                { name: "email", type: "text", placeholder: "someone@example.com", label: "Email" },
+                { name: "role", state: role, onChange: (e) => setRole(e.target.value), type: "select", placeholder: "Select Role", label: "Role", options: [{ value: "admin", label: "Admin" }, { value: "warehouse", label: "Warehouse" }] },
+                ...(role === "admin" ? [{ name: "email", type: "text", placeholder: "someone@example.com", label: "Email" }] : [{ name: "name", type: "text", placeholder: "Warehouse Name", label: "Warehouse Name" }]),
                 { name: "password", type: "password", placeholder: "********", label: "Password" },
             ]}
         />

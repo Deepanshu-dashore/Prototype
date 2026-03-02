@@ -121,6 +121,13 @@ export async function GET(request) {
       },
     ]);
 
+    const recentNewDirtubutors = await Distributor.find({
+      "verification.isVerified": false,
+    })
+      .sort({ createdAt: -1 })
+      .limit(7)
+      .select("companyName contactPersonName createdAt");
+
     // ── Recent orders ────────────────────────────────────────────────────────
     const recentOrders = await Order.find()
       .sort({ createdAt: -1 })
@@ -135,6 +142,7 @@ export async function GET(request) {
         OrderOverViewGraph,
         OrderByStatusGraph,
         recentOrders,
+        recentNewDirtubutors,
       },
       "Dashboard data",
     );
