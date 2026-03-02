@@ -3,11 +3,13 @@ import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import Product from "@/app/lib/models/product";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import { verifyDistributorJWT } from "@/app/lib/middlewares/verifyDistibutorJwt";
 
 export async function GET(request) {
   const user = await verifyJWT();
+  const distributor = await verifyDistributorJWT();
   const warehouse = await verifyWarehouseJWT();
-  if (!user?.id && !warehouse?.id) {
+  if (!user?.id && !distributor?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
   await connect();
