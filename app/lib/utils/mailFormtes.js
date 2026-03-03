@@ -129,6 +129,267 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
 `;
 };
 
+export const forgotPasswordOtpTemplate = ({
+  otp,
+  expire = "10 minutes",
+  name,
+  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  companyName = "CC Matting",
+  supportEmail = "support@ccmatting.com",
+}) => {
+  return `
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Password Reset OTP</title>
+</head>
+
+<body style="margin:0;padding:0;background-color:#f4f6f9;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;">
+
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" align="center">
+  <tr>
+    <td align="center" style="padding:30px 12px;">
+
+      <!-- Main Container -->
+      <table width="600" cellpadding="0" cellspacing="0" role="presentation"
+        style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,0.05);">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:#0b3aa4;padding:24px;text-align:center;">
+            <img src="${logoUrl}" alt="${companyName}"
+              width="150"
+              style="display:block;margin:auto;border:none;outline:none;text-decoration:none;" />
+          </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="padding:40px 40px 30px 40px;">
+
+            <h1 style="font-size:22px;font-weight:700;margin:0 0 18px 0;color:#111;">
+              Reset Your Password
+            </h1>
+
+            <p style="font-size:14px;line-height:22px;margin:0 0 16px 0;">
+              Hello <strong>${name || "User"}</strong>,
+            </p>
+
+            <p style="font-size:14px;line-height:22px;margin:0 0 20px 0;">
+              We received a request to reset the password for your 
+              <strong>${companyName}</strong> account.
+              Use the One-Time Password (OTP) below to continue.
+            </p>
+
+            <!-- OTP Box -->
+            <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+              <tr>
+                <td align="center" style="padding:25px 0;">
+                  <div style="
+                    display:inline-block;
+                    padding:16px 30px;
+                    font-size:34px;
+                    font-weight:700;
+                    letter-spacing:8px;
+                    background:#eef2ff;
+                    color:#0b3aa4;
+                    border-radius:8px;
+                    border:1px solid #dbe3ff;">
+                    ${otp || "000000"}
+                  </div>
+                  <p style="font-size:12px;margin:12px 0 0 0;color:#555;">
+                    This OTP is valid for ${expire}.
+                  </p>
+                </td>
+              </tr>
+            </table>
+
+            <p style="font-size:13px;line-height:20px;margin:25px 0 0 0;color:#444;">
+              If you did not request a password reset, you can safely ignore this email.
+              Your account remains secure.
+            </p>
+
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr>
+          <td>
+            <hr style="border:none;border-top:1px solid #e8e8e8;margin:0;" />
+          </td>
+        </tr>
+
+        <!-- Security Note -->
+        <tr>
+          <td style="padding:20px 40px;">
+            <p style="font-size:12px;line-height:18px;color:#666;margin:0;">
+              For security reasons, never share this OTP with anyone. 
+              ${companyName} will never ask for your password or verification code via email or phone.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background:#f9fafc;padding:18px;text-align:center;">
+            <p style="font-size:12px;color:#666;margin:0;">
+              Need assistance? Contact us at 
+              <a href="mailto:${supportEmail}" 
+                 style="color:#0b3aa4;text-decoration:none;font-weight:600;">
+                ${supportEmail}
+              </a>
+            </p>
+            <p style="font-size:11px;color:#999;margin:8px 0 0 0;">
+              © ${new Date().getFullYear()} ${companyName}. All rights reserved.
+            </p>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
+`;
+};
+
+export const passwordSecurityAlertTemplate = ({
+  name,
+  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  companyName = "CC Matting",
+  supportEmail = "support@ccmatting.com",
+  resetLink = "https://prototype-alpha-six.vercel.app/distributor/forget-password",
+}) => {
+  return `
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Password Updated</title>
+</head>
+
+<body style="margin:0;padding:0;background:#f4f6f9;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#202124;">
+
+<table width="100%" cellpadding="0" cellspacing="0" align="center">
+<tr>
+<td align="center" style="padding:40px 12px;">
+
+<table width="600" cellpadding="0" cellspacing="0"
+style="background:#ffffff;border-radius:8px;overflow:hidden;
+box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+
+<!-- Header -->
+<tr>
+<td style="padding:28px 20px;text-align:center;border-bottom:1px solid #eaeaea;">
+<img src="${logoUrl}" alt="${companyName}" width="140"
+style="display:block;margin:auto;border:none;" />
+</td>
+</tr>
+
+<!-- Body -->
+<tr>
+<td style="padding:40px 48px;">
+
+<h1 style="font-size:22px;font-weight:600;margin:0 0 20px;color:#202124;">
+Password changed in your account
+</h1>
+
+<p style="font-size:14px;line-height:22px;margin:0 0 16px;">
+Hello <strong>${name || "User"}</strong>,
+</p>
+
+<p style="font-size:14px;line-height:22px;margin:0 0 20px;">
+This is a confirmation that the password for your 
+<strong>${companyName}</strong> account was recently updated.
+</p>
+
+<p style="font-size:14px;line-height:22px;margin:0 0 30px;">
+If you made this change, no further action is required.
+</p>
+
+<!-- Warning Section -->
+<div style="
+background:#fff4f4;
+border:1px solid #ffd6d6;
+padding:18px;
+border-radius:6px;
+margin-bottom:30px;">
+
+<p style="margin:0;font-size:13px;line-height:20px;color:#b71c1c;font-weight:600;">
+If you did NOT change your password, your account may be compromised.
+</p>
+
+<p style="margin:8px 0 0;font-size:13px;line-height:20px;color:#444;">
+Please reset your password immediately to secure your account.
+</p>
+
+</div>
+
+<!-- Action Button -->
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td align="center">
+<a href="${resetLink}"
+style="
+background:#d93025;
+color:#ffffff;
+text-decoration:none;
+padding:14px 28px;
+font-size:14px;
+font-weight:600;
+border-radius:6px;
+display:inline-block;">
+Reset Password Now
+</a>
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+
+<!-- Divider -->
+<tr>
+<td><hr style="border:none;border-top:1px solid #eaeaea;margin:0;" /></td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="padding:20px;text-align:center;background:#fafafa;">
+<p style="font-size:12px;color:#5f6368;margin:0;">
+Need help? Contact 
+<a href="mailto:${supportEmail}"
+style="color:#1a73e8;text-decoration:none;font-weight:500;">
+${supportEmail}
+</a>
+</p>
+<p style="font-size:11px;color:#9aa0a6;margin:8px 0 0;">
+© ${new Date().getFullYear()} ${companyName}. All rights reserved.
+</p>
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+`;
+};
+
 export const distributorVerificationTemplate = ({
   distributorName,
   companyName = "CC Matting",

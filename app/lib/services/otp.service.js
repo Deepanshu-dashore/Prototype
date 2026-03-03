@@ -26,7 +26,7 @@ export class OtpService {
     }
 
     const GenratedOtp = Math.floor(100000 + Math.random() * 900000);
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + 3 * 60 * 1000);
     const otp = await Otp.create({
       email,
       otp: GenratedOtp,
@@ -70,6 +70,12 @@ export class OtpService {
       otp,
       expiresAt: { $gt: new Date() },
     });
+    if (!storeOtp.otp) {
+      return {
+        status: 400,
+        message: "Invalid or Expired OTP",
+      };
+    }
     if (storeOtp.otp !== otp) {
       return {
         status: 400,

@@ -99,7 +99,7 @@ export default function DashboardSidebar({
     navigation = [],
     user = { name: 'User', email: '', initials: 'U' },
     logoutAction,
-    logoSrc = "/assets/CC%20MATTING_New_2_Horizontal%20version_page-0001.jpg"
+    logoSrc = "/CCMate-Logo.jpg"
 }) {
     const pathname = usePathname();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -108,8 +108,18 @@ export default function DashboardSidebar({
         <>
             {/* Mobile menu button */}
             <div className="lg:hidden fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-                <Link href="/" className="font-bold text-xl text-primary">
-                    {title}
+                <Link href="/" className="flex items-center">
+                    {logoSrc ? (
+                        <Image
+                            src={logoSrc}
+                            alt={title}
+                            width={160}
+                            height={45}
+                            className="h-10 ml-10 w-auto object-contain"
+                        />
+                    ) : (
+                        <span className="text-xl font-bold text-primary">{title}</span>
+                    )}
                 </Link>
                 <button
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

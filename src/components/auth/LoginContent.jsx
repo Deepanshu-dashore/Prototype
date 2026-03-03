@@ -93,6 +93,7 @@ export default function LoginContent() {
             onSubmit={role === "admin" ? handleSubmit : handleWarehouseSubmit}
             loading={loading}
             error={error}
+            links={{ forgotPassword: false, register: false }}
             fields={[
                 { name: "role", state: role, onChange: (e) => setRole(e.target.value), type: "select", placeholder: "Select Role", label: "Role", options: [{ value: "admin", label: "Admin" }, { value: "warehouse", label: "Warehouse" }] },
                 ...(role === "admin" ? [{ name: "email", type: "text", placeholder: "someone@example.com", label: "Email" }] : [{ name: "name", type: "text", placeholder: "Warehouse Name", label: "Warehouse Name" }]),

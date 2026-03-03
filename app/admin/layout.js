@@ -14,7 +14,7 @@ export default function AdminLayout({ children }) {
     <AuthGuard>
       <div className="flex min-h-screen bg-gray-50/50">
         <Sidebar />
-        <main className="flex-1 lg:overflow-y-auto h-screen pl-64 pt-16 lg:pt-0 bg-linear-to-t from-blue-400/5 to-primary/5">
+        <main className="flex-1 lg:overflow-y-auto h-screen lg:pl-64 pt-16 lg:pt-0 bg-linear-to-t from-blue-400/5 to-primary/5">
           {children}
         </main>
       </div>

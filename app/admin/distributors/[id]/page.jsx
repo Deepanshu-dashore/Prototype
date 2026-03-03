@@ -15,7 +15,8 @@ import {
     ClockIcon,
     ChatBubbleLeftEllipsisIcon,
     PlusIcon,
-    EyeIcon
+    EyeIcon,
+    GlobeAmericasIcon
 } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -118,49 +119,49 @@ export default function DistributorDetailsPage({ params }) {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200"
                             >
-                                <div className="flex items-center gap-2 mb-4 text-primary font-semibold text-sm uppercase tracking-wider">
-                                    <BuildingOfficeIcon className="w-5 h-5" />
+                                <div className="flex border-b border-gray-200 border-dashed pb-2 items-center gap-2 mb-4 text-gray-700 font-semibold text-sm capitalize ">
+                                    <BuildingOfficeIcon className="w-7 h-7 bg-primary/20 text-accent p-1 rounded-sm" />
                                     Company Details
                                 </div>
                                 <div className="space-y-4">
-                                    <div>
-                                        <label className="text-xs text-gray-400 font-medium block">Email</label>
+                                    <div className="border-b border-gray-200 border-dashed pb-2">
                                         <div className="flex items-center gap-2 text-sm text-gray-700 mt-1">
                                             <EnvelopeIcon className="w-4 h-4 text-gray-400" />
+                                            <label className="text-sm text-gray-700 font-medium block">Email -</label>
                                             {distributor.companyEmail}
                                         </div>
                                     </div>
-                                    <div>
-                                        <label className="text-xs text-gray-400 font-medium block">Phone</label>
+                                    <div className="border-b border-gray-200 border-dashed pb-2">
                                         <div className="flex items-center gap-2 text-sm text-gray-700 mt-1">
                                             <PhoneIcon className="w-4 h-4 text-gray-400" />
+                                            <label className="text-sm text-gray-700 font-medium block">Phone -</label>
                                             {distributor.companyNumber}
                                         </div>
                                     </div>
-                                    <div>
-                                        <label className="text-xs text-gray-400 font-medium block">Website</label>
+                                    <div className="border-b border-gray-200 border-dashed pb-2">
                                         <div className="flex items-center gap-2 text-sm text-gray-700 mt-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                 <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                                             </svg>
+                                            <label className="text-sm text-gray-700 font-medium block">Website -</label>
                                             {distributor.website ? (
                                                 <a href={distributor.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                                                     {distributor.website.replace(/^https?:\/\//, '')}
                                                 </a>
-                                            ) : "—"}
+                                            ) : "not available"}
                                         </div>
                                     </div>
-                                    <div>
-                                        <label className="text-xs text-gray-400 font-medium block">LinkedIn</label>
+                                    <div className="border-b border-gray-200 border-dashed pb-2">
                                         <div className="flex items-center gap-2 text-sm text-gray-700 mt-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                                             </svg>
+                                            <label className="text-sm text-gray-700 font-medium block">LinkedIn -</label>
                                             {distributor.linkedin ? (
                                                 <a href={distributor.linkedin} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                                                     View Profile
                                                 </a>
-                                            ) : "—"}
+                                            ) : "not available"}
                                         </div>
                                     </div>
                                 </div>
@@ -173,29 +174,30 @@ export default function DistributorDetailsPage({ params }) {
                                 transition={{ delay: 0.1 }}
                                 className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200"
                             >
-                                <div className="flex items-center gap-2 mb-4 text-blue-600 font-semibold text-sm uppercase tracking-wider">
-                                    <UserIcon className="w-5 h-5" />
+                                <div className="flex border-b border-gray-200 border-dashed pb-2 items-center gap-2 mb-4 text-gray-700 font-semibold text-sm capitalize ">
+                                    <UserIcon className="w-7 h-7 bg-primary/20 text-accent p-1 rounded-sm" />
                                     Contact Person
                                 </div>
                                 <div className="space-y-4">
-                                    <div>
-                                        <label className="text-xs text-gray-400 font-medium block">Name</label>
-                                        <div className="flex items-center gap-2 text-sm text-gray-900 font-medium mt-1">
+                                    <div className="border-b border-gray-200 border-dashed pb-2">
+                                        <div className="flex items-center gap-2 text-sm text-gray-700 mt-1">
+                                            <UserIcon className="w-4 h-4 text-gray-400" />
+                                            <label className="text-sm text-gray-700 font-medium block">Name -</label>
                                             {distributor.contactPersonName}
                                         </div>
-                                        <span className="text-xs text-gray-500">{distributor.contactPersonDesignation}</span>
+                                        <span className="text-xs text-gray-500 capitalize">{distributor.contactPersonDesignation}</span>
                                     </div>
-                                    <div>
-                                        <label className="text-xs text-gray-400 font-medium block">Email</label>
+                                    <div className="border-b border-gray-200 border-dashed pb-2">
                                         <div className="flex items-center gap-2 text-sm text-gray-700 mt-1">
                                             <EnvelopeIcon className="w-4 h-4 text-gray-400" />
+                                            <label className="text-sm text-gray-700 font-medium block">Email -</label>
                                             {distributor.contactPersonEmail}
                                         </div>
                                     </div>
-                                    <div>
-                                        <label className="text-xs text-gray-400 font-medium block">Phone</label>
+                                    <div className="border-b border-gray-200 border-dashed pb-2">
                                         <div className="flex items-center gap-2 text-sm text-gray-700 mt-1">
                                             <PhoneIcon className="w-4 h-4 text-gray-400" />
+                                            <label className="text-sm text-gray-700 font-medium block">Phone -</label>
                                             {distributor.contactPersonNumber}
                                         </div>
                                     </div>
@@ -210,8 +212,8 @@ export default function DistributorDetailsPage({ params }) {
                             transition={{ delay: 0.2 }}
                             className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200"
                         >
-                            <div className="flex items-center gap-2 mb-6 text-indigo-600 font-semibold text-sm uppercase tracking-wider">
-                                <MapPinIcon className="w-5 h-5" />
+                            <div className="flex border-b border-gray-200 border-dashed pb-2 items-center gap-2 mb-4 text-gray-700 font-semibold text-sm capitalize ">
+                                <MapPinIcon className="w-7 h-7 bg-rose-100 text-rose-600 p-1 rounded-sm" />
                                 Registered & Shipping Address
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -232,6 +234,26 @@ export default function DistributorDetailsPage({ params }) {
                             </div>
                         </motion.div>
 
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 overflow-hidden"
+                        >
+                            <div className="flex border-b border-gray-200 border-dashed pb-2 items-center gap-2 mb-4 text-gray-700 font-semibold text-sm capitalize ">
+                                <GlobeAmericasIcon className="w-7 h-7 bg-emerald-100 text-emerald-600 p-1 rounded-sm" />
+                                Business Overview
+                            </div>
+                            <div className="space-y-2.5">
+                                <div className="flex items-center gap-5">
+                                    <div className="text-sm text-gray-600 flex items-center gap-2"> <div className="h-2.5 w-2.5 rounded-full bg-primary/20 flex justify-center items-center"><div className="h-1 w-1 rounded-full bg-primary" /></div> Is your company currently active in the cleanroom and/or contamination control industry?</div>
+                                    <div className="bg-gray-200 p-1 rounded-md text-sm font-semibold italic w-fit px-3">Answer: {distributor.question1 ? 'Yes' : 'No'}</div>
+                                </div>
+                                <div className="text-sm text-gray-600 flex items-center gap-2"> <div className="h-2.5 w-2.5 rounded-full bg-primary/20 flex justify-center items-center"><div className="h-1 w-1 rounded-full bg-primary" /></div> Please provide a brief overview of your company, including your experience in the industry, target markets, and how you see CCMatting products adding value to your business.</div>
+                                <div className="bg-gray-200 p-1 rounded-md text-sm font-semibold italic w-fit px-3 ml-3">Answer: {distributor.question2 ? distributor.question2 : 'Not Given'}</div>
+                            </div>
+                        </motion.div>
+
                         {/* Order History Table */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -241,7 +263,7 @@ export default function DistributorDetailsPage({ params }) {
                         >
                             <div className="p-6 border-b border-gray-100 flex items-center justify-between">
                                 <div className="flex items-center gap-2 text-gray-900 font-semibold text-sm uppercase tracking-wider">
-                                    <ClockIcon className="w-5 h-5 text-amber-500" />
+                                    <ClockIcon className="w-7 h-7 text-amber-600 bg-orange-100 p-1 rounded-sm" />
                                     Order History
                                 </div>
                             </div>
