@@ -53,7 +53,7 @@ export default function DistributorLogin() {
                 { name: "password", type: "password", placeholder: "********", label: "Password" },
             ]}
             links={{
-                forgotPassword: "#", // Add link if implemented
+                forgotPassword: "/distributor/forget-password", // Add link if implemented
                 register: "/distributor/register"
             }}
         />
