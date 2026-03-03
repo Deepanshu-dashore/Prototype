@@ -29,7 +29,7 @@ export async function POST(req) {
       to: email,
       subject: "Password Changed",
       body: passwordSecurityAlertTemplate({
-        name: isUser?.name || email || "Distributor",
+        name: isUser?.companyName || email || "Distributor",
       }),
     });
     return ApiResponse(200, null, "Password updated successfully");

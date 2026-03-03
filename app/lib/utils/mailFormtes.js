@@ -292,7 +292,7 @@ box-shadow:0 2px 12px rgba(0,0,0,0.08);">
 <!-- Header -->
 <tr>
 <td style="padding:28px 20px;text-align:center;border-bottom:1px solid #eaeaea;">
-<img src="${logoUrl}" alt="${companyName}" width="140"
+<img src="${logoUrl}" alt="${companyName}" width="160"
 style="display:block;margin:auto;border:none;" />
 </td>
 </tr>
