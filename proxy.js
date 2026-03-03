@@ -6,7 +6,9 @@ export function proxy(request) {
   // --- Distributor Protection ---
   if (path.startsWith("/distributor")) {
     const isPublicPath =
-      path === "/distributor/login" || path === "/distributor/register";
+      path === "/distributor/login" ||
+      path === "/distributor/register" ||
+      path === "/distributor/forget-password";
     const token = request.cookies.get("distributorToken")?.value || "";
 
     if (!isPublicPath && !token) {

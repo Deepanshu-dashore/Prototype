@@ -96,7 +96,7 @@ export default function UnifiedLogin({
                                     </select> : <input
                                         type={field.name === "password" && showPassword ? "text" : field.type}
                                         name={field.name}
-                                        value={formState[field.name] || ""}
+                                        value={field.state || formState[field.name] || ""}
                                         onChange={field.onChange || handleChange}
                                         placeholder={field.placeholder}
                                         required
