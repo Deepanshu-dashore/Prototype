@@ -352,7 +352,7 @@ export default function FeaturesContent() {
                                     <div className="pt-4">
                                         <Link
                                             href="/biomaster"
-                                            className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 border-2 border-white/20 backdrop-blur-[1px] text-white rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300 shadow-lg shadow-black/20 group/bio"
+                                            className="inline-flex mx-auto lg:mx-0 items-center gap-2 px-6 py-3 bg-white/10 border-2 border-white/20 backdrop-blur-[1px] text-white rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300 shadow-lg shadow-black/20 group/bio"
                                         >
                                             <span>Learn more about BioMaster Advantage</span>
                                             <ArrowRightIcon className="w-4 h-4 group-hover/bio:translate-x-1 transition-transform" />
@@ -361,13 +361,13 @@ export default function FeaturesContent() {
                                 </div>
                             </div>
                             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                                <div className="relative w-56 h-56 sm:w-[70dvw] sm:h-72 bg-white border-4 divide-y divide-x divide-gray-200 backdrop-blur-md rounded-2xl p-8 flex items-center justify-center group/logo transition-colors duration-500">
+                                <div className="relative w-full h-56 md:w-[70dvw] md:h-72 bg-white border-4 divide-y divide-x divide-gray-200 backdrop-blur-md rounded-2xl p-8 flex items-center justify-center group/logo transition-colors duration-500">
                                     <Image
                                         src="/biomasterLogo.png"
                                         alt="Biomaster Logo"
                                         width={320}
                                         height={320}
-                                        className="object-contain relative z-10 drop-shadow-2xl scale-130 group-hover/logo:scale-125 transition-transform duration-500"
+                                        className="object-contain relative z-10 drop-shadow-2xl lg:scale-115 md:scale-125 xl:scale-130 group-hover/logo:scale-125 transition-transform duration-500"
                                     />
                                 </div>
                             </div>
@@ -564,7 +564,7 @@ export default function FeaturesContent() {
                             </p>
                         </div>
 
-                        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div className="mt-12 grid @max-xs:grid-cols-2 md:grid-cols-4 gap-4">
                             {[
                                 { title: "In-House Installation", icon: HomeIcon },
                                 { title: "Fully Trained Personnel", icon: UserGroupIcon },
@@ -584,7 +584,7 @@ export default function FeaturesContent() {
                                         <div className="w-10 h-full rounded-r-lg rounded-l-md absolute left-0 bg-primary flex items-center justify-center transition-colors duration-300">
                                             <Icon className="w-5 h-5 text-white" />
                                         </div>
-                                        <p className="text-xs sm:text-sm font-medium group-hover:text-white text-neutral-dark">
+                                        <p className="sm:text-xs text-[12px] xl:text-sm font-medium group-hover:text-white text-neutral-dark">
                                             {feature.title}
                                         </p>
                                     </motion.div>
@@ -612,17 +612,17 @@ export default function FeaturesContent() {
                                     ORDER NOW
                                 </span>
                             </div>
-                            <h2 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-dark leading-tight">
                                 Get a Custom Quote for Your Facility
                             </h2>
                         </div>
                         <div className="space-y-3">
-                            <p className="text-sm flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
+                            <p className="md:text-sm text-xs flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
                                 <span className="w-3 h-3 inline-block rounded-full bg-white" >
                                 </span>
                                 If you want an alternative size, call us directly for custom sizing.
                             </p>
-                            <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
+                            <p className="text-sm text-justify md:text-left md:text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
                                 Get a free, no-obligation quote tailored to your specific contamination control requirements. Our experts will help you determine the optimal mat configuration and sizing for your facility.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-3">

@@ -29,10 +29,10 @@ export default function BlogListCard({ post, index }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="group flex gap-6 pb-8 border-b border-gray-100 last:border-0 last:pb-0 hover:border-gray-200 transition-colors duration-300"
+            className="group flex flex-col md:flex-row gap-6 pb-8 border-b border-gray-100 last:border-0 last:pb-0 hover:border-gray-200 transition-colors duration-300"
         >
             {/* Image */}
-            <Link href={`/blog/${post._id}`} className="relative w-32 sm:w-40 h-32 sm:h-40 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
+            <Link href={`/blog/${post._id}`} className="relative w-full md:w-40 h-56 md:h-40 md:flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
                 {post.featuredImage && !imageError ? (
                     <Image
                         src={post.featuredImage}
@@ -79,18 +79,18 @@ export default function BlogListCard({ post, index }) {
 
                 {/* Meta */}
                 <div className="flex items-center gap-4 mt-auto">
-                    <span className="text-xs font-medium text-neutral-dark/60">
+                    <span className="md:text-xs text-[10px] font-medium text-neutral-dark/60">
                         {post.author || 'CC Mating'}
                     </span>
-                    <span className="text-xs text-neutral-dark/40">•</span>
-                    <span className="text-xs text-neutral-dark/50 flex items-center gap-1">
+                    <span className="md:text-xs text-[10px] text-neutral-dark/40">•</span>
+                    <span className="md:text-xs text-[10px] text-neutral-dark/50 flex items-center gap-1">
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         {post.readingTime || 5} min read
                     </span>
                     <span className="ml-auto">
-                        <span className="text-xs font-semibold text-white bg-primary/60 px-2.5 py-1 rounded-sm">
+                        <span className="md:text-xs text-[10px] font-semibold text-white bg-primary/60 px-2.5 py-1 rounded-sm">
                             {post.category}
                         </span>
                     </span>

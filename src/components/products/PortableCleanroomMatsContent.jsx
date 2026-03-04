@@ -182,7 +182,7 @@ export default function PortableCleanroomMatsContent() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="lg:col-span-5 grid grid-cols-2 gap-5"
+                            className="lg:col-span-5 grid md:grid-cols-2 gap-5"
                         >
                             {[
                                 {
@@ -762,26 +762,26 @@ export default function PortableCleanroomMatsContent() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-16 items-center"
                     >
                         <div>
-                            <div className="flex items-center gap-3 mb-6">
+                            <div className="flex justify-center md:justify-start items-center gap-3 mb-6">
                                 <div className="w-3 h-3 rounded-full bg-primary" />
                                 <span className="text-xs font-mono uppercase tracking-[0.15em] text-neutral-dark font-medium">
                                     ORDER NOW
                                 </span>
                             </div>
-                            <h2 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
+                            <h2 className="text-3xl text-center md:text-left md:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
                                 Get a Custom Quote for Your Facility
                             </h2>
                         </div>
                         <div className="space-y-3">
-                            <p className="text-sm flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
+                            <p className="md:text-sm text-xs flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
                                 <span className="w-3 h-3 inline-block rounded-full bg-white" >
                                 </span>
                                 If you want an alternative size, call us directly for custom sizing.
                             </p>
-                            <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
+                            <p className="sm:text-base text-sm text-justify md:text-left md::text-lg text-neutral-dark/70 leading-relaxed">
                                 Get a free, no-obligation quote tailored to your specific contamination control requirements. Our experts will help you determine the optimal mat configuration and sizing for your facility.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-3">

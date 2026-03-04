@@ -232,8 +232,8 @@ export default function HeavyDutyContent({ product }) {
             {/* Color Options */}
             <section className="bg-white py-16 sm:py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex lg:gap-8 flex-col lg:flex-row gap-0 justify-center">
-                        <div className="grid grid-cols-1 grid-rows-2 shrink-0 w-full md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12">
+                    <div className="flex lg:gap-8 flex-col xl:flex-row gap-0 justify-center">
+                        <div className="grid grid-cols-1 shrink-0 w-full md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto mb-12">
                             {product.colorOptions.map((color, index) => (
                                 <motion.div
                                     key={color.name}
@@ -289,8 +289,8 @@ export default function HeavyDutyContent({ product }) {
             <section className="relative bg-linear-to-br from-primary via-blue-800 to-indigo-700 py-12 sm:py-16 overflow-hidden">
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
                 <div className="relative z-10">
-                    <div className="max-w-7xl mx-auto px-4 grid grid-cols-10 gap-10">
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto col-span-7">
+                    <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-10 gap-10">
+                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto cols-span-1 md:col-span-7">
                             <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
                                 <div className="bg-gray-100 p-8 py-2 flex items-center justify-center md:w-1/2 h-72">
                                     <Image src={product.warranty.badgeImage} alt="Warranty" width={400} height={400} className="w-full h-96 object-contain" />
@@ -307,7 +307,7 @@ export default function HeavyDutyContent({ product }) {
                                 </div>
                             </div>
                         </motion.div>
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto col-span-3">
+                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto cols-span-1 md:col-span-3">
                             <div className="bg-white relative rounded-2xl border border-gray-200 shadow-lg overflow-hidden p-5 h-full">
                                 <p className="text-base text-neutral-dark/70 mt-8">{product.warranty.additionalInfo2}</p>
 
@@ -581,7 +581,7 @@ export default function HeavyDutyContent({ product }) {
                         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
                             Customize to Your Space
                         </h2>
-                        <p className="text-sm sm:text-base text-white/70 max-w-3xl mx-auto leading-relaxed">
+                        <p className="text-sm xl:text-base text-white/70 max-w-3xl mx-auto leading-relaxed">
                             We customize our CCM Heavy-Duty Polymeric Mat sizes to suit the required installation area. Share your dimensions and layout needs, and we will tailor the matting for the right coverage and performance.
                         </p>
                     </motion.div>
@@ -689,23 +689,23 @@ export default function HeavyDutyContent({ product }) {
                         className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
                     >
                         <div>
-                            <div className="flex items-center gap-3 mb-6">
+                            <div className="flex mx-auto w-fit md:w-full items-center gap-3 md:mb-6 mb-4">
                                 <div className="w-3 h-3 rounded-full bg-primary" />
                                 <span className="text-xs font-mono uppercase tracking-[0.15em] text-neutral-dark font-medium">
                                     ORDER NOW
                                 </span>
                             </div>
-                            <h2 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
+                            <h2 className="md:text-4xl text-center md:text-left text-3xl sm:text-5xl lg:text-5xl font-bold text-neutral-dark leading-tight">
                                 Get a Custom Quote for Your Facility
                             </h2>
                         </div>
                         <div className="space-y-3">
-                            <p className="text-sm flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
+                            <p className="md:text-sm text-xs flex items-center gap-3 bg-linear-to-bl from-accent/60 via-accent/75 to-accent rounded-md px-5 py-1 w-fit sm:text-base text-white leading-relaxed">
                                 <span className="w-3 h-3 inline-block rounded-full bg-white" >
                                 </span>
                                 If you want an alternative size, call us directly for custom sizing.
                             </p>
-                            <p className="text-base sm:text-lg text-neutral-dark/70 leading-relaxed">
+                            <p className="md:text-base text-sm text-justify md:text-left text-neutral-dark/70 leading-relaxed">
                                 Get a free, no-obligation quote tailored to your specific contamination control requirements. Our experts will help you determine the optimal mat configuration and sizing for your facility.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-3">

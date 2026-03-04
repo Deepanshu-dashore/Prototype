@@ -108,7 +108,7 @@ export default function BlogHero({ post }) {
                     transition={{ duration: 0.7, delay: 0.5 }}
                     className="mt-12 sm:mt-16 px-8"
                 >
-                    <div className="relative w-full border border-gray-100 aspect-video h-[75dvh] rounded-3xl overflow-hidden bg-gray-100">
+                    <div className="relative w-full border border-gray-100 aspect-video h-56 md:h-[75dvh] rounded-3xl overflow-hidden bg-gray-100">
                         {(post.featuredImage && !imageError) && (
                             <Image
                                 src={post.featuredImage}

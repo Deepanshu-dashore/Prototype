@@ -131,7 +131,7 @@ export default function Header({ onContactClick }) {
                   alt="CC Matting"
                   width={200}
                   height={52}
-                  className="h-13 w-50 object-contain"
+                  className="xl:h-13 xl:w-50 h-10 w-40 object-contain"
                   priority
                 />
               </span>
@@ -139,7 +139,7 @@ export default function Header({ onContactClick }) {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex lg:items-center lg:gap-8">
+          <div className="hidden lg:flex lg:items-center lg:gap-4 xl:gap-8">
             {navItems.map((item) => {
               if (item.hasDropdown) {
                 return (
@@ -154,7 +154,7 @@ export default function Header({ onContactClick }) {
                   >
                     <Link
                       href={item.href}
-                      className={`text-sm font-medium transition-colors flex items-center gap-1 ${isActiveRoute(item.href)
+                      className={`xl:text-sm text-xs font-medium transition-colors flex items-center gap-1 ${isActiveRoute(item.href)
                         ? 'text-primary font-semibold'
                         : 'text-neutral-dark hover:text-primary'
                         }`}
@@ -231,7 +231,7 @@ export default function Header({ onContactClick }) {
                 <div key={item.name} className="relative">
                   <Link
                     href={item.href}
-                    className={`text-sm h-18 flex items-center font-medium transition-colors px-3 py-2 rounded-lg relative ${isActiveRoute(item.href)
+                    className={`xl:text-sm text-xs h-18 flex items-center font-medium transition-colors px-3 py-2 rounded-lg relative ${isActiveRoute(item.href)
                       ? 'text-white font-semibold'
                       : 'text-neutral-dark'
                       }`}
@@ -258,7 +258,7 @@ export default function Header({ onContactClick }) {
           <div className="hidden lg:flex lg:items-center lg:gap-4">
             <Link
               href="/contact"
-              className="px-5 py-2.5 rounded-lg bg-cta text-white text-sm font-medium hover:scale-[1.03] transform transition shadow-sm"
+              className="px-5 py-2.5 rounded-lg bg-cta text-white xl:text-sm text-xs font-medium hover:scale-[1.03] transform transition shadow-sm"
             >
               Distributor
             </Link>

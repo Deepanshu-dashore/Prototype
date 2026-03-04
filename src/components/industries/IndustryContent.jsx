@@ -160,7 +160,7 @@ export default function IndustryContent({ industry }) {
                                                 <img
                                                     src={client.logo}
                                                     alt={client.name}
-                                                    className="max-h-26 max-w-[120px] 0 w-auto object-contain"
+                                                    className="max-h-20 md:max-w-[120px] max-w-[100px] w-auto object-contain"
                                                     onError={(e) => {
                                                         e.currentTarget.style.display = 'none';
                                                         e.currentTarget.nextSibling.style.display = 'flex';

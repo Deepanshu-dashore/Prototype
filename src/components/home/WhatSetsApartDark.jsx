@@ -203,7 +203,7 @@ export default function WhatSetsApartDark() {
         </div>
         {/* Large circle - top left */}
         <motion.div
-          className="absolute -top-32 left-10 w-80 h-80 rounded-full bg-blue-200/25"
+          className="absolute hidden md:block -top-32 left-10 w-80 h-80 rounded-full bg-blue-200/25"
           animate={{
             y: [0, 40, 0],
             scale: [1, 1.05, 1],
@@ -217,7 +217,7 @@ export default function WhatSetsApartDark() {
 
         {/* Medium circle - top right */}
         <motion.div
-          className="absolute -top-32 right-20 w-64 h-64 rounded-full bg-blue-200/20"
+          className="absolute hidden md:block -top-32 right-20 w-64 h-64 rounded-full bg-blue-200/20"
           animate={{
             y: [0, -30, 0],
             x: [0, 20, 0],

@@ -272,7 +272,7 @@ export default function IndustriesScroll() {
                     <h2 className="text-3xl lg:text-4xl font-bold text-neutral-dark mb-4">
                         Who Are They <span className="text-primary">Suitable For?</span>
                     </h2>
-                    <p className="text-lg text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
+                    <p className="md:text-lg text-[12px] text-neutral-dark/70 max-w-3xl mx-auto leading-relaxed">
                         Our range of contamination control mats are suitable for any organisation or business looking to reduce/eliminate the risk of floor level contaminants entering their critical area.
                     </p>
                 </div>
