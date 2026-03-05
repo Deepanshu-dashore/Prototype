@@ -130,7 +130,7 @@ export default function HeavyDutyContent({ product }) {
             company: "Merck"
         },
         {
-            demnsions: "w-20 h-10 object-cover",
+            demnsions: "w-20 h-16 object-cover scale-160 -mt-4",
             src: "/assets/installation/WhatsApp%20Image%202024-08-20%20at%2020.22.45%20(1).jpeg",
             logo: "/assets/Our Valuable Customers/asset 7.png",
             name: "GE Healthcare Installation",
@@ -656,13 +656,13 @@ export default function HeavyDutyContent({ product }) {
                                 <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent transition-opacity duration-300">
                                     <div className="absolute bottom-0 left-0 right-0 p-4">
                                         {image.logo ? (
-                                            <div className="bg-white w-full rounded-lg p-3 inline-block shadow-lg h-16 overflow-hidden">
+                                            <div className=" w-full rounded-lg p-3 inline-block shadow-lg h-16 overflow-hidden">
                                                 <Image
                                                     src={image.logo}
                                                     alt={image.company}
                                                     width={120}
                                                     height={40}
-                                                    className={`${image.demnsions}`}
+                                                    className={`${image.demnsions} bg-white p-2`}
                                                 />
                                             </div>
                                         ) : (

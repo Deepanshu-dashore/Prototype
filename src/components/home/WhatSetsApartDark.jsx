@@ -65,9 +65,9 @@ export default function WhatSetsApartDark() {
         </svg>
       ),
       iconify: true,
-      title: "VOC Free",
+      title: "VOC",
       description:
-        "Completely free from Volatile Organic Compounds, ensuring safe indoor air quality and environmental responsibility.",
+        "Free from Volatile Organic Compounds, ensuring safe indoor air quality and environmental responsibility.",
     },
     {
       icon: SparklesIcon,
