@@ -10,7 +10,7 @@ This document outlines the available API endpoints for the CC-Matting prototype.
 
 Authenticates a user and returns a JWT token.
 
-- **Body**: `{ "email": "...", "password": "..." }`
+- **Body**: `{ "email": "<your-email>", "password": "<your-password>" }`
 - **Response**: JWT token and user details.
 
 ### `GET /api/auth/verify`
@@ -100,4 +100,4 @@ Creates a new blog post. Supports HTML content (sanitized on server).
 ---
 
 > [!TIP]
-> Use the [Swagger documentation](https://prototype-alpha-six.vercel.app/api-docs) (if enabled) for interactive testing of these endpoints.
+> Use the [Swagger documentation](https://<your-project>.vercel.app/api-docs) (if enabled) for interactive testing of these endpoints.

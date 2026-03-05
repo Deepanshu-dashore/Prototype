@@ -65,7 +65,7 @@ Create a `.env` file in the root and add your credentials:
 ```env
 MONGODB_URL=your_mongodb_uri
 JWT_SECRET=your_secret_key
-ADMIN_EMAIL=admin@ccmatting.com
+ADMIN_EMAIL=<your-admin-email>
 ```
 
 ### 3. Run Development Server
@@ -82,10 +82,10 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 For more detailed information, please refer to the following guides:
 
-- 📦 **[Product Guide](file:///e:/Repository/CC-Matting-Next/Prototype/PRODUCTS.md)** - Technical specifications and product details.
-- 🏗️ **[Fixes Summary](file:///e:/Repository/CC-Matting-Next/Prototype/FIXES_SUMMARY.md)** - Overview of recent Vercel deployment fixes.
-- 📡 **[API Reference](file:///e:/Repository/CC-Matting-Next/Prototype/API.md)** - Documentation for backend endpoints.
-- 🛠️ **[Development Guide](file:///e:/Repository/CC-Matting-Next/Prototype/DEVELOPMENT.md)** - Architectures and coding standards.
+- 📦 **[Product Guide](./PRODUCTS.md)** - Technical specifications and product details.
+- 🏗️ **[Fixes Summary](./FIXES_SUMMARY.md)** - Overview of recent Vercel deployment fixes.
+- 📡 **[API Reference](./API.md)** - Documentation for backend endpoints.
+- 🛠️ **[Development Guide](./DEVELOPMENT.md)** - Architectures and coding standards.
 
 ---
 

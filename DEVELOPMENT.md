@@ -72,4 +72,4 @@ This guide describes the project structure, coding standards, and workflows for 
 ---
 
 > [!IMPORTANT]
-> Always verify that your changes do not break the Vercel serverless runtime. Refer to [FIXES_SUMMARY.md](file:///e:/Repository/CC-Matting-Next/Prototype/FIXES_SUMMARY.md) for critical deployment caveats.
+> Always verify that your changes do not break the Vercel serverless runtime. Refer to [FIXES_SUMMARY.md](./FIXES_SUMMARY.md) for critical deployment caveats.
