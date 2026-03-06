@@ -515,7 +515,7 @@ export default function DistributorRegister() {
                             <div className="text-gray-600 mt-5">
                                 <div className="flex gap-16">
                                     <p>
-                                        <span className="h-2 w-2 bg-primary/50 rounded-full inline-block mr-2"></span>
+                                        <span className="h-2 w-2 bg-primary rounded-full inline-block mr-2"></span>
                                         Is your company currently active in the cleanroom and/or contamination control industry?</p>
                                     <div className="flex gap-10">
                                         <label className="flex gap-2">
@@ -530,16 +530,39 @@ export default function DistributorRegister() {
                                 </div>
                                 <div className="mt-4">
                                     <p>
-                                        <span className="h-2 w-2 bg-primary/50 rounded-full inline-block mr-2"></span>
+                                        <span className="h-2 w-2 bg-primary rounded-full inline-block mr-2"></span>
                                         Please provide a brief overview of your company, including your experience in the industry, target markets, and how you see CCMatting products adding value to your business.</p>
                                     <div className="flex gap-10">
                                         <textarea
                                             onChange={handleChange}
                                             value={formData.question2}
+                                            required
                                             className="w-full px-4 py-2 mt-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                                             name="question2" id="question2" cols="30" rows="5"></textarea>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="mt-8 pt-4 border-t border-gray-100">
+                                <p className="text-[13px] text-gray-500 text-center leading-relaxed">
+                                    By submitting this application, you agree to CC Matting's{" "}
+                                    <a
+                                        href="/Ts-Cs-2026.pdf"
+                                        target="_blank"
+                                        className="text-primary hover:text-[#160258] transition-colors underline underline-offset-4 decoration-primary/20"
+                                    >
+                                        Terms and Conditions
+                                    </a>{" "}
+                                    and{" "}
+                                    <a
+                                        href="/privacy-policy"
+                                        target="_blank"
+                                        className="text-primary hover:text-[#160258] transition-colors underline underline-offset-4 decoration-primary/20"
+                                    >
+                                        Privacy Policy
+                                    </a>
+                                    .
+                                </p>
                             </div>
 
                             <div className="pt-8">
@@ -564,9 +587,9 @@ export default function DistributorRegister() {
                                 </button>
                                 <div className="mt-8 text-center">
                                     <p className="text-gray-600">
-                                        Already a partner?{" "}
+                                        Already a distributor?{" "}
                                         <Link href="/distributor/login" className="font-semibold text-primary hover:text-[#160258] transition-colors">
-                                            Log in to Dashboard
+                                            Log in
                                         </Link>
                                     </p>
                                 </div>

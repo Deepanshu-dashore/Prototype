@@ -93,12 +93,12 @@ export default function Header({ onContactClick }) {
     ],
     Compliance: [
       { name: 'Quality & Compliance Overview', href: '/compliance', icon: InformationCircleIcon },
-      { name: 'ISO 9001', href: '/compliance1', icon: CheckBadgeIcon },
-      { name: 'ISO 45001', href: '/compliance2', icon: ShieldCheckIcon },
+      { name: 'ISO 9001 - Cert 2025-26', href: '/compliances/doc/CC Matting - ISO 9001-2015 - 2025 - 2026.pdf', icon: CheckBadgeIcon },
+      { name: 'ISO 45001 - Cert SEP 25', href: '/compliances/doc/ISO 45001-2018 SEP 25.pdf', icon: ShieldCheckIcon },
       { name: 'Anti-Microbial Efficacy - A', href: '/compliance3', icon: BeakerIcon },
       { name: 'Anti-Microbial Efficacy - B', href: '/compliance4', icon: BeakerIcon },
       { name: 'BPR/EPA', href: '/compliance5', icon: GlobeAmericasIcon },
-      { name: 'Static Dissipative Testing', href: '/compliance6', icon: BoltIcon },
+      { name: 'Static Dissipative Testing 2026', href: '/compliances/doc/CCM STATIC DISSIPATIVE TEST RESULTS 2026.pdf', icon: BoltIcon },
       { name: 'CCMatting Efficacy Data', href: '/compliance7', icon: ChartBarIcon },
     ],
     Industries: industriesData.map(ind => ({
@@ -154,8 +154,8 @@ export default function Header({ onContactClick }) {
                   >
                     <Link
                       href={item.href}
-                      className={`xl:text-sm text-xs font-medium transition-colors flex items-center gap-1 ${isActiveRoute(item.href)
-                        ? 'text-primary font-semibold'
+                      className={`xl:text-[13.5px] text-[11px] font-medium transition-colors flex items-center gap-1 ${isActiveRoute(item.href)
+                        ? 'text-primary font-bold'
                         : 'text-neutral-dark hover:text-primary'
                         }`}
                     >
@@ -176,7 +176,7 @@ export default function Header({ onContactClick }) {
                           >
                             <a
                               href={dropdownItem.href}
-                              target={item.name === 'Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
+                              target={(dropdownItem.href.startsWith('http') || dropdownItem.href.endsWith('.pdf')) ? '_blank' : '_self'}
                               className={`flex items-center px-3 py-2.5 text-xs transition-colors rounded-sm mx-1 ${dropdownItem.hasSubMenu ? 'justify-between pr-2' : ''} ${isActiveRoute(dropdownItem.href)
                                 ? 'bg-accent/10 text-primary font-semibold'
                                 : 'text-neutral-dark hover:bg-accent/10 hover:text-primary'
@@ -231,8 +231,8 @@ export default function Header({ onContactClick }) {
                 <div key={item.name} className="relative">
                   <Link
                     href={item.href}
-                    className={`xl:text-sm text-xs h-18 flex items-center font-medium transition-colors px-3 py-2 rounded-lg relative ${isActiveRoute(item.href)
-                      ? 'text-white font-semibold'
+                    className={`xl:text-[13.5px] text-[11px] h-18 flex items-center font-medium transition-colors px-3 py-2 rounded-lg relative ${isActiveRoute(item.href)
+                      ? 'text-white font-bold'
                       : 'text-neutral-dark'
                       }`}
                   >
@@ -246,7 +246,7 @@ export default function Header({ onContactClick }) {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-sm h-18 flex items-center font-medium text-neutral-dark hover:text-primary transition-colors"
+                  className="xl:text-[13.5px] text-[11px] h-18 flex items-center font-medium text-neutral-dark hover:text-primary transition-colors"
                 >
                   {item.name}
                 </a>
@@ -281,131 +281,114 @@ export default function Header({ onContactClick }) {
         </div>
 
         {/* Mobile menu */}
+        {/* Mobile menu (Drawer Overlay) */}
         {mobileMenuOpen && (
-          <div className="lg:hidden pb-4 mt-4 overflow-hidden border-t border-neutral-dark/10">
-            <div className="flex flex-col gap-2 pt-4">
-              {navItems.map((item) => {
-                if (item.hasDropdown) {
-                  return (
-                    <div key={item.name} className="flex flex-col">
-                      <div className="flex items-center justify-between">
-                        <Link
-                          href={item.href}
-                          className={`px-3 py-2 text-base font-medium rounded-md transition-colors flex-1 ${isActiveRoute(item.href)
-                            ? 'text-primary font-semibold'
-                            : 'text-neutral-dark hover:text-primary hover:bg-neutral-light'
-                            }`}
-                        >
-                          {item.name}
-                        </Link>
-                        <button
-                          onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
-                          className="px-2 py-2 text-neutral-dark hover:text-primary transition-colors"
-                        >
-                          <ChevronDownIcon className={`w-5 h-5 transition-transform ${openDropdown === item.name ? 'rotate-180' : ''}`} />
-                        </button>
-                      </div>
-                      {openDropdown === item.name && (
-                        <div className=" pr-3 py-2 flex flex-col gap-0 bg-white/50 rounded-sm mx-2 my-1">
-                          {dropdownMenus[item.name].map((dropdownItem, index) => (
-                            <div key={dropdownItem.name} className="flex flex-col">
-                              {dropdownItem.hasSubMenu ? (
-                                <>
-                                  <button
-                                    onClick={() => setOpenSubDropdown(openSubDropdown === dropdownItem.name ? null : dropdownItem.name)}
-                                    className="px-3 py-2.5 text-sm text-neutral-dark hover:text-primary hover:bg-accent/10 rounded-sm transition-colors flex items-center justify-between"
-                                  >
-                                    <div className='flex items-center gap-2.5'>
-                                      {dropdownItem.icon && (
-                                        <div className='w-7 h-7 bg-primary/5 rounded-md flex justify-center items-center text-primary'>
-                                          <dropdownItem.icon className="w-4 h-4" />
-                                        </div>
-                                      )}
-                                      <span className="font-medium">{dropdownItem.name}</span>
-                                    </div>
-                                    <ChevronRightIcon className={`w-4 h-4 transition-transform ${openSubDropdown === dropdownItem.name ? 'rotate-90' : ''}`} />
-                                  </button>
-                                  {openSubDropdown === dropdownItem.name && (
-                                    <div className="pl-4 pr-2 py-1 flex flex-col gap-0 bg-white/30 rounded-sm mx-1 my-1">
-                                      {dropdownItem.subItems.map((subItem, subIndex) => (
-                                        <div key={subItem.name}>
-                                          <a
-                                            href={subItem.href}
-                                            target={item.name === 'Technical' && subItem.href.startsWith('http') ? '_blank' : '_self'}
-                                            className={`flex items-center px-3 py-2 text-xs rounded-sm transition-colors group ${isActiveRoute(subItem.href)
-                                              ? 'bg-accent/10 text-primary font-semibold'
-                                              : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
-                                              }`}
-                                            onClick={() => setMobileMenuOpen(false)}
-                                          >
-                                            <div className={`w-1.5 h-1.5 rounded-full mr-3 transition-colors ${isActiveRoute(subItem.href)
-                                              ? 'bg-primary'
-                                              : 'bg-gray-300 group-hover:bg-primary'
-                                              }`}></div>
-                                            {subItem.name}
-                                          </a>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  )}
-                                </>
-                              ) : (
+          <div className="fixed inset-0 z-50 lg:hidden" aria-modal="true" role="dialog">
+            {/* Backdrop Overlay */}
+            <div
+              className="fixed inset-0 bg-neutral-dark/10 backdrop-blur-sm animate-in fade-in duration-300"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Drawer Content */}
+            <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-500 ease-out">
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-dark/5">
+                <Image
+                  src="/CCMate-Logo.jpg"
+                  alt="Logo"
+                  width={140}
+                  height={38}
+                  className="h-10 w-auto object-contain"
+                />
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 -mr-2 text-neutral-dark/40 hover:text-primary transition-colors"
+                >
+                  <XMarkIcon className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="flex-1 overflow-y-auto px-6 py-8">
+                <nav className="flex flex-col">
+                  {navItems.map((item) => {
+                    if (item.hasDropdown) {
+                      return (
+                        <div key={item.name} className="flex flex-col border-b border-neutral-dark/5 py-1">
+                          <button
+                            onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
+                            className="flex items-center justify-between py-4 text-lg font-medium text-neutral-dark hover:text-primary transition-all group"
+                          >
+                            <span className={isActiveRoute(item.href) ? 'text-primary' : ''}>{item.name}</span>
+                            <ChevronDownIcon className={`w-5 h-5 transition-transform duration-300 ${openDropdown === item.name ? 'rotate-180 text-primary' : 'text-neutral-dark/30'}`} />
+                          </button>
+
+                          {openDropdown === item.name && (
+                            <div className="flex flex-col gap-1 pl-4 mb-4 animate-in slide-in-from-top-2 duration-300">
+                              {dropdownMenus[item.name].map((dropdownItem) => (
                                 <a
+                                  key={dropdownItem.name}
                                   href={dropdownItem.href}
-                                  target={item.name === 'Technical' && dropdownItem.href.startsWith('http') ? '_blank' : '_self'}
-                                  className={`block px-3 py-2.5 text-sm rounded-sm transition-colors ${isActiveRoute(dropdownItem.href)
-                                    ? 'bg-accent/10 text-primary font-semibold'
-                                    : 'text-neutral-dark hover:text-primary hover:bg-accent/10'
-                                    }`}
+                                  target={(dropdownItem.href.startsWith('http') || dropdownItem.href.endsWith('.pdf')) ? '_blank' : '_self'}
                                   onClick={() => setMobileMenuOpen(false)}
+                                  className={`py-3 text-[15px] flex items-center gap-3 transition-colors ${isActiveRoute(dropdownItem.href) ? 'text-primary font-semibold' : 'text-neutral-dark/70 hover:text-primary'}`}
                                 >
-                                  <div className='flex items-center gap-2.5'>
-                                    {dropdownItem.icon && (
-                                      <div className={`w-7 h-7 rounded-md flex justify-center items-center transition-colors ${isActiveRoute(dropdownItem.href)
-                                        ? 'bg-primary text-white'
-                                        : 'bg-primary/5 text-primary'
-                                        }`}>
-                                        <dropdownItem.icon className="w-4 h-4" />
-                                      </div>
-                                    )}
-                                    <span className="font-medium">{dropdownItem.name}</span>
-                                  </div>
+                                  {dropdownItem.icon && <dropdownItem.icon className="w-4 h-4 opacity-40" />}
+                                  {dropdownItem.name}
                                 </a>
-                              )}
+                              ))}
                             </div>
-                          ))}
+                          )}
                         </div>
-                      )}
-                    </div>
-                  )
-                }
-                return item.isLink ? (
-                  <div key={item.name} className="relative">
+                      )
+                    }
+
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`py-5 text-lg font-medium border-b border-neutral-dark/5 transition-colors ${isActiveRoute(item.href) ? 'text-primary' : 'text-neutral-dark hover:text-primary'}`}
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  })}
+
+                  {/* Minimalistic Distributor Links */}
+                  <div className="mt-12 space-y-6">
                     <Link
-                      href={item.href}
-                      className={`px-3 py-2 text-base font-medium rounded-md transition-colors relative ${isActiveRoute(item.href)
-                        ? 'text-white font-semibold'
-                        : 'text-neutral-dark'
-                        }`}
+                      href="/contact"
                       onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between text-base font-bold text-primary hover:opacity-80 transition-opacity"
                     >
-                      {isActiveRoute(item.href) && (
-                        <div className="absolute inset-0 bg-primary rounded-md -z-10"></div>
-                      )}
-                      <span className="relative z-10">{item.name}</span>
+                      <div className="flex items-center gap-3">
+                        <UsersIcon className="w-5 h-5" />
+                        <span>Distributor</span>
+                      </div>
+                      <ChevronRightIcon className="w-4 h-4" />
                     </Link>
+                    {/* <Link
+                      href="/distributor/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between text-base font-bold text-neutral-dark/70 hover:text-primary transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <UsersIcon className="w-5 h-5" />
+                        <span>Distributor Login</span>
+                      </div>
+                      <ChevronRightIcon className="w-4 h-4" />
+                    </Link> */}
                   </div>
-                ) : (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="px-3 py-2 text-base font-medium text-neutral-dark hover:text-primary hover:bg-neutral-light rounded-md transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </a>
-                )
-              })}
+                </nav>
+              </div>
+
+              {/* Drawer Footer */}
+              <div className="p-8 bg-neutral-light/20 border-t border-neutral-dark/5">
+                <p className="text-[11px] uppercase tracking-widest text-neutral-dark/30 font-bold mb-1">CC Matting</p>
+                <p className="text-xs text-neutral-dark/40">Premium Contamination Control Solutions</p>
+              </div>
             </div>
           </div>
         )}

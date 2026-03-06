@@ -42,7 +42,41 @@ export async function GET(request) {
       }
     }
 
-    // TODO: implement search if necessary
+    if (search) {
+      // First, find any distributors that match the search string
+      const Distributor =
+        mongoose.models.Distributor || mongoose.model("Distributor");
+      const matchingDistributors = await Distributor.find({
+        $or: [
+          { companyName: { $regex: search, $options: "i" } },
+          { companyEmail: { $regex: search, $options: "i" } },
+          { companyNumber: { $regex: search, $options: "i" } },
+          { contactPersonName: { $regex: search, $options: "i" } },
+        ],
+      }).select("_id");
+
+      const distributorIds = matchingDistributors.map((d) => d._id);
+
+      filter.$or = [
+        { po: { $regex: search, $options: "i" } },
+        { invoice: { $regex: search, $options: "i" } },
+        // Safely search _id by converting it to string first inside the query
+        {
+          $expr: {
+            $regexMatch: {
+              input: { $toString: "$_id" },
+              regex: search,
+              options: "i",
+            },
+          },
+        },
+      ];
+
+      // If we found matching distributors, include orders from them
+      if (distributorIds.length > 0) {
+        filter.$or.push({ orderBy: { $in: distributorIds } });
+      }
+    }
 
     const { orders, total } = await OrderService.getAllOrders(filter, {
       skip,

@@ -49,6 +49,12 @@ export default function AdminOrdersPage() {
         isOpen: false,
         orderId: null
     });
+    const [editModal, setEditModal] = useState({
+        isOpen: false,
+        orderId: null,
+        status: null,
+    });
+    const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
     // New state for inline status editing
@@ -99,6 +105,7 @@ export default function AdminOrdersPage() {
 
     const handleStatusUpdate = async (orderId, newStatus) => {
         try {
+            setIsUpdating(true);
             if (!orderId || !newStatus) return;
             const findOrder = orders.find(o => o._id === orderId);
             if (findOrder?.status === newStatus) {
@@ -116,6 +123,7 @@ export default function AdminOrdersPage() {
             if (res.data?.success) {
                 setOrders(prev => prev.map(o => o._id === orderId ? { ...o, status: newStatus } : o));
                 setEditingStatusOrderId(null);
+                setIsUpdating(false);
             } else {
                 alert(res.data?.message || "Failed to update status");
             }
@@ -123,6 +131,7 @@ export default function AdminOrdersPage() {
             alert(err.response?.data?.message || err.message || "Error updating status");
         } finally {
             setStatusUpdatingId(null);
+            setIsUpdating(false);
         }
     };
 
@@ -146,19 +155,24 @@ export default function AdminOrdersPage() {
     const getStatusColor = (status) => {
         switch (status) {
             case "PENDING":
-                return "bg-amber-50 text-amber-700 border-amber-200";
+                // Reference: Yellow/Orange for Pending
+                return "bg-[#fdf3e1] text-[#b67319] border-[#fdf3e1]";
 
             case "PROCESSED":
-                return "bg-sky-50 text-sky-700 border-sky-200";
+                // Soft Blue for Processed
+                return "bg-[#e1f0fd] text-[#1974b6] border-[#e1f0fd]";
 
             case "READY-TO-SHIP":
-                return "bg-purple-50 text-purple-700 border-purple-200";
+                // Soft Purple for Ready to Ship
+                return "bg-[#f3e1fd] text-[#8b19b6] border-[#f3e1fd]";
 
             case "RECEIVED":
-                return "bg-emerald-50 text-emerald-700 border-emerald-200";
+                // Reference: Green for Completed/Received
+                return "bg-[#dff5e9] text-[#00865a] border-[#dff5e9]";
 
             case "CANCELLED":
-                return "bg-rose-50 text-rose-700 border-rose-200";
+                // Reference: Light Orange-Red for Cancelled
+                return "bg-[#feece5] text-[#b81d13] border-[#feece5]";
 
             default:
                 return "bg-gray-100 text-gray-700 border-gray-200";
@@ -354,7 +368,7 @@ export default function AdminOrdersPage() {
                                                             ))}
                                                         </select>
                                                         <button
-                                                            onClick={() => handleStatusUpdate(order._id, tempStatus)}
+                                                            onClick={() => setEditModal({ isOpen: true, orderId: order._id, status: tempStatus })}
                                                             disabled={statusUpdatingId === order._id}
                                                             className="p-1 text-green-600 hover:bg-green-100 border border-green-200 bg-green-50 rounded-md transition-colors disabled:opacity-50"
                                                         >
@@ -369,13 +383,13 @@ export default function AdminOrdersPage() {
                                                     </div>
                                                 ) : (
                                                     <div className="flex items-center gap-2">
-                                                        <span className={`inline-flex justify-center min-w-22 text-center items-center px-2.5 py-0.5 rounded-sm text-[10px] font-semibold ${getStatusColor(order.status)} border shadow-xs`}>
+                                                        <span className={`inline-flex justify-center min-w-22 text-center items-center px-2 py-0.5 rounded-sm text-[10px] font-bold ${getStatusColor(order.status)} border shadow-xs`}>
                                                             {order.status}
                                                         </span>
                                                         <button
                                                             onClick={() => {
+                                                                setTempStatus(order.status)
                                                                 setEditingStatusOrderId(order._id);
-                                                                setTempStatus(order.status);
                                                             }}
                                                             className="p-1 text-gray-400 hover:text-primary transition-colors hover:bg-gray-100 rounded-md"
                                                         >
@@ -465,6 +479,26 @@ export default function AdminOrdersPage() {
                 type="delete"
                 confirmText="Delete"
                 isLoading={isDeleting}
+            />
+            <ConfirmationModal
+                isOpen={editModal.isOpen}
+                icon={({ className }) => (
+                    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M5.616 20q-.672 0-1.144-.472T4 18.385V7.486q0-.292.093-.55t.28-.475l1.558-1.87q.217-.293.543-.442T7.173 4h9.616q.372 0 .708.149t.553.441l1.577 1.91q.187.217.28.485q.093.267.093.56v2.32q-.613.039-1.14.268q-.525.229-.985.656L15 13.664V7.808H9v6.788l3-1.5l2.383 1.185l-2.537 2.511V20zm8.615 0v-2.21l5.333-5.307q.148-.13.307-.19q.16-.062.32-.062q.165 0 .334.064q.17.065.298.194l.925.944q.123.148.188.308q.064.159.064.319t-.052.322t-.2.31L16.44 20zm5.96-4.985l.925-.956l-.925-.943l-.95.95zM5.38 6.808H18.6l-1.33-1.596q-.097-.096-.222-.154T16.788 5H7.192q-.134 0-.26.058t-.22.154z"></path>
+                    </svg>
+                )}
+                onClose={() => setEditModal({ isOpen: false, orderId: null, status: null })}
+                onConfirm={() => {
+                    handleStatusUpdate(editModal.orderId, editModal.status);
+                    setEditModal({ isOpen: false, orderId: null, status: null });
+                    // setEditingStatusOrderId(null);
+                    // setTempStatus(null);
+                }}
+                title="Status Update"
+                message="Are you sure you want to update status of this order?"
+                type="edit"
+                confirmText="Update Status"
+                isLoading={isUpdating}
             />
         </div>
     );

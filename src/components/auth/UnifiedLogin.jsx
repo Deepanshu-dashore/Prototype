@@ -176,15 +176,16 @@ export default function UnifiedLogin({
                         <p className="text-[11px] text-neutral-400 text-center leading-relaxed">
                             By continuing, you agree to CC Matting's{" "}
                             <a
-                                href="/terms-and-conditions"
-                                className="text-neutral-500 hover:text-primary transition-colors underline underline-offset-2 decoration-neutral-200"
+                                href="/Ts-Cs-2026.pdf"
+                                target="_blank"
+                                className="text-neutral-800 hover:text-primary transition-colors underline underline-offset-2 decoration-neutral-200"
                             >
                                 Terms of Service
                             </a>{" "}
                             and{" "}
                             <a
                                 href="/privacy-policy"
-                                className="text-neutral-500 hover:text-primary transition-colors underline underline-offset-2 decoration-neutral-200"
+                                className="text-neutral-800 hover:text-primary transition-colors underline underline-offset-2 decoration-neutral-200"
                             >
                                 Privacy Policy
                             </a>

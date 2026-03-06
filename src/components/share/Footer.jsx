@@ -31,19 +31,17 @@ export default function Footer() {
                 <p className="text-xs text-white/75 leading-relaxed mb-4 max-w-xs">
                   Leading provider of contamination control solutions and cleanroom matting systems for critical environments worldwide.
                 </p>
-                <h3 className="font-semibold text-white text-sm mb-3 tracking-tight">Follow</h3>
+                <h3 className="font-semibold text-white text-sm mb-3 tracking-tight">Follow On</h3>
                 <div className="flex space-x-3 mb-4">
                   <a
-                    href="https://www.linkedin.com/company/cc-matting"
+                    href="https://www.linkedin.com/company/ccmatting/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-white/15 transition-all duration-200 group"
+                    className="w-9 h-9 rounded-lg flex items-center justify-center text-white/75 hover:text-white hover:bg-[#0077b5] transition-all duration-200 group"
                     aria-label="LinkedIn"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:scale-110 transition-transform duration-200">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                      <rect width="4" height="12" x="2" y="9"></rect>
-                      <circle cx="4" cy="4" r="2"></circle>
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                     </svg>
                   </a>
                   {/* <a
@@ -190,9 +188,9 @@ export default function Footer() {
                 <h3 className="font-semibold text-white text-sm mb-3 tracking-tight">Legal</h3>
                 <ul className="space-y-2">
                   <li>
-                    <Link href="/terms-and-conditions" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
+                    <a href="/Ts-Cs-2026.pdf" target="_blank" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
                       Terms and Conditions
-                    </Link>
+                    </a>
                   </li>
                   <li>
                     <Link href="/privacy-policy" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">

@@ -45,7 +45,7 @@ export default function MarqueeBar() {
 
     return (
         <div className="bg-blue-800 text-white text-sm py-2 overflow-hidden block">
-            <div className="flex w-max animate-[scroll_300s_linear_infinite] gap-6 hover:[animation-play-state:paused]">
+            <div className="flex w-max animate-[scroll_100s_linear_infinite] gap-6 hover:[animation-play-state:paused]">
                 {content}
                 {content}
             </div>

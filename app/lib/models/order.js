@@ -26,8 +26,8 @@ const orderSchema = new Schema(
         },
       },
     ],
-    poLink: { type: String },
-    invoiceLink: { type: String },
+    poLink: { type: { url: String, id: String } },
+    invoiceLink: { type: { url: String, id: String } },
     po: { type: String },
     invoice: { type: String },
     status: {

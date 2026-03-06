@@ -23,14 +23,14 @@ export default function ComplianceContent() {
     const [hoveredDoc, setHoveredDoc] = useState(null);
 
     const complianceDocs = [
-        { name: "ISO 9001", description: "Quality Management System Certification", icon: CheckBadgeIcon, image: "/compliances/CardImage/ISO9001.png" },
-        { name: "ISO 45001", description: "Occupational Health and Safety Management", icon: ShieldCheckIcon, image: "/compliances/CardImage/ISO45001.png" },
-        { name: "Anti-Microbial Efficacy - A", description: "In-depth efficacy testing results - Report A", icon: BeakerIcon, image: "/compliances/CardImage/Anti-Microbial Efficacy - A.png" },
-        { name: "Anti-Microbial Efficacy - B", description: "In-depth efficacy testing results - Report B", icon: BeakerIcon, image: "/compliances/CardImage/Anti-Microbial Efficacy - B.png" },
-        { name: "BPR/EPA", description: "Biocidal Products Regulation compliance data", icon: GlobeAmericasIcon, image: "/compliances/CardImage/EPA.png" },
-        { name: "Static Dissipative Testing", description: "ESD performance and resistance testing", icon: BoltIcon, image: "/compliances/CardImage/StaticDissipativeTesting.png" },
-        { name: "CCMatting Efficacy Data", description: "Internal performance and validation data", icon: ChartBarIcon, image: "/compliances/CardImage/CCMatting Efficacy Data.png" },
-        { name: "SDS Safety Data Sheet", description: "Safety data and material specifications", icon: ExclamationCircleIcon, image: "/compliances/CardImage/SDS Safety Data Sheet.png" }
+        { name: "ISO 9001", description: "Quality Management System Certification", icon: CheckBadgeIcon, image: "/compliances/CardImage/ISO9001.png", href: "/compliances/doc/CC Matting - ISO 9001-2015 - 2025 - 2026.pdf" },
+        { name: "ISO 45001", description: "Occupational Health and Safety Management", icon: ShieldCheckIcon, image: "/compliances/CardImage/ISO45001.png", href: "/compliances/doc/ISO 45001-2018 SEP 25.pdf" },
+        { name: "Anti-Microbial Efficacy - A", description: "In-depth efficacy testing results - Report A", icon: BeakerIcon, image: "/compliances/CardImage/Anti-Microbial Efficacy - A.png", href: "#" },
+        { name: "Anti-Microbial Efficacy - B", description: "In-depth efficacy testing results - Report B", icon: BeakerIcon, image: "/compliances/CardImage/Anti-Microbial Efficacy - B.png", href: "#" },
+        { name: "BPR/EPA", description: "Biocidal Products Regulation compliance data", icon: GlobeAmericasIcon, image: "/compliances/CardImage/EPA.png", href: "#" },
+        { name: "Static Dissipative Testing", description: "ESD performance and resistance testing", icon: BoltIcon, image: "/compliances/CardImage/StaticDissipativeTesting.png", href: "/compliances/doc/CCM STATIC DISSIPATIVE TEST RESULTS 2026.pdf" },
+        { name: "CCMatting Efficacy Data", description: "Internal performance and validation data", icon: ChartBarIcon, image: "/compliances/CardImage/CCMatting Efficacy Data.png", href: "#" },
+        { name: "SDS Safety Data Sheet", description: "Safety data and material specifications", icon: ExclamationCircleIcon, image: "/compliances/CardImage/SDS Safety Data Sheet.png", href: "/compliances/doc/CCM MSDS.pdf" }
     ];
 
     const logos = [
@@ -184,14 +184,18 @@ export default function ComplianceContent() {
                                                     <button className={`flex-1 flex items-center justify-center gap-2 py-2 text-xs font-bold rounded-lg transition-colors ${index % 2 === 0 ? 'text-primary bg-white' : 'hover:bg-primary/90 bg-primary text-white'} transition-colors duration-300`}>
                                                         <ArrowDownTrayIcon className="w-4 h-4" /> Download
                                                     </button> */}
-                                                    <div className={`flex items-center text-xs font-semibold transition-colors mt-2 
-                                                        ${index % 2 === 0 ? 'text-white/80 group-hover/detail:text-white' : 'text-primary/80 group-hover/detail:text-primary'}`}
+                                                    <a
+                                                        href={doc.href}
+                                                        target={doc.href !== '#' ? "_blank" : "_self"}
+                                                        rel="noopener noreferrer"
+                                                        className={`flex items-center text-xs font-semibold transition-colors mt-2 hover:underline underline-offset-4
+                                                        ${index % 2 === 0 ? 'text-white/80 hover:text-white' : 'text-primary/80 hover:text-primary'}`}
                                                     >
                                                         Learn More
-                                                        <svg className="w-3 h-3 ml-1 transform group-hover/detail:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <svg className="w-3 h-3 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                                         </svg>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </motion.div>
