@@ -11,7 +11,8 @@ import {
     CheckCircleIcon,
     BuildingOfficeIcon,
     DocumentTextIcon,
-    ClipboardDocumentListIcon
+    ClipboardDocumentListIcon,
+    PencilSquareIcon
 } from "@heroicons/react/24/outline";
 
 export default function AdminOrderDetailsPage() {
@@ -21,6 +22,15 @@ export default function AdminOrderDetailsPage() {
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
+    const [updateModal, setUpdateModal] = useState({
+        isOpen: false,
+        orderId: null,
+        po: "",
+        invoice: "",
+        type: "info" // 'info' for PO/Invoice update
+    });
+    const [isUpdating, setIsUpdating] = useState(false);
 
     useEffect(() => {
         if (id) fetchOrderDetails();
@@ -39,6 +49,42 @@ export default function AdminOrderDetailsPage() {
             setError(err.response?.data?.message || err.message || "An error occurred");
         } finally {
             setLoading(false);
+        }
+    };
+
+
+    const openUpdateModal = (order) => {
+        setUpdateModal({
+            isOpen: true,
+            orderId: order._id,
+            po: order.po || "",
+            invoice: order.invoice || "",
+            type: "info"
+        });
+    };
+
+
+    const handleUpdateDetails = async () => {
+        try {
+            if (order?.status === "PENDING") {
+                alert("Order status is PENDING, Before updating details, please update the status to PROCESSED");
+                return
+            };
+            setIsUpdating(true);
+            const res = await axios.patch(`/api/order/${order._id}`, {
+                po: updateModal.po,
+                invoice: updateModal.invoice
+            });
+            if (res.data?.success) {
+                setOrder({ ...order, po: updateModal.po, invoice: updateModal.invoice });
+                setUpdateModal({ ...updateModal, isOpen: false });
+            } else {
+                alert(res.data?.message || "Failed to update details");
+            }
+        } catch (err) {
+            alert(err.response?.data?.message || err.message || "Error updating details");
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -241,18 +287,55 @@ export default function AdminOrderDetailsPage() {
                                     <DocumentTextIcon className="w-7 h-7 text-primary/50 bg-primary/10 p-1 rounded-md" />
                                 </div>
                                 <h3 className="text-base font-bold text-gray-800">Documents</h3>
+                                <button
+                                    onClick={() => openUpdateModal(order)}
+                                    className="inline-flex ml-auto items-center gap-1.5 px-1.5 py-1.5 bg-gray-200 border border-gray-200 text-gray-800 text-[12.25px] rounded-md hover:bg-gray-300 hover:border-gray-300 transition-all shadow-sm"
+                                    title="Edit Order"
+                                >
+                                    <PencilSquareIcon className="w-4 h-4" />
+                                </button>
                             </div>
 
+                            {/* PO / Invoice Update Modal */}
                             <div className="space-y-4">
                                 <div className="grid grid-cols-3 gap-4">
                                     <span className="text-sm text-gray-800 font-semibold">PO Number:</span>
-                                    <span className="text-sm col-span-2 text-gray-600">{order?.po || "N/A"}</span>
+                                    <span className="text-sm col-span-2 text-gray-600">{updateModal.isOpen ? <input
+                                        type="text"
+                                        value={updateModal.po}
+                                        onChange={(e) => setUpdateModal({ ...updateModal, po: e.target.value })}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-sm shadow-xs focus:ring-primary focus:border-primary sm:text-xs"
+                                        placeholder="Enter PO number"
+                                    /> : order?.po || "N/A"}</span>
                                 </div>
                                 <div className="grid grid-cols-3 gap-4">
                                     <span className="text-sm text-gray-800 font-semibold">Invoice:</span>
-                                    <span className="text-sm col-span-2 text-gray-600">{order?.invoice || "N/A"}</span>
+                                    <span className="text-sm col-span-2 text-gray-600">{updateModal.isOpen ? <input
+                                        type="text"
+                                        value={updateModal.invoice}
+                                        onChange={(e) => setUpdateModal({ ...updateModal, invoice: e.target.value })}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-sm shadow-xs focus:ring-primary focus:border-primary sm:text-xs"
+                                        placeholder="Enter invoice number"
+                                    /> : order?.invoice || "N/A"}</span>
                                 </div>
                             </div>
+                            {updateModal.isOpen && <div className="bg-gray-50 py-3 sm:flex sm:flex-row-reverse">
+                                <button
+                                    type="button"
+                                    onClick={handleUpdateDetails}
+                                    disabled={isUpdating}
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
+                                >
+                                    {isUpdating ? "Updating..." : "Save Changes"}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setUpdateModal({ ...updateModal, isOpen: false })}
+                                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-xs px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                >
+                                    Cancel
+                                </button>
+                            </div>}
                         </div>
 
                     </div>

@@ -42,15 +42,8 @@ export default function AdminOrdersPage() {
         totalItems: 0,
         limit: 10
     });
+    const [statusUpdatingId, setStatusUpdatingId] = useState(null);
 
-    const [updateModal, setUpdateModal] = useState({
-        isOpen: false,
-        orderId: null,
-        po: "",
-        invoice: "",
-        type: "info" // 'info' for PO/Invoice update
-    });
-    const [isUpdating, setIsUpdating] = useState(false);
 
     const [deleteModal, setDeleteModal] = useState({
         isOpen: false,
@@ -61,7 +54,6 @@ export default function AdminOrdersPage() {
     // New state for inline status editing
     const [editingStatusOrderId, setEditingStatusOrderId] = useState(null);
     const [tempStatus, setTempStatus] = useState("");
-    const [statusUpdatingId, setStatusUpdatingId] = useState(null);
 
     const [filterStatus, setFilterStatus] = useState("ALL");
     const [startDate, setStartDate] = useState("");
@@ -131,41 +123,6 @@ export default function AdminOrdersPage() {
             alert(err.response?.data?.message || err.message || "Error updating status");
         } finally {
             setStatusUpdatingId(null);
-        }
-    };
-
-    const openUpdateModal = (order) => {
-        setUpdateModal({
-            isOpen: true,
-            orderId: order._id,
-            po: order.po || "",
-            invoice: order.invoice || "",
-            type: "info"
-        });
-    };
-
-    const handleUpdateDetails = async () => {
-        try {
-            const findOrder = orders.find(o => o._id === updateModal.orderId);
-            if (findOrder?.status === "PENDING") {
-                alert("Order status is PENDING, Before updating details, please update the status to PROCESSED");
-                return
-            };
-            setIsUpdating(true);
-            const res = await axios.patch(`/api/order/${updateModal.orderId}`, {
-                po: updateModal.po,
-                invoice: updateModal.invoice
-            });
-            if (res.data?.success) {
-                setOrders(prev => prev.map(o => o._id === updateModal.orderId ? { ...o, po: updateModal.po, invoice: updateModal.invoice } : o));
-                setUpdateModal({ ...updateModal, isOpen: false });
-            } else {
-                alert(res.data?.message || "Failed to update details");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Error updating details");
-        } finally {
-            setIsUpdating(false);
         }
     };
 
@@ -327,7 +284,8 @@ export default function AdminOrdersPage() {
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Products</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Distributor</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">PO / Invoice</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">PO</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Invoice</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right">Actions</th>
                                 </tr>
                             </thead>
@@ -372,7 +330,7 @@ export default function AdminOrdersPage() {
                                                 <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs cursor-pointer flex gap-2 items-center text-gray-900 font-medium">
                                                     {order.orderItems?.length || 0} Items <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
                                                 </span>
-                                                {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-gray-100 border rounded-sm p-2 w-52 ease-in">
+                                                {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-white border rounded-sm p-2 w-52 ease-in">
                                                     {order?.orderItems.map(item => (<span key={item._id} className="text-[10px] text-gray-500"><span className="w-1.5 my-auto aspect-square rounded-full bg-primary/60 inline-block mx-2"></span>{item.product.code}</span>))
                                                     }
                                                 </div>}
@@ -426,17 +384,21 @@ export default function AdminOrdersPage() {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 <div className="flex flex-col gap-1">
                                                     {order.po ? (
-                                                        <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100 w-fit font-mono">PO: {order.po}</span>
+                                                        <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100 w-fit font-mono">#{order.po}</span>
                                                     ) : (
-                                                        <span className="text-xs text-gray-400 italic">No PO</span>
+                                                        <span className="text-xs text-gray-400 italic"># Not added</span>
                                                     )}
+                                                </div>
+                                            </td>
+                                            <td className="px-2 py-4">
+                                                <div className="flex flex-col gap-1">
                                                     {order.invoice ? (
-                                                        <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 w-fit font-mono">INV: {order.invoice}</span>
+                                                        <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 w-fit font-mono">#{order.invoice}</span>
                                                     ) : (
-                                                        <span className="text-xs text-gray-400 italic">No Invoice</span>
+                                                        <span className="text-xs text-gray-400 italic"># Not added</span>
                                                     )}
                                                 </div>
                                             </td>
@@ -444,20 +406,13 @@ export default function AdminOrdersPage() {
                                                 <div className="flex items-center justify-end gap-2">
                                                     <Link
                                                         href={`/admin/orders/${order._id}`}
-                                                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
+                                                        className="inline-flex items-center gap-1.5 px-2 py-2 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
                                                         title="View Details"
                                                     >
-                                                        View
-                                                        <EyeIcon className="w-3.5 h-3.5" />
+
+                                                        <EyeIcon className="w-4 h-4" />
                                                     </Link>
-                                                    <button
-                                                        onClick={() => openUpdateModal(order)}
-                                                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-700 border border-emerald-700 text-white text-[12.25px] rounded-md hover:bg-emerald-800 hover:border-emerald-800 transition-all shadow-sm"
-                                                        title="Edit Order"
-                                                    >
-                                                        Edit
-                                                        <PencilSquareIcon className="w-3.5 h-3.5" />
-                                                    </button>
+
                                                     {/* <button
                                                         onClick={() => setDeleteModal({ isOpen: true, orderId: order._id })}
                                                         className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600 border border-red-600 text-white text-[12.25px] rounded-md hover:bg-red-500 hover:border-red-200 transition-all shadow-sm"
@@ -500,70 +455,6 @@ export default function AdminOrdersPage() {
                 </div>
             </div>
 
-            {/* PO / Invoice Update Modal */}
-            {updateModal.isOpen && (
-                <div className="fixed inset-0 z-50 overflow-y-auto bg-gray-500/20 backdrop-blur-[2px]">
-                    <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                        {/* <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-                            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                        </div> */}
-                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-10 z-50">
-                                <div className="sm:flex sm:items-start">
-                                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                        <div className="flex items-center gap-2">
-                                            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
-                                                <DocumentTextIcon className="h-6 w-6 text-indigo-600" />
-                                            </div>
-                                            <h3 className="text-lg leading-6 font-medium text-gray-900">Update Order Details</h3>
-                                        </div>
-                                        <div className="mt-4 space-y-4">
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Purchase Order (PO)</label>
-                                                <input
-                                                    type="text"
-                                                    value={updateModal.po}
-                                                    onChange={(e) => setUpdateModal({ ...updateModal, po: e.target.value })}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                                                    placeholder="Enter PO number"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Invoice Number</label>
-                                                <input
-                                                    type="text"
-                                                    value={updateModal.invoice}
-                                                    onChange={(e) => setUpdateModal({ ...updateModal, invoice: e.target.value })}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                                                    placeholder="Enter invoice number"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button
-                                    type="button"
-                                    onClick={handleUpdateDetails}
-                                    disabled={isUpdating}
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50"
-                                >
-                                    {isUpdating ? "Updating..." : "Save Changes"}
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => setUpdateModal({ ...updateModal, isOpen: false })}
-                                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
             {/* Confirmation Modal for Delete */}
             <ConfirmationModal
                 isOpen={deleteModal.isOpen}
