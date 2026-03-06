@@ -76,16 +76,15 @@ function StatusBadge({ status }) {
     const upper = status?.toUpperCase() || "";
     const cfg = {
         PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
-        DELIVERED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+        RECEIVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
         CANCELLED: "bg-rose-50 text-rose-700 border border-rose-200",
         PROCESSED: "bg-sky-50 text-sky-700 border border-sky-200",
-        SHIPMENT: "bg-purple-50 text-purple-700 border border-purple-200",
-        RECEIVED: "bg-teal-50 text-teal-700 border border-teal-200",
+        "READY-TO-SHIP": "bg-purple-50 text-purple-700 border border-purple-200",
         REJECTED: "bg-rose-50 text-rose-700 border border-rose-200",
     };
     const cls = cfg[upper] || "bg-gray-50 text-gray-500 border border-gray-200";
     const label =
-        upper === "SHIPMENT" ? "Shipment"
+        upper === "READY-TO-SHIP" ? "Ready to Ship"
             : status ? status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
                 : "—";
     return (
@@ -251,8 +250,8 @@ export default function DistributorDashboard() {
             iconColor: "text-amber-500",
         },
         {
-            label: "Delivered Orders",
-            value: data?.dashboardCard?.totalDeliveredOrders ?? 0,
+            label: "Received Orders",
+            value: data?.dashboardCard?.totalReceivedOrders ?? 0,
             Icon: ({ cls }) => (
                 <svg xmlns="http://www.w3.org/2000/svg" className={cls} viewBox="0 0 24 24" fill="none">
                     <path stroke="currentColor" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" strokeLinecap="round" strokeLinejoin="round" />
@@ -273,8 +272,8 @@ export default function DistributorDashboard() {
             iconColor: "text-red-500",
         },
         {
-            label: "Total Shipped",
-            value: data?.dashboardCard?.totalShippedOrders ?? 0,
+            label: "Ready to Ship",
+            value: data?.dashboardCard?.totalReadyToShipOrders ?? 0,
             Icon: ({ cls }) => (
                 <svg xmlns="http://www.w3.org/2000/svg" className={cls} viewBox="0 0 24 24" fill="none">
                     <path stroke="currentColor" strokeWidth={1.5} d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.9 17.9 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" strokeLinecap="round" strokeLinejoin="round" />

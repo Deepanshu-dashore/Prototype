@@ -33,7 +33,7 @@ export default function CaseStudies() {
       position: "Aseptic Lead",
       company: "WuXi Vaccines",
       img: "assets/Our Valuable Customers/asset 19.png",
-      companyLogo: "assets/Our Valuable Customers/asset 19.jpeg",
+      companyLogo: "assets/Our Valuable Customers/asset 19.png",
       quote: "Great product and excellent installation. CC Matting are a great business to work with. Brendan and his team were very approachable, helpful and informative even after installation. Would highly recommend them.",
       category: "Excellent Installation & Support",
       reviewImage: "/assets/Our Valuable Customers/wuxi.png",

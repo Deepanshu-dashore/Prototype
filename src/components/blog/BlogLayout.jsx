@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Header from "../share/Header";
 import UtilityBar from "../share/UtilityBar";
+import MarqueeBar from "../share/MarqueeBar";
 import Footer from "../share/Footer";
 import ContactForm from "../share/ContactForm";
 
@@ -13,6 +14,7 @@ export default function BlogLayout({ children }) {
         <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
             <UtilityBar />
             <Header onContactClick={() => setIsContactFormOpen(true)} />
+            <MarqueeBar />
 
             {children}
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Header from "../share/Header";
 import UtilityBar from "../share/UtilityBar";
+import MarqueeBar from "../share/MarqueeBar";
 import Footer from "../share/Footer";
 import ContactForm from "../share/ContactForm";
 import FloatingMessageButton from "../share/FloatingMessageButton";
@@ -19,6 +20,7 @@ export default function PublicLayout({ children, className = "" }) {
         <div className={`min-h-screen relative flex flex-col ${className}`}>
             <UtilityBar />
             <Header onContactClick={handleContactClick} />
+            <MarqueeBar />
 
             {children}
 

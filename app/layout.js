@@ -10,11 +10,14 @@ export const metadata = {
     "cleanroom mats, contamination control, anti-fatigue mats, cleanroom solutions",
 };
 
+import { Toaster } from "react-hot-toast";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="antialiased">
         <ContactFormProvider>{children}</ContactFormProvider>
+        <Toaster position="top-right" />
       </body>
     </html>
   );

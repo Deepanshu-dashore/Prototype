@@ -17,15 +17,15 @@ import {
     TrashIcon,
     CubeIcon,
     ClipboardDocumentListIcon,
-    FunnelIcon
+    FunnelIcon,
+    ChevronDownIcon
 } from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
 const STATUS_OPTIONS = [
-    // "PENDING",
+    "PENDING",
     "PROCESSED",
-    "SHIPMENT",
-    "DELIVERED",
+    "READY-TO-SHIP",
     "RECEIVED",
     "CANCELLED",
 ];
@@ -66,6 +66,7 @@ export default function AdminOrdersPage() {
     const [filterStatus, setFilterStatus] = useState("ALL");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [productList, setProductList] = useState(null);
 
     useEffect(() => {
         fetchOrders(pagination.currentPage);
@@ -110,12 +111,12 @@ export default function AdminOrdersPage() {
             const findOrder = orders.find(o => o._id === orderId);
             if (findOrder?.status === newStatus) {
                 alert("Order status is already " + newStatus);
-                return
-            };
-            if (findOrder?.status === "DELIVERED") {
-                alert("Order is already DELIVERED, cannot update to " + newStatus);
-                return
-            };
+                return;
+            }
+            if (findOrder?.status === "CANCELLED") {
+                alert("Order is already CANCELLED, cannot update to " + newStatus);
+                return;
+            }
             setStatusUpdatingId(orderId);
             const res = await axios.patch(`/api/order/update-status/${orderId}`, {
                 status: newStatus
@@ -193,14 +194,11 @@ export default function AdminOrdersPage() {
             case "PROCESSED":
                 return "bg-sky-50 text-sky-700 border-sky-200";
 
-            case "SHIPMENT":
+            case "READY-TO-SHIP":
                 return "bg-purple-50 text-purple-700 border-purple-200";
 
-            case "DELIVERED":
-                return "bg-emerald-50 text-emerald-700 border-emerald-200";
-
             case "RECEIVED":
-                return "bg-teal-50 text-teal-700 border-teal-200";
+                return "bg-emerald-50 text-emerald-700 border-emerald-200";
 
             case "CANCELLED":
                 return "bg-rose-50 text-rose-700 border-rose-200";
@@ -326,6 +324,7 @@ export default function AdminOrdersPage() {
                                 <tr>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Info</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Date</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Products</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Distributor</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">PO / Invoice</th>
@@ -366,8 +365,17 @@ export default function AdminOrdersPage() {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                                    <span className="text-sm text-gray-700">{new Date(order.createdAt).toLocaleDateString()}</span>
                                                 </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs cursor-pointer flex gap-2 items-center text-gray-900 font-medium">
+                                                    {order.orderItems?.length || 0} Items <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
+                                                </span>
+                                                {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-gray-100 border rounded-sm p-2 w-52 ease-in">
+                                                    {order?.orderItems.map(item => (<span key={item._id} className="text-[10px] text-gray-500"><span className="w-1.5 my-auto aspect-square rounded-full bg-primary/60 inline-block mx-2"></span>{item.product.code}</span>))
+                                                    }
+                                                </div>}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">

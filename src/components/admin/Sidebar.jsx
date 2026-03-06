@@ -18,6 +18,9 @@ import {
 
 const navigation = [
     { name: 'Dashboard', href: '/admin', icon: Squares2X2Icon },
+    { name: 'Orders', href: '/admin/orders', icon: DocumentTextIcon },
+    { name: 'Distributors', href: '/admin/distributors', icon: UserGroupIcon },
+    { name: 'Products', href: '/admin/products', icon: ArchiveBoxIcon },
     {
         name: 'Blogs',
         icon: DocumentTextIcon,
@@ -26,9 +29,7 @@ const navigation = [
             { name: 'Categories', href: '/admin/categories' },
         ]
     },
-    { name: 'Products', href: '/admin/products', icon: ArchiveBoxIcon },
-    { name: 'Orders', href: '/admin/orders', icon: DocumentTextIcon },
-    { name: 'Distributors', href: '/admin/distributors', icon: UserGroupIcon },
+    { name: 'Tagline', href: '/admin/tagline', icon: Cog6ToothIcon },
     // { name: 'Notifications', href: '/admin/notifications', icon: BellIcon },
     // { name: 'Settings', href: '/admin/settings', icon: Cog6ToothIcon },
 ]

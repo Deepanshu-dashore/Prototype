@@ -23,10 +23,8 @@ import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
 
 const STATUS_OPTIONS = [
-    // "PENDING",
     "PROCESSED",
-    "SHIPMENT",
-    "DELIVERED",
+    "READY-TO-SHIP",
     "RECEIVED",
     "CANCELLED",
 ];
@@ -70,8 +68,7 @@ export default function WarehouseOrdersPage() {
     const [statusCounts, setStatusCounts] = useState({
         PENDING: 0,
         PROCESSED: 0,
-        SHIPMENT: 0,
-        DELIVERED: 0,
+        "READY-TO-SHIP": 0,
         RECEIVED: 0,
         CANCELLED: 0,
         TOTAL: 0
@@ -123,10 +120,10 @@ export default function WarehouseOrdersPage() {
                 alert("Order status is already " + newStatus);
                 return
             };
-            if (findOrder?.status === "DELIVERED") {
-                alert("Order is already DELIVERED, cannot update to " + newStatus);
-                return
-            };
+            if (findOrder?.status === "CANCELLED") {
+                alert("Order is already CANCELLED, cannot update to " + newStatus);
+                return;
+            }
             setStatusUpdatingId(orderId);
             const res = await axios.patch(`/api/order/update-status/${orderId}`, {
                 status: newStatus
@@ -204,14 +201,11 @@ export default function WarehouseOrdersPage() {
             case "PROCESSED":
                 return "bg-sky-50 text-sky-700 border-sky-200";
 
-            case "SHIPMENT":
+            case "READY-TO-SHIP":
                 return "bg-purple-50 text-purple-700 border-purple-200";
 
-            case "DELIVERED":
-                return "bg-emerald-50 text-emerald-700 border-emerald-200";
-
             case "RECEIVED":
-                return "bg-teal-50 text-teal-700 border-teal-200";
+                return "bg-emerald-50 text-emerald-700 border-emerald-200";
 
             case "CANCELLED":
                 return "bg-rose-50 text-rose-700 border-rose-200";
@@ -244,8 +238,8 @@ export default function WarehouseOrdersPage() {
             colorClass: "sky"
         },
         {
-            label: "Shipment",
-            count: statusCounts.SHIPMENT,
+            label: "Ready-to-Ship",
+            count: statusCounts["READY-TO-SHIP"],
             icon: ({ className, style }) => (
                 <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
                     <path fill="currentColor" fillRule="evenodd" d="M6 4.5h3.5v6.625a.75.75 0 0 0 1.5 0V4.5h3.75c.6 0 1 .4 1 1v8.837a3.5 3.5 0 0 0-2 3.163h-1a3.5 3.5 0 0 0-5.5-2.873a3.5 3.5 0 0 0-5.5 2.873c-.6 0-1-.5-1-1v-11c0-.6.4-1 1-1H4.5v6.625a.75.75 0 0 0 1.5 0zm1.25 13a2 2 0 1 1-4 0a2 2 0 0 1 4 0m0 0a2 2 0 1 1 4 0a2 2 0 0 1-4 0m10 2a2 2 0 1 0 0-4a2 2 0 0 0 0 4m0-12V14a3.5 3.5 0 0 1 3.5 3.5h1.5c.6 0 1-.5 1-1v-4.3c0-.4-.3-.8-.7-.9l-2.3-.8l-1.7-2.6c-.2-.2-.5-.4-.8-.4z" clipRule="evenodd"></path>
@@ -254,8 +248,8 @@ export default function WarehouseOrdersPage() {
             colorClass: "purple"
         },
         {
-            label: "Delivered",
-            count: statusCounts.DELIVERED,
+            label: "Received",
+            count: statusCounts.RECEIVED,
             icon: ({ className, style }) => (
                 <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
                     <path fill="currentColor" d="M19 6H5a3 3 0 0 0-3 3v2.72L8.837 14h6.326L22 11.72V9a3 3 0 0 0-3-3" opacity={0.5}></path>
@@ -263,17 +257,6 @@ export default function WarehouseOrdersPage() {
                 </svg>
             ),
             colorClass: "emerald"
-        },
-        {
-            label: "Received",
-            count: statusCounts.RECEIVED,
-            icon: ({ className, style }) => (
-                <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9z" className="duoicon-secondary-layer" opacity={0.3}></path>
-                    <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
-                </svg>
-            ),
-            colorClass: "teal"
         },
         {
             label: "Cancelled",

@@ -29,9 +29,9 @@ export async function GET(request) {
     const dashboardCard = {
       totalOrders: 0,
       totalPendingOrders: 0,
-      totalDeliveredOrders: 0,
+      totalReceivedOrders: 0,
       totalRejectedOrders: 0,
-      totalShippedOrders: 0,
+      totalReadyToShipOrders: 0,
     };
     dashboardCard.totalOrders = await Order.countDocuments({
       orderBy: distributorId,
@@ -40,17 +40,17 @@ export async function GET(request) {
       orderBy: distributorId,
       status: "PENDING",
     });
-    dashboardCard.totalDeliveredOrders = await Order.countDocuments({
+    dashboardCard.totalReceivedOrders = await Order.countDocuments({
       orderBy: distributorId,
-      status: "DELIVERED",
+      status: "RECEIVED",
     });
     dashboardCard.totalRejectedOrders = await Order.countDocuments({
       orderBy: distributorId,
       status: "CANCELLED",
     });
-    dashboardCard.totalShippedOrders = await Order.countDocuments({
+    dashboardCard.totalReadyToShipOrders = await Order.countDocuments({
       orderBy: distributorId,
-      status: "SHIPMENT",
+      status: "READY-TO-SHIP",
     });
 
     // ── Order overview graph (Distribution) ──────────────────────────────────
