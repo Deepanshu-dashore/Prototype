@@ -3,6 +3,7 @@ import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { DistributorService } from "@/app/lib/services/distributor.service";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import { getUrls } from "@/app/lib/utils/geturl";
 
 export async function GET(request, { params }) {
   const user = await verifyJWT();
@@ -25,10 +26,20 @@ export async function GET(request, { params }) {
       { skip, limit },
       "_id orderItems po invoice createdAt status",
     );
+
+    // Transform distribution object and its documents
+    const distributorObj = distributor.toObject();
+    if (distributorObj.documents) {
+      distributorObj.documents = distributorObj.documents.map((doc) => ({
+        ...doc,
+        url: getUrls.getUrl(doc.url, "raw"),
+      }));
+    }
+
     return ApiResponse(
       200,
       {
-        ...distributor.toObject(),
+        ...distributorObj,
         history: history.orders,
         totalOrders: history.total,
       },

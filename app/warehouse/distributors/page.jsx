@@ -11,6 +11,7 @@ import {
     TrashIcon,
 } from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
+import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
 export default function WarehouseDistributorsPage() {
     const [distributors, setDistributors] = useState([]);
@@ -178,22 +179,17 @@ export default function WarehouseDistributorsPage() {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
-                                    <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center">
-                                            <div className="flex flex-col items-center justify-center gap-2">
-                                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-                                                <span className="text-sm text-gray-500">Loading distributors...</span>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <TableLoadingSkeleton columns={5} rows={10} />
                                 ) : error ? (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-red-500">{error}</td>
+                                        <td colSpan="5" className="px-6 py-12 text-center text-red-500 bg-red-50/20 font-medium">{error}</td>
                                     </tr>
                                 ) : distributors.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-gray-500">No distributors found.</td>
-                                    </tr>
+                                    <TableEmptyState
+                                        colSpan={5}
+                                        title="No distributors found"
+                                        message="No distributors match your current search. Try different keywords."
+                                    />
                                 ) : (
                                     distributors.map((dist) => (
                                         <tr key={dist._id} className="hover:bg-gray-50/60 transition-colors">
@@ -222,25 +218,27 @@ export default function WarehouseDistributorsPage() {
                                                 )}
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-500">{formatDate(dist.createdAt)}</td>
-                                            <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
-                                                {!dist.verification?.isVerified && (
-                                                    <button
-                                                        onClick={() => handleVerify(dist._id)}
-                                                        disabled={verifyingId === dist._id}
-                                                        className="inline-flex items-center w-22 justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                            <td className="px-6 py-4 text-right">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    {!dist.verification?.isVerified && (
+                                                        <button
+                                                            onClick={() => handleVerify(dist._id)}
+                                                            disabled={verifyingId === dist._id}
+                                                            className="inline-flex items-center w-22 justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                                        >
+                                                            {verifyingId === dist._id ? 'Verifying...' : 'Verify'}
+                                                            <CheckBadgeIcon className="w-3.5 h-3.5" />
+                                                        </button>
+                                                    )}
+                                                    <Link
+                                                        href={`/warehouse/distributors/${dist._id}`}
+                                                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
+                                                        title="View Details"
                                                     >
-                                                        {verifyingId === dist._id ? 'Verifying...' : 'Verify'}
-                                                        <CheckBadgeIcon className="w-3.5 h-3.5" />
-                                                    </button>
-                                                )}
-                                                <Link
-                                                    href={`/warehouse/distributors/${dist._id}`}
-                                                    className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
-                                                    title="View Details"
-                                                >
-                                                    View
-                                                    <EyeIcon className="w-3.5 h-3.5" />
-                                                </Link>
+                                                        View
+                                                        <EyeIcon className="w-3.5 h-3.5" />
+                                                    </Link>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))

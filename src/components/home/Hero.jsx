@@ -458,7 +458,7 @@ export default function Hero({ onSecondaryClick }) {
             md:w-auto md:top-[-130px] md:left-[430px] md:translate-x-0 md:bottom-auto md:z-auto
           "
         >
-          <source src="/mateMovement.mov" type="video/quicktime" />
+          <source src="/walkmov.mov" type="video/quicktime" />
           <source src="/mateMovement.webm" type="video/webm" />
         </video>
       </div>

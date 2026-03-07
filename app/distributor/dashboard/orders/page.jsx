@@ -4,16 +4,12 @@ import { useState, useEffect } from "react";
 import axios from "@/app/lib/utils/axiosConfig";
 import Link from "next/link";
 import {
-    ShoppingBagIcon,
     PlusIcon,
-    ClockIcon,
-    CheckCircleIcon,
     ClipboardDocumentListIcon,
-    CubeIcon,
-    ArrowDownCircleIcon,
     EyeIcon,
     ChevronDownIcon,
 } from "@heroicons/react/24/outline";
+import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
 export default function DistributorOrdersPage() {
     const [orders, setOrders] = useState([]);
@@ -71,18 +67,12 @@ export default function DistributorOrdersPage() {
         }
     };
 
-    if (loading) return (
-        <div className="flex justify-center items-center h-64 max-w-6xl mx-auto">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        </div>
-    );
-
     return (
         <div className="max-w-6xl mx-auto px-4">
             <div className="flex flex-row sm:items-center justify-between gap-4 mb-8">
                 <div className="flex items-center gap-3">
-                    <div className="md:p-3 p-2 bg-primary/10 rounded-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="md:w-6 md:h-6 w-5 h-5 text-primary" viewBox="0 0 24 24">
+                    <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-primary" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9z" className="duoicon-secondary-layer" opacity={0.3}></path>
                             <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
                         </svg>
@@ -120,33 +110,35 @@ export default function DistributorOrdersPage() {
                 </div>
             </div>
 
-            {error && (
-                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-6">
-                    {error}
-                </div>
-            )}
-
-            {!loading && orders.length === 0 ? (
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center">
-                    <CubeIcon className="w-16 h-16 text-gray-200 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-gray-900">No Orders Yet</h3>
-                    <p className="text-gray-500 mt-2 max-w-xs mx-auto">You haven't placed any orders yet. Click the "New Order" button to get started.</p>
-                </div>
-            ) : (
-                <div className="bg-white rounded-2xl shadow-xs border border-gray-200 overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead className="bg-gray-50 border-b border-gray-100">
+            <div className="bg-white rounded-2xl shadow-xs border border-gray-200 overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                        <thead className="bg-gray-50 border-b border-gray-100">
+                            <tr>
+                                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Order ID</th>
+                                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Items</th>
+                                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Order Date</th>
+                                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100 text-nowrap">
+                            {loading ? (
+                                <TableLoadingSkeleton columns={5} rows={5} />
+                            ) : error ? (
                                 <tr>
-                                    <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Order ID</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Items</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+                                    <td colSpan={5} className="px-6 py-10 text-center text-red-500 font-medium bg-red-50/30">
+                                        {error}
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-100 text-nowrap">
-                                {orders.map((order) => (
+                            ) : orders.length === 0 ? (
+                                <TableEmptyState
+                                    colSpan={5}
+                                    title="No orders found"
+                                    message="You haven't placed any orders yet. Click 'New Order' to get started."
+                                />
+                            ) : (
+                                orders.map((order) => (
                                     <tr key={order._id} className="hover:bg-gray-50/50 transition-colors">
                                         <td className="px-6 py-4 flex items-center gap-2 font-mono text-sm text-gray-800 hover:text-primary">
                                             <div className="p-2 bg-primary/10 rounded-md">
@@ -187,37 +179,37 @@ export default function DistributorOrdersPage() {
                                             </Link>
                                         </td>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Pagination Controls */}
-                    {!loading && orders.length > 0 && (
-                        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex items-center justify-between">
-                            <span className="text-sm text-gray-500">
-                                Showing {orders.length} of {pagination.totalItems} orders
-                            </span>
-                            <div className="flex gap-2">
-                                <button
-                                    disabled={pagination.currentPage === 1}
-                                    onClick={() => setPagination(p => ({ ...p, currentPage: p.currentPage - 1 }))}
-                                    className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md hover:bg-white disabled:opacity-50 transition-colors"
-                                >
-                                    Previous
-                                </button>
-                                <button
-                                    disabled={pagination.currentPage * pagination.limit >= pagination.totalItems}
-                                    onClick={() => setPagination(p => ({ ...p, currentPage: p.currentPage + 1 }))}
-                                    className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md hover:bg-white disabled:opacity-50 transition-colors"
-                                >
-                                    Next
-                                </button>
-                            </div>
-                        </div>
-                    )}
+                                ))
+                            )}
+                        </tbody>
+                    </table>
                 </div>
-            )}
+
+                {/* Pagination Controls */}
+                {!loading && orders.length > 0 && (
+                    <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                        <span className="text-sm text-gray-500">
+                            Showing {orders.length} of {pagination.totalItems} orders
+                        </span>
+                        <div className="flex gap-2">
+                            <button
+                                disabled={pagination.currentPage === 1}
+                                onClick={() => setPagination(p => ({ ...p, currentPage: p.currentPage - 1 }))}
+                                className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md hover:bg-white disabled:opacity-50 transition-colors"
+                            >
+                                Previous
+                            </button>
+                            <button
+                                disabled={pagination.currentPage * pagination.limit >= pagination.totalItems}
+                                onClick={() => setPagination(p => ({ ...p, currentPage: p.currentPage + 1 }))}
+                                className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded-md hover:bg-white disabled:opacity-50 transition-colors"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

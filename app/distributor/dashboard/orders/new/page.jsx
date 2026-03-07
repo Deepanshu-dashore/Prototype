@@ -10,7 +10,7 @@ import {
     ShoppingBagIcon,
     DocumentTextIcon,
     ChevronLeftIcon,
-    ExclamationTriangleIcon
+    ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -178,8 +178,8 @@ function NewOrderContent() {
         >
             <div className="mb-10 flex items-center justify-between">
                 <div className="flex items-center gap-5">
-                    <div className="md:p-3 p-2 bg-primary/10 rounded-xl">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="md:w-6 md:h-6 w-5 h-5 text-primary" viewBox="0 0 24 24">
+                    <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-primary" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9z" className="duoicon-secondary-layer" opacity={0.3}></path>
                             <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
                         </svg>

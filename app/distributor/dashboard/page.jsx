@@ -25,6 +25,7 @@ import {
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import Image from "next/image";
+import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
 import { useRouter } from "next/navigation";
 
@@ -584,51 +585,56 @@ export default function DistributorDashboard() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 divide-dashed">
-                                        {(data?.recentOrders || []).map((order) => {
-                                            const orderId = "ORD-" + String(order._id).slice(-5).toUpperCase();
-                                            const dateStr = order.createdAt
-                                                ? new Date(order.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
-                                                : "—";
-                                            const itemCount = Array.isArray(order.orderItems) ? order.orderItems.length : 0;
-                                            return (
-                                                <tr key={order._id} className="hover:bg-gray-50/60 text-nowrap relative transition-colors">
-                                                    <td className="px-5 py-3 text-xs font-semibold text-gray-700 font-mono w-52 ">{orderId}</td>
-                                                    <td className="px-3 py-3">
-                                                        <span className="text-xs bg-blue-50 text-indigo-600 border border-blue-100 rounded-lg px-2 py-0.5 font-medium">{dateStr}</span>
-                                                    </td>
-                                                    <td className="px-3 py-3">
-                                                        <div className="flex items-center gap-1.5">
-                                                            <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
-                                                            </svg>
-                                                            <span className="text-xs font-semibold text-gray-700">{itemCount} in Order Items</span>
-                                                        </div>
-                                                    </td>
-                                                    <td className="px-3 py-3 text-xs font-semibold text-gray-700">
-                                                        <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="cursor-pointer flex gap-2 items-center">
-                                                            See List <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
-                                                        </span>
-                                                        {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-gray-100 border rounded-sm p-2 w-52 ease-in">
-                                                            {order?.orderItems.map(item => (<span key={item._id} className="text-[10px] text-gray-500"><span className="w-1.5 my-auto aspect-square rounded-full bg-primary/60 inline-block mx-2"></span>{item.product.code}</span>))
-                                                            }
-                                                        </div>}
-                                                    </td>
-                                                    <td className="px-3 py-3"><StatusBadge status={order.status} /></td>
-                                                    <td className="px-5 py-3 text-right">
-                                                        <button
-                                                            onClick={() => handleReorder(order)}
-                                                            className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold px-3 py-1.5 rounded-lg transition-colors min-w-[85px] justify-center"
-                                                        >
-                                                            Reorder <ChevronRightIcon className="w-3 h-3" />
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                        {(!data?.recentOrders || data.recentOrders.length === 0) && (
-                                            <tr>
-                                                <td colSpan={5} className="px-5 py-8 text-center text-sm text-gray-400">No recent orders</td>
-                                            </tr>
+                                        {loading ? (
+                                            <TableLoadingSkeleton columns={6} rows={5} />
+                                        ) : !data?.recentOrders || data.recentOrders.length === 0 ? (
+                                            <TableEmptyState
+                                                colSpan={6}
+                                                title="No recent orders"
+                                                message="Your recent order history will appear here."
+                                            />
+                                        ) : (
+                                            data.recentOrders.map((order) => {
+                                                const orderId = "ORD-" + String(order._id).slice(-5).toUpperCase();
+                                                const dateStr = order.createdAt
+                                                    ? new Date(order.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+                                                    : "—";
+                                                const itemCount = Array.isArray(order.orderItems) ? order.orderItems.length : 0;
+                                                return (
+                                                    <tr key={order._id} className="hover:bg-gray-50/60 text-nowrap relative transition-colors">
+                                                        <td className="px-5 py-3 text-xs font-semibold text-gray-700 font-mono w-52 ">{orderId}</td>
+                                                        <td className="px-3 py-3">
+                                                            <span className="text-xs bg-blue-50 text-indigo-600 border border-blue-100 rounded-lg px-2 py-0.5 font-medium">{dateStr}</span>
+                                                        </td>
+                                                        <td className="px-3 py-3">
+                                                            <div className="flex items-center gap-1.5">
+                                                                <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
+                                                                </svg>
+                                                                <span className="text-xs font-semibold text-gray-700">{itemCount} items</span>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-3 py-3 text-xs font-semibold text-gray-700">
+                                                            <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="cursor-pointer flex gap-2 items-center">
+                                                                See List <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
+                                                            </span>
+                                                            {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-gray-100 border rounded-sm p-2 w-52 ease-in z-20">
+                                                                {order?.orderItems.map(item => (<span key={item._id} className="text-[10px] text-gray-500"><span className="w-1.5 my-auto aspect-square rounded-full bg-primary/60 inline-block mx-2"></span>{item.product.code}</span>))
+                                                                }
+                                                            </div>}
+                                                        </td>
+                                                        <td className="px-3 py-3"><StatusBadge status={order.status} /></td>
+                                                        <td className="px-5 py-3 text-right">
+                                                            <button
+                                                                onClick={() => handleReorder(order)}
+                                                                className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold px-3 py-1.5 rounded-lg transition-colors min-w-[85px] justify-center shadow-sm"
+                                                            >
+                                                                Reorder <ChevronRightIcon className="w-3 h-3" />
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
                                         )}
                                     </tbody>
                                 </table>

@@ -15,14 +15,16 @@ import {
     CheckBadgeIcon,
     DocumentTextIcon,
     EyeIcon,
-    ArrowDownTrayIcon,
     ArrowPathIcon
 } from "@heroicons/react/24/outline";
+import toast from "react-hot-toast";
+import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
 export default function ComplianceDocsPage() {
     const [docs, setDocs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [distributorId, setDistributorId] = useState(null);
 
     const complianceDocs = [
         { name: "ISO 9001", description: "Quality Management System Certification", icon: CheckBadgeIcon, category: "Quality", status: "Current", href: "/compliances/doc/CC Matting - ISO 9001-2015 - 2025 - 2026.pdf" },
@@ -42,9 +44,15 @@ export default function ComplianceDocsPage() {
     const fetchDocs = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/distributor/me");
+            const res = await axios.get("/api/distributor/upload-compliance");
             if (res.data?.success) {
-                setDocs(res.data.data.documents || []);
+                setDocs(res.data.data || []);
+            }
+
+            // Also need distributor ID for uploads
+            const profileRes = await axios.get("/api/distributor/me");
+            if (profileRes.data?.success) {
+                setDistributorId(profileRes.data.data._id);
             }
         } catch (err) {
             console.error("Failed to fetch documents:", err);
@@ -52,6 +60,10 @@ export default function ComplianceDocsPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleFileChange = async (e) => {
+        // Removed as per request (view only)
     };
 
     const formatDate = (dateString) => {
@@ -67,12 +79,14 @@ export default function ComplianceDocsPage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-primary/10 rounded-2xl border border-primary/20">
-                        <DocumentCheckIcon className="w-8 h-8 text-primary" />
+                    <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
+                        <DocumentCheckIcon className="w-7 h-7 text-primary" />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Compliance Center</h1>
-                        <p className="text-sm text-gray-500 font-medium">Official certifications and your distribution documentation</p>
+                        <h1 className="md:text-2xl text-lg font-bold text-gray-800">
+                            Compliance Center
+                        </h1>
+                        <p className="md:text-sm md:inline hidden text-[10px] text-gray-500">Official certifications and your distribution documentation</p>
                     </div>
                 </div>
             </div>
@@ -140,72 +154,73 @@ export default function ComplianceDocsPage() {
                     </div>
                 </div>
 
-                {/* User Documents Table */}
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div className="p-6 border-b border-gray-50 bg-gray-50/30 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <DocumentTextIcon className="w-5 h-5 text-indigo-600" />
-                            <h2 className="font-bold text-gray-800 uppercase tracking-wider text-sm">Your Partnership Documents</h2>
+                {/* Partnership Documents Table */}
+                {(loading || docs.length > 0) && (
+                    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div className="p-6 border-b border-gray-50 bg-gray-50/30 flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <DocumentTextIcon className="w-5 h-5 text-indigo-600" />
+                                <h2 className="font-bold text-gray-800 uppercase tracking-wider text-sm">Partnership Documents</h2>
+                            </div>
+                            <button onClick={fetchDocs} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
+                                <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin text-primary' : ''}`} />
+                            </button>
                         </div>
-                        <button onClick={fetchDocs} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400">
-                            <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin text-primary' : ''}`} />
-                        </button>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead className="bg-gray-50/50 border-b border-gray-100">
-                                <tr>
-                                    <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Filename</th>
-                                    <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest hidden sm:table-cell">Date</th>
-                                    <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Status</th>
-                                    <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50">
-                                {loading ? (
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead className="bg-gray-50/50 border-b border-gray-100">
                                     <tr>
-                                        <td colSpan="4" className="px-6 py-12 text-center text-gray-400 text-sm italic">Loading documents...</td>
+                                        <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Document Name</th>
+                                        <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest hidden sm:table-cell">Last Updated</th>
+                                        <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Status</th>
+                                        <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
                                     </tr>
-                                ) : docs.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="4" className="px-6 py-12 text-center text-gray-400 text-sm italic pr-8">No documents assigned to your profile.</td>
-                                    </tr>
-                                ) : (
-                                    docs.map((doc, idx) => (
-                                        <tr key={idx} className="hover:bg-gray-50/50 transition-colors group">
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="p-2 bg-indigo-50/50 rounded-lg ring-1 ring-indigo-50 group-hover:bg-white group-hover:shadow-xs transition-all">
-                                                        <DocumentIcon className="w-5 h-5 text-indigo-400" />
+                                </thead>
+                                <tbody className="divide-y divide-gray-50">
+                                    {loading ? (
+                                        <TableLoadingSkeleton columns={4} rows={2} />
+                                    ) : (
+                                        docs.map((doc, idx) => (
+                                            <tr key={idx} className="hover:bg-gray-50/50 transition-colors group">
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="p-2 bg-indigo-50/50 rounded-lg ring-1 ring-indigo-50 group-hover:bg-white group-hover:shadow-xs transition-all">
+                                                            <DocumentIcon className="w-5 h-5 text-indigo-400" />
+                                                        </div>
+                                                        <p className="text-sm font-bold text-gray-900 capitalize">
+                                                            {doc.name.replace(/([0-9])/, ' $1')}
+                                                        </p>
                                                     </div>
-                                                    <p className="text-sm font-bold text-gray-900 line-clamp-1 max-w-[200px]">{doc.name}</p>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 hidden sm:table-cell">
-                                                <p className="text-xs font-medium text-gray-500">{formatDate(doc.uploadedDate)}</p>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter ${doc.status === 'Verified' ? 'bg-emerald-50 text-emerald-600' : 'bg-gray-100 text-gray-400'}`}>
-                                                    {doc.status}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <div className="flex items-center justify-end gap-2">
-                                                    <a href={doc.url} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-primary transition-colors hover:bg-white rounded-lg border border-transparent hover:border-gray-100 shadow-xs">
-                                                        <EyeIcon className="w-4 h-4" />
+                                                </td>
+                                                <td className="px-6 py-4 hidden sm:table-cell">
+                                                    <p className="text-xs font-medium text-gray-500">
+                                                        {doc.updatedAt ? formatDate(doc.updatedAt) : "Available"}
+                                                    </p>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100 uppercase tracking-tighter">
+                                                        AVAILABLE
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4 text-right">
+                                                    <a
+                                                        href={doc.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-xl hover:bg-primary hover:text-white hover:border-primary transition-all shadow-xs"
+                                                    >
+                                                        <EyeIcon className="w-3.5 h-3.5" />
+                                                        View
                                                     </a>
-                                                    <a href={doc.url} download className="p-2 text-gray-400 hover:text-emerald-600 transition-colors hover:bg-white rounded-lg border border-transparent hover:border-gray-100 shadow-xs">
-                                                        <ArrowDownTrayIcon className="w-4 h-4" />
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

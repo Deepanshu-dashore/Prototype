@@ -478,22 +478,10 @@ export default function ProductsPage() {
 
         {/* ── Content ── */}
         <div className="min-h-[400px]">
-          {loading ? (
-            <TableLoadingSkeleton columns={5} rows={pagination.limit} />
-          ) : error ? (
+          {error ? (
             <div className="rounded-lg bg-red-50 p-4 border border-red-100 text-center">
               <p className="text-sm text-red-600 font-medium">{error}</p>
             </div>
-          ) : products.length === 0 ? (
-            <TableEmptyState
-              title={searchQuery ? "No products found" : "No products yet"}
-              message={
-                searchQuery
-                  ? "Try adjusting your search query to find what you're looking for."
-                  : "Get started by adding your first product to the catalogue."
-              }
-              colSpan={5}
-            />
           ) : (
             <>
               <motion.div
@@ -523,81 +511,101 @@ export default function ProductsPage() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
-                      {products.map((product, index) => (
-                        <motion.tr
-                          key={product._id}
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.04 }}
-                          className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
-                        >
-                          {/* Code */}
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-3">
-                              <div className="h-10 w-10 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-                                <ArchiveBoxIcon className="w-5 h-5 text-indigo-600" />
+                      {loading ? (
+                        <TableLoadingSkeleton
+                          columns={5}
+                          rows={pagination.limit}
+                        />
+                      ) : products.length === 0 ? (
+                        <TableEmptyState
+                          title={
+                            searchQuery
+                              ? "No products found"
+                              : "No products yet"
+                          }
+                          message={
+                            searchQuery
+                              ? "Try adjusting your search query to find what you're looking for."
+                              : "Get started by adding your first product to the catalogue."
+                          }
+                          colSpan={5}
+                        />
+                      ) : (
+                        products.map((product, index) => (
+                          <motion.tr
+                            key={product._id}
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.04 }}
+                            className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
+                          >
+                            {/* Code */}
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <div className="h-10 w-10 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
+                                  <ArchiveBoxIcon className="w-5 h-5 text-indigo-600" />
+                                </div>
+                                <span className="text-sm font-semibold text-gray-800 tracking-wide">
+                                  {product.code}
+                                </span>
                               </div>
-                              <span className="text-sm font-semibold text-gray-800 tracking-wide">
-                                {product.code}
-                              </span>
-                            </div>
-                          </td>
+                            </td>
 
-                          {/* Description */}
-                          <td className="px-6 py-4 max-w-xs">
-                            <p className="text-sm text-gray-600 line-clamp-2">
-                              {product.description}
-                            </p>
-                          </td>
+                            {/* Description */}
+                            <td className="px-6 py-4 max-w-xs">
+                              <p className="text-sm text-gray-600 line-clamp-2">
+                                {product.description}
+                              </p>
+                            </td>
 
-                          {/* Created date */}
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                              <CalendarIcon className="w-3.5 h-3.5 text-gray-500" />
-                              {formatDate(product.createdAt)}
-                            </div>
-                          </td>
+                            {/* Created date */}
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                                <CalendarIcon className="w-3.5 h-3.5 text-gray-500" />
+                                {formatDate(product.createdAt)}
+                              </div>
+                            </td>
 
-                          {/* Visibility */}
-                          <td className="px-6 py-4">
-                            <button
-                              onClick={() =>
-                                setVisibilityModal({
-                                  isOpen: true,
-                                  productId: product._id,
-                                })
-                              }
-                              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 ${
-                                product.visibility !== false
-                                  ? "bg-indigo-500"
-                                  : "bg-gray-300"
-                              }`}
-                              role="switch"
-                              aria-checked={product.visibility !== false}
-                              title="Toggle Visibility"
-                            >
-                              <span
-                                className={`pointer-events-none translate-y-0.5 inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                  product.visibility !== false
-                                    ? "translate-x-5.5"
-                                    : "translate-x-0.5"
-                                }`}
-                              />
-                            </button>
-                          </td>
-
-                          {/* Actions */}
-                          <td className="px-6 py-4 text-right">
-                            <div className="flex items-center justify-end gap-2">
+                            {/* Visibility */}
+                            <td className="px-6 py-4">
                               <button
-                                onClick={() => openEditModal(product)}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-emerald-700 text-white hover:bg-emerald-800 transition-colors"
-                                title="Edit Product"
+                                onClick={() =>
+                                  setVisibilityModal({
+                                    isOpen: true,
+                                    productId: product._id,
+                                  })
+                                }
+                                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 ${
+                                  product.visibility !== false
+                                    ? "bg-indigo-500"
+                                    : "bg-gray-300"
+                                }`}
+                                role="switch"
+                                aria-checked={product.visibility !== false}
+                                title="Toggle Visibility"
                               >
-                                Edit
-                                <PencilSquareIcon className="w-3.5 h-3.5" />
+                                <span
+                                  className={`pointer-events-none translate-y-0.5 inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                    product.visibility !== false
+                                      ? "translate-x-5.5"
+                                      : "translate-x-0.5"
+                                  }`}
+                                />
                               </button>
-                              {/* <button
+                            </td>
+
+                            {/* Actions */}
+                            <td className="px-6 py-4 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={() => openEditModal(product)}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-emerald-700 text-white hover:bg-emerald-800 transition-colors"
+                                  title="Edit Product"
+                                >
+                                  Edit
+                                  <PencilSquareIcon className="w-3.5 h-3.5" />
+                                </button>
+                                {/* <button
                                 onClick={() => handleDelete(product._id)}
                                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
                                 title="Delete Product"
@@ -605,15 +613,15 @@ export default function ProductsPage() {
                                 Delete
                                 <TrashIcon className="w-3.5 h-3.5" />
                               </button> */}
-                            </div>
-                          </td>
-                        </motion.tr>
-                      ))}
+                              </div>
+                            </td>
+                          </motion.tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>
 
-                {/* Table footer */}
                 <div className="px-6 py-3 bg-gray-50/50 border-t border-gray-100">
                   <p className="text-xs text-gray-500">
                     Showing{" "}
@@ -629,7 +637,6 @@ export default function ProductsPage() {
                 </div>
               </motion.div>
 
-              {/* Pagination */}
               {pagination.totalPages > 1 && (
                 <div className="mt-6 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="text-sm text-gray-500">

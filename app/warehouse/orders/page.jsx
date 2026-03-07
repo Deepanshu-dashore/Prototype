@@ -19,7 +19,7 @@ import {
     ClipboardDocumentListIcon,
     FunnelIcon
 } from "@heroicons/react/24/outline";
-import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
+import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
 
 const STATUS_OPTIONS = [
@@ -402,22 +402,17 @@ export default function WarehouseOrdersPage() {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
-                                    <tr>
-                                        <td colSpan="6" className="px-6 py-12 text-center">
-                                            <div className="flex flex-col items-center justify-center gap-2">
-                                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-                                                <span className="text-sm text-gray-500">Loading orders...</span>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <TableLoadingSkeleton columns={6} rows={10} />
                                 ) : error ? (
                                     <tr>
-                                        <td colSpan="6" className="px-6 py-12 text-center text-red-500">{error}</td>
+                                        <td colSpan="6" className="px-6 py-12 text-center text-red-500 bg-red-50/20 font-medium">{error}</td>
                                     </tr>
                                 ) : orders.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="6" className="px-6 py-12 text-center text-gray-500">No orders found.</td>
-                                    </tr>
+                                    <TableEmptyState
+                                        colSpan={6}
+                                        title="No orders found"
+                                        message="No orders match your current filters. Try searching with different keywords."
+                                    />
                                 ) : (
                                     orders.map((order) => (
                                         <tr key={order._id} className="hover:bg-gray-50/60 transition-colors">

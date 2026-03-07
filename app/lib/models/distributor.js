@@ -42,7 +42,6 @@ const distributorSchema = new Schema(
       {
         url: { type: String, required: true },
         name: { type: String, required: true },
-        type: { type: String },
       },
     ],
   },

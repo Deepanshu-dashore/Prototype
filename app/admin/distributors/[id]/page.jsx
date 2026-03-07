@@ -16,9 +16,13 @@ import {
     ChatBubbleLeftEllipsisIcon,
     PlusIcon,
     EyeIcon,
-    GlobeAmericasIcon
+    GlobeAmericasIcon,
+    DocumentTextIcon,
+    ArrowUpTrayIcon
 } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
+import toast from "react-hot-toast";
 
 export default function DistributorDetailsPage({ params }) {
     const { id } = use(params);
@@ -30,6 +34,9 @@ export default function DistributorDetailsPage({ params }) {
         totalItems: 0,
         limit: 10
     });
+    const [uploadingDoc, setUploadingDoc] = useState(null);
+    const fileInputRef = useRef(null);
+    const [selectedDocId, setSelectedDocId] = useState(null);
 
     useEffect(() => {
         fetchDistributor(pagination.currentPage);
@@ -54,6 +61,46 @@ export default function DistributorDetailsPage({ params }) {
             setError(err.message || "Something went wrong");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleUploadClick = (docId) => {
+        setSelectedDocId(docId);
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file || !selectedDocId) return;
+
+        try {
+            setUploadingDoc(selectedDocId);
+            setError("");
+
+            const uploadToastId = toast.loading(`Uploading ${selectedDocId}...`);
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const res = await axios.patch(
+                `/api/distributor/upload-compliance/${id}?documentId=${selectedDocId}`,
+                formData,
+                { headers: { "Content-Type": "multipart/form-data" } }
+            );
+
+            if (res.data?.success) {
+                toast.success(`Document ${selectedDocId} uploaded successfully!`, { id: uploadToastId });
+                fetchDistributor(pagination.currentPage);
+            } else {
+                toast.error(res.data?.message || "Failed to upload document", { id: uploadToastId });
+            }
+        } catch (err) {
+            const errorMsg = err.response?.data?.message || err.message || "Something went wrong during upload";
+            toast.error(errorMsg);
+        } finally {
+            setUploadingDoc(null);
+            setSelectedDocId(null);
+            if (fileInputRef.current) fileInputRef.current.value = "";
         }
     };
 
@@ -106,7 +153,56 @@ export default function DistributorDetailsPage({ params }) {
                             </div>
                         </div>
                     </div>
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => handleUploadClick("document1")}
+                            disabled={uploadingDoc === "document1"}
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 border border-indigo-100 text-indigo-600 font-medium rounded-xl hover:bg-indigo-100 transition-all text-sm disabled:opacity-50"
+                        >
+                            {uploadingDoc === "document1" ? (
+                                <div className="animate-spin h-4 w-4 border-2 border-indigo-600 border-t-transparent rounded-full" />
+                            ) : (
+                                <ArrowUpTrayIcon className="w-4 h-4" />
+                            )}
+                            {distributor.documents?.find(d => d.name === "document1") ? "Update Document 1" : "Upload Document 1"}
+                        </button>
+                        <button
+                            onClick={() => handleUploadClick("document2")}
+                            disabled={uploadingDoc === "document2"}
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-100 text-emerald-600 font-medium rounded-xl hover:bg-emerald-100 transition-all text-sm disabled:opacity-50"
+                        >
+                            {uploadingDoc === "document2" ? (
+                                <div className="animate-spin h-4 w-4 border-2 border-emerald-600 border-t-transparent rounded-full" />
+                            ) : (
+                                <ArrowUpTrayIcon className="w-4 h-4" />
+                            )}
+                            {distributor.documents?.find(d => d.name === "document2") ? "Update Document 2" : "Upload Document 2"}
+                        </button>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            className="hidden"
+                            accept=".pdf"
+                            onChange={handleFileChange}
+                        />
+                    </div>
                 </div>
+
+                {/* Status Messages */}
+                <AnimatePresence>
+                    {error && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="mb-6"
+                        >
+                            <div className="p-3 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm font-medium">
+                                {error}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 <div className="space-y-8">
                     {/* Details Column */}
@@ -251,6 +347,89 @@ export default function DistributorDetailsPage({ params }) {
                                 </div>
                                 <div className="text-sm text-gray-600 flex items-center gap-2"> <div className="h-2.5 w-2.5 rounded-full bg-primary/20 flex justify-center items-center"><div className="h-1 w-1 rounded-full bg-primary" /></div> Please provide a brief overview of your company, including your experience in the industry, target markets, and how you see CCMatting products adding value to your business.</div>
                                 <div className="bg-gray-200 p-1 rounded-md text-sm font-semibold italic w-fit px-3 ml-3">Answer: {distributor.question2 ? distributor.question2 : 'Not Given'}</div>
+                            </div>
+                        </motion.div>
+
+                        {/* Documents Section */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.35 }}
+                            className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
+                        >
+                            <div className="p-5 border-b border-gray-100 flex items-center gap-2 text-gray-900 font-semibold text-sm uppercase tracking-wider">
+                                <DocumentTextIcon className="w-7 h-7 bg-indigo-100 text-indigo-600 p-1 rounded-sm" />
+                                Distributor Documents
+                            </div>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left">
+                                    <thead className="bg-gray-50/50 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                        <tr>
+                                            <th className="px-6 py-4">Document Name</th>
+                                            <th className="px-6 py-4">Status</th>
+                                            <th className="px-6 py-4 text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100">
+                                        {["document1", "document2"].map((docName) => {
+                                            const doc = distributor.documents?.find(d => d.name === docName);
+                                            return (
+                                                <tr key={docName} className="hover:bg-gray-50/50 transition-colors">
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="h-8 w-8 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center">
+                                                                <DocumentTextIcon className="w-4 h-4 text-gray-400" />
+                                                            </div>
+                                                            <span className="text-sm font-medium text-gray-900 capitalize">
+                                                                {docName.replace(/([0-9])/, ' $1')}
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {doc ? (
+                                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-green-50 text-green-700 border border-green-100">
+                                                                AVAILABLE
+                                                            </span>
+                                                        ) : (
+                                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-gray-50 text-gray-500 border border-gray-200">
+                                                                NOT UPLOADED
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-right">
+                                                        <div className="flex items-center justify-end gap-2">
+                                                            {doc ? (
+                                                                <>
+                                                                    <a
+                                                                        href={doc.url}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-50 transition-all shadow-sm"
+                                                                    >
+                                                                        <EyeIcon className="w-3.5 h-3.5" /> View
+                                                                    </a>
+                                                                    <button
+                                                                        onClick={() => handleUploadClick(docName)}
+                                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all shadow-sm"
+                                                                    >
+                                                                        <ArrowUpTrayIcon className="w-3.5 h-3.5" /> Update
+                                                                    </button>
+                                                                </>
+                                                            ) : (
+                                                                <button
+                                                                    onClick={() => handleUploadClick(docName)}
+                                                                    className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-indigo-600 text-white text-xs font-bold rounded-lg hover:bg-indigo-700 transition-all shadow-sm"
+                                                                >
+                                                                    <ArrowUpTrayIcon className="w-3.5 h-3.5" /> Upload Now
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
                             </div>
                         </motion.div>
 
