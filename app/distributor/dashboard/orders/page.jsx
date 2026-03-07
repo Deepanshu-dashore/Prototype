@@ -8,6 +8,7 @@ import {
     ClipboardDocumentListIcon,
     EyeIcon,
     ChevronDownIcon,
+    ChatBubbleBottomCenterTextIcon
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
@@ -119,6 +120,7 @@ export default function DistributorOrdersPage() {
                                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Items</th>
                                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
                                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Order Date</th>
+                                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Instructions</th>
                                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Actions</th>
                             </tr>
                         </thead>
@@ -147,26 +149,37 @@ export default function DistributorOrdersPage() {
                                                     <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
                                                 </svg>
                                             </div>
-                                            <Link href={`/distributor/dashboard/orders/${order._id}`} className="hover:underline text-sm underline-offset-2 font-bold">
+                                            <Link href={`/distributor/dashboard/orders/${order._id}`} className="hover:underline text-sm underline-offset-2 font-semibold">
                                                 #{order._id.slice(-6).toUpperCase()}
                                             </Link>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-sm cursor-pointer flex gap-2 items-center text-gray-900 font-medium">
-                                                {order.orderItems?.length || 0} Products <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
-                                            </span>
-                                            {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-gray-100 border rounded-sm p-2 w-52 ease-in">
+                                            <div className="flex flex-col gap-1.5">
+                                                <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-sm cursor-pointer flex gap-2 items-center text-gray-900 font-medium">
+                                                    {order.orderItems?.length || 0} Products <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
+                                                </span>
+                                            </div>
+                                            {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-gray-100 border rounded-sm p-2 w-52 ease-in z-50 shadow-lg">
                                                 {order?.orderItems.map(item => (<span key={item._id} className="text-[10px] text-gray-500"><span className="w-1.5 my-auto aspect-square rounded-full bg-primary/60 inline-block mx-2"></span>{item.product.code}</span>))
                                                 }
                                             </div>}
                                         </td>
+
+
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex min-w-22 text-center items-center justify-center px-2.5 py-0.5 rounded-sm text-[10px] font-semibold ${getStatusColor(order.status)} border shadow-xs`}>
                                                 {order.status}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-sm text-gray-500">
-                                            {new Date(order.createdAt).toLocaleDateString()}
+                                            {new Date(order.createdAt).toDateString()}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {order.instructions ? (
+                                                <span className="text-[9px] text-indigo-600 font-bold bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100 w-fit flex items-center gap-1">
+                                                    <ChatBubbleBottomCenterTextIcon className="w-3 h-3" /> Instruction
+                                                </span>
+                                            ) : (<span className="text-gray-400 text-sm capitalize">not available</span>)}
                                         </td>
                                         <td className="px-6 py-3 text-right">
                                             <Link

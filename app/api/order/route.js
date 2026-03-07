@@ -122,6 +122,7 @@ export async function POST(request) {
     const formData = await request.formData();
     const poFile = formData.get("purchaseOrder");
     const orderItemsStr = formData.get("orderItems");
+    const instructions = formData.get("instructions");
 
     if (!poFile) {
       return ApiResponse(400, null, "Purchase Order Document required");
@@ -168,6 +169,7 @@ export async function POST(request) {
       orderBy: MongofyId,
       documents,
       orderItems,
+      instructions: instructions ? String(instructions).trim() : "",
     });
 
     if (!order) {

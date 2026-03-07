@@ -35,6 +35,7 @@ const orderSchema = new Schema(
     },
     po: { type: String },
     invoice: { type: String },
+    instructions: { type: String },
     status: {
       type: String,
       enum: ["PENDING", "PROCESSED", "RECEIVED", "READY-TO-SHIP"],

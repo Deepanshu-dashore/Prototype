@@ -100,12 +100,12 @@ export default function DistributorOrderDetailsPage() {
                         >
                             <ChevronLeftIcon className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" strokeWidth={2.5} />
                         </button>
-                        <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
+                        {/* <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-primary" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9z" className="duoicon-secondary-layer" opacity={0.3}></path>
                                 <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
                             </svg>
-                        </div>
+                        </div> */}
                         <div>
                             <div className="flex items-center gap-3 flex-wrap">
                                 <h1 className="text-xl font-bold text-gray-900 tracking-tight">
@@ -208,6 +208,24 @@ export default function DistributorOrderDetailsPage() {
                             </div>
 
                         </div>
+
+                        {/* Instructions Card (Conditional) */}
+                        {order?.instructions && (
+                            <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 overflow-hidden relative">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 sm:block hidden" />
+                                <div className="flex items-center gap-2 border-b border-dashed border-gray-200 pb-2.5 mb-4">
+                                    <div className="p-1.5 bg-primary/10 rounded-lg">
+                                        <DocumentTextIcon className="w-5 h-5 text-primary/70" />
+                                    </div>
+                                    <h3 className="text-base font-bold text-gray-800">Special Instructions</h3>
+                                </div>
+                                <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100">
+                                    <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap italic">
+                                        "{order.instructions}"
+                                    </p>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Column */}

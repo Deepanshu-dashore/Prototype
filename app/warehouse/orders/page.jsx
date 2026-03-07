@@ -17,7 +17,8 @@ import {
     TrashIcon,
     CubeIcon,
     ClipboardDocumentListIcon,
-    FunnelIcon
+    FunnelIcon,
+    ChatBubbleBottomCenterTextIcon
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
@@ -433,9 +434,16 @@ export default function WarehouseOrdersPage() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="flex flex-col">
+                                                <div className="flex flex-col gap-1">
                                                     <span className="text-sm font-medium text-gray-900 line-clamp-1">{order.orderBy?.companyName || "Unknown"}</span>
-                                                    <span className="text-xs text-gray-500">{order.orderItems?.length || 0} items</span>
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="text-xs text-gray-500">{order.orderItems?.length || 0} items</span>
+                                                        {order.instructions && (
+                                                            <span className="text-[9px] text-indigo-600 font-bold bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100 w-fit flex items-center gap-1">
+                                                                <ChatBubbleBottomCenterTextIcon className="w-3 h-3" /> Instruction
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">

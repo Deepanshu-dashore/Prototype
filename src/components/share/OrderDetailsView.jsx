@@ -105,6 +105,24 @@ export default function OrderDetailsView({
                     {/* Left Column */}
                     <div className="lg:col-span-2 space-y-6">
 
+                        {/* Instructions Card (Conditional) */}
+                        {order?.instructions && (
+                            <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 overflow-hidden relative">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 sm:block hidden lg:block" />
+                                <div className="flex items-center gap-2 border-b border-dashed border-gray-200 pb-2.5 mb-4">
+                                    <div className="p-1.5 bg-primary/10 rounded-lg">
+                                        <DocumentTextIcon className="w-5 h-5 text-primary/70" />
+                                    </div>
+                                    <h3 className="text-base font-bold text-gray-800">Special Instructions</h3>
+                                </div>
+                                <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-100">
+                                    <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap italic">
+                                        "{order.instructions}"
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Details Card */}
                         <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6">
                             <div className="flex items-center gap-2 border-b border-dashed border-gray-200 pb-2.5">

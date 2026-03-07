@@ -40,6 +40,7 @@ function NewOrderContent() {
     const [orderItems, setOrderItems] = useState([{ product: "", quantity: 1, length: 0 }]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [poFile, setPoFile] = useState(null);
+    const [instructions, setInstructions] = useState("");
     const [isReorderLoading, setIsReorderLoading] = useState(false);
 
     useEffect(() => {
@@ -63,6 +64,9 @@ function NewOrderContent() {
                 }));
                 if (items.length > 0) {
                     setOrderItems(items);
+                }
+                if (order.instructions) {
+                    setInstructions(order.instructions);
                 }
             }
         } catch (err) {
@@ -152,6 +156,7 @@ function NewOrderContent() {
             const formData = new FormData();
             formData.append("purchaseOrder", poFile);
             formData.append("orderItems", JSON.stringify(filteredItems));
+            formData.append("instructions", instructions);
 
             const res = await axios.post("/api/order", formData, {
                 headers: {
@@ -353,7 +358,23 @@ function NewOrderContent() {
                             </div>
                         </div>
                     </div>
+                </div>
 
+                {/* Additional Instructions */}
+                <div className="bg-white rounded-3xl shadow-xs border border-gray-100 overflow-hidden">
+                    <div className="p-8 py-3 pt-5 border-b border-gray-200 flex flex-col gap-1">
+                        <h2 className="text-lg font-bold text-gray-900">Additional Instructions</h2>
+                        <p className="text-sm text-gray-400">Special requests or notes for this order (Optional)</p>
+                    </div>
+                    <div className="p-8 ">
+                        <textarea
+                            value={instructions}
+                            onChange={(e) => setInstructions(e.target.value)}
+                            placeholder="Add any specific instructions, delivery notes, or packaging requirements..."
+                            rows={4}
+                            className="w-full border border-gray-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none bg-gray-50/10"
+                        />
+                    </div>
                 </div>
 
                 {/* Form Actions */}

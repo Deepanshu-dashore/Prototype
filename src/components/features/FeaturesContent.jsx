@@ -1,10 +1,9 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import {
     SwatchIcon,
     ArrowPathIcon,
@@ -75,6 +74,15 @@ function YouTubeVideo({ videoId, title }) {
 // Synced Side Section Component for Scroll Progress
 function SyncedSideSection({ children, videoId, videoTitle, reverse = false, bgClass = "bg-white", disableOpacity = false }) {
     const containerRef = useRef(null)
+    const [isDesktop, setIsDesktop] = useState(false);
+
+    useEffect(() => {
+        const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+        checkDesktop();
+        window.addEventListener('resize', checkDesktop);
+        return () => window.removeEventListener('resize', checkDesktop);
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end start"]
@@ -91,22 +99,22 @@ function SyncedSideSection({ children, videoId, videoTitle, reverse = false, bgC
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center`}>
                     <motion.div
-                        style={{
+                        style={isDesktop ? {
                             x: reverse ? xRight : xLeft,
                             opacity,
                             scale
-                        }}
+                        } : {}}
                         className={reverse ? "order-2 lg:order-2" : "order-1"}
                     >
                         {children}
                     </motion.div>
 
                     <motion.div
-                        style={{
+                        style={isDesktop ? {
                             x: reverse ? xLeft : xRight,
                             opacity,
                             scale
-                        }}
+                        } : {}}
                         className={`relative h-[300px] sm:h-[400px] rounded-2xl overflow-hidden ${reverse ? "order-1 lg:order-1" : "order-2"}`}
                     >
                         <YouTubeVideo videoId={videoId} title={videoTitle} />

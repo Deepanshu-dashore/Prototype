@@ -18,7 +18,8 @@ import {
     CubeIcon,
     ClipboardDocumentListIcon,
     FunnelIcon,
-    ChevronDownIcon
+    ChevronDownIcon,
+    ChatBubbleBottomCenterTextIcon
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
@@ -324,6 +325,11 @@ export default function AdminOrdersPage() {
                                                 <Link href={`/admin/orders/${order._id}`} className="font-semibold text-gray-600 underline-offset-2 hover:text-primary hover:underline">
                                                     #{order._id.slice(-6).toUpperCase()}
                                                 </Link>
+                                                {order.instructions && (
+                                                    <span title="Instruction" className="text-[9px] text-orange-600 animate-pulse font-bold bg-orange-100 px-1.5 py-0.5 rounded border border-orange-300 w-fit flex items-center gap-1">
+                                                        <ChatBubbleBottomCenterTextIcon className="w-3 h-3" strokeWidth={2} />
+                                                    </span>
+                                                )}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
@@ -331,9 +337,11 @@ export default function AdminOrdersPage() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs cursor-pointer flex gap-2 items-center text-gray-600 font-medium">
-                                                    {order.orderItems?.length || 0} Items <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
-                                                </span>
+                                                <div className="flex flex-col gap-1.5">
+                                                    <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs cursor-pointer flex gap-2 items-center text-gray-600 font-medium">
+                                                        {order.orderItems?.length || 0} Items <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
+                                                    </span>
+                                                </div>
                                                 {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-white border rounded-sm p-2 w-52 ease-in z-50 shadow-lg">
                                                     {order?.orderItems.map(item => (<span key={item._id} className="text-[10px] text-gray-500"><span className="w-1.5 my-auto aspect-square rounded-full bg-primary/60 inline-block mx-2"></span>{item.product.code}</span>))
                                                     }
@@ -439,7 +447,7 @@ export default function AdminOrdersPage() {
 
                                                         <EyeIcon className="w-4 h-4" />
                                                     </Link>
-
+                                                    {/* 
                                                     <button
                                                         onClick={() => setDeleteModal({ isOpen: true, orderId: order._id })}
                                                         className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600 border border-red-600 text-white text-[12.25px] rounded-md hover:bg-red-500 hover:border-red-200 transition-all shadow-sm"
@@ -447,7 +455,7 @@ export default function AdminOrdersPage() {
                                                     >
                                                         Delete
                                                         <TrashIcon className="w-3.5 h-3.5" />
-                                                    </button>
+                                                    </button> */}
                                                 </div>
                                             </td>
                                         </tr>
