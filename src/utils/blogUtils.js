@@ -1,5 +1,6 @@
 import connect from "@/app/lib/db/connect";
 import { Blog } from "@/app/lib/models/blog";
+import getImageUrl from "@/app/lib/utils/getImageUrl";
 import mongoose from "mongoose";
 
 /**
@@ -70,7 +71,12 @@ export async function getPublicBlogs(options = {}) {
   const categories = await Blog.distinct("category").lean().exec();
 
   return {
-    blogs: serializedBlogs,
+    blogs: serializedBlogs?.map((blog) => {
+      return {
+        ...blog,
+        featuredImage: getImageUrl(blog.featuredImage),
+      };
+    }),
     categories,
     totalBlogs,
     totalPages: Math.ceil(totalBlogs / limit),
@@ -98,6 +104,7 @@ export async function getBlogByIdOrSlug(idOrSlug) {
   return {
     ...blog,
     _id: blog._id.toString(),
+    featuredImage: getImageUrl(blog.featuredImage),
     createdAt: blog.createdAt?.toISOString(),
   };
 }

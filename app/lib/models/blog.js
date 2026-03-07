@@ -37,7 +37,6 @@ const blogSchema = new Schema(
       required: false,
       default: "",
     },
-    imageId: { type: String },
     featured: {
       type: Boolean,
       default: false,

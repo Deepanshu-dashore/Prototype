@@ -5,6 +5,7 @@ import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { escapeRegExp } from "@/app/lib/security/validator";
 import { sanitizeHTML, sanitizeText } from "@/app/lib/security/sanitizer";
 import { CloudneryService } from "@/app/lib/services/cloudnery.service";
+import getImageUrl from "@/app/lib/utils/getImageUrl";
 
 //Get all blogs with filtering, sorting, and search
 export async function GET(request) {
@@ -25,7 +26,11 @@ export async function GET(request) {
       if (!blog) {
         return ApiResponse(404, null, "Blog not found");
       }
-      return ApiResponse(200, blog, "Blog fetched by ID successfully");
+      return ApiResponse(
+        200,
+        { ...blog.toObject(), featuredImage: getImageUrl(blog.featuredImage) },
+        "Blog fetched by ID successfully",
+      );
     }
 
     let query = {};
@@ -113,7 +118,12 @@ export async function GET(request) {
         totalPages: Math.ceil(totalBlogs / limit),
         currentPage: page,
         todayBlogCount,
-        blogs,
+        blogs: blogs?.map((blog) => {
+          return {
+            ...blog,
+            featuredImage: getImageUrl(blog.featuredImage),
+          };
+        }),
       },
       "Blogs fetched successfully",
     );
@@ -173,7 +183,7 @@ export async function POST(request) {
       return ApiResponse(400, null, "Content is required");
     }
 
-    let uploaded = { id: "", url: "" };
+    let uploaded = { url: "" };
     // blog image check
     if (featuredImage && typeof featuredImage !== "string") {
       uploaded = await CloudneryService.upload(
@@ -204,7 +214,6 @@ export async function POST(request) {
       featured,
       readingTime,
       featuredImage: uploaded?.url || "",
-      imageId: uploaded?.id || "",
     });
     return ApiResponse(201, blog, "Blog created successfully");
   } catch (error) {
@@ -285,12 +294,12 @@ export async function PATCH(request) {
 
     // Handle image: new upload or keep existing
     let finalImageUrl = blog.featuredImage;
-    let finalImageId = blog.imageId;
+    let finalImageId = blog.featuredImage.split(".")[0];
 
     if (featuredImage && typeof featuredImage !== "string") {
       // New image file uploaded — delete old from Cloudinary if exists
-      if (blog.imageId) {
-        await CloudneryService.delete(blog.imageId, "image");
+      if (finalImageId) {
+        await CloudneryService.delete(finalImageId, "image");
       }
 
       const uploaded = await CloudneryService.upload(
@@ -301,7 +310,6 @@ export async function PATCH(request) {
       );
       if (uploaded) {
         finalImageUrl = uploaded.url;
-        finalImageId = uploaded.id;
       }
     } else if (existingImage) {
       // Keep existing image URL (no change)
@@ -320,7 +328,6 @@ export async function PATCH(request) {
         featured,
         readingTime,
         featuredImage: finalImageUrl,
-        imageId: finalImageId,
       },
       { new: true },
     );
@@ -348,10 +355,9 @@ export async function DELETE(request) {
     }
 
     // Delete image from Cloudinary if it exists
-    if (blog.imageId) {
-      await CloudneryService.delete(blog.imageId, "image");
+    if (blog.featuredImage) {
+      await CloudneryService.delete(blog.featuredImage, "image");
     }
-
     await Blog.findByIdAndDelete(id);
     return ApiResponse(200, blog, "Blog deleted successfully");
   } catch (error) {

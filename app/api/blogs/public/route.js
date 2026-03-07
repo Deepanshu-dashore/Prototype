@@ -7,6 +7,7 @@ import { getPublicBlogs } from "@/src/utils/blogUtils";
 //Get all blogs with filtering, sorting, and search
 export async function GET(request) {
   await connect();
+
   try {
     const id = request.nextUrl.searchParams.get("id");
     const slug = request.nextUrl.searchParams.get("slug");
@@ -27,7 +28,14 @@ export async function GET(request) {
         if (!blog) {
           return ApiResponse(404, null, "Blog not found");
         }
-        return ApiResponse(200, blog, "Blog fetched by ID successfully");
+        return ApiResponse(
+          200,
+          {
+            ...blog.toObject(),
+            featuredImage: getImageUrl(blog.featuredImage),
+          },
+          "Blog fetched by ID successfully",
+        );
       } catch (dbError) {
         console.error("Database error fetching blog by ID:", dbError);
         return ApiResponse(
@@ -108,7 +116,12 @@ export async function GET(request) {
         currentPage: result.currentPage,
         todayBlogCount,
         categories: result.categories,
-        blogs: result.blogs,
+        blogs: result.blogs?.map((blog) => {
+          return {
+            ...blog,
+            featuredImage: getImageUrl(blog.featuredImage),
+          };
+        }),
       },
       "Blogs fetched successfully",
     );

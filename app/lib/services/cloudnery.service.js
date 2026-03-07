@@ -32,9 +32,10 @@ export class CloudneryService {
           .end(buffer);
       });
       if (result) {
-        console.log(result);
+        // console.log(result);
+        const buildUrl = result.secure_url.split("upload/")[1];
         return {
-          url: result.secure_url,
+          url: buildUrl,
           id: result.public_id,
         };
       }
@@ -44,9 +45,13 @@ export class CloudneryService {
     }
   }
 
-  static async delete(id, resource_type = "raw") {
+  static async delete(fileId, resource_type = "raw") {
     try {
-      const result = await cloudinary.uploader.destroy(id, { resource_type });
+      const fileName = fileId.split("/");
+      const publicId = fileName.slice(1).join("/").split(".")[0];
+      const result = await cloudinary.uploader.destroy(publicId, {
+        resource_type,
+      });
       if (result) {
         return {
           success: true,
