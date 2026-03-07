@@ -14,8 +14,8 @@ import {
     ClipboardDocumentListIcon,
     EyeIcon
 } from "@heroicons/react/24/outline";
+import OrderDetailsView from "@/src/components/share/OrderDetailsView";
 
-import OrderDetailsView from "@/components/share/OrderDetailsView";
 
 export default function WarehouseOrderDetailsPage() {
     const params = useParams();
