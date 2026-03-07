@@ -455,10 +455,11 @@ export default function Hero({ onSecondaryClick }) {
             md:absolute max-w-full h-auto bottom-10 left-1/2 md:-translate-x-1/2
             w-auto 
             z-0
+            mix-blend-multiply
             md:w-auto md:top-[-130px] md:left-[430px] md:translate-x-0 md:bottom-auto md:z-auto
           "
         >
-          <source src="/walkmov.mov" type="video/quicktime" />
+          <source src="/walkmov.mov" type="video/mp4; codecs=hvc1" />
           <source src="/mateMovement.webm" type="video/webm" />
         </video>
       </div>
