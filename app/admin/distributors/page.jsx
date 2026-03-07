@@ -12,6 +12,7 @@ import {
     TrashIcon,
 } from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
+import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
 export default function DistributorsPage() {
     const [distributors, setDistributors] = useState([]);
@@ -181,14 +182,7 @@ export default function DistributorsPage() {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
-                                    <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center">
-                                            <div className="flex flex-col items-center justify-center gap-2">
-                                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-                                                <span className="text-sm text-gray-500">Loading distributors...</span>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <TableLoadingSkeleton rows={5} columns={5} />
                                 ) : error ? (
                                     <tr>
                                         <td colSpan="5" className="px-6 py-12 text-center text-red-500">
@@ -196,11 +190,11 @@ export default function DistributorsPage() {
                                         </td>
                                     </tr>
                                 ) : distributors.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-gray-500">
-                                            No distributors found.
-                                        </td>
-                                    </tr>
+                                    <TableEmptyState
+                                        colSpan={5}
+                                        title="No Distributors"
+                                        message="No distributor records were found. Try searching with a different term."
+                                    />
                                 ) : (
                                     distributors.map((dist) => (
                                         <tr key={dist._id} className="hover:bg-gray-50/60 transition-colors">

@@ -13,16 +13,16 @@ export async function GET() {
     return ApiResponse(401, null, "Unauthorized request");
   }
   await connect();
-  const users = await User.find();
+  const users = await User.find({ role: "admin" });
   return ApiResponse(200, users, "Fetching users");
 }
 
 //Create a new user
 export async function POST(request) {
-  // const user = await verifyJWT();
-  // if (!user?.id) {
-  //   return ApiResponse(401, null, "Unauthorized request");
-  // }
+  const user = await verifyJWT();
+  if (!user?.id) {
+    return ApiResponse(401, null, "Unauthorized request");
+  }
   await connect();
   try {
     const { name, email, password } = await request.json();

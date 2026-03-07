@@ -9,6 +9,7 @@ import ABTestCTA from '../share/ABTestCTA'
 import { trackFormOpen } from '../../utils/analytics'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useContactForm } from '../share/ContactFormContext'
 
 // Orbit Controls with Mouse Interaction
@@ -148,11 +149,12 @@ export default function Hero({ onSecondaryClick }) {
   const [ceImageError, setCeImageError] = useState(false)
   const canvasContainerRef = useRef(null)
   const modelGroupRef = useRef(null)
+  const router = useRouter()
   const { openContactForm } = useContactForm()
 
   const handlePrimaryClick = () => {
     trackFormOpen('hero')
-    openContactForm()
+    router.push('/contact')
   }
 
   // Track mouse position over the canvas

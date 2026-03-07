@@ -20,6 +20,7 @@ import {
     CreditCardIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { TableEmptyState } from "@/src/components/ui/TableState";
 
 // Colors matching the design
 const STATUS_COLORS = {
@@ -409,9 +410,11 @@ export default function AdminDashboard() {
                                     );
                                 })}
                                 {(!data?.recentOrders || data.recentOrders.length === 0) && (
-                                    <tr>
-                                        <td colSpan={4} className="px-5 py-8 text-center text-sm text-gray-400">No recent orders</td>
-                                    </tr>
+                                    <TableEmptyState
+                                        colSpan={4}
+                                        title="No Recent Orders"
+                                        message="Your dashboard order list is currently empty."
+                                    />
                                 )}
                             </tbody>
                         </table>

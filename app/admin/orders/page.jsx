@@ -20,6 +20,7 @@ import {
     FunnelIcon,
     ChevronDownIcon
 } from "@heroicons/react/24/outline";
+import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
 const STATUS_OPTIONS = [
@@ -299,22 +300,17 @@ export default function AdminOrdersPage() {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
-                                    <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center">
-                                            <div className="flex flex-col items-center justify-center gap-2">
-                                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-                                                <span className="text-sm text-gray-500">Loading orders...</span>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <TableLoadingSkeleton rows={5} columns={8} />
                                 ) : error ? (
                                     <tr>
                                         <td colSpan="8" className="px-6 py-12 text-center text-red-500">{error}</td>
                                     </tr>
                                 ) : orders.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="8" className="px-6 py-12 text-center text-gray-500">No orders found.</td>
-                                    </tr>
+                                    <TableEmptyState
+                                        colSpan={8}
+                                        title="No Orders Found"
+                                        message="We couldn't find any orders matching your filters. Try search or adjust dates."
+                                    />
                                 ) : (
                                     orders.map((order, index) => (
                                         <tr key={order._id} className={`hover:bg-gray-50/60 transition-colors ${index % 2 !== 0 ? 'bg-slate-50' : 'bg-white'}`}>

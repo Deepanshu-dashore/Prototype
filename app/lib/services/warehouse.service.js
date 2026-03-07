@@ -25,7 +25,7 @@ export class WarehouseService {
       return { exist: false };
     }
     const isPasswordValid = await comparePasswords(
-      sanitizeText(password),
+      password,
       warehouse.password,
     );
     if (!isPasswordValid) {

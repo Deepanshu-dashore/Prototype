@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function DropSvg({ color }) {
     return (
-        <svg focusable="false" aria-hidden="true" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" style={{ userSelect: 'none', display: 'block', transition: 'fill 0.3s cubic-bezier(0.4, 0, 0.2, 1)', fill: color, fontSize: '24px', '-primaryMain': '#00A76F', '-primaryDark': '#007867', ' -primaryDarker': '#004B50', maxWidth: '100%', flexShrink: 0, height: 'auto', width: '200px', boxSizing: 'border-box' }}>
+        <svg focusable="false" aria-hidden="true" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" style={{ userSelect: 'none', display: 'block', transition: 'fill 0.3s cubic-bezier(0.4, 0, 0.2, 1)', fill: color, fontSize: '24px', maxWidth: '100%', flexShrink: 0, height: 'auto', width: '200px', boxSizing: 'border-box' }}>
             <defs style={{ boxSizing: 'border-box' }}>
                 <linearGradient x1="30.113%" x2="30.113%" y1="0%" y2="100%" style={{ boxSizing: 'border-box' }}>
                     <stop offset="0%" stopOpacity="0" style={{ boxSizing: 'border-box' }}></stop>

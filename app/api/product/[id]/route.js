@@ -8,7 +8,8 @@ import { ApiResponse } from "@/app/lib/utils/apiResponse";
 export async function GET(request, { params }) {
   await connect();
   try {
-    const product = await Product.findById(params.id);
+    const { id } = await params;
+    const product = await Product.findById(id);
     if (!product) {
       return ApiResponse(404, null, "Product not found");
     }
@@ -29,6 +30,7 @@ export async function PUT(request, { params }) {
   }
   await connect();
   try {
+    const { id } = await params;
     const { code, description } = await request.json();
 
     if (!code || !code.trim()) {
@@ -39,16 +41,25 @@ export async function PUT(request, { params }) {
     }
 
     // Check uniqueness (excluding current product)
-    const existing = await Product.findOne({
-      code: code.trim(),
-      _id: { $ne: params.id },
-    });
-    if (existing) {
-      return ApiResponse(409, null, "A product with this code already exists");
+    const existing = await Product.findById(id);
+    if (!existing) {
+      return ApiResponse(404, null, "Product not found");
+    }
+    if (existing.code !== code.trim()) {
+      const existingCode = await Product.findOne({
+        code: code.trim(),
+      });
+      if (existingCode) {
+        return ApiResponse(
+          409,
+          null,
+          "A product with this code already exists",
+        );
+      }
     }
 
     const product = await Product.findByIdAndUpdate(
-      params.id,
+      id,
       { code: code.trim(), description: description.trim() },
       { new: true, runValidators: true },
     );
@@ -72,7 +83,8 @@ export async function DELETE(request, { params }) {
   }
   await connect();
   try {
-    const product = await Product.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const product = await Product.findByIdAndDelete(id);
     if (!product) {
       return ApiResponse(404, null, "Product not found");
     }

@@ -63,8 +63,9 @@ export async function POST(request) {
       return ApiResponse(400, null, "User not found");
     }
 
-    // Simple password comparison (plain text)
-    if (!comparePasswords(password, user?.password)) {
+    // Compare hashed password
+    const isPasswordCorrect = await comparePasswords(password, user?.password);
+    if (!isPasswordCorrect) {
       return ApiResponse(401, null, "Invalid credentials");
     }
 

@@ -21,6 +21,10 @@ import {
   FunnelIcon,
 } from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
+import {
+  TableEmptyState,
+  TableLoadingSkeleton,
+} from "@/src/components/ui/TableState";
 
 export default function BlogboardPage() {
   const router = useRouter();
@@ -453,29 +457,28 @@ export default function BlogboardPage() {
         {/* Content Area */}
         <div className="min-h-[400px]">
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-xl h-64 border border-gray-100 shadow-sm"
-                ></div>
-              ))}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <table className="w-full">
+                <tbody>
+                  <TableLoadingSkeleton rows={5} columns={5} />
+                </tbody>
+              </table>
             </div>
           ) : error ? (
             <div className="rounded-lg bg-red-50 p-4 border border-red-100 text-center">
               <p className="text-sm text-red-600 font-medium">{error}</p>
             </div>
           ) : blogs.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-xl border border-gray-100 shadow-sm border-dashed">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-50">
-                <MagnifyingGlassIcon className="h-6 w-6 text-gray-400" />
-              </div>
-              <h3 className="mt-2 text-sm font-semibold text-gray-900">
-                No blogs found
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Try adjusting your filters or create a new post.
-              </p>
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <table className="w-full">
+                <tbody>
+                  <TableEmptyState
+                    colSpan={5}
+                    title="No Blogs Found"
+                    message="We couldn't find any blog posts. Try adjusting your filters or search terms."
+                  />
+                </tbody>
+              </table>
             </div>
           ) : (
             <AnimatePresence mode="wait">
