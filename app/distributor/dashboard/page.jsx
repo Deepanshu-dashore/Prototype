@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "@/app/lib/utils/axiosConfig";
 import {
     AreaChart, Area, XAxis, YAxis, CartesianGrid,
     Tooltip, ResponsiveContainer, PieChart, Pie, Cell,
@@ -11,6 +11,7 @@ import {
     MagnifyingGlassIcon,
     ChevronRightIcon,
     ExclamationTriangleIcon,
+    ShieldCheckIcon,
     ArrowPathIcon,
     CheckCircleIcon,
     XCircleIcon,
@@ -24,6 +25,8 @@ import {
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import Image from "next/image";
+
+import { useRouter } from "next/navigation";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -49,12 +52,7 @@ const NOTIF_LIST = [
         sub: "",
         time: "1h ago",
     },
-    {
-        dot: "#EF4444",
-        text: "Order #ORD-00320 has cancelled.",
-        sub: "",
-        time: "yesterday",
-    },
+
     {
         dot: "#4F46E5",
         text: "Promotion: Offer distribution discounts",
@@ -77,7 +75,7 @@ function StatusBadge({ status }) {
     const cfg = {
         PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
         RECEIVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-        CANCELLED: "bg-rose-50 text-rose-700 border border-rose-200",
+
         PROCESSED: "bg-sky-50 text-sky-700 border border-sky-200",
         "READY-TO-SHIP": "bg-purple-50 text-purple-700 border border-purple-200",
         REJECTED: "bg-rose-50 text-rose-700 border border-rose-200",
@@ -144,7 +142,7 @@ function DonutCenter({ total }) {
 function AlertBanner({ count }) {
     if (!count) return null;
     return (
-        <div className="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-2xl px-5 py-3.5 mb-4">
+        <div className="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-2xl px-5 py-3.5 mb-2">
             <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
                     <ExclamationTriangleIcon className="w-4 h-4 text-amber-500" />
@@ -166,8 +164,10 @@ function AlertBanner({ count }) {
     );
 }
 
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function DistributorDashboard() {
+    const router = useRouter();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState({ companyName: "Defualt distributor", companyEmail: "distributor@gmail.com", initials: "DD" });
@@ -195,31 +195,8 @@ export default function DistributorDashboard() {
     };
 
 
-    const handleReorder = async (order) => {
-        try {
-            setReorderingId(order._id);
-            // Re-order logic: Post the same products to create a new order
-            const orderItems = (order.orderItems || []).map(item => ({
-                product: typeof item.product === 'object' ? item.product._id : item.product
-            }));
-
-            if (orderItems.length === 0) {
-                alert("This order has no products to reorder.");
-                return;
-            }
-
-            const res = await axios.post("/api/order", { orderItems });
-            if (res.data?.success) {
-                alert("Order placed successfully!");
-                fetchData(); // Refresh dashboard counts
-            } else {
-                alert(res.data?.message || "Failed to place order");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Error reordering");
-        } finally {
-            setReorderingId(null);
-        }
+    const handleReorder = (order) => {
+        router.push(`/distributor/dashboard/orders/new?reorder=${order._id}`);
     };
 
     // ── Card data ──────────────────────────────────────────────────────────────
@@ -260,17 +237,7 @@ export default function DistributorDashboard() {
             iconBg: "bg-emerald-100",
             iconColor: "text-emerald-600",
         },
-        {
-            label: "Cancelled Orders",
-            value: data?.dashboardCard?.totalRejectedOrders ?? 0,
-            Icon: ({ cls }) => (
-                <svg xmlns="http://www.w3.org/2000/svg" className={cls} viewBox="0 0 24 24" fill="none">
-                    <path stroke="currentColor" strokeWidth={1.5} d="M9.75 9.75l4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-            ),
-            iconBg: "bg-red-100",
-            iconColor: "text-red-500",
-        },
+
         {
             label: "Ready to Ship",
             value: data?.dashboardCard?.totalReadyToShipOrders ?? 0,
@@ -369,6 +336,7 @@ export default function DistributorDashboard() {
             </div>
 
             <div className="flex flex-col gap-5 px-6 py-3">
+                <AlertBanner count={pendingCount} />
                 {/* ── Profile Banner (matches profile page style) ── */}
                 <div className="relative rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-200">
                     {/* Banner image */}
@@ -417,7 +385,7 @@ export default function DistributorDashboard() {
                             {/* Right: action buttons */}
                             <div className="flex items-center gap-2.5 pb-1 shrink-0">
                                 <Link
-                                    href="/distributor/dashboard/orders"
+                                    href="/distributor/dashboard/orders/new"
                                     className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 transition-colors text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-sm"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5" viewBox="0 0 24 24">
@@ -649,16 +617,9 @@ export default function DistributorDashboard() {
                                                     <td className="px-5 py-3 text-right">
                                                         <button
                                                             onClick={() => handleReorder(order)}
-                                                            disabled={reorderingId === order._id}
-                                                            className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white text-[11px] font-semibold px-3 py-1.5 rounded-lg transition-colors min-w-[85px] justify-center"
+                                                            className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold px-3 py-1.5 rounded-lg transition-colors min-w-[85px] justify-center"
                                                         >
-                                                            {reorderingId === order._id ? (
-                                                                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                                            ) : (
-                                                                <>
-                                                                    Reorder <ChevronRightIcon className="w-3 h-3" />
-                                                                </>
-                                                            )}
+                                                            Reorder <ChevronRightIcon className="w-3 h-3" />
                                                         </button>
                                                     </td>
                                                 </tr>

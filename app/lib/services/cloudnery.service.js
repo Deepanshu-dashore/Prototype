@@ -1,7 +1,12 @@
 import cloudinary from "../config/Cloudnery";
 
 export class CloudneryService {
-  static async upload(file, folder = "default", resource_type = "auto") {
+  static async upload(
+    file,
+    folder = "default",
+    resource_type = "raw",
+    format = "pdf",
+  ) {
     try {
       if (!file) {
         throw new Error("No file provided");
@@ -14,6 +19,7 @@ export class CloudneryService {
             {
               resource_type,
               folder,
+              format,
             },
             (error, result) => {
               if (error) reject(error);
@@ -23,6 +29,7 @@ export class CloudneryService {
           .end(buffer);
       });
       if (result) {
+        console.log(result);
         return {
           url: result.secure_url,
           id: result.public_id,
@@ -34,9 +41,9 @@ export class CloudneryService {
     }
   }
 
-  static async delete(id) {
+  static async delete(id, resource_type = "raw") {
     try {
-      const result = await cloudinary.uploader.destroy(id);
+      const result = await cloudinary.uploader.destroy(id, { resource_type });
       if (result) {
         return {
           success: true,

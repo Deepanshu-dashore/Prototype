@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "@/app/lib/utils/axiosConfig";
 import Link from "next/link";
 import {
     ShoppingBagIcon,
@@ -9,23 +9,16 @@ import {
     ClockIcon,
     CheckCircleIcon,
     ClipboardDocumentListIcon,
-    XMarkIcon,
     CubeIcon,
     ArrowDownCircleIcon,
     EyeIcon,
     ChevronDownIcon,
-    TrashIcon
 } from "@heroicons/react/24/outline";
 
 export default function DistributorOrdersPage() {
     const [orders, setOrders] = useState([]);
-    const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [orderItems, setOrderItems] = useState([{ product: "" }]);
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [productList, setProductList] = useState(null);
 
     const [pagination, setPagination] = useState({
@@ -36,7 +29,6 @@ export default function DistributorOrdersPage() {
 
     useEffect(() => {
         fetchOrders(pagination.currentPage);
-        fetchProducts();
     }, [pagination.currentPage]);
 
     const fetchOrders = async (page = 1) => {
@@ -60,69 +52,6 @@ export default function DistributorOrdersPage() {
         }
     };
 
-    const fetchProducts = async () => {
-        try {
-            const res = await axios.get("/api/product/list?limit=100");
-            if (res.data?.success) {
-                setProducts(res.data.data.products || []);
-            }
-        } catch (err) {
-            console.error("Error fetching products:", err);
-        }
-    };
-
-    const handleAddRow = () => {
-        setOrderItems([...orderItems, { product: "" }]);
-    };
-
-    const handleRemoveRow = (index) => {
-        setOrderItems(orderItems.filter((_, i) => i !== index));
-    };
-
-    const handleItemChange = (index, value) => {
-        if (value && orderItems.some((item, i) => i !== index && item.product === value)) {
-            alert("This product is already added to your order.");
-            return;
-        }
-        const newItems = [...orderItems];
-        newItems[index].product = value;
-        setOrderItems(newItems);
-    };
-
-    const handleSubmitOrder = async (e) => {
-        e.preventDefault();
-        const filteredItems = orderItems.filter(item => item.product !== "");
-        if (filteredItems.length === 0) {
-            alert("Please add at least one product");
-            return;
-        }
-
-        const productIds = filteredItems.map(item => item.product);
-        const hasDuplicates = productIds.some((id, index) => productIds.indexOf(id) !== index);
-        if (hasDuplicates) {
-            alert("You have duplicate products in your order. Please remove them.");
-            return;
-        }
-
-        try {
-            setIsSubmitting(true);
-            const res = await axios.post("/api/order", {
-                orderItems: filteredItems
-            });
-            if (res.data?.success) {
-                setIsModalOpen(false);
-                setOrderItems([{ product: "" }]);
-                fetchOrders();
-            } else {
-                alert(res.data?.message || "Failed to create order");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Error creating order");
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
     const getStatusColor = (status) => {
         switch (status) {
             case "PENDING":
@@ -136,9 +65,6 @@ export default function DistributorOrdersPage() {
 
             case "RECEIVED":
                 return "bg-emerald-50 text-emerald-700 border-emerald-200";
-
-            case "CANCELLED":
-                return "bg-rose-50 text-rose-700 border-rose-200";
 
             default:
                 return "bg-gray-100 text-gray-700 border-gray-200";
@@ -173,7 +99,7 @@ export default function DistributorOrdersPage() {
                         <ClipboardDocumentListIcon className="w-5 h-5 text-indigo-600" />
                         <div className="flex items-center gap-2">
                             <p className="text-xs text-indigo-600 font-medium">
-                                Total <span className="md:block hidden">Categories</span>
+                                Total <span className="md:inline hidden">Orders</span>
                             </p>
                             <p className="text-base font-bold bg-indigo-900 text-white rounded px-2">
                                 {loading ? (
@@ -184,13 +110,13 @@ export default function DistributorOrdersPage() {
                             </p>
                         </div>
                     </div>
-                    <button
-                        onClick={() => setIsModalOpen(true)}
+                    <Link
+                        href="/distributor/dashboard/orders/new"
                         className="inline-flex text-sm items-center justify-center gap-2 bg-primary text-white px-4 py-2.5 rounded-xl hover:bg-primary/90 transition-all shadow-sm font-medium"
                     >
                         <PlusIcon className="w-5 h-5" />
                         <span className="md:block hidden">New Order</span>
-                    </button>
+                    </Link>
                 </div>
             </div>
 
@@ -264,95 +190,8 @@ export default function DistributorOrdersPage() {
                                 ))}
                             </tbody>
                         </table>
-                        {isModalOpen && (
-                            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                                <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
-                                <div className="relative bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-                                    <div className="flex items-center justify-between p-6 border-b border-gray-100">
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-primary/10 rounded-lg">
-                                                <PlusIcon className="w-5 h-5 text-primary" />
-                                            </div>
-                                            <h3 className="text-xl font-bold text-gray-900">Place New Order</h3>
-                                        </div>
-                                        <button
-                                            onClick={() => setIsModalOpen(false)}
-                                            className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
-                                        >
-                                            <XMarkIcon className="w-6 h-6" />
-                                        </button>
-                                    </div>
-
-                                    <form onSubmit={handleSubmitOrder}>
-                                        <div className="p-6 max-h-[60vh] overflow-y-auto space-y-4">
-                                            <p className="text-sm text-gray-500 mb-2">Select the products you wish to order. You can add multiple items.</p>
-                                            {orderItems.map((item, index) => (
-                                                <div key={index} className="flex items-center gap-3 bg-gray-50 p-3 rounded-xl border border-gray-100">
-                                                    <div className="flex-1">
-                                                        <select
-                                                            required
-                                                            value={item.product}
-                                                            onChange={(e) => handleItemChange(index, e.target.value)}
-                                                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                                                        >
-                                                            <option value="">Select a Product</option>
-                                                            {products.map(p => {
-                                                                const isSelected = orderItems.some((item, i) => i !== index && item.product === p._id);
-                                                                return (
-                                                                    <option key={p._id} value={p._id} disabled={isSelected}>
-                                                                        {p.code} - {p.description} {isSelected ? "(Already selected)" : ""}
-                                                                    </option>
-                                                                );
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    {orderItems.length > 1 && (
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => handleRemoveRow(index)}
-                                                            className="p-2 bg-red-500 text-white rounded-lg transition-colors"
-                                                        >
-                                                            <TrashIcon className="w-5 h-5" />
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            ))}
-
-                                            <button
-                                                type="button"
-                                                onClick={handleAddRow}
-                                                className="flex items-center gap-2 text-primary font-bold text-sm hover:underline py-2"
-                                            >
-                                                <PlusIcon className="w-4 h-4" />
-                                                Add More Items
-                                            </button>
-                                        </div>
-
-                                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex gap-3">
-                                            <button
-                                                type="button"
-                                                onClick={() => setIsModalOpen(false)}
-                                                className="flex-1 py-2.5 rounded-xl border border-gray-200 font-bold text-gray-700 hover:bg-white transition-all"
-                                            >
-                                                Cancel
-                                            </button>
-                                            <button
-                                                type="submit"
-                                                disabled={isSubmitting}
-                                                className="flex-1 py-2.5 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition-all disabled:opacity-50 shadow-sm flex items-center justify-center"
-                                            >
-                                                {isSubmitting ? (
-                                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                                ) : (
-                                                    "Place Order"
-                                                )}
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        )}
                     </div>
+
                     {/* Pagination Controls */}
                     {!loading && orders.length > 0 && (
                         <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex items-center justify-between">
@@ -377,7 +216,8 @@ export default function DistributorOrdersPage() {
                             </div>
                         </div>
                     )}
-                </div>)}
+                </div>
+            )}
         </div>
     );
 }

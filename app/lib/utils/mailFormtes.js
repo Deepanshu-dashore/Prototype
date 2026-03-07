@@ -774,7 +774,6 @@ export const distributorOrderStatusTemplate = ({
     PROCESSED: { bg: "#e0f2fe", text: "#0369a1", border: "#bae6fd" },
     "READY-TO-SHIP": { bg: "#ede9fe", text: "#5b21b6", border: "#ddd6fe" },
     RECEIVED: { bg: "#d1fae5", text: "#065f46", border: "#a7f3d0" },
-    CANCELLED: { bg: "#fee2e2", text: "#991b1b", border: "#fecaca" },
   };
 
   const currentStatus = statusStyleMap[status?.toUpperCase()] || {

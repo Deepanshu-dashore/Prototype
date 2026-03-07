@@ -2,6 +2,7 @@ import connect from "@/app/lib/db/connect";
 import { verifyDistributorJWT } from "@/app/lib/middlewares/verifyDistibutorJwt";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
+import { CloudneryService } from "@/app/lib/services/cloudnery.service";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import mongoose from "mongoose";
@@ -84,7 +85,7 @@ export async function GET(request) {
     });
 
     // Fetch status-wise counts for cards
-    const { pending, processed, readyToShip, received, cancelled, allTotal } =
+    const { pending, processed, readyToShip, received, allTotal } =
       await OrderService.getOrderStatusCounts();
 
     return ApiResponse(
@@ -99,7 +100,7 @@ export async function GET(request) {
           PROCESSED: processed,
           "READY-TO-SHIP": readyToShip,
           RECEIVED: received,
-          CANCELLED: cancelled,
+
           TOTAL: allTotal,
         },
       },
@@ -118,17 +119,58 @@ export async function POST(request) {
   }
   await connect();
   try {
-    const body = await request.json();
+    const formData = await request.formData();
+    const poFile = formData.get("purchaseOrder");
+    const orderItemsStr = formData.get("orderItems");
+
+    if (!poFile) {
+      return ApiResponse(400, null, "Purchase Order Document required");
+    }
+
+    let orderItems = [];
+    if (orderItemsStr) {
+      try {
+        orderItems = JSON.parse(orderItemsStr);
+      } catch (e) {
+        return ApiResponse(400, null, "Invalid order items format");
+      }
+    }
+
+    if (orderItems.length === 0) {
+      return ApiResponse(
+        400,
+        null,
+        "Please add at least one product to your order",
+      );
+    }
+
+    const uploadResult = await CloudneryService.upload(poFile, "po", "raw");
+    if (!uploadResult) {
+      return ApiResponse(500, null, "Failed to upload PO document");
+    }
+
+    const documents = [
+      {
+        url: uploadResult.url,
+        id: uploadResult.id,
+        name: "po",
+        resource_type: "raw",
+      },
+    ];
+
     const MongofyId = new mongoose.Types.ObjectId(user.id);
     const order = await OrderService.createOrder({
       orderBy: MongofyId,
-      ...body,
+      documents,
+      orderItems,
     });
+
     if (!order) {
       return ApiResponse(404, null, "Order not created");
     }
     return ApiResponse(200, order, "Order created successfully");
   } catch (error) {
+    console.error("Error creating order:", error);
     return ApiResponse(500, null, "Error creating order: " + error.message);
   }
 }

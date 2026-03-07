@@ -27,7 +27,6 @@ const STATUS_OPTIONS = [
     "PROCESSED",
     "READY-TO-SHIP",
     "RECEIVED",
-    "CANCELLED",
 ];
 
 export default function AdminOrdersPage() {
@@ -112,10 +111,7 @@ export default function AdminOrdersPage() {
                 alert("Order status is already " + newStatus);
                 return;
             }
-            if (findOrder?.status === "CANCELLED") {
-                alert("Order is already CANCELLED, cannot update to " + newStatus);
-                return;
-            }
+
             setStatusUpdatingId(orderId);
             const res = await axios.patch(`/api/order/update-status/${orderId}`, {
                 status: newStatus
@@ -170,9 +166,7 @@ export default function AdminOrdersPage() {
                 // Reference: Green for Completed/Received
                 return "bg-[#dff5e9] text-[#00865a] border-[#dff5e9]";
 
-            case "CANCELLED":
-                // Reference: Light Orange-Red for Cancelled
-                return "bg-[#feece5] text-[#b81d13] border-[#feece5]";
+
 
             default:
                 return "bg-gray-100 text-gray-700 border-gray-200";
@@ -294,9 +288,9 @@ export default function AdminOrdersPage() {
                             <thead className="bg-gray-100/70 border-b border-gray-100">
                                 <tr>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Info</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Date</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Products</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Distributor</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Products</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">Order Date</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">PO</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Invoice</th>
@@ -331,28 +325,27 @@ export default function AdminOrdersPage() {
                                                         <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
                                                     </svg>
                                                 </div>
-                                                <Link href={`/admin/orders/${order._id}`} className="font-semibold text-gray-800 underline-offset-2 hover:text-primary hover:underline">
+                                                <Link href={`/admin/orders/${order._id}`} className="font-semibold text-gray-600 underline-offset-2 hover:text-primary hover:underline">
                                                     #{order._id.slice(-6).toUpperCase()}
                                                 </Link>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm text-gray-700">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                                    <span className="text-sm font-medium text-gray-600 line-clamp-1">{order.orderBy?.companyName || "Unknown"}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs cursor-pointer flex gap-2 items-center text-gray-900 font-medium">
+                                                <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs cursor-pointer flex gap-2 items-center text-gray-600 font-medium">
                                                     {order.orderItems?.length || 0} Items <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
                                                 </span>
-                                                {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-white border rounded-sm p-2 w-52 ease-in">
+                                                {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-white border rounded-sm p-2 w-52 ease-in z-50 shadow-lg">
                                                     {order?.orderItems.map(item => (<span key={item._id} className="text-[10px] text-gray-500"><span className="w-1.5 my-auto aspect-square rounded-full bg-primary/60 inline-block mx-2"></span>{item.product.code}</span>))
                                                     }
                                                 </div>}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm font-medium text-gray-900 line-clamp-1">{order.orderBy?.companyName || "Unknown"}</span>
-                                                    <span className="text-xs text-gray-500">{order.orderItems?.length || 0} items</span>
+                                                    <span className="text-xs font-medium text-gray-600 text-nowrap">{new Date(order.createdAt).toDateString()}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
@@ -383,7 +376,7 @@ export default function AdminOrdersPage() {
                                                     </div>
                                                 ) : (
                                                     <div className="flex items-center gap-2">
-                                                        <span className={`inline-flex justify-center min-w-22 text-center items-center px-2 py-0.5 rounded-sm text-[10px] font-bold ${getStatusColor(order.status)} border shadow-xs`}>
+                                                        <span className={`inline-flex text-nowrap justify-center min-w-22 text-center items-center px-2 py-0.5 rounded-sm text-[10px] font-bold ${getStatusColor(order.status)} border shadow-xs`}>
                                                             {order.status}
                                                         </span>
                                                         <button
@@ -401,7 +394,19 @@ export default function AdminOrdersPage() {
                                             <td className="px-2 py-4">
                                                 <div className="flex flex-col gap-1">
                                                     {order.po ? (
-                                                        <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100 w-fit font-mono">#{order.po}</span>
+                                                        <>
+                                                            <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100 w-fit font-mono">#{order.po}</span>
+                                                            {order.poLink?.url && (
+                                                                <a
+                                                                    href={order.poLink.url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-[9px] text-indigo-600 font-bold hover:underline flex items-center gap-1"
+                                                                >
+                                                                    <EyeIcon className="w-3 h-3" /> View PO
+                                                                </a>
+                                                            )}
+                                                        </>
                                                     ) : (
                                                         <span className="text-xs text-gray-400 italic"># Not added</span>
                                                     )}
@@ -410,7 +415,19 @@ export default function AdminOrdersPage() {
                                             <td className="px-2 py-4">
                                                 <div className="flex flex-col gap-1">
                                                     {order.invoice ? (
-                                                        <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 w-fit font-mono">#{order.invoice}</span>
+                                                        <>
+                                                            <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 w-fit font-mono">#{order.invoice}</span>
+                                                            {order.invoiceLink?.url && (
+                                                                <a
+                                                                    href={order.invoiceLink.url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-[9px] text-green-600 font-bold hover:underline flex items-center gap-1"
+                                                                >
+                                                                    <EyeIcon className="w-3 h-3" /> View Invoice
+                                                                </a>
+                                                            )}
+                                                        </>
                                                     ) : (
                                                         <span className="text-xs text-gray-400 italic"># Not added</span>
                                                     )}

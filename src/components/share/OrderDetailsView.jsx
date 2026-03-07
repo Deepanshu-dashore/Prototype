@@ -1,61 +1,47 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import axios from "@/app/lib/utils/axiosConfig";
-import { useParams, useRouter } from "next/navigation";
 import {
     ChevronLeftIcon,
-    ClipboardDocumentListIcon,
     CubeIcon,
-    DocumentTextIcon,
+    PencilIcon,
     PrinterIcon,
+    CheckCircleIcon,
+    BuildingOfficeIcon,
+    DocumentTextIcon,
+    ClipboardDocumentListIcon,
+    PencilSquareIcon,
     EyeIcon
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
-export default function DistributorOrderDetailsPage() {
-    const params = useParams();
-    const id = params?.id;
+export default function OrderDetailsView({
+    order,
+    role = "admin",
+    updateModal = { isOpen: false },
+    setUpdateModal = () => { },
+    isUpdating = false,
+    handleUpdateDetails = () => { },
+}) {
     const router = useRouter();
-    const [order, setOrder] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-
-    useEffect(() => {
-        if (id) fetchOrderDetails();
-    }, [id]);
-
-    const fetchOrderDetails = async () => {
-        try {
-            setLoading(true);
-            const res = await axios.get(`/api/order/${id}`);
-            if (res.data?.success) {
-                setOrder(res.data.data);
-            } else {
-                setError(res.data?.message || "Failed to fetch order details");
-            }
-        } catch (err) {
-            setError(err.response?.data?.message || err.message || "An error occurred");
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const getStatusStyle = (status) => {
         switch (status) {
             case "PENDING":
-                return "bg-amber-50 text-amber-700 border-amber-200";
-
+                return role === "admin"
+                    ? "bg-[#fdf3e1] text-[#b67319] border-[#fdf3e1]"
+                    : "bg-amber-50 text-amber-700 border-amber-200";
             case "PROCESSED":
-                return "bg-sky-50 text-sky-700 border-sky-200";
-
+                return role === "admin"
+                    ? "bg-[#e1f0fd] text-[#1974b6] border-[#e1f0fd]"
+                    : "bg-sky-50 text-sky-700 border-sky-200";
             case "READY-TO-SHIP":
-                return "bg-purple-50 text-purple-700 border-purple-200";
-
+                return role === "admin"
+                    ? "bg-[#f3e1fd] text-[#8b19b6] border-[#f3e1fd]"
+                    : "bg-purple-50 text-purple-700 border-purple-200";
             case "RECEIVED":
-                return "bg-emerald-50 text-emerald-700 border-emerald-200";
-
-
-
+                return role === "admin"
+                    ? "bg-[#dff5e9] text-[#00865a] border-[#dff5e9]"
+                    : "bg-emerald-50 text-emerald-700 border-emerald-200";
             default:
                 return "bg-gray-100 text-gray-700 border-gray-200";
         }
@@ -69,27 +55,19 @@ export default function DistributorOrderDetailsPage() {
         });
     };
 
-    if (loading) return (
-        <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-primary"></div>
-            <p className="text-gray-400 text-sm animate-pulse">Loading details...</p>
-        </div>
-    );
-
-    if (error) return (
-        <div className="max-w-3xl mx-auto px-4 py-12">
-            <div className="text-center">
-                <p className="text-red-500 text-sm mb-4">{error}</p>
-                <button onClick={() => router.back()} className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
-                    &larr; Go Back
-                </button>
-            </div>
-        </div>
-    );
+    const openUpdateModal = (order) => {
+        setUpdateModal({
+            isOpen: true,
+            orderId: order._id,
+            po: order.po || "",
+            invoice: order.invoice || "",
+            type: "info"
+        });
+    };
 
     return (
         <div className="min-h-screen  font-sans bg-[#f8fafc] pb-24">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10">
 
                 {/* Header Section */}
                 <div className="mb-8 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
@@ -202,74 +180,7 @@ export default function DistributorOrderDetailsPage() {
                             </div>
 
                         </div>
-                    </div>
 
-                    {/* Right Column */}
-                    <div className="space-y-6">
-
-                        {/* Delivery / Documents Card */}
-                        <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6">
-                            <div className="flex items-center gap-2 mb-6 border-b border-dashed border-gray-200 pb-2.5">
-                                <div>
-                                    <DocumentTextIcon className="w-7 h-7 text-primary/50 bg-primary/10 p-1 rounded-md" />
-                                </div>
-                                <h3 className="text-base font-bold text-gray-800">Documents</h3>
-                            </div>
-
-                            <div className="space-y-4">
-                                <div className="grid grid-cols-3 gap-4">
-                                    <span className="text-sm text-gray-800 font-semibold">PO Number:</span>
-                                    <div className="col-span-2">
-                                        <span className="text-xs text-gray-400 italic">{order?.po || "Not available"}</span>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-3 gap-4">
-                                    <span className="text-sm text-gray-800 font-semibold">Signed PO:</span>
-                                    <div className="col-span-2">
-                                        {order?.documents?.find(d => d.name === "po")?.url ? (
-                                            <a
-                                                href={order.documents.find(d => d.name === "po").url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-1.5 px-2 py-1 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-[10px] font-medium rounded border border-indigo-100 transition-all shadow-xs w-fit"
-                                                title="See Distributor PO"
-                                            >
-                                                <EyeIcon className="w-3.5 h-3.5" /> See Purchase order
-                                            </a>
-                                        ) : (
-                                            <span className="text-xs text-gray-400 italic">No document attached</span>
-                                        )}
-                                    </div>
-                                </div>
-
-
-
-                                <div className="grid grid-cols-3 gap-4">
-                                    <span className="text-sm text-gray-800 font-semibold">Invoice No:</span>
-                                    <div className="col-span-2">
-                                        <span className="text-xs text-gray-400 italic">{order?.invoice || "Not available"}</span>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-3 gap-4">
-                                    <span className="text-sm text-gray-800 font-semibold">Official Invoice:</span>
-                                    <div className="col-span-2">
-                                        {order?.documents?.find(d => d.name === "invoice")?.url ? (
-                                            <a
-                                                href={order.documents.find(d => d.name === "invoice").url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-1.5 px-2 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-[10px] font-bold rounded border border-emerald-100 transition-all shadow-xs w-fit"
-                                                title="See Distributor Invoice"
-                                            >
-                                                <EyeIcon className="w-3.5 h-3.5" /> See Invoice
-                                            </a>
-                                        ) : (
-                                            <span className="text-xs text-gray-400 italic">Pending upload</span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         {/* History Card */}
                         <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6">
                             <div className="flex items-center gap-2 mb-6 border-b border-dashed border-gray-200 pb-2.5">
@@ -302,8 +213,99 @@ export default function DistributorOrderDetailsPage() {
 
                     </div>
 
+                    {/* Right Column */}
+                    <div className="space-y-6">
+
+                        {/* Customer / Distributor Card */}
+                        <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6">
+                            <div className="flex items-center gap-2 mb-6 border-b border-dashed border-gray-200 pb-2.5">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 text-primary/50 bg-primary/10 p-1 rounded-md" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M18 15h-2v2h2m0-6h-2v2h2m2 6h-8v-2h2v-2h-2v-2h2v-2h-2V9h8M10 7H8V5h2m0 6H8V9h2m0 6H8v-2h2m0 6H8v-2h2M6 7H4V5h2m0 6H4V9h2m0 6H4v-2h2m0 6H4v-2h2m6-10V3H2v18h20V7z"></path>
+                                    </svg>
+                                </div>
+                                <h3 className="text-base font-bold text-gray-800">Distributor</h3>
+                            </div>
+
+                            <div className="flex items-start gap-4">
+                                <div className="space-y-1">
+                                    <p className="font-semibold text-sm text-gray-600 border-b border-dashed border-gray-200 py-2.5"><span className="mr-2 text-gray-800 font-semibold">Name:</span>{order?.orderBy?.companyName || "Unknown"}</p>
+                                    <p className="text-sm text-gray-600 border-b border-dashed border-gray-200 py-2.5"><span className="mr-2 text-gray-800 font-semibold">Email:</span>{order?.orderBy?.companyEmail || "No email"}</p>
+                                    {order?.orderBy?.companyNumber && (
+                                        <p className="text-xs text-gray-600 mt-1 border-b border-dashed border-gray-200 py-2.5"><span className="mr-2 text-gray-800 font-semibold">Phone:</span>{order.orderBy.companyNumber}</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Delivery / Documents Card */}
+                        <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6">
+                            <div className="flex items-center gap-2 mb-6 border-b border-dashed border-gray-200 pb-2.5">
+                                <div>
+                                    <DocumentTextIcon className="w-7 h-7 text-primary/50 bg-primary/10 p-1 rounded-md" />
+                                </div>
+                                <h3 className="text-base font-bold text-gray-800">Documents</h3>
+                            </div>
+
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-3 gap-4">
+                                    <span className="text-xs text-gray-800 font-semibold">PO Number:</span>
+                                    <div className="col-span-2">
+                                        <span className="text-xs text-gray-400 italic">{order?.po || "Not available"}</span>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-3 gap-4">
+                                    <span className="text-xs text-gray-800 font-semibold">Signed PO:</span>
+                                    <div className="col-span-2">
+                                        {order?.documents?.find(d => d.name === "po")?.url ? (
+                                            <a
+                                                href={order.documents.find(d => d.name === "po").url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1.5 px-2 py-1 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-[10px] font-medium rounded border border-indigo-100 transition-all shadow-xs w-fit"
+                                                title="See Distributor PO"
+                                            >
+                                                <EyeIcon className="w-3.5 h-3.5" /> See Purchase order
+                                            </a>
+                                        ) : (
+                                            <span className="text-xs text-gray-400 italic">No document attached</span>
+                                        )}
+                                    </div>
+                                </div>
+
+
+
+                                <div className="grid grid-cols-3 gap-4">
+                                    <span className="text-xs text-gray-800 font-semibold">Invoice No:</span>
+                                    <div className="col-span-2">
+                                        <span className="text-xs text-gray-400 italic">{order?.invoice || "Not available"}</span>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-3 gap-4">
+                                    <span className="text-xs text-gray-800 font-semibold">Official Invoice:</span>
+                                    <div className="col-span-2">
+                                        {order?.documents?.find(d => d.name === "invoice")?.url ? (
+                                            <a
+                                                href={order.documents.find(d => d.name === "invoice").url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1.5 px-2 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-[10px] font-bold rounded border border-emerald-100 transition-all shadow-xs w-fit"
+                                                title="See Distributor Invoice"
+                                            >
+                                                <EyeIcon className="w-3.5 h-3.5" /> See Invoice
+                                            </a>
+                                        ) : (
+                                            <span className="text-xs text-gray-400 italic">Pending upload</span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

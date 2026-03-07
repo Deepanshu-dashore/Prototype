@@ -23,23 +23,24 @@ export async function PATCH(request, { params }) {
     }
 
     if (type === "po") {
-      const result = await CloudneryService.upload(file, "po");
+      const poDoc = order.documents?.find((doc) => doc?.name === "po");
+      if (poDoc) {
+        await CloudneryService.delete(poDoc.id, poDoc.resource_type);
+        order.documents = order.documents.filter((doc) => doc?.name !== "po");
+      }
+      const result = await CloudneryService.upload(file, "po", "raw");
       if (!result) {
         return ApiResponse(500, null, "Failed to upload PO");
       }
-      order.poLink = result;
+      if (!order.documents) order.documents = [];
+      order.documents.push({
+        url: result.url,
+        id: result.id,
+        name: "po",
+        resource_type: "raw",
+      });
       await order.save();
       return ApiResponse(200, order, "PO uploaded successfully");
-    }
-
-    if (type === "invoice") {
-      const result = await CloudneryService.upload(file, "invoice");
-      if (!result) {
-        return ApiResponse(500, null, "Failed to upload invoice");
-      }
-      order.invoiceLink = result;
-      await order.save();
-      return ApiResponse(200, order, "Invoice uploaded successfully");
     }
 
     return ApiResponse(400, null, "Invalid type");

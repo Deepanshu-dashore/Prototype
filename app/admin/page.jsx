@@ -25,7 +25,7 @@ import Link from "next/link";
 const STATUS_COLORS = {
     PENDING: "#F59E0B",
     COMPLETED: "#4F46E5",
-    CANCELLED: "#EF4444",
+
     PROCESSING: "#7C3AED",
     DEFAULT: "#6B7280",
 };
@@ -42,7 +42,7 @@ function StatusBadge({ status }) {
     const cfg = {
         PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
         COMPLETED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-        CANCELLED: "bg-rose-50 text-rose-700 border border-rose-200",
+
         PROCESSING: "bg-sky-50 text-sky-700 border border-sky-200",
         RECEIVED: "bg-teal-50 text-teal-700 border border-teal-200",
         "READY-TO-SHIP": "bg-purple-50 text-purple-700 border border-purple-200",
@@ -173,7 +173,7 @@ export default function AdminDashboard() {
     })) : [
         { name: "Pending", value: 30, rawStatus: "PENDING" },
         { name: "Completed", value: 1082, rawStatus: "COMPLETED" },
-        { name: "Cancelled", value: 64, rawStatus: "CANCELLED" },
+
         { name: "Processing", value: 108, rawStatus: "PROCESSING" },
     ];
 

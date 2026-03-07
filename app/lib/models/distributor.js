@@ -38,6 +38,16 @@ const distributorSchema = new Schema(
         note: { type: String },
       },
     ],
+    documents: [
+      {
+        url: { type: String, required: true },
+        id: { type: String, required: true },
+        name: { type: String, required: true },
+        type: { type: String },
+        status: { type: String, default: "Pending" },
+        uploadedDate: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true },
 );

@@ -6,13 +6,12 @@ import Product from "../models/product";
 export class OrderService {
   static async getOrderStatusCounts() {
     await connect();
-    const [pending, processed, readyToShip, received, cancelled, allTotal] =
+    const [pending, processed, readyToShip, received, allTotal] =
       await Promise.all([
         Order.countDocuments({ status: "PENDING" }),
         Order.countDocuments({ status: "PROCESSED" }),
         Order.countDocuments({ status: "READY-TO-SHIP" }),
         Order.countDocuments({ status: "RECEIVED" }),
-        Order.countDocuments({ status: "CANCELLED" }),
         Order.countDocuments(),
       ]);
     return {
@@ -20,7 +19,7 @@ export class OrderService {
       processed,
       readyToShip,
       received,
-      cancelled,
+
       allTotal,
     };
   }

@@ -14,7 +14,10 @@ export const verifyJWT = async () => {
     // If no token in header, check cookies
     if (!token) {
       const cookieStore = await cookies();
-      token = cookieStore.get("authToken")?.value;
+      token =
+        cookieStore.get("distributorToken")?.value ||
+        cookieStore.get("authToken")?.value ||
+        cookieStore.get("warehouseToken")?.value;
     }
 
     // If still no token, return null

@@ -17,22 +17,28 @@ const orderSchema = new Schema(
         quantity: {
           type: Number,
           required: true,
-          default: 1,
         },
         length: {
           type: Number,
           required: true,
-          default: 0,
         },
       },
     ],
-    poLink: { type: { url: String, id: String } },
-    invoiceLink: { type: { url: String, id: String } },
+    documents: {
+      type: [
+        {
+          url: String,
+          id: String,
+          name: String,
+          resource_type: String,
+        },
+      ],
+    },
     po: { type: String },
     invoice: { type: String },
     status: {
       type: String,
-      enum: ["PENDING", "PROCESSED", "RECEIVED", "READY-TO-SHIP", "CANCELLED"],
+      enum: ["PENDING", "PROCESSED", "RECEIVED", "READY-TO-SHIP"],
       default: "PENDING",
     },
   },

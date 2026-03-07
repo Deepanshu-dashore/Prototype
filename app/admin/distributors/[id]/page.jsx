@@ -295,19 +295,43 @@ export default function DistributorDetailsPage({ params }) {
                                                     <td className="px-6 py-4 text-xs text-gray-600 font-medium">
                                                         {order.orderItems?.length || 0} Products
                                                     </td>
-                                                    <td className="px-6 py-4 text-xs text-gray-500">
-                                                        {order.po || "N/A"}
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex flex-col gap-1">
+                                                            <span className="text-xs text-gray-500">{order.po || "N/A"}</span>
+                                                            {order.poLink?.url && (
+                                                                <a
+                                                                    href={order.poLink.url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-[9px] text-indigo-600 font-bold hover:underline flex items-center gap-1"
+                                                                >
+                                                                    <EyeIcon className="w-3 h-3" /> View PO
+                                                                </a>
+                                                            )}
+                                                        </div>
                                                     </td>
-                                                    <td className="px-6 py-4 text-xs text-gray-500">
-                                                        {order.invoice || "N/A"}
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex flex-col gap-1">
+                                                            <span className="text-xs text-gray-500">{order.invoice || "N/A"}</span>
+                                                            {order.invoiceLink?.url && (
+                                                                <a
+                                                                    href={order.invoiceLink.url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-[9px] text-green-600 font-bold hover:underline flex items-center gap-1"
+                                                                >
+                                                                    <EyeIcon className="w-3 h-3" /> View Invoice
+                                                                </a>
+                                                            )}
+                                                        </div>
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold ${order.status === 'RECEIVED' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
-                                                                order.status === 'READY-TO-SHIP' ? 'bg-purple-50 text-purple-700 border border-purple-100' :
-                                                                    order.status === 'PROCESSED' ? 'bg-sky-50 text-sky-700 border border-sky-100' :
-                                                                        order.status === 'CANCELLED' ? 'bg-rose-50 text-rose-700 border border-rose-100' :
-                                                                            order.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border border-amber-100' :
-                                                                                'bg-gray-50 text-gray-700 border border-gray-100'
+                                                            order.status === 'READY-TO-SHIP' ? 'bg-purple-50 text-purple-700 border border-purple-100' :
+                                                                order.status === 'PROCESSED' ? 'bg-sky-50 text-sky-700 border border-sky-100' :
+
+                                                                    order.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border border-amber-100' :
+                                                                        'bg-gray-50 text-gray-700 border border-gray-100'
                                                             }`}>
                                                             {order.status}
                                                         </span>

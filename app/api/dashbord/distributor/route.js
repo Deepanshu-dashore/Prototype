@@ -30,7 +30,7 @@ export async function GET(request) {
       totalOrders: 0,
       totalPendingOrders: 0,
       totalReceivedOrders: 0,
-      totalRejectedOrders: 0,
+
       totalReadyToShipOrders: 0,
     };
     dashboardCard.totalOrders = await Order.countDocuments({
@@ -44,10 +44,7 @@ export async function GET(request) {
       orderBy: distributorId,
       status: "RECEIVED",
     });
-    dashboardCard.totalRejectedOrders = await Order.countDocuments({
-      orderBy: distributorId,
-      status: "CANCELLED",
-    });
+
     dashboardCard.totalReadyToShipOrders = await Order.countDocuments({
       orderBy: distributorId,
       status: "READY-TO-SHIP",
@@ -146,7 +143,7 @@ export async function GET(request) {
 
     // Distributor profile information ──────────────────────────────────────────
     const distributor = await Distributor.findById(distributorId).select(
-      "companyName companyEmail companyNumber",
+      "companyName companyEmail companyNumber documents",
     );
 
     return ApiResponse(

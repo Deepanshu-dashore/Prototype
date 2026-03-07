@@ -2,6 +2,7 @@ import connect from "@/app/lib/db/connect";
 import roleVerify from "@/app/lib/middlewares/roleVerify";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
+import { CloudneryService } from "@/app/lib/services/cloudnery.service";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 
@@ -62,6 +63,15 @@ export async function DELETE(request, { params }) {
   await connect();
   try {
     const { id } = await params;
+    const findOrder = await OrderService.getOrderById(id);
+    if (!findOrder) {
+      return ApiResponse(404, null, "Order not found");
+    }
+    if (findOrder.documents?.length > 0) {
+      findOrder.documents?.forEach(async (doc) => {
+        await CloudneryService.delete(doc?.id, doc?.resource_type);
+      });
+    }
     const order = await OrderService.deleteOrder(id);
     if (!order) {
       return ApiResponse(404, null, "Order not deleted");

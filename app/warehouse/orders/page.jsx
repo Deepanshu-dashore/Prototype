@@ -26,7 +26,6 @@ const STATUS_OPTIONS = [
     "PROCESSED",
     "READY-TO-SHIP",
     "RECEIVED",
-    "CANCELLED",
 ];
 
 export default function WarehouseOrdersPage() {
@@ -70,7 +69,7 @@ export default function WarehouseOrdersPage() {
         PROCESSED: 0,
         "READY-TO-SHIP": 0,
         RECEIVED: 0,
-        CANCELLED: 0,
+
         TOTAL: 0
     });
 
@@ -120,10 +119,7 @@ export default function WarehouseOrdersPage() {
                 alert("Order status is already " + newStatus);
                 return
             };
-            if (findOrder?.status === "CANCELLED") {
-                alert("Order is already CANCELLED, cannot update to " + newStatus);
-                return;
-            }
+
             setStatusUpdatingId(orderId);
             const res = await axios.patch(`/api/order/update-status/${orderId}`, {
                 status: newStatus
@@ -207,8 +203,7 @@ export default function WarehouseOrdersPage() {
             case "RECEIVED":
                 return "bg-emerald-50 text-emerald-700 border-emerald-200";
 
-            case "CANCELLED":
-                return "bg-rose-50 text-rose-700 border-rose-200";
+
 
             default:
                 return "bg-gray-100 text-gray-700 border-gray-200";
@@ -258,16 +253,7 @@ export default function WarehouseOrdersPage() {
             ),
             colorClass: "emerald"
         },
-        {
-            label: "Cancelled",
-            count: statusCounts.CANCELLED,
-            icon: ({ className, style }) => (
-                <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2m4.3 14.3a.996.996 0 0 1-1.41 0L12 13.41L9.11 16.3a.996.996 0 1 1-1.41-1.41L10.59 12L7.7 9.11A.996.996 0 1 1 9.11 7.7L12 10.59l2.89-2.89a.996.996 0 1 1 1.41 1.41L13.41 12l2.89 2.89c.38.38.38 1.02 0 1.41"></path>
-                </svg>
-            ),
-            colorClass: "rose"
-        }
+
     ];
 
     return (

@@ -20,11 +20,17 @@ const getCookie = (name) => {
 // Request interceptor to add auth headers
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Check for admin, distributor, and warehouse tokens
-    const token =
-      getCookie("authToken") ||
-      getCookie("distributorToken") ||
-      getCookie("warehouseToken");
+    const pathname =
+      typeof window !== "undefined" ? window.location.pathname : "";
+    let token = null;
+
+    if (pathname.startsWith("/distributor")) {
+      token = getCookie("distributorToken") || getCookie("authToken");
+    } else if (pathname.startsWith("/warehouse")) {
+      token = getCookie("warehouseToken") || getCookie("authToken");
+    } else {
+      token = getCookie("authToken");
+    }
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
