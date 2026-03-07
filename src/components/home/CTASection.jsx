@@ -91,17 +91,17 @@ export default function CTASection() {
               <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
                 <div>
                   <h3 className="text-lg sm:text-xl font-semibold text-neutral-dark mb-2 sm:mb-3">
-                    Install CCMats
+                    Install CCMatting
                   </h3>
                   <p className="text-neutral-dark/70 text-xs sm:text-sm mb-4">
-                    Get professional installation services for CC Mats solutions tailored to your needs.
+                    Get professional installation services for CC Matting solutions tailored to your needs.
                   </p>
                 </div>
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-neutral-100 text-neutral-700 font-medium rounded-lg hover:bg-neutral-200 transition-colors duration-200 text-xs sm:text-sm min-h-[40px] w-full sm:w-auto"
                 >
-                  <span>Click here if you would like to install CCMats at your facility</span>
+                  <span>Click here if you would like to install CCMatting at your facility</span>
                   <ArrowRightIcon className="w-4 h-4" />
                 </Link>
               </div>
