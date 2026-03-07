@@ -5,7 +5,7 @@ export class CloudneryService {
     file,
     folder = "default",
     resource_type = "raw",
-    format = null,
+    format = "auto",
   ) {
     try {
       if (!file) {
@@ -17,6 +17,7 @@ export class CloudneryService {
       const uploadOptions = {
         resource_type,
         folder,
+        format,
       };
       // Only set format if it's a valid file extension (not 'image', 'auto', etc.)
       if (format && !["image", "video", "raw", "auto"].includes(format)) {
@@ -47,8 +48,13 @@ export class CloudneryService {
 
   static async delete(fileId, resource_type = "raw") {
     try {
+      let publicId = null;
       const fileName = fileId.split("/");
-      const publicId = fileName.slice(1).join("/").split(".")[0];
+      if (resource_type !== "raw") {
+        publicId = fileName.slice(1).join("/").split(".")[0];
+      } else {
+        publicId = fileName.slice(1).join("/");
+      }
       const result = await cloudinary.uploader.destroy(publicId, {
         resource_type,
       });

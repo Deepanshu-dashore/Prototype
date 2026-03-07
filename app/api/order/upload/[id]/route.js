@@ -25,7 +25,7 @@ export async function PATCH(request, { params }) {
     if (type === "po") {
       const poDoc = order.documents?.find((doc) => doc?.name === "po");
       if (poDoc) {
-        await CloudneryService.delete(poDoc.id, poDoc.resource_type);
+        await CloudneryService.delete(poDoc.url, poDoc.resource_type);
         order.documents = order.documents.filter((doc) => doc?.name !== "po");
       }
       const result = await CloudneryService.upload(file, "po", "raw");

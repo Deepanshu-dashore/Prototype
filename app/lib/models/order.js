@@ -28,9 +28,8 @@ const orderSchema = new Schema(
       type: [
         {
           url: String,
-          id: String,
-          name: String,
           resource_type: String,
+          name: String,
         },
       ],
     },

@@ -144,7 +144,12 @@ export async function POST(request) {
       );
     }
 
-    const uploadResult = await CloudneryService.upload(poFile, "po", "raw");
+    const uploadResult = await CloudneryService.upload(
+      poFile,
+      "po",
+      "raw",
+      "pdf",
+    );
     if (!uploadResult) {
       return ApiResponse(500, null, "Failed to upload PO document");
     }

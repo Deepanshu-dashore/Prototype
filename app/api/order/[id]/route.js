@@ -5,6 +5,7 @@ import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { CloudneryService } from "@/app/lib/services/cloudnery.service";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import { getUrls } from "@/app/lib/utils/geturl";
 
 export async function PATCH(request, { params }) {
   const user = await verifyJWT();
@@ -45,7 +46,17 @@ export async function GET(request, { params }) {
     if (!order) {
       return ApiResponse(404, null, "Order not found");
     }
-    return ApiResponse(200, order, "Order fetched successfully");
+    return ApiResponse(
+      200,
+      {
+        ...order.toObject(),
+        documents: order.documents?.map((doc) => ({
+          ...doc.toObject(),
+          url: getUrls.getUrl(doc.url, doc.resource_type),
+        })),
+      },
+      "Order fetched successfully",
+    );
   } catch (error) {
     return ApiResponse(500, null, "Error fetching order: " + error.message);
   }
@@ -69,7 +80,7 @@ export async function DELETE(request, { params }) {
     }
     if (findOrder.documents?.length > 0) {
       findOrder.documents?.forEach(async (doc) => {
-        await CloudneryService.delete(doc?.id, doc?.resource_type);
+        await CloudneryService.delete(doc?.url, doc?.resource_type);
       });
     }
     const order = await OrderService.deleteOrder(id);

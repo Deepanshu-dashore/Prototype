@@ -84,7 +84,7 @@ export default function AdminOrderDetailsPage() {
             </div>
         </div>
     );
-
+    console.log("order-----------", order)
     return (
         <OrderDetailsView
             order={order}

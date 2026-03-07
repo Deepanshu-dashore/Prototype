@@ -309,11 +309,11 @@ export default function AdminOrdersPage() {
                                     </tr>
                                 ) : error ? (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-red-500">{error}</td>
+                                        <td colSpan="8" className="px-6 py-12 text-center text-red-500">{error}</td>
                                     </tr>
                                 ) : orders.length === 0 ? (
                                     <tr>
-                                        <td colSpan="5" className="px-6 py-12 text-center text-gray-500">No orders found.</td>
+                                        <td colSpan="8" className="px-6 py-12 text-center text-gray-500">No orders found.</td>
                                     </tr>
                                 ) : (
                                     orders.map((order, index) => (
@@ -444,14 +444,14 @@ export default function AdminOrdersPage() {
                                                         <EyeIcon className="w-4 h-4" />
                                                     </Link>
 
-                                                    {/* <button
+                                                    <button
                                                         onClick={() => setDeleteModal({ isOpen: true, orderId: order._id })}
                                                         className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600 border border-red-600 text-white text-[12.25px] rounded-md hover:bg-red-500 hover:border-red-200 transition-all shadow-sm"
                                                         title="Delete Order"
                                                     >
                                                         Delete
                                                         <TrashIcon className="w-3.5 h-3.5" />
-                                                    </button> */}
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
