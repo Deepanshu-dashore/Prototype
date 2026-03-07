@@ -95,44 +95,33 @@ export default function AddBlogPage() {
     setLoading(true);
 
     try {
-      let imageUrl = formData.featuredImage;
-
-      // Handle image upload if a file is selected
-      if (formData.featuredImage instanceof File) {
-        setLoading(true); // Ensure loading state is active
-        const uploadFormData = new FormData();
-        uploadFormData.append("file", formData.featuredImage);
-
-        const uploadRes = await axios.post("/api/upload", uploadFormData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        if (uploadRes.data?.success) {
-          imageUrl = uploadRes.data.data.url;
-        } else {
-          throw new Error(uploadRes.data?.message || "Image upload failed");
-        }
-      }
-
       const tagsArray = formData.tags
         .split(",")
         .map((tag) => tag.trim())
         .filter(Boolean);
 
-      // Prepare blog data as JSON
-      const blogData = {
-        title: formData.title,
-        excerpt: formData.excerpt,
-        category: formData.category,
-        author: formData.author || "CC Matting",
-        content: formData.content,
-        featured: formData.featured || false,
-        readingTime: parseInt(formData.readingTime) || 5,
-        tags: tagsArray.length > 0 ? tagsArray : ["general"],
-        featuredImage: imageUrl,
-      };
+      // Build multipart FormData
+      const payload = new FormData();
+      payload.append("title", formData.title);
+      payload.append("excerpt", formData.excerpt);
+      payload.append("category", formData.category);
+      payload.append("author", formData.author || "CC Matting");
+      payload.append("content", formData.content);
+      payload.append("featured", formData.featured || false);
+      payload.append("readingTime", parseInt(formData.readingTime) || 5);
+      payload.append(
+        "tags",
+        JSON.stringify(tagsArray.length > 0 ? tagsArray : ["general"]),
+      );
 
-      const response = await axios.post("/api/blogs", blogData);
+      // Attach image file if selected
+      if (formData.featuredImage instanceof File) {
+        payload.append("featuredImage", formData.featuredImage);
+      }
+
+      const response = await axios.post("/api/blogs", payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (response.data?.success) {
         router.push("/admin/blogboard");

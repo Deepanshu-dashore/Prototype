@@ -131,43 +131,36 @@ export default function EditBlogPage() {
     setSaving(true);
 
     try {
-      let imageUrl = formData.featuredImage;
-
-      // Handle image upload if a new file is selected
-      if (formData.featuredImage instanceof File) {
-        const uploadFormData = new FormData();
-        uploadFormData.append("file", formData.featuredImage);
-
-        const uploadRes = await axios.post("/api/upload", uploadFormData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        if (uploadRes.data?.success) {
-          imageUrl = uploadRes.data.data.url;
-        } else {
-          throw new Error(uploadRes.data?.message || "Image upload failed");
-        }
-      }
-
       const tagsArray = formData.tags
         .split(",")
         .map((tag) => tag.trim())
         .filter(Boolean);
 
-      const blogData = {
-        id: id,
-        title: formData.title,
-        excerpt: formData.excerpt,
-        category: formData.category,
-        author: formData.author || "CC Matting",
-        content: formData.content,
-        featured: formData.featured || false,
-        readingTime: parseInt(formData.readingTime) || 5,
-        tags: tagsArray.length > 0 ? tagsArray : ["general"],
-        featuredImage: imageUrl,
-      };
+      // Build multipart FormData
+      const payload = new FormData();
+      payload.append("id", id);
+      payload.append("title", formData.title);
+      payload.append("excerpt", formData.excerpt);
+      payload.append("category", formData.category);
+      payload.append("author", formData.author || "CC Matting");
+      payload.append("content", formData.content);
+      payload.append("featured", formData.featured || false);
+      payload.append("readingTime", parseInt(formData.readingTime) || 5);
+      payload.append(
+        "tags",
+        JSON.stringify(tagsArray.length > 0 ? tagsArray : ["general"]),
+      );
 
-      const response = await axios.patch("/api/blogs", blogData);
+      // Attach new image file if selected, otherwise send existing URL
+      if (formData.featuredImage instanceof File) {
+        payload.append("featuredImage", formData.featuredImage);
+      } else if (formData.featuredImage) {
+        payload.append("existingImage", formData.featuredImage);
+      }
+
+      const response = await axios.patch("/api/blogs", payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (response.data?.success) {
         setShowSaveModal(false);
@@ -182,7 +175,7 @@ export default function EditBlogPage() {
           err.message ||
           "An error occurred while updating the blog",
       );
-      setShowSaveModal(false); // Close modal on error to show error message on form
+      setShowSaveModal(false);
     } finally {
       setSaving(false);
     }

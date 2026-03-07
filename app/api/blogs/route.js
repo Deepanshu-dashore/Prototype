@@ -2,10 +2,9 @@ import connect from "@/app/lib/db/connect";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { Blog } from "@/app/lib/models/blog";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
-import fs from "fs/promises";
-import path from "path";
 import { escapeRegExp } from "@/app/lib/security/validator";
 import { sanitizeHTML, sanitizeText } from "@/app/lib/security/sanitizer";
+import { CloudneryService } from "@/app/lib/services/cloudnery.service";
 
 //Get all blogs with filtering, sorting, and search
 export async function GET(request) {
@@ -131,20 +130,34 @@ export async function POST(request) {
   }
   await connect();
   try {
-    const {
-      title,
-      excerpt,
-      category,
-      tags,
-      author,
-      content,
-      featured,
-      readingTime,
-      featuredImage,
-    } = await request.json();
+    const formData = await request.formData();
+
+    const title = formData.get("title");
+    const excerpt = formData.get("excerpt");
+    const category = formData.get("category");
+    const tagsRaw = formData.get("tags");
+    const author = formData.get("author");
+    const content = formData.get("content");
+    const featured = formData.get("featured");
+    const readingTime = formData.get("readingTime");
+    const featuredImage = formData.get("featuredImage");
+
+    // Parse tags from JSON string
+    let tags = [];
+    try {
+      const parsed = JSON.parse(tagsRaw);
+      tags = Array.isArray(parsed) ? parsed : [parsed].filter(Boolean);
+    } catch {
+      tags = tagsRaw
+        ? tagsRaw
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : [];
+    }
 
     // Validate and sanitize inputs
-    if (tags.length === 0 && Array.isArray(tags)) {
+    if (tags.length === 0) {
       return ApiResponse(400, null, "Tags are required");
     }
     if (!title) {
@@ -158,6 +171,17 @@ export async function POST(request) {
     }
     if (!content) {
       return ApiResponse(400, null, "Content is required");
+    }
+
+    let uploaded = { id: "", url: "" };
+    // blog image check
+    if (featuredImage && typeof featuredImage !== "string") {
+      uploaded = await CloudneryService.upload(
+        featuredImage,
+        "blogs",
+        "image",
+        "image",
+      );
     }
 
     // Sanitize content to prevent XSS
@@ -179,7 +203,8 @@ export async function POST(request) {
       content: sanitizedContent,
       featured,
       readingTime,
-      featuredImage,
+      featuredImage: uploaded?.url || "",
+      imageId: uploaded?.id || "",
     });
     return ApiResponse(201, blog, "Blog created successfully");
   } catch (error) {
@@ -196,44 +221,61 @@ export async function PATCH(request) {
   }
   await connect();
 
-  const {
-    title,
-    excerpt,
-    category,
-    tags,
-    author,
-    content,
-    featured,
-    readingTime,
-    featuredImage,
-    id: bodyId,
-  } = await request.json();
-  const id = request.nextUrl.searchParams.get("id") || bodyId;
-  console.log("edit id->", id);
-  if (!id) {
-    return ApiResponse(400, null, "Blog ID is required");
-  }
-  const blog = await Blog.findById(id);
-  if (!blog) {
-    return ApiResponse(400, null, "Blog not found");
-  }
-  if (tags.length === 0 && Array.isArray(tags)) {
-    return ApiResponse(400, null, "Tags are required");
-  }
-  if (!title) {
-    return ApiResponse(400, null, "Title is required");
-  }
-  if (!excerpt) {
-    return ApiResponse(400, null, "Excerpt is required");
-  }
-  if (!category) {
-    return ApiResponse(400, null, "Category is required");
-  }
-  if (!content) {
-    return ApiResponse(400, null, "Content is required");
-  }
-
   try {
+    const formData = await request.formData();
+
+    const title = formData.get("title");
+    const excerpt = formData.get("excerpt");
+    const category = formData.get("category");
+    const tagsRaw = formData.get("tags");
+    const author = formData.get("author");
+    const content = formData.get("content");
+    const featured = formData.get("featured");
+    const readingTime = formData.get("readingTime");
+    const featuredImage = formData.get("featuredImage"); // File or null
+    const existingImage = formData.get("existingImage"); // URL string or null
+    const bodyId = formData.get("id");
+
+    const id = request.nextUrl.searchParams.get("id") || bodyId;
+    if (!id) {
+      return ApiResponse(400, null, "Blog ID is required");
+    }
+
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      return ApiResponse(400, null, "Blog not found");
+    }
+
+    // Parse tags
+    let tags = [];
+    try {
+      const parsed = JSON.parse(tagsRaw);
+      tags = Array.isArray(parsed) ? parsed : [parsed].filter(Boolean);
+    } catch {
+      tags = tagsRaw
+        ? tagsRaw
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : [];
+    }
+
+    if (tags.length === 0) {
+      return ApiResponse(400, null, "Tags are required");
+    }
+    if (!title) {
+      return ApiResponse(400, null, "Title is required");
+    }
+    if (!excerpt) {
+      return ApiResponse(400, null, "Excerpt is required");
+    }
+    if (!category) {
+      return ApiResponse(400, null, "Category is required");
+    }
+    if (!content) {
+      return ApiResponse(400, null, "Content is required");
+    }
+
     // Sanitize inputs
     const sanitizedTitle = sanitizeText(title);
     const sanitizedExcerpt = sanitizeText(excerpt);
@@ -241,29 +283,29 @@ export async function PATCH(request) {
     const sanitizedContent = await sanitizeHTML(content);
     const sanitizedTags = tags.map((t) => sanitizeText(t)).filter(Boolean);
 
-    const oldBlog = await Blog.findById(id);
-    if (!oldBlog) {
-      return ApiResponse(400, null, "Blog not found");
-    }
+    // Handle image: new upload or keep existing
+    let finalImageUrl = blog.featuredImage;
+    let finalImageId = blog.imageId;
 
-    // Handle old image deletion if a new one is provided and it's local
-    if (
-      featuredImage &&
-      oldBlog.featuredImage &&
-      featuredImage !== oldBlog.featuredImage
-    ) {
-      if (oldBlog.featuredImage.startsWith("/uploads/blogs/")) {
-        const oldPath = path.join(
-          process.cwd(),
-          "public",
-          oldBlog.featuredImage,
-        );
-        try {
-          await fs.unlink(oldPath);
-        } catch (err) {
-          console.error("Failed to delete old image:", err);
-        }
+    if (featuredImage && typeof featuredImage !== "string") {
+      // New image file uploaded — delete old from Cloudinary if exists
+      if (blog.imageId) {
+        await CloudneryService.delete(blog.imageId, "image");
       }
+
+      const uploaded = await CloudneryService.upload(
+        featuredImage,
+        "blogs",
+        "image",
+        "image",
+      );
+      if (uploaded) {
+        finalImageUrl = uploaded.url;
+        finalImageId = uploaded.id;
+      }
+    } else if (existingImage) {
+      // Keep existing image URL (no change)
+      finalImageUrl = existingImage;
     }
 
     const res = await Blog.findByIdAndUpdate(
@@ -277,7 +319,8 @@ export async function PATCH(request) {
         content: sanitizedContent,
         featured,
         readingTime,
-        featuredImage,
+        featuredImage: finalImageUrl,
+        imageId: finalImageId,
       },
       { new: true },
     );
@@ -304,17 +347,9 @@ export async function DELETE(request) {
       return ApiResponse(404, null, "Blog not found");
     }
 
-    // Delete local image if it exists
-    if (
-      blog.featuredImage &&
-      blog.featuredImage.startsWith("/uploads/blogs/")
-    ) {
-      const imgPath = path.join(process.cwd(), "public", blog.featuredImage);
-      try {
-        await fs.unlink(imgPath);
-      } catch (err) {
-        console.error("Failed to delete image on blog deletion:", err);
-      }
+    // Delete image from Cloudinary if it exists
+    if (blog.imageId) {
+      await CloudneryService.delete(blog.imageId, "image");
     }
 
     await Blog.findByIdAndDelete(id);

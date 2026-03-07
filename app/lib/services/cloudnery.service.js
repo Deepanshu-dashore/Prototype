@@ -5,7 +5,7 @@ export class CloudneryService {
     file,
     folder = "default",
     resource_type = "raw",
-    format = "pdf",
+    format = null,
   ) {
     try {
       if (!file) {
@@ -13,19 +13,22 @@ export class CloudneryService {
       }
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
+
+      const uploadOptions = {
+        resource_type,
+        folder,
+      };
+      // Only set format if it's a valid file extension (not 'image', 'auto', etc.)
+      if (format && !["image", "video", "raw", "auto"].includes(format)) {
+        uploadOptions.format = format;
+      }
+
       const result = await new Promise((resolve, reject) => {
         cloudinary.uploader
-          .upload_stream(
-            {
-              resource_type,
-              folder,
-              format,
-            },
-            (error, result) => {
-              if (error) reject(error);
-              resolve(result);
-            },
-          )
+          .upload_stream(uploadOptions, (error, result) => {
+            if (error) reject(error);
+            resolve(result);
+          })
           .end(buffer);
       });
       if (result) {

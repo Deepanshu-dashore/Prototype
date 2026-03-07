@@ -37,6 +37,7 @@ const blogSchema = new Schema(
       required: false,
       default: "",
     },
+    imageId: { type: String },
     featured: {
       type: Boolean,
       default: false,
@@ -46,7 +47,7 @@ const blogSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Blog = mongoose.models.Blog || model("Blog", blogSchema);
