@@ -451,7 +451,7 @@ export default function Hero({ onSecondaryClick }) {
           playsInline
           className="
             md:absolute max-w-full h-auto bottom-10 left-1/2 md:-translate-x-1/2
-            w-auto
+            w-auto bg-blend-screen
             z-0
             md:w-auto md:top-[-130px] md:left-[430px] md:translate-x-0 md:bottom-auto md:z-auto
           "
