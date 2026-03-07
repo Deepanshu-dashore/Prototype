@@ -94,7 +94,7 @@ export default function CTASection() {
                     Install CCMats
                   </h3>
                   <p className="text-neutral-dark/70 text-xs sm:text-sm mb-4">
-                    Get professional installation services for CC Matting solutions tailored to your needs.
+                    Get professional installation services for CC Mats solutions tailored to your needs.
                   </p>
                 </div>
                 <Link

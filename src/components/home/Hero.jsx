@@ -451,13 +451,13 @@ export default function Hero({ onSecondaryClick }) {
           playsInline
           className="
             md:absolute max-w-full h-auto bottom-10 left-1/2 md:-translate-x-1/2
-            w-auto bg-blend-screen
+            w-auto 
             z-0
             md:w-auto md:top-[-130px] md:left-[430px] md:translate-x-0 md:bottom-auto md:z-auto
           "
         >
-          {/* <source src="/mateMovement.mov" type="video/quicktime" /> */}
-          <source src="/aac775e8f0314e51945657060c0f88b8.mp4" type="video/mp4" />
+          <source src="/mateMovement.mov" type="video/quicktime" />
+          <source src="/mateMovement.webm" type="video/webm" />
         </video>
       </div>
 
