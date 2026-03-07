@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import connect from "@/app/lib/db/connect";
 import { NextResponse } from "next/server";
 import { sanitizeEmail, sanitizeText } from "@/app/lib/security/sanitizer";
+import { comparePasswords } from "@/app/lib/security/passwordHasher";
 import { isValidEmail } from "@/app/lib/security/validator";
 
 // Configure runtime for Vercel
@@ -63,7 +64,7 @@ export async function POST(request) {
     }
 
     // Simple password comparison (plain text)
-    if (password !== user.password) {
+    if (!comparePasswords(password, user?.password)) {
       return ApiResponse(401, null, "Invalid credentials");
     }
 
