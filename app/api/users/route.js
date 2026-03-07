@@ -4,6 +4,7 @@ import { User } from "@/app/lib/models/user";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { sanitizeText, sanitizeEmail } from "@/app/lib/security/sanitizer";
 import { isValidEmail } from "@/app/lib/security/validator";
+import { hashPassword } from "@/app/lib/security/passwordHasher";
 
 //Get all users
 export async function GET() {
@@ -18,10 +19,10 @@ export async function GET() {
 
 //Create a new user
 export async function POST(request) {
-  const user = await verifyJWT();
-  if (!user?.id) {
-    return ApiResponse(401, null, "Unauthorized request");
-  }
+  // const user = await verifyJWT();
+  // if (!user?.id) {
+  //   return ApiResponse(401, null, "Unauthorized request");
+  // }
   await connect();
   try {
     const { name, email, password } = await request.json();
@@ -49,11 +50,13 @@ export async function POST(request) {
       );
     }
 
+    const hashedPassword = await hashPassword(password);
+
     // Store password directly (plain text)
     const newUser = await User.create({
       name: sanitizedName,
       email: sanitizedEmail,
-      password: password,
+      password: hashedPassword,
     });
     return ApiResponse(201, newUser, "User created successfully");
   } catch (error) {
