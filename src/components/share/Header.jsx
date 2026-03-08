@@ -327,16 +327,48 @@ export default function Header({ onContactClick }) {
                           {openDropdown === item.name && (
                             <div className="flex flex-col gap-1 pl-4 mb-4 animate-in slide-in-from-top-2 duration-300">
                               {dropdownMenus[item.name].map((dropdownItem) => (
-                                <a
-                                  key={dropdownItem.name}
-                                  href={dropdownItem.href}
-                                  target={(dropdownItem.href.startsWith('http') || dropdownItem.href.endsWith('.pdf')) ? '_blank' : '_self'}
-                                  onClick={() => setMobileMenuOpen(false)}
-                                  className={`py-2 text-sm flex items-center gap-3 transition-colors ${isActiveRoute(dropdownItem.href) ? 'text-primary font-semibold' : 'text-neutral-dark/70 hover:text-primary'}`}
-                                >
-                                  {dropdownItem.icon && <dropdownItem.icon className="w-4 h-4 opacity-40" />}
-                                  {dropdownItem.name}
-                                </a>
+                                <div key={dropdownItem.name} className="flex flex-col">
+                                  {dropdownItem.hasSubMenu ? (
+                                    <>
+                                      <button
+                                        onClick={() => setOpenSubDropdown(openSubDropdown === dropdownItem.name ? null : dropdownItem.name)}
+                                        className="flex items-center justify-between py-2 text-sm text-neutral-dark/70 hover:text-primary transition-colors pr-2"
+                                      >
+                                        <div className="flex items-center gap-3">
+                                          {dropdownItem.icon && <dropdownItem.icon className="w-4 h-4 opacity-40" />}
+                                          <span>{dropdownItem.name}</span>
+                                        </div>
+                                        <ChevronRightIcon className={`w-3.5 h-3.5 transition-transform duration-300 ${openSubDropdown === dropdownItem.name ? 'rotate-90 text-primary' : 'text-neutral-dark/30'}`} />
+                                      </button>
+
+                                      {openSubDropdown === dropdownItem.name && (
+                                        <div className="flex flex-col gap-1 pl-7 mb-2 border-l border-neutral-dark/10 animate-in slide-in-from-left-2 duration-300">
+                                          {dropdownItem.subItems.map((subItem) => (
+                                            <a
+                                              key={subItem.name}
+                                              href={subItem.href}
+                                              onClick={() => setMobileMenuOpen(false)}
+                                              className={`py-2 text-[13px] flex items-center gap-2 transition-colors ${isActiveRoute(subItem.href) ? 'text-primary font-semibold' : 'text-neutral-dark/60 hover:text-primary'}`}
+                                            >
+                                              <div className={`w-1 h-1 rounded-full ${isActiveRoute(subItem.href) ? 'bg-primary' : 'bg-neutral-dark/20'}`} />
+                                              {subItem.name}
+                                            </a>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <a
+                                      href={dropdownItem.href}
+                                      target={(dropdownItem.href.startsWith('http') || dropdownItem.href.endsWith('.pdf')) ? '_blank' : '_self'}
+                                      onClick={() => setMobileMenuOpen(false)}
+                                      className={`py-2 text-sm flex items-center gap-3 transition-colors ${isActiveRoute(dropdownItem.href) ? 'text-primary font-semibold' : 'text-neutral-dark/70 hover:text-primary'}`}
+                                    >
+                                      {dropdownItem.icon && <dropdownItem.icon className="w-4 h-4 opacity-40" />}
+                                      {dropdownItem.name}
+                                    </a>
+                                  )}
+                                </div>
                               ))}
                             </div>
                           )}
