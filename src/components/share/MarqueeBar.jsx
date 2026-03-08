@@ -14,7 +14,7 @@ export default function MarqueeBar() {
                 setText(res.data?.data || "");
             } catch (error) {
                 // console.error("Failed to load tagline:", error);
-                setText("Welcome to CC Matting - Industry leading solutions for all your needs");
+                setText("CC Matting is actively looking for distributors for its contamination control solutions.");
             } finally {
                 setLoading(false);
             }
