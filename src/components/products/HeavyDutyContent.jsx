@@ -529,7 +529,7 @@ export default function HeavyDutyContent({ product }) {
                             <SparklesIcon className="w-3 h-3" />
                             Advantages
                         </span>
-                        <h2 className="text-2xl sm:text-4xl font-bold text-neutral-dark mb-3">CC HEAVY DUTY Benefits</h2>
+                        <h2 className="text-2xl sm:text-4xl font-bold text-neutral-dark mb-3">CCM HEAVY DUTY Benefits</h2>
                         <p className="text-sm text-neutral-dark/60 max-w-2xl mx-auto">
                             Our Heavy Duty Contamination Control Matting solutions provide superior contamination control and durability for high-traffic environments.
                         </p>
