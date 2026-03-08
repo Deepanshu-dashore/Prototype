@@ -13,7 +13,7 @@ import Link from "next/link";
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const blog = await getBlogByIdOrSlug(id);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://ccmatting.com";
+  const baseUrl = "https://www.ccmatting.ie";
 
   if (!blog) {
     return {
@@ -40,14 +40,14 @@ export async function generateMetadata({ params }) {
       description: blog.excerpt,
       url: canonicalUrl,
       siteName: "CC Matting",
-      locale: "en_US",
+      locale: "en_IE",
       type: "article",
       publishedTime: blog.createdAt,
       authors: [blog.author || "CC Matting"],
       tags: blog.tags || [blog.category],
       images: [
         {
-          url: blog.featuredImage || `${baseUrl}/BlogIso.png`,
+          url: blog.featuredImage || "/CCMate-Logo.jpg",
           width: 1200,
           height: 630,
           alt: blog.title,
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title: blog.title,
       description: blog.excerpt,
-      images: [blog.featuredImage || `${baseUrl}/BlogIso.png`],
+      images: [blog.featuredImage || "/CCMate-Logo.jpg"],
     },
   };
 }
@@ -80,14 +80,14 @@ export default async function BlogPostPage({ params }) {
     .filter((p) => p.slug !== blog.slug)
     .slice(0, 3);
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://ccmatting.com";
+  const baseUrl = "https://www.ccmatting.ie";
 
   // JSON-LD Structured Data
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: blog.title,
-    image: blog.featuredImage || `${baseUrl}/BlogIso.png`,
+    image: blog.featuredImage || `${baseUrl}/CCMate-Logo.jpg`,
     datePublished: blog.createdAt,
     author: {
       "@type": "Organization",
@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }) {
       name: "CC Matting",
       logo: {
         "@type": "ImageObject",
-        url: `${baseUrl}/logo.png`,
+        url: `${baseUrl}/CCMate-Logo.jpg`,
       },
     },
     description: blog.excerpt,

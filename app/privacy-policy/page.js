@@ -1,15 +1,28 @@
 import PublicLayout from "../../src/components/share/PublicLayout";
 
 export const metadata = {
-  title: "Privacy Policy | CC Matting",
+  title: "Privacy Policy | CC Matting Ireland",
   description:
     "Read our privacy notice to understand how CC Matting collects, uses, and protects your personal information.",
   alternates: {
-    canonical: "https://ccmatting.com/privacy-policy",
+    canonical: "https://www.ccmatting.ie/privacy-policy",
   },
   robots: {
     index: false,
     follow: true,
+  },
+  openGraph: {
+    title: "Privacy Policy | CC Matting Ireland",
+    description: "Our commitment to protecting your personal information.",
+    url: "https://www.ccmatting.ie/privacy-policy",
+    siteName: "CC Matting",
+    images: ["/CCMate-Logo.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy | CC Matting Ireland",
+    images: ["/CCMate-Logo.jpg"],
   },
 };
 

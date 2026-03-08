@@ -1,15 +1,28 @@
 import PublicLayout from "../../src/components/share/PublicLayout";
 
 export const metadata = {
-  title: "Terms and Conditions | CC Matting",
+  title: "Terms and Conditions | CC Matting Ireland",
   description:
-    "Review the terms and conditions for using CC Matting services, including warranty, maintenance requirements, and liability policies.",
+    "Review the terms and conditions for CC Matting services, including warranty, maintenance, and liability policies for our polymeric matting solutions.",
   alternates: {
-    canonical: "https://ccmatting.com/terms-and-conditions",
+    canonical: "https://www.ccmatting.ie/terms-and-conditions",
   },
   robots: {
     index: false,
     follow: true,
+  },
+  openGraph: {
+    title: "Terms and Conditions | CC Matting Ireland",
+    description: "Terms and conditions of supply for CC Matting Ltd.",
+    url: "https://www.ccmatting.ie/terms-and-conditions",
+    siteName: "CC Matting",
+    images: ["/CCMate-Logo.jpg"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms and Conditions | CC Matting Ireland",
+    images: ["/CCMate-Logo.jpg"],
   },
 };
 

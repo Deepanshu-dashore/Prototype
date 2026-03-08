@@ -3,24 +3,23 @@ import IndustriesListContent from "../../src/components/industries/IndustriesLis
 import { getIndustriesForServer } from "../../src/utils/industriesData";
 
 export const metadata = {
-  title:
-    "Industry Solutions | Contamination Control for Every Sector | CC Matting",
+  title: "Industry Solutions | Contamination Control for Every Sector",
   description:
-    "Explore our specialized contamination control solutions for various industries, including pharmaceutical, semiconductor, healthcare, data centers, and more.",
+    "Explore our specialized contamination control solutions for pharmaceutical, semiconductor, medical device, and food industries in Ireland.",
   alternates: {
-    canonical: "https://ccmatting.com/industries",
+    canonical: "https://www.ccmatting.ie/industries",
   },
   openGraph: {
-    title: "Industry Solutions | CC Matting",
+    title: "Industry Solutions | CC Matting Ireland",
     description:
-      "Specialized contamination control mats for high-tech, medical, and industrial sectors.",
-    url: "https://ccmatting.com/industries",
+      "Specialized contamination control and polymeric mats for high-tech, medical, and industrial sectors.",
+    url: "https://www.ccmatting.ie/industries",
     siteName: "CC Matting",
-    locale: "en_US",
+    locale: "en_IE",
     type: "website",
     images: [
       {
-        url: "https://ccmatting.com/assets/industries/hero-bg.jpg", // Fallback or specific hero image
+        url: "/CCMate-Logo.jpg",
         width: 1200,
         height: 630,
         alt: "CC Matting Industry Solutions",
@@ -29,10 +28,10 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Industry Solutions | CC Matting",
+    title: "Industry Solutions | CC Matting Ireland",
     description:
-      "Specialized contamination control mats for high-tech, medical, and industrial sectors.",
-    images: ["https://ccmatting.com/assets/industries/hero-bg.jpg"],
+      "Specialized contamination control mats for medical and industrial sectors.",
+    images: ["/CCMate-Logo.jpg"],
   },
 };
 

@@ -2,17 +2,18 @@ import PublicLayout from "../../src/components/share/PublicLayout";
 import ComplianceContent from "../../src/components/compliance/ComplianceContent";
 
 export const metadata = {
-  title: "Compliance & Quality | CC Matting | Industry Standards",
+  title: "Compliance & Quality - Industry Standards & Certifications",
   description:
     "Access CC Matting compliance documentation, ISO certifications, REACH compliance, and technical efficacy data for our contamination control solutions.",
   alternates: {
-    canonical: "https://ccmatting.com/compliance",
+    canonical: "https://www.ccmatting.ie/compliance",
   },
   openGraph: {
-    title: "Compliance & Quality | CC Matting",
+    title: "Compliance & Quality | CC Matting Ireland",
     description:
       "Our commitment to quality and compliance. View our ISO certifications and technical efficacy reports.",
-    url: "https://ccmatting.com/compliance",
+    url: "https://www.ccmatting.ie/compliance",
+    images: ["/CCMate-Logo.jpg"],
     type: "website",
   },
 };

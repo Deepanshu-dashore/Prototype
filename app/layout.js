@@ -2,12 +2,53 @@ import { ContactFormProvider } from "../src/components/share/ContactFormContext"
 import "./globals.css";
 
 export const metadata = {
-  title: "CC Matting - Contamination Control Solutions",
-  favicon: "/favicon.ico",
+  metadataBase: new URL("https://www.ccmatting.ie"),
+  title: {
+    default: "CC Matting - Contamination Control Solutions Ireland",
+    template: "%s | CC Matting",
+  },
   description:
-    "Leading provider of contamination control solutions for cleanroom environments worldwide. High-quality matting solutions designed to capture Up to 99% of particulates.",
-  keywords:
-    "cleanroom mats, contamination control, anti-fatigue mats, cleanroom solutions",
+    "Ireland's leading provider of high-performance polymeric contamination control matting. Capture up to 99.9% of particles for cleanrooms, pharma, and medical facilities.",
+  keywords: [
+    "cleanroom mats",
+    "contamination control",
+    "polymeric matting",
+    "Ireland",
+    "antimicrobial mats",
+    "static dissipative mats",
+    "pharmaceutical solutions",
+    "medical device cleanroom",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IE",
+    url: "https://www.ccmatting.ie",
+    siteName: "CC Matting",
+    title: "CC Matting - Contamination Control Solutions",
+    description:
+      "Advanced polymeric matting solutions proven to capture up to 99.9% of foot and wheel-borne particulates.",
+    images: [
+      {
+        url: "/CCMate-Logo.jpg",
+        width: 1200,
+        height: 630,
+        alt: "CC Matting Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CC Matting - Contamination Control Solutions",
+    description:
+      "Up to 99.9% Particle Retention Matting for Critical Environments.",
+    images: ["/CCMate-Logo.jpg"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 import { Toaster } from "react-hot-toast";

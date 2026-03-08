@@ -2,17 +2,18 @@ import PublicLayout from "../../src/components/share/PublicLayout";
 import TechnicalContent from "../../src/components/technical/TechnicalContent";
 
 export const metadata = {
-  title: "Technical Documentation | CC Matting | Data Sheets & Brochures",
+  title: "Technical Documentation | CC Matting Ireland",
   description:
-    "Access CC Matting technical data sheets, comparison guides, warranty information, and cleaning procedures. Download our comprehensive product brochure.",
+    "Technical data sheets, comparison guides, warranty info, and cleaning procedures for CC Matting contamination control systems.",
   alternates: {
-    canonical: "https://ccmatting.com/technical",
+    canonical: "https://www.ccmatting.ie/technical",
   },
   openGraph: {
-    title: "Technical Documentation | CC Matting",
+    title: "Technical Documentation | CC Matting Ireland",
     description:
-      "In-depth technical resources for our contamination control solutions. Data sheets, brochures, and maintenance guides.",
-    url: "https://ccmatting.com/technical",
+      "Technical resources and data sheets for our high-performance contamination control solutions.",
+    url: "https://www.ccmatting.ie/technical",
+    images: ["/CCMate-Logo.jpg"],
     type: "website",
   },
 };

@@ -112,7 +112,7 @@ export default function HeavyDutyContent({ product }) {
             demnsions: "w-auto h-22 mx-auto -mt-6 object-cover",
             src: "/assets/products Page/installation/CCM - Regeneron.jpeg",
             name: "Regeneron Installation",
-            logo: "/assets/Our Valuable Customers/regeneron.png",
+            logo: "/assets/Our Valuable Customers/Regeneron.png",
             company: "Regeneron"
         },
         {

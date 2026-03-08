@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
 import { trackFormOpen } from '../../utils/analytics'
+import { useRouter } from 'next/navigation'
 
 export default function FloatingMessageButton({ onContactClick }) {
   const [isVisible, setIsVisible] = useState(false)
+  const navigate = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,8 +23,7 @@ export default function FloatingMessageButton({ onContactClick }) {
   }, [])
 
   const handleClick = () => {
-    trackFormOpen('floating_button')
-    onContactClick()
+    navigate.push('/contact')
   }
 
   return (
@@ -33,7 +34,7 @@ export default function FloatingMessageButton({ onContactClick }) {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-          className="fixed bottom-16 lg:bottom-6 right-2 lg:right-6 z-50 lg:right-8"
+          className="fixed bottom-16 lg:bottom-6 right-2 lg:right-6 z-999 lg:right-8"
         >
           <button
             onClick={handleClick}

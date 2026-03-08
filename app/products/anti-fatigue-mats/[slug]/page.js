@@ -14,27 +14,25 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://ccmatting.com";
+  const baseUrl = "https://www.ccmatting.ie";
   const url = `${baseUrl}/products/anti-fatigue-mats/${slug}`;
 
   return {
-    title: `${product.title} | Premium Anti-Fatigue Mats | CC Matting`,
+    title: `${product.title} | Premium Anti-Fatigue Mats Ireland`,
     description: product.description,
     alternates: {
       canonical: url,
     },
     openGraph: {
-      title: `${product.title} | CC Matting`,
+      title: `${product.title} | CC Matting Ireland`,
       description: product.description,
       url: url,
       siteName: "CC Matting",
-      locale: "en_US",
+      locale: "en_IE",
       type: "website",
       images: [
         {
-          url: product.image.startsWith("http")
-            ? product.image
-            : `${baseUrl}${product.image}`,
+          url: "/CCMate-Logo.jpg",
           width: 1200,
           height: 630,
           alt: product.title,
@@ -43,13 +41,9 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${product.title} | CC Matting`,
+      title: `${product.title} | CC Matting Ireland`,
       description: product.description,
-      images: [
-        product.image.startsWith("http")
-          ? product.image
-          : `${baseUrl}${product.image}`,
-      ],
+      images: ["/CCMate-Logo.jpg"],
     },
   };
 }

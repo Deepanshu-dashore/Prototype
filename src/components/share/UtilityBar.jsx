@@ -14,7 +14,7 @@ export default function UtilityBar() {
           <a
             href="tel:+353214701669"
             onClick={handlePhoneClick}
-            className="flex items-center gap-2 hover:text-accent transition-colors"
+            className="flex items-center gap-2 hover:text-gray-300 transition-colors"
             aria-label="Call us at 021 4701669"
           >
             <PhoneIcon className="w-4 h-4" aria-hidden="true" />
@@ -23,7 +23,7 @@ export default function UtilityBar() {
           </a>
           <a
             href="mailto:info@ccmatting.ie"
-            className="flex items-center gap-2 hover:text-accent transition-colors"
+            className="flex items-center gap-2 hover:text-gray-300 transition-colors"
             aria-label="Email us at info@ccmatting.ie"
           >
             <EnvelopeIcon className="w-4 h-4" aria-hidden="true" />

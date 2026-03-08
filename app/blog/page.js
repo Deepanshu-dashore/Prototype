@@ -5,11 +5,11 @@ import BlogGrid from "../../src/components/blog/BlogGrid";
 
 export async function generateMetadata({ searchParams }) {
   const { category, search } = await searchParams;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://ccmatting.com";
+  const baseUrl = "https://www.ccmatting.ie";
 
-  let title = "Blogs | CC Matting";
+  let title = "Blogs - Contamination Control Insights | CC Matting";
   let description =
-    "Latest articles, tutorials, and insights on contamination control and cleanroom technology.";
+    "Latest articles, tutorials, and insights on contamination control and cleanroom technology from Ireland's experts.";
 
   if (category && category !== "All") {
     title = `${category} - Cleanroom Insights | CC Matting`;
@@ -44,11 +44,11 @@ export async function generateMetadata({ searchParams }) {
       description,
       url: canonical,
       siteName: "CC Matting",
-      locale: "en_US",
+      locale: "en_IE",
       type: "website",
       images: [
         {
-          url: `${baseUrl}/BlogIso.png`,
+          url: "/CCMate-Logo.jpg",
           width: 1200,
           height: 630,
           alt: "CC Matting Blogs",
@@ -59,7 +59,7 @@ export async function generateMetadata({ searchParams }) {
       card: "summary_large_image",
       title,
       description,
-      images: [`${baseUrl}/BlogIso.png`],
+      images: ["/CCMate-Logo.jpg"],
     },
   };
 }

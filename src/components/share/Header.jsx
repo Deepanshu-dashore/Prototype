@@ -318,10 +318,10 @@ export default function Header({ onContactClick }) {
                         <div key={item.name} className="flex flex-col border-b border-neutral-dark/5 py-1">
                           <button
                             onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
-                            className="flex items-center justify-between py-4 text-lg font-medium text-neutral-dark hover:text-primary transition-all group"
+                            className="flex items-center justify-between py-3 text-base font-medium text-neutral-dark hover:text-primary transition-all group"
                           >
                             <span className={isActiveRoute(item.href) ? 'text-primary' : ''}>{item.name}</span>
-                            <ChevronDownIcon className={`w-5 h-5 transition-transform duration-300 ${openDropdown === item.name ? 'rotate-180 text-primary' : 'text-neutral-dark/30'}`} />
+                            <ChevronDownIcon className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.name ? 'rotate-180 text-primary' : 'text-neutral-dark/30'}`} />
                           </button>
 
                           {openDropdown === item.name && (
@@ -332,7 +332,7 @@ export default function Header({ onContactClick }) {
                                   href={dropdownItem.href}
                                   target={(dropdownItem.href.startsWith('http') || dropdownItem.href.endsWith('.pdf')) ? '_blank' : '_self'}
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className={`py-3 text-[15px] flex items-center gap-3 transition-colors ${isActiveRoute(dropdownItem.href) ? 'text-primary font-semibold' : 'text-neutral-dark/70 hover:text-primary'}`}
+                                  className={`py-2 text-sm flex items-center gap-3 transition-colors ${isActiveRoute(dropdownItem.href) ? 'text-primary font-semibold' : 'text-neutral-dark/70 hover:text-primary'}`}
                                 >
                                   {dropdownItem.icon && <dropdownItem.icon className="w-4 h-4 opacity-40" />}
                                   {dropdownItem.name}
@@ -349,46 +349,25 @@ export default function Header({ onContactClick }) {
                         key={item.name}
                         href={item.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`py-5 text-lg font-medium border-b border-neutral-dark/5 transition-colors ${isActiveRoute(item.href) ? 'text-primary' : 'text-neutral-dark hover:text-primary'}`}
+                        className={`py-3 text-base font-medium border-b border-neutral-dark/5 transition-colors ${isActiveRoute(item.href) ? 'text-primary' : 'text-neutral-dark hover:text-primary'}`}
                       >
                         {item.name}
                       </Link>
                     )
                   })}
 
-                  {/* Minimalistic Distributor Links */}
-                  <div className="mt-12 space-y-6">
-                    <Link
-                      href="/contact"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-between text-base font-bold text-primary hover:opacity-80 transition-opacity"
-                    >
-                      <div className="flex items-center gap-3">
-                        <UsersIcon className="w-5 h-5" />
-                        <span>Distributor</span>
-                      </div>
-                      <ChevronRightIcon className="w-4 h-4" />
-                    </Link>
-                    {/* <Link
-                      href="/distributor/login"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-between text-base font-bold text-neutral-dark/70 hover:text-primary transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <UsersIcon className="w-5 h-5" />
-                        <span>Distributor Login</span>
-                      </div>
-                      <ChevronRightIcon className="w-4 h-4" />
-                    </Link> */}
-                  </div>
+                  {/* Distributor Tab Type Link */}
+                  <Link
+                    href="/contact"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`py-3 text-base font-medium border-b border-neutral-dark/5 transition-colors ${isActiveRoute('/contact') ? 'text-primary' : 'text-neutral-dark hover:text-primary'}`}
+                  >
+                    Distributor
+                  </Link>
                 </nav>
               </div>
 
-              {/* Drawer Footer */}
-              <div className="p-8 bg-neutral-light/20 border-t border-neutral-dark/5">
-                <p className="text-[11px] uppercase tracking-widest text-neutral-dark/30 font-bold mb-1">CC Matting</p>
-                <p className="text-xs text-neutral-dark/40">Premium Contamination Control Solutions</p>
-              </div>
+
             </div>
           </div>
         )}

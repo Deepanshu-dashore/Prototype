@@ -10,23 +10,23 @@ import IndustrySolutions from "@/src/components/home/IndustrySolutions";
 import UseCases from "@/src/components/home/UseCases";
 
 export const metadata = {
-  title: "CC Matting | Contamination Control & Cleanroom Matting Solutions",
+  title: "CC Matting | Contamination Control & Polymeric Matting Solutions",
   description:
-    "Leading provider of advanced polyermic contamination control matting. Proven Up to 99% particle retention for cleanrooms, hospitals, and critical environments. 2-year warranty.",
+    "Leading provider of advanced polymeric contamination control matting. Proven up to 99.9% particle retention for cleanrooms, laboratories, and critical environments.",
   alternates: {
-    canonical: "https://ccmatting.com",
+    canonical: "https://www.ccmatting.ie",
   },
   openGraph: {
-    title: "CC Matting | Advanced Contamination Control Solutions",
+    title: "CC Matting | World-Class Contamination Control Solutions",
     description:
-      "Protect your critical environments with Up to 99% effective polymeric matting. Optimized for cleanrooms, labs, and healthcare.",
-    url: "https://ccmatting.com",
+      "Protect your critical environments with up to 99.9% effective polymeric matting. Optimized for cleanrooms, pharma, and healthcare.",
+    url: "https://www.ccmatting.ie",
     siteName: "CC Matting",
-    locale: "en_US",
+    locale: "en_IE",
     type: "website",
     images: [
       {
-        url: "https://ccmatting.com/BlogIso.png",
+        url: "/CCMate-Logo.jpg",
         width: 1200,
         height: 630,
         alt: "CC Matting Contamination Control",
@@ -36,8 +36,9 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "CC Matting | Contamination Control Solutions",
-    description: "Up to 99% Particle Retention Matting for Critical Environments.",
-    images: ["https://ccmatting.com/BlogIso.png"],
+    description:
+      "Advanced polymeric matting for cleanrooms and critical environments.",
+    images: ["/CCMate-Logo.jpg"],
   },
 };
 

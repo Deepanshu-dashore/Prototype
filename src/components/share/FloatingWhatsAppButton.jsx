@@ -33,7 +33,7 @@ export default function FloatingWhatsAppButton() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-          className="fixed bottom-34 right-2 z-50 lg:bottom-8 lg:left-8"
+          className="fixed bottom-34 right-2 z-998 lg:bottom-8 lg:left-8"
         >
           <button
             onClick={handleClick}

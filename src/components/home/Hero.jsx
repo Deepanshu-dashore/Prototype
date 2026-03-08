@@ -192,7 +192,7 @@ export default function Hero({ onSecondaryClick }) {
       {/* Background set to solid #eceef8 via section class */}
 
 
-      <div className="xl:max-w-[1300px] lg:max-w-[1000px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 py-10  md:py-14 lg:py-10 w-full relative z-10 pb-65">
+      <div className="xl:max-w-[1300px] lg:max-w-[1000px] mx-auto px-4 sm:px-6 md:px-8 lg:px-2 py-10 pb-10  md:py-14 lg:py-10 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 xl:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -231,7 +231,7 @@ export default function Hero({ onSecondaryClick }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="text-base sm:text-lg text-justify text-neutral-600 max-w-xl leading-relaxed font-medium "
+              className="text-base sm:text-lg text-left text-neutral-600 max-w-xl leading-relaxed font-medium "
             >
               CC Matting manufacture, distribute & install class leading advanced high-tech polymeric matting that eradicates <span className="text-neutral-900 font-semibold">up to 99%</span> of harmful floor based particulate from entering your critical areas. Engineered for excellence and scientifically proven <span className="text-neutral-900 font-semibold">with a 2-Yr replacement warranty.</span>
             </motion.p>
@@ -244,32 +244,54 @@ export default function Hero({ onSecondaryClick }) {
               transition={{ duration: 0.7, delay: 0.35 }}
               className="grid grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6 xl:gap-8 mb-6 pr-10"
             >
-              {/* CE Marking */}
-              <div className="group w-full inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
-                <div className="relative w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center shrink-0">
+              {/* CE Markinsm:g */}
+              <div className="group w-full hidden sm:inline-flex items-center gap-2 md:px-3 px-2 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className="relative sm:w-6 sm:h-6 w-5 h-5 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center shrink-0">
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-primary/70" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M22 42c-9.941 0-18-8.059-18-18S12.059 6 22 6m22 36c-9.941 0-18-8.059-18-18S34.059 6 44 6M26 24h11"></path></svg>
                 </div>
-                <span className="lg:text-xs text-[10px] font-medium text-neutral-700 tracking-wide">CE Marking</span>
+                <span className="lg:text-xs text-[9px] sm:text-[10px] font-medium text-neutral-700 tracking-wide">CE Marking</span>
+              </div>
+              <div className="group w-full relative sm:hidden inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className="absolute top-0 left-0 w-8.5 h-8.5 bg-primary/8 p-1 border border-primary/20 rounded-r-full rounded-l-md flex items-center justify-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-primary/70" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M22 42c-9.941 0-18-8.059-18-18S12.059 6 22 6m22 36c-9.941 0-18-8.059-18-18S34.059 6 44 6M26 24h11"></path></svg>
+                </div>
+                <span className="lg:text-xs text-[10px] pl-8 font-medium text-neutral-700 tracking-wide">CE Marking</span>
               </div>
 
               {/* BPR - EPA Compliance */}
-              <div className="group w-full text-nowrap inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
-                <div className=" w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center">
+              <div className="group w-full sm:text-nowrap hidden sm:inline-flex items-center gap-2 md:px-3 px-2 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className=" sm:w-6 sm:h-6 w-5 h-5 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-primary/70" viewBox="0 0 16 16">
                     <path fill="currentColor" d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"></path>
                   </svg>
                 </div>
-                <span className="lg:text-xs text-[10px] font-medium text-neutral-700 tracking-wide">REACH Compliance</span>
+                <span className="lg:text-xs text-[9px] sm:text-[10px] font-medium text-neutral-700 tracking-wide">REACH Compliance</span>
+              </div>
+              <div className="group relative w-full sm:text-nowrap sm:hidden inline-flex items-center gap-2 md:px-3 px-2 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className="absolute top-0 left-0 w-8.5 h-8.5 bg-primary/8 p-1 border border-primary/20 rounded-r-full rounded-l-md flex items-center justify-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-primary/70" viewBox="0 0 16 16">
+                    <path fill="currentColor" d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"></path>
+                  </svg>
+                </div>
+                <span className="lg:text-xs pl-9 text-[9px] sm:text-[10px] font-medium text-neutral-700 tracking-wide">REACH Compliance</span>
               </div>
 
               {/* Zero VOCs */}
-              <div className="group w-full inline-flex items-center gap-2 px-5 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
-                <div className=" w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center">
+              <div className="group w-full hidden sm:inline-flex items-center gap-2 md:px-5 px-2 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className=" sm:w-6 sm:h-6 w-5 h-5 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5 text-primary/70" viewBox="0 0 512 512">
                     <path fill="currentColor" d="M161.563 19.28c10.093 10.734 16.743 23.678 20.562 37.657c6.202 22.707 5.806 48.148 3.72 74.094c-4.176 51.894-14.58 106.512-2.44 140.407c11.396 31.814 29.668 50.71 49.94 60c8.72 3.998 17.9 6.21 27.186 6.782c22.195-65.084 17.46-148.144-19.06-204.283c48.352 48.234 71.19 121.068 56.436 197.407l-8.78 3.53a90 90 0 0 0 8.093-2.843c41.783-16.87 75.975-66.253 61.75-138.655c-6.536-33.265-28.966-80.165-66.5-116.5c-32.472-31.432-75.827-55.212-130.908-57.594zM445.53 202.813c-.84 12.1-4.638 23.528-10.56 33.907c-10.353 18.14-26.448 33.757-43.876 48.593c-34.856 29.67-75.057 57.156-88.313 85.218c-12.555 26.583-12.884 49.252-6.186 67.283a65.9 65.9 0 0 0 12.625 20.968c53.708-26.787 101.73-80.91 113.81-138.03c.076 59.646-30.63 118.687-86.624 156.906c35.802 14.545 86.282 5.034 121.72-47.75c16.418-24.456 31.558-67.3 30.812-112.875c-.634-38.688-12.264-79.23-43.407-114.217zm-424.874 73.47c-9.483 45.878.708 86.832 19.5 120.656c22.136 39.84 56.682 69.376 83.125 82.343c57.07 27.988 105.514 10.968 129.25-19.53c-67.59-5.1-123.692-40.873-153.436-92.563c39.02 43.428 107.658 66.29 167.562 62.625a65.8 65.8 0 0 0 .47-24.468c-3.214-18.965-14.87-38.447-39.032-55.188c-25.505-17.67-74.045-21.36-119.063-29.625c-22.508-4.13-44.247-9.59-62.28-20.124c-10.323-6.03-19.314-14.06-26.094-24.125z" strokeWidth={13} stroke="currentColor"></path>
                   </svg>
                 </div>
-                <span className="lg:text-xs text-[10px] font-medium text-neutral-700 tracking-wide">VOCs tested</span>
+                <span className="lg:text-xs text-[9px] sm:text-[10px] font-medium text-neutral-700 tracking-wide">VOC's Tested</span>
+              </div>
+              <div className="group w-full relative sm:hidden inline-flex items-center gap-2 md:px-5 px-2 py-2 rounded-md bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className=" absolute top-0 left-0 w-8.5 h-8.5 bg-primary/8 p-1 border border-primary/20 rounded-r-full rounded-l-md flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5 text-primary/70" viewBox="0 0 512 512">
+                    <path fill="currentColor" d="M161.563 19.28c10.093 10.734 16.743 23.678 20.562 37.657c6.202 22.707 5.806 48.148 3.72 74.094c-4.176 51.894-14.58 106.512-2.44 140.407c11.396 31.814 29.668 50.71 49.94 60c8.72 3.998 17.9 6.21 27.186 6.782c22.195-65.084 17.46-148.144-19.06-204.283c48.352 48.234 71.19 121.068 56.436 197.407l-8.78 3.53a90 90 0 0 0 8.093-2.843c41.783-16.87 75.975-66.253 61.75-138.655c-6.536-33.265-28.966-80.165-66.5-116.5c-32.472-31.432-75.827-55.212-130.908-57.594zM445.53 202.813c-.84 12.1-4.638 23.528-10.56 33.907c-10.353 18.14-26.448 33.757-43.876 48.593c-34.856 29.67-75.057 57.156-88.313 85.218c-12.555 26.583-12.884 49.252-6.186 67.283a65.9 65.9 0 0 0 12.625 20.968c53.708-26.787 101.73-80.91 113.81-138.03c.076 59.646-30.63 118.687-86.624 156.906c35.802 14.545 86.282 5.034 121.72-47.75c16.418-24.456 31.558-67.3 30.812-112.875c-.634-38.688-12.264-79.23-43.407-114.217zm-424.874 73.47c-9.483 45.878.708 86.832 19.5 120.656c22.136 39.84 56.682 69.376 83.125 82.343c57.07 27.988 105.514 10.968 129.25-19.53c-67.59-5.1-123.692-40.873-153.436-92.563c39.02 43.428 107.658 66.29 167.562 62.625a65.8 65.8 0 0 0 .47-24.468c-3.214-18.965-14.87-38.447-39.032-55.188c-25.505-17.67-74.045-21.36-119.063-29.625c-22.508-4.13-44.247-9.59-62.28-20.124c-10.323-6.03-19.314-14.06-26.094-24.125z" strokeWidth={13} stroke="currentColor"></path>
+                  </svg>
+                </div>
+                <span className="lg:text-xs pl-9 text-[9px] sm:text-[10px] font-medium text-neutral-700 tracking-wide">VOC's Tested</span>
               </div>
             </motion.div>
 
@@ -344,99 +366,6 @@ export default function Hero({ onSecondaryClick }) {
             className="relative flex flex-col justify-start items-start lg:items-end"
             aria-hidden="true"
           >
-            {/* Informational Card - Upper Right */}
-            {/* <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="mb-6 lg:mb-8 lg:ml-auto lg:mr-0 xl:block hidden"
-            >
-              <div className="bg-white rounded-xl shadow-lg border border-neutral-dark/10 px-5 py-2 flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full animate-pulse bg-primary/20 shrink-0 flex items-center justify-center">
-                  <div className="w-3 h-3 rounded-full bg-primary shrink-0"></div>
-                </div>
-                <div>
-                  <div className="text-base lg:text-sm font-bold text-neutral-dark">
-                    High Performance
-                  </div>
-                  <div className="text-xs text-neutral-dark/70">
-                    Multi-layer Protection
-                  </div>
-                </div>
-              </div>
-            </motion.div> */}
-
-            {/* <div className="flex lg:w-1/3 sm:w-1/3 md:w-1/3 w-1/2 absolute group hover:border-blue-500 hover:border-solid transition-all duration-300 text-center top-1/4 sm:top-[22%] md:top-[37%] lg:top-1/4 z-30 rotate-40 right-10 sm:right-[28%] md:right-32 lg:right-10 border-[1.3px] border-rose-700 border-dashed shadow-2xl items-center justify-center">
-              <div className="w-1/2 h-1/2 rounded-full">
-                <div className="absolute w-8/12 md:w-10/12 capitalize border-2 border-primary/20 bg-white px-3 py-2 group-hover:scale-105 transition-all duration-300 rounded-md shadow-lg cursor-pointer text-neutral-dark  right-30 md:-right-30 -bottom-10 -rotate-40">
-                  <div className='flex bg-gray-100 py-1 rounded-sm  items-center justify-center gap-2'>
-                    <h1 className='xl:text-2xl text-base font-bold group-hover:text-primary transition-all duration-300'>Up to 99%</h1>
-                    <h2 className='lg:text-sm text-xs font-bold text-gray-600 mt-2'>effective</h2>
-                  </div>
-                  <p className='text-[8px] lg:text-[10px] text-xs text-gray-400'>After 7 footfalls and 3 wheel rotations</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex lg:w-10/12 w-6/12 md:w-8/12 absolute group hover:border-blue-500 hover:border-solid transition-all duration-300 text-center top-1/2 z-30 rotate-48 left-[30%] sm:left-[25%] border-[1.3px] border-rose-700 border-dashed shadow-2xl items-center justify-center">
-              <div className="md:w-1/2 w-5/12 h-1/2 rounded-full">
-                <div className="absolute md:w-1/2 w-10/12 capitalize border-2 border-primary/20 bg-white px-3 py-2 group-hover:scale-105 transition-all duration-300 rounded-md shadow-lg cursor-pointer text-neutral-dark -right-32 md:-right-22 md:-bottom-10 -bottom-1 -rotate-48">
-                  <p className='lg:text-[10px] text-[8px] text-gray-400'>After 4 footfalls and 2 wheel rotations</p>
-                  <div className='flex bg-gray-100 py-1 rounded-sm  items-center justify-center gap-2'>
-                    <h1 className='xl:text-3xl text-lg font-bold group-hover:text-primary transition-all duration-300'>66.6%</h1>
-                    <h2 className='lg:text-sm text-xs font-bold text-gray-600 mt-2'>effective</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex sm:w-6/12 md:w-1/3 w-7/12 lg:w-1/2 absolute group hover:border-blue-500 hover:border-solid transition-all duration-300 text-center top-7/12 lg:top-1/2 z-30 rotate-58 sm:rotate-61 lg:rotate-58 left-0 sm:left-10 md:left-30 lg:left-0 border-[1.3px] border-rose-700 border-dashed shadow-2xl items-center justify-center">
-              <div className="w-1/2 h-1/2 rounded-full">
-                <div className="absolute md:w-8/12 w-11/12 sm:w-7/12 capitalize border-2 border-primary/20 bg-white px-3 py-2 group-hover:scale-105 transition-all duration-300 rounded-md shadow-lg cursor-pointer text-neutral-dark md:-right-30 -right-30 -bottom-16 md:-bottom-5 -rotate-58 sm:-rotate-61 lg:-rotate-58">
-                  <div className='flex bg-gray-100 py-1 rounded-sm items-center justify-center gap-2'>
-                    <h1 className='xl:text-3xl text-lg font-bold group-hover:text-primary transition-all duration-300'>33.3%</h1>
-                    <h2 className='lg:text-sm text-xs font-bold text-gray-600 mt-2'>effective</h2>
-                  </div>
-                  <p className='lg:text-[10px] text-[8px] text-gray-400'>After 4 footfalls and 1 wheel rotations</p>
-                </div>
-              </div>
-            </div> */}
-
-
-            {/* <div
-              ref={canvasContainerRef}
-              className="relative -mt-30 lg:-mt-80 w-full max-w-full h-[700px] xl:h-[800px]"
-            >
-              Decorative frame effect
-              <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-primary/10 via-transparent to-primary/5 -z-10 blur-2xl "></div>
-              <Canvas
-                camera={{ position: [-0.5, 0, 5], fov: 75 }}
-                gl={{ antialias: true, alpha: true, preserveDrawingBuffer: true }}
-                className="w-full h-full"
-                dpr={[1, 2]}
-              >
-                <ambientLight intensity={0.4} />
-                <directionalLight position={[5, 5, 5]} intensity={1.5} castShadow />
-                <directionalLight position={[-5, 5, -5]} intensity={1} color="#e0e7ff" />
-                <spotLight position={[0, 10, 0]} intensity={0.8} angle={0.5} penumbra={1} />
-
-                <InteractiveOrbitControls
-                  mouseX={mouseX}
-                  fixedRotationAmount={0.15}
-                  modelGroupRef={modelGroupRef}
-                />
-                <Suspense
-                  fallback={
-                    <mesh>
-                      <boxGeometry args={[1, 1, 1]} />
-                      <meshStandardMaterial color="gray" />
-                    </mesh>
-                  }
-                >
-                  <CarpetModel groupRef={modelGroupRef} />
-                </Suspense>
-              </Canvas>
-
-   
-            </div> */}
 
           </motion.div>
         </div>

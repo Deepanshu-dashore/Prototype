@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { 
+import {
   DocumentTextIcon,
   WrenchScrewdriverIcon,
   ShieldCheckIcon,
@@ -13,7 +13,7 @@ export default function SupportResources() {
   const resources = [
     {
       icon: DocumentTextIcon,
-      title: 'CC Heavy Duty Technical Sheet',
+      title: 'CCM Heavy Duty Technical Sheet',
       href: '#technical',
     },
     {

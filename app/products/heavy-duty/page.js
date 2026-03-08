@@ -4,24 +4,23 @@ import { getProductBySlug } from "../../../src/utils/productsData";
 import { notFound } from "next/navigation";
 
 export const metadata = {
-  title:
-    "Heavy Duty Contamination Control | Industrial Strength Mats | CC Matting",
+  title: "Heavy Duty Contamination Control Mats | Industrial Strength",
   description:
-    "CCM Heavy Duty mats are designed for high-traffic industrial environments. Superior durability and high-performance contamination control for heavy machinery and forklift areas.",
+    "CCM Heavy Duty mats are designed for high-traffic industrial environments. Superior durability and performance for heavy machinery and forklift areas.",
   alternates: {
-    canonical: "https://ccmatting.com/products/heavy-duty",
+    canonical: "https://www.ccmatting.ie/products/heavy-duty",
   },
   openGraph: {
-    title: "Heavy Duty Contamination Control | CC Matting",
+    title: "Heavy Duty Contamination Control | Industrial Strength",
     description:
-      "Industrial strength mats for heavy traffic and machinery areas. High-performance contamination control.",
-    url: "https://ccmatting.com/products/heavy-duty",
+      "Industrial strength polymeric mats for heavy traffic and forklift areas. High-performance contamination control for factories and warehouses.",
+    url: "https://www.ccmatting.ie/products/heavy-duty",
     siteName: "CC Matting",
-    locale: "en_US",
+    locale: "en_IE",
     type: "website",
     images: [
       {
-        url: "https://ccmatting.com/assets/products Page/HeavyDutyHeader.png",
+        url: "/CCMate-Logo.jpg",
         width: 1200,
         height: 630,
         alt: "Heavy Duty Contamination Control Mats",
@@ -31,9 +30,8 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Heavy Duty Contamination Control | CC Matting",
-    description:
-      "Industrial strength mats for heavy traffic and machinery areas.",
-    images: ["https://ccmatting.com/assets/products Page/HeavyDutyHeader.png"],
+    description: "Industrial strength mats for heavy traffic and machinery.",
+    images: ["/CCMate-Logo.jpg"],
   },
 };
 

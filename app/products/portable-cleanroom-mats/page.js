@@ -2,23 +2,23 @@ import PublicLayout from "../../../src/components/share/PublicLayout";
 import PortableCleanroomMatsContent from "../../../src/components/products/PortableCleanroomMatsContent";
 
 export const metadata = {
-  title: "Portable Cleanroom Mats | Mobile Contamination Control | CC Matting",
+  title: "Portable Cleanroom Mats | Mobile Contamination Control",
   description:
-    "CCM Portable Cleanroom Mats offer flexible, loose-laid contamination control. Ideal for raised access floors and areas requiring modular cleanroom solutions.",
+    "CCM Portable Cleanroom Mats offer flexible, loose-laid contamination control for raised access floors and modular cleanroom environments.",
   alternates: {
-    canonical: "https://ccmatting.com/products/portable-cleanroom-mats",
+    canonical: "https://www.ccmatting.ie/products/portable-cleanroom-mats",
   },
   openGraph: {
-    title: "Portable Cleanroom Mats | CC Matting",
+    title: "Portable Cleanroom Mats | CC Matting Ireland",
     description:
       "Flexible and mobile contamination control solutions for critical areas. No permanent adhesion required.",
-    url: "https://ccmatting.com/products/portable-cleanroom-mats",
+    url: "https://www.ccmatting.ie/products/portable-cleanroom-mats",
     siteName: "CC Matting",
-    locale: "en_US",
+    locale: "en_IE",
     type: "website",
     images: [
       {
-        url: "https://ccmatting.com/assets/products Page/CleanRoomMate.png",
+        url: "/CCMate-Logo.jpg",
         width: 1200,
         height: 630,
         alt: "Portable Cleanroom Mats",
@@ -27,10 +27,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Portable Cleanroom Mats | CC Matting",
-    description:
-      "Flexible and mobile contamination control solutions for critical areas.",
-    images: ["https://ccmatting.com/assets/products Page/CleanRoomMate.png"],
+    title: "Portable Cleanroom Mats | CC Matting Ireland",
+    description: "Flexible and mobile contamination control solutions.",
+    images: ["/CCMate-Logo.jpg"],
   },
 };
 

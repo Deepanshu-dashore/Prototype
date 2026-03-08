@@ -4,17 +4,18 @@ import ContactFormSection from "../../src/components/contact/ContactFormSection"
 import Distibutor from "@/src/components/contact/Distibutor";
 
 export const metadata = {
-  title: "Contact Us | CC Matting | Contamination Control Support",
+  title: "Contact Us - Expert Contamination Control Guidance",
   description:
-    "Get in touch with CC Matting for expert contamination control solutions. Request a quote for cleanroom mats, anti-fatigue flooring, and industry-specific protection.",
+    "Get in touch with CC Matting for expert contamination control solutions in Ireland. Request a quote or site survey for cleanroom and polymeric matting.",
   alternates: {
-    canonical: "https://ccmatting.com/contact",
+    canonical: "https://www.ccmatting.ie/contact",
   },
   openGraph: {
     title: "Contact CC Matting | Expert Contamination Control Solutions",
     description:
-      "Inquiry about our Up to 99% effective contamination control mats. Our team is ready to assist you with your cleanroom needs.",
-    url: "https://ccmatting.com/contact",
+      "Inquiry about our up to 99.9% effective polymeric mats. Our team is ready to assist you with your cleanroom needs.",
+    url: "https://www.ccmatting.ie/contact",
+    images: ["/CCMate-Logo.jpg"],
     type: "website",
   },
 };
