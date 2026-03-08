@@ -244,47 +244,34 @@ export default function Hero({ onSecondaryClick }) {
               transition={{ duration: 0.7, delay: 0.35 }}
               className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-8 pr-0 sm:pr-10"
             >
-              {[
-                {
-                  label: "CE Marking",
-                  icon: (
-                    <svg className="w-3.5 h-3.5 text-primary/80" viewBox="0 0 48 48">
-                      <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M22 42c-9.941 0-18-8.059-18-18S12.059 6 22 6m22 36c-9.941 0-18-8.059-18-18S34.059 6 44 6M26 24h11" />
-                    </svg>
-                  ),
-                  color: "bg-primary/5 border-primary/15"
-                },
-                {
-                  label: "REACH Compliance",
-                  icon: (
-                    <svg className="w-4 h-4 text-primary/80" viewBox="0 0 16 16">
-                      <path fill="currentColor" d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z" />
-                    </svg>
-                  ),
-                  color: "bg-primary/5 border-primary/15"
-                },
-                {
-                  label: "VOCs Tested",
-                  icon: (
-                    <svg className="w-4 h-4 text-primary/80" viewBox="0 0 512 512">
-                      <path fill="currentColor" d="M161.563 19.28c10.093 10.734 16.743 23.678 20.562 37.657c6.202 22.707 5.806 48.148 3.72 74.094c-4.176 51.894-14.58 106.512-2.44 140.407c11.396 31.814 29.668 50.71 49.94 60c8.72 3.998 17.9 6.21 27.186 6.782c22.195-65.084 17.46-148.144-19.06-204.283c48.352 48.234 71.19 121.068 56.436 197.407l-8.78 3.53a90 90 0 0 0 8.093-2.843c41.783-16.87 75.975-66.253 61.75-138.655c-6.536-33.265-28.966-80.165-66.5-116.5c-32.472-31.432-75.827-55.212-130.908-57.594zM445.53 202.813c-.84 12.1-4.638 23.528-10.56 33.907c-10.353 18.14-26.448 33.757-43.876 48.593c-34.856 29.67-75.057 57.156-88.313 85.218c-12.555 26.583-12.884 49.252-6.186 67.283a65.9 65.9 0 0 0 12.625 20.968c53.708-26.787 101.73-80.91 113.81-138.03c.076 59.646-30.63 118.687-86.624 156.906c35.802 14.545 86.282 5.034 121.72-47.75c16.418-24.456 31.558-67.3 30.812-112.875c-.634-38.688-12.264-79.23-43.407-114.217zm-424.874 73.47c-9.483 45.878.708 86.832 19.5 120.656c22.136 39.84 56.682 69.376 83.125 82.343c57.07 27.988 105.514 10.968 129.25-19.53c-67.59-5.1-123.692-40.873-153.436-92.563c39.02 43.428 107.658 66.29 167.562 62.625a65.8 65.8 0 0 0 .47-24.468c-3.214-18.965-14.87-38.447-39.032-55.188c-25.505-17.67-74.045-21.36-119.063-29.625c-22.508-4.13-44.247-9.59-62.28-20.124c-10.323-6.03-19.314-14.06-26.094-24.125z" />
-                    </svg>
-                  ),
-                  color: "bg-primary/5 border-primary/15"
-                }
-              ].map((badge, i) => (
-                <div
-                  key={i}
-                  className="group flex items-center gap-2 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl bg-white border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300 transition-all duration-300"
-                >
-                  <div className={`w-7 h-7 sm:w-8 sm:h-8 ${badge.color} border rounded-full flex items-center justify-center shrink-0`}>
-                    {badge.icon}
-                  </div>
-                  <span className={`text-[10px] ${badge.label === "REACH Compliance" ? 'text-nowrap' : ''} sm:text-xs font-bold text-neutral-800 tracking-wide uppercase ${i === 0 ? 'text-nowrap' : ''}`}>
-                    {badge.label}
-                  </span>
+              {/* CE Marking */}
+              <div className="group w-full inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className="relative w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-primary/70" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M22 42c-9.941 0-18-8.059-18-18S12.059 6 22 6m22 36c-9.941 0-18-8.059-18-18S34.059 6 44 6M26 24h11"></path></svg>
                 </div>
-              ))}
+                <span className="lg:text-xs text-[10px] font-medium text-neutral-700 tracking-wide">CE Marking</span>
+              </div>
+
+              {/* BPR - EPA Compliance */}
+              <div className="group w-full sm:text-nowrap inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className=" w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-primary/70" viewBox="0 0 16 16">
+                    <path fill="currentColor" d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"></path>
+                  </svg>
+                </div>
+                <span className="lg:text-xs text-[10px] font-medium text-neutral-700 tracking-wide">REACH Compliance</span>
+              </div>
+
+              {/* Zero VOCs */}
+              <div className="group w-full inline-flex items-center gap-2 px-5 py-2 rounded-md bg-white/60 backdrop-blur-sm border border-neutral-200/60 shadow-sm hover:shadow-md hover:border-neutral-300/80 transition-all duration-300">
+                <div className=" w-6 h-6 bg-primary/8 p-1 border border-primary/40 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5 text-primary/70" viewBox="0 0 512 512">
+                    <path fill="currentColor" d="M161.563 19.28c10.093 10.734 16.743 23.678 20.562 37.657c6.202 22.707 5.806 48.148 3.72 74.094c-4.176 51.894-14.58 106.512-2.44 140.407c11.396 31.814 29.668 50.71 49.94 60c8.72 3.998 17.9 6.21 27.186 6.782c22.195-65.084 17.46-148.144-19.06-204.283c48.352 48.234 71.19 121.068 56.436 197.407l-8.78 3.53a90 90 0 0 0 8.093-2.843c41.783-16.87 75.975-66.253 61.75-138.655c-6.536-33.265-28.966-80.165-66.5-116.5c-32.472-31.432-75.827-55.212-130.908-57.594zM445.53 202.813c-.84 12.1-4.638 23.528-10.56 33.907c-10.353 18.14-26.448 33.757-43.876 48.593c-34.856 29.67-75.057 57.156-88.313 85.218c-12.555 26.583-12.884 49.252-6.186 67.283a65.9 65.9 0 0 0 12.625 20.968c53.708-26.787 101.73-80.91 113.81-138.03c.076 59.646-30.63 118.687-86.624 156.906c35.802 14.545 86.282 5.034 121.72-47.75c16.418-24.456 31.558-67.3 30.812-112.875c-.634-38.688-12.264-79.23-43.407-114.217zm-424.874 73.47c-9.483 45.878.708 86.832 19.5 120.656c22.136 39.84 56.682 69.376 83.125 82.343c57.07 27.988 105.514 10.968 129.25-19.53c-67.59-5.1-123.692-40.873-153.436-92.563c39.02 43.428 107.658 66.29 167.562 62.625a65.8 65.8 0 0 0 .47-24.468c-3.214-18.965-14.87-38.447-39.032-55.188c-25.505-17.67-74.045-21.36-119.063-29.625c-22.508-4.13-44.247-9.59-62.28-20.124c-10.323-6.03-19.314-14.06-26.094-24.125z" strokeWidth={13} stroke="currentColor"></path>
+                  </svg>
+                </div>
+                <span className="lg:text-xs text-[10px] font-medium text-neutral-700 tracking-wide">VOCs tested</span>
+              </div>
+
             </motion.div>
 
             {/* Enhanced CTA buttons */}
