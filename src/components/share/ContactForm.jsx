@@ -43,13 +43,13 @@ export default function ContactForm({ isOpen, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     // Handle form submission here
-    console.log('Form submitted:', formData)
-    
+    // console.log('Form submitted:', formData)
+
     // Track form submission
     trackFormSubmit('contact_modal', {
       phone: formData.phone,
     })
-    
+
     // Reset form
     setFormData({ name: '', email: '', phone: selectedCountry.dialCode, message: '' })
     onClose()
@@ -137,7 +137,7 @@ export default function ContactForm({ isOpen, onClose }) {
             className="fixed inset-0 bg-black/50 z-50"
             aria-hidden="true"
           />
-          
+
           {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -161,11 +161,11 @@ export default function ContactForm({ isOpen, onClose }) {
                   <XMarkIcon className="w-5 h-5 text-neutral-dark" aria-hidden="true" />
                 </button>
               </div>
-              
+
               <div className="flex-1 overflow-y-auto relative">
                 {/* Double Color Background - 3/4 accent, 1/4 white */}
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(9, 31, 208, 0.1) 0%, rgba(9, 31, 208, 0.1) 75%, white 75%, white 100%)' }} />
-                
+
                 {activeTab === 'home' && (
                   <div className="relative p-3 lg:p-4">
                     <div className="bg-white rounded-lg shadow-sm border border-neutral-dark/10 p-4 lg:p-5">
@@ -173,7 +173,7 @@ export default function ContactForm({ isOpen, onClose }) {
                       <p className="text-xs text-neutral-dark/70 mb-4">
                         Please fill out the form below and we will get back to you as soon as possible.
                       </p>
-                      
+
                       <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                           <input
@@ -187,7 +187,7 @@ export default function ContactForm({ isOpen, onClose }) {
                             className="w-full px-3 py-2.5 text-sm border border-neutral-dark/15 rounded-lg bg-white text-neutral-dark placeholder:text-neutral-dark/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                           />
                         </div>
-                        
+
                         <div>
                           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-1.5">
                             <div className="relative" ref={countryDropdownRef}>
@@ -200,7 +200,7 @@ export default function ContactForm({ isOpen, onClose }) {
                                 <span className="text-xs text-neutral-dark font-medium">{selectedCountry.dialCode}</span>
                                 <ChevronDownIcon className={`w-3.5 h-3.5 text-neutral-dark/60 transition-transform ${isCountryDropdownOpen ? 'rotate-180' : ''}`} />
                               </button>
-                              
+
                               <AnimatePresence>
                                 {isCountryDropdownOpen && (
                                   <motion.div
@@ -215,9 +215,8 @@ export default function ContactForm({ isOpen, onClose }) {
                                         key={country.code}
                                         type="button"
                                         onClick={() => handleCountrySelect(country)}
-                                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-neutral-light/50 transition-colors text-left ${
-                                          selectedCountry.code === country.code ? 'bg-primary/5' : ''
-                                        }`}
+                                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-neutral-light/50 transition-colors text-left ${selectedCountry.code === country.code ? 'bg-primary/5' : ''
+                                          }`}
                                       >
                                         <span className="text-base">{country.flag}</span>
                                         <span className="text-xs text-neutral-dark font-medium flex-1">{country.name}</span>
@@ -240,7 +239,7 @@ export default function ContactForm({ isOpen, onClose }) {
                             />
                           </div>
                         </div>
-                        
+
                         <div>
                           <input
                             type="email"
@@ -253,7 +252,7 @@ export default function ContactForm({ isOpen, onClose }) {
                             className="w-full px-3 py-2.5 text-sm border border-neutral-dark/15 rounded-lg bg-white text-neutral-dark placeholder:text-neutral-dark/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                           />
                         </div>
-                        
+
                         <div>
                           <textarea
                             id="message"
@@ -266,7 +265,7 @@ export default function ContactForm({ isOpen, onClose }) {
                             className="w-full px-3 py-2.5 text-sm border border-neutral-dark/15 rounded-lg bg-white text-neutral-dark placeholder:text-neutral-dark/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none transition-all"
                           />
                         </div>
-                        
+
                         <button
                           type="submit"
                           className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-cta text-white text-sm font-semibold hover:scale-[1.02] active:scale-[0.98] transform transition-all duration-200 shadow-md hover:shadow-lg"
@@ -278,7 +277,7 @@ export default function ContactForm({ isOpen, onClose }) {
                     </div>
                   </div>
                 )}
-                
+
                 {activeTab === 'history' && (
                   <div className="relative p-4 lg:p-5">
                     <div className="bg-white rounded-lg shadow-sm border border-neutral-dark/10 p-6 lg:p-8">
@@ -316,37 +315,33 @@ export default function ContactForm({ isOpen, onClose }) {
                   </div>
                 )}
               </div>
-              
+
               {/* Bottom Tab Navigation Footer Bar */}
               <div className="bg-white border-t border-neutral-dark/10 rounded-b-xl shrink-0 shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
                 <div className="flex items-center">
                   <button
                     onClick={() => setActiveTab('home')}
-                    className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 px-3 transition-all duration-200 relative ${
-                      activeTab === 'home'
+                    className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 px-3 transition-all duration-200 relative ${activeTab === 'home'
                         ? 'text-primary'
                         : 'text-neutral-dark/60 hover:text-neutral-dark'
-                    }`}
+                      }`}
                   >
-                    <div className={`absolute top-0 left-0 right-0 h-0.5 transition-all duration-200 ${
-                      activeTab === 'home' ? 'bg-primary' : 'bg-transparent'
-                    }`} />
+                    <div className={`absolute top-0 left-0 right-0 h-0.5 transition-all duration-200 ${activeTab === 'home' ? 'bg-primary' : 'bg-transparent'
+                      }`} />
                     <HomeIcon className={`w-5 h-5 transition-transform ${activeTab === 'home' ? 'scale-110' : ''}`} />
                     <span className="text-[10px] font-semibold">Home</span>
                   </button>
                   <div className="w-px h-6 bg-neutral-dark/10" />
                   <button
                     onClick={() => setActiveTab('history')}
-                    className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 px-3 transition-all duration-200 relative ${
-                      activeTab === 'history'
+                    className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 px-3 transition-all duration-200 relative ${activeTab === 'history'
                         ? 'text-primary'
                         : 'text-neutral-dark/60 hover:text-neutral-dark'
-                    }`}
+                      }`}
                     aria-label="Chat History"
                   >
-                    <div className={`absolute top-0 left-0 right-0 h-0.5 transition-all duration-200 ${
-                      activeTab === 'history' ? 'bg-primary' : 'bg-transparent'
-                    }`} />
+                    <div className={`absolute top-0 left-0 right-0 h-0.5 transition-all duration-200 ${activeTab === 'history' ? 'bg-primary' : 'bg-transparent'
+                      }`} />
                     <ClockIcon className={`w-5 h-5 transition-transform ${activeTab === 'history' ? 'scale-110' : ''}`} />
                     <span className="text-[10px] font-semibold">History</span>
                   </button>

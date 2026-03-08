@@ -47,7 +47,7 @@ export default function Sidebar() {
             router.push('/login')
             router.refresh()
         } catch (error) {
-            console.error('Logout failed:', error)
+            // console.error('Logout failed:', error)
             document.cookie = 'user=; max-age=0; path=/; SameSite=Strict'
             router.push('/login')
         } finally {

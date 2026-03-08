@@ -34,7 +34,7 @@ export default function FloatingMessageButton({ onContactClick }) {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-          className="fixed bottom-16 lg:bottom-6 right-2 lg:right-6 z-999 lg:right-8"
+          className="fixed bottom-16 lg:bottom-6 right-2 lg:right-6 z-999 xl:right-8"
         >
           <button
             onClick={handleClick}

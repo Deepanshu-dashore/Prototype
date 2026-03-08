@@ -13,7 +13,7 @@ export default function MarqueeBar() {
                 const res = await axios.get("/api/tag-line");
                 setText(res.data?.data || "");
             } catch (error) {
-                console.error("Failed to load tagline:", error);
+                // console.error("Failed to load tagline:", error);
                 setText("Welcome to CC Matting - Industry leading solutions for all your needs");
             } finally {
                 setLoading(false);

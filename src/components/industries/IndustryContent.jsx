@@ -16,7 +16,7 @@ export default function IndustryContent({ industry }) {
                 const all = getAllIndustries();
                 setRelatedIndustries(all.filter(ind => ind.slug !== industry.slug));
             } catch (error) {
-                console.error("Error loading related industries:", error);
+                // console.error("Error loading related industries:", error);
             }
         };
         loadRelatedContent();

@@ -81,7 +81,7 @@ function CarpetModel({ groupRef }) {
   useLayoutEffect(() => {
     if (gltf?.scene && modelRef.current && !initializedRef.current) {
       try {
-        console.log('Loading carpet model...', gltf)
+        // console.log('Loading carpet model...', gltf)
 
         // Calculate bounding box of the original scene
         const box = new THREE.Box3().setFromObject(gltf.scene)
@@ -91,14 +91,14 @@ function CarpetModel({ groupRef }) {
           const size = box.getSize(new THREE.Vector3())
           const maxDim = Math.max(size.x, size.y, size.z)
 
-          console.log('Model dimensions:', size, 'Max:', maxDim, 'Center:', center)
+          // console.log('Model dimensions:', size, 'Max:', maxDim, 'Center:', center)
 
           if (maxDim > 0) {
             // Scale to fit in view (target size around 3-4 units)
             const targetSize = 3.5
             const scale = targetSize / maxDim
 
-            console.log('Calculated scale:', scale)
+            // console.log('Calculated scale:', scale)
 
             // Apply transformations to the group wrapper
             // Center the group (move it to negative center to center the model)
@@ -108,15 +108,15 @@ function CarpetModel({ groupRef }) {
             // Scale the group
             modelRef.current.scale.set(scale, scale, scale)
 
-            console.log('Group positioned at:', modelRef.current.position, 'Scale:', modelRef.current.scale)
+            // console.log('Group positioned at:', modelRef.current.position, 'Scale:', modelRef.current.scale)
           }
         } else {
-          console.warn('Model bounding box is empty')
+          // console.warn('Model bounding box is empty')
         }
 
         initializedRef.current = true
       } catch (error) {
-        console.error('Error processing model:', error)
+        // console.error('Error processing model:', error)
       }
     }
   }, [gltf, modelRef])
@@ -133,7 +133,7 @@ function CarpetModel({ groupRef }) {
   })
 
   if (!gltf?.scene) {
-    console.log('Scene not loaded yet')
+    // console.log('Scene not loaded yet')
     return null
   }
 

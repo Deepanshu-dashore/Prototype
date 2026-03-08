@@ -99,7 +99,7 @@ export default function DistributorSection() {
                             transition={{ duration: 0.6, delay: 0.15 }}
                             className="lg:col-span-3 flex justify-center lg:justify-end"
                         >
-                            <div className="relative w-full max-w-[280px] bg-gradient-to-br  bg-primary rounded-2xl p-8 shadow-lg flex flex-col items-center justify-center gap-4 group hover:shadow-xl transition-shadow duration-300">
+                            <div className="relative w-full max-w-[280px] bg-linear-to-br  bg-primary rounded-2xl p-8 shadow-lg flex flex-col items-center justify-center gap-4 group hover:shadow-xl transition-shadow duration-300">
                                 {/* Decorative corner accent */}
                                 <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-3xl rounded-tr-2xl pointer-events-none" />
 
@@ -124,7 +124,7 @@ export default function DistributorSection() {
                                     Supported by Enterprise Ireland for worldwide distribution
                                 </p>
 
-                                <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+                                <div className="w-full h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
 
                                 <div className="flex items-center gap-2 text-xs text-white font-semibold">
                                     <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
@@ -140,13 +140,13 @@ export default function DistributorSection() {
             {/* ── Section 2: Become a Distributor ── */}
             <section
                 id="become-distributor"
-                className="bg-gradient-to-br from-[#0047AB] via-indigo-700 to-indigo-800 py-16 sm:py-20 relative overflow-hidden"
+                className="bg-linear-to-br from-[#0047AB] via-indigo-700 to-indigo-800 py-16 sm:py-20 relative overflow-hidden"
             >
                 <div className="pointer-events-none absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.04]" aria-hidden />
 
                 {/* Decorative geometric shapes */}
-                <div className="pointer-events-none absolute -right-16 -top-16 w-64 h-64 border-[32px] border-white/5 rotate-12 rounded-sm" />
-                <div className="pointer-events-none absolute -left-8 -bottom-8 w-48 h-48 border-[24px] border-white/5 -rotate-6 rounded-sm" />
+                <div className="pointer-events-none absolute -right-16 -top-16 w-64 h-64 border-32 border-white/5 rotate-12 rounded-sm" />
+                <div className="pointer-events-none absolute -left-8 -bottom-8 w-48 h-48 border-24 border-white/5 -rotate-6 rounded-sm" />
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <motion.div
@@ -181,8 +181,8 @@ export default function DistributorSection() {
                                     a long-term, mutually beneficial collaboration.
                                 </p>
 
-                                                    {/* Bottom CTA */}
-                
+                                {/* Bottom CTA */}
+
                             </div>
 
                             {/* <div className="flex flex-col sm:flex-row gap-4 pt-2">
@@ -227,21 +227,21 @@ export default function DistributorSection() {
                         </div>
                     </motion.div>
                 </div>
-                    <motion.div
-                        initial={{ opacity: 1, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        className="mt-12 text-center opacity-100"
+                <motion.div
+                    initial={{ opacity: 1, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                    className="mt-12 text-center opacity-100"
+                >
+                    <Link
+                        href="/distributor/register"
+                        className="relative inline-flex opacity-100 items-center gap-2 bg-white text-primary px-10 py-4 rounded-lg font-extrabold text-lg  transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 group"
                     >
-                        <Link
-                            href="/distributor/register"
-                            className="relative inline-flex opacity-100 items-center gap-2 bg-white text-primary px-10 py-4 rounded-lg font-extrabold text-lg  transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 group"
-                        >
-                            Register as a Distributor
-                            <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                    </motion.div>
+                        Register as a Distributor
+                        <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                </motion.div>
             </section>
 
             {/* ── Section 3: Benefits of Becoming a Distributor ── */}
