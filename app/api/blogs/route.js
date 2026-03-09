@@ -28,7 +28,11 @@ export async function GET(request) {
       }
       return ApiResponse(
         200,
-        { ...blog.toObject(), featuredImage: getImageUrl(blog.featuredImage) },
+        {
+          ...blog.toObject(),
+          featuredImage:
+            blog.featuredImage !== "" ? getImageUrl(blog.featuredImage) : "",
+        },
         "Blog fetched by ID successfully",
       );
     }
@@ -121,7 +125,8 @@ export async function GET(request) {
         blogs: blogs?.map((blog) => {
           return {
             ...blog,
-            featuredImage: getImageUrl(blog.featuredImage),
+            featuredImage:
+              blog.featuredImage !== "" ? getImageUrl(blog.featuredImage) : "",
           };
         }),
       },
@@ -185,13 +190,8 @@ export async function POST(request) {
 
     let uploaded = { url: "" };
     // blog image check
-    if (featuredImage && typeof featuredImage !== "string") {
-      uploaded = await CloudneryService.upload(
-        featuredImage,
-        "blogs",
-        "image",
-        "image",
-      );
+    if (featuredImage) {
+      uploaded = await CloudneryService.upload(featuredImage, "blogs", "image");
     }
 
     // Sanitize content to prevent XSS
@@ -305,7 +305,6 @@ export async function PATCH(request) {
       const uploaded = await CloudneryService.upload(
         featuredImage,
         "blogs",
-        "image",
         "image",
       );
       if (uploaded) {
