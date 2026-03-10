@@ -23,7 +23,7 @@ export const metadata = {
   description:
     "Explore all pages and sections of the CC Matting Ireland website for easy navigation and information access.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/site-map",
+    canonical: "https://www.ccmatting.co.uk/site-map",
   },
 };
 

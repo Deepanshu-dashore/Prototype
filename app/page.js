@@ -14,13 +14,13 @@ export const metadata = {
   description:
     "Leading provider of advanced polymeric contamination control matting. Proven up to 99.9% particle retention for cleanrooms, laboratories, and critical environments.",
   alternates: {
-    canonical: "https://www.ccmatting.ie",
+    canonical: "https://www.ccmatting.co.uk",
   },
   openGraph: {
     title: "CC Matting | World-Class Contamination Control Solutions",
     description:
       "Protect your critical environments with up to 99.9% effective polymeric matting. Optimized for cleanrooms, pharma, and healthcare.",
-    url: "https://www.ccmatting.ie",
+    url: "https://www.ccmatting.co.uk",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

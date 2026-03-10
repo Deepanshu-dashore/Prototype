@@ -6,13 +6,13 @@ export const metadata = {
   description:
     "See CC Matting solutions in action. Learn about installation, maintenance, and the science behind polymeric contamination control.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/videos",
+    canonical: "https://www.ccmatting.co.uk/videos",
   },
   openGraph: {
     title: "Informative Videos | CC Matting Ireland",
     description:
       "Watch how our polymeric contamination control mats protect critical environments.",
-    url: "https://www.ccmatting.ie/videos",
+    url: "https://www.ccmatting.co.uk/videos",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

@@ -8,18 +8,18 @@ export default function QuickContactStrip() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-center gap-6 lg:gap-8">
           <a
-            href="tel:+353214701669"
+            href="tel:+447704211817"
             className="flex items-center gap-2 text-neutral-dark font-medium hover:text-primary transition-colors"
           >
             <PhoneIcon className="w-5 h-5" aria-hidden="true" />
             <span>021 4701669</span>
           </a>
           <a
-            href="mailto:sales@ccmatting.ie"
+            href="mailto:sales@ccmatting.co.uk"
             className="flex items-center gap-2 text-neutral-dark font-medium hover:text-primary transition-colors"
           >
             <EnvelopeIcon className="w-5 h-5" aria-hidden="true" />
-            <span>sales@ccmatting.ie</span>
+            <span>sales@ccmatting.co.uk</span>
           </a>
           <a
             href="https://www.linkedin.com/company/ccmatting/"

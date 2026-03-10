@@ -383,7 +383,7 @@ export default function ContactHero() {
             <div className="mt-8 lg:mt-4 pt-4 space-y-6">
               <div className="flex flex-wrap items-center gap-6">
                 <a
-                  href="tel:+353214701669"
+                  href="tel:+447704211817"
                   onClick={handlePhoneClick}
                   className="inline-flex items-center gap-2 bg-primary text-white px-8 py-3.5 rounded-lg font-bold hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
                 >
