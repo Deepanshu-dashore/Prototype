@@ -6,13 +6,13 @@ export const metadata = {
   description:
     "Explore the technical benefits of CC Matting. Up to 99.9% particle retention, 8+ overstrikes, and silver biocide antimicrobial protection.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/features-benefits",
+    canonical: "https://www.ccmatting.co.uk/features-benefits",
   },
   openGraph: {
     title: "Features & Benefits | Advanced Contamination Control",
     description:
       "Proven up to 99.9% particle retention and antimicrobial protection. Discover the technology behind our high-performance polymeric mats.",
-    url: "https://www.ccmatting.ie/features-benefits",
+    url: "https://www.ccmatting.co.uk/features-benefits",
     images: ["/CCMate-Logo.jpg"],
     type: "website",
   },

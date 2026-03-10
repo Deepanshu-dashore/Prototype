@@ -376,7 +376,7 @@ export default function ContactHero() {
                   </span>
                 </div>
                 <a
-                  href="tel:+353214701669"
+                  href="tel:+447704211817"
                   onClick={handlePhoneClick}
                   className="inline-flex items-center gap-2 bg-primary text-white px-8 py-3.5 rounded-lg font-bold hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
                 >

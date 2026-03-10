@@ -16,31 +16,31 @@ export default function TechnicalContent() {
     const technicalItems = [
         {
             name: 'CC MATTING V PEEL OFF MATT COMPARISON',
-            href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf',
+            href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf',
             icon: ArrowsRightLeftIcon,
             description: 'Compare CC Matting with peel-off mats and discover the advantages of our contamination control solutions.',
         },
         {
             name: 'CC HEAVY DUTY TECHNICAL DATA SHEET',
-            href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf',
+            href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf',
             icon: DocumentTextIcon,
             description: 'Comprehensive technical specifications and data for our heavy-duty contamination control mats.',
         },
         {
             name: 'CC Matting cleaning procedure',
-            href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf',
+            href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf',
             icon: BeakerIcon,
             description: 'Step-by-step cleaning procedures to maintain optimal performance of your CC Matting products.',
         },
         {
             name: 'CC Matting Warranty',
-            href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf',
+            href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf',
             icon: ShieldCheckIcon,
             description: 'Complete warranty information and terms for all CC Matting contamination control products.',
         },
         {
             name: 'CC Matting Brochure',
-            href: 'https://www.ccmatting.ie/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf',
+            href: 'https://www.ccmatting.co.uk/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf',
             icon: BookOpenIcon,
             description: 'Download our comprehensive product brochure with detailed information about all our solutions.',
         },

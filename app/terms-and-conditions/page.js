@@ -5,7 +5,7 @@ export const metadata = {
   description:
     "Review the terms and conditions for CC Matting services, including warranty, maintenance, and liability policies for our polymeric matting solutions.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/terms-and-conditions",
+    canonical: "https://www.ccmatting.co.uk/terms-and-conditions",
   },
   robots: {
     index: false,
@@ -14,7 +14,7 @@ export const metadata = {
   openGraph: {
     title: "Terms and Conditions | CC Matting Ireland",
     description: "Terms and conditions of supply for CC Matting Ltd.",
-    url: "https://www.ccmatting.ie/terms-and-conditions",
+    url: "https://www.ccmatting.co.uk/terms-and-conditions",
     siteName: "CC Matting",
     images: ["/CCMate-Logo.jpg"],
     type: "website",
@@ -660,7 +660,7 @@ export default function TermsAndConditions() {
               className="mt-16 pt-10 border-t border-gray-100 text-center text-xs text-gray-500"
             >
               <p>
-                www.ccmatting.ie, Rockview, Farnahoe, Innishannon, Cork. CO. REG
+                www.ccmatting.co.uk, Rockview, Farnahoe, Innishannon, Cork. CO. REG
                 NO: 621482
               </p>
               <p className="mt-2 italic">
