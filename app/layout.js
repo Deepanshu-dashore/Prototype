@@ -2,7 +2,7 @@ import { ContactFormProvider } from "../src/components/share/ContactFormContext"
 import "./globals.css";
 
 export const metadata = {
-  metadataBase: new URL("https://www.ccmatting.ie"),
+  metadataBase: new URL("https://www.ccmatting.co.uk"),
   title: {
     default: "CC Matting - Contamination Control Solutions Ireland",
     template: "%s | CC Matting",
@@ -25,7 +25,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_IE",
-    url: "https://www.ccmatting.ie",
+    url: "https://www.ccmatting.co.uk",
     siteName: "CC Matting",
     title: "CC Matting - Contamination Control Solutions",
     description:

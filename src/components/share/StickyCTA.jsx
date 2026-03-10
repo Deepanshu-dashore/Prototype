@@ -24,7 +24,7 @@ export default function StickyCTA({ onContactClick }) {
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-4">
           <a
-            href="tel:+353214701669"
+            href="tel:+447704211817"
             onClick={handlePhoneClick}
             className="flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors"
           >

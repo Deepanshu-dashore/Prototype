@@ -5,7 +5,7 @@ import BlogGrid from "../../src/components/blog/BlogGrid";
 
 export async function generateMetadata({ searchParams }) {
   const { category, search } = await searchParams;
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://www.ccmatting.co.uk";
 
   let title = "Blogs - Contamination Control Insights | CC Matting";
   let description =
