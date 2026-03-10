@@ -102,7 +102,7 @@ export default function ProductContent({ product, slug }) {
                     >
                         <Link
                             target="_blank"
-                            href="https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf"
+                            href="https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf"
                             className="inline-flex items-center gap-2 bg-white text-neutral-dark px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-all shadow-md group"
                         >
                             <DocumentTextIcon className="w-5 h-5" />

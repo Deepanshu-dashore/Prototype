@@ -6,13 +6,13 @@ export const metadata = {
   description:
     "CCM Portable Cleanroom/Data Center Mats offer flexible, loose-laid contamination control for raised access floors and modular cleanroom environments.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/products/portable-cleanroom-mats",
+    canonical: "https://www.ccmatting.co.uk/products/portable-cleanroom-mats",
   },
   openGraph: {
     title: "Portable Cleanroom Mats | CC Matting Ireland",
     description:
       "Flexible and mobile contamination control solutions for critical areas. No permanent adhesion required.",
-    url: "https://www.ccmatting.ie/products/portable-cleanroom-mats",
+    url: "https://www.ccmatting.co.uk/products/portable-cleanroom-mats",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

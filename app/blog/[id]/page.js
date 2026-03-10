@@ -13,7 +13,7 @@ import Link from "next/link";
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const blog = await getBlogByIdOrSlug(id);
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://www.ccmatting.co.uk";
 
   if (!blog) {
     return {
@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }) {
     .filter((p) => p.slug !== blog.slug)
     .slice(0, 3);
 
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://www.ccmatting.co.uk";
 
   // JSON-LD Structured Data
   const jsonLd = {

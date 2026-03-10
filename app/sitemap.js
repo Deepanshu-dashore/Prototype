@@ -3,7 +3,7 @@ import { getPublicBlogs } from "@/src/utils/blogUtils";
 import { products as productData } from "@/src/utils/productsData";
 
 export default async function sitemap() {
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://www.ccmatting.co.uk";
   const lastModDefault = new Date("2026-03-08T11:23:50+00:00");
 
   // Dynamic Industries
@@ -93,7 +93,7 @@ export default async function sitemap() {
       lastMod: new Date("2026-03-06T15:43:57+00:00"),
     },
     {
-      url: "/compliances/doc/CCM%20NPI%20BROCH%20IE%202026.pdf",
+      url: "/compliances/doc/CCM%20NPI%20BROCHURE%202026%20UK.pdf",
       priority: 0.64,
       lastMod: new Date("2026-03-10T12:00:00+00:00"),
     },

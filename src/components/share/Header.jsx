@@ -85,11 +85,11 @@ export default function Header({ onContactClick }) {
     ],
     Technical: [
       { name: 'View All Technical Documents', href: '/technical', icon: FolderIcon },
-      { name: 'CC Matting vs Peel-Off Mat Comparison', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf', icon: ArrowsRightLeftIcon },
-      { name: 'CC Heavy Duty Technical Data Sheet', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf', icon: DocumentTextIcon },
-      { name: 'CC Matting Cleaning Procedure', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf', icon: BeakerIcon },
-      { name: 'CC Matting Warranty', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf', icon: ShieldCheckIcon },
-      { name: 'CC Matting Brochure', href: 'https://www.ccmatting.ie/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf', icon: BookOpenIcon },
+      { name: 'CC Matting vs Peel-Off Mat Comparison', href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf', icon: ArrowsRightLeftIcon },
+      { name: 'CC Heavy Duty Technical Data Sheet', href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf', icon: DocumentTextIcon },
+      { name: 'CC Matting Cleaning Procedure', href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf', icon: BeakerIcon },
+      { name: 'CC Matting Warranty', href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf', icon: ShieldCheckIcon },
+      { name: 'CC Matting Brochure', href: 'https://www.ccmatting.co.uk/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf', icon: BookOpenIcon },
     ],
     Compliance: [
       { name: 'Quality & Compliance Overview', href: '/compliance', icon: InformationCircleIcon },
@@ -100,7 +100,7 @@ export default function Header({ onContactClick }) {
       { name: 'BPR/EPA', href: '/compliance5', icon: GlobeAmericasIcon },
       { name: 'Static Dissipative Testing 2026', href: '/compliances/doc/CCM STATIC DISSIPATIVE TEST RESULTS 2026.pdf', icon: BoltIcon },
       { name: 'CCMatting Efficacy Data', href: '/compliance7', icon: ChartBarIcon },
-      { name: 'CCM NPI Brochure 2026', href: '/compliances/doc/CCM NPI BROCH IE 2026.pdf', icon: DocumentTextIcon },
+      { name: 'CCM NPI Brochure 2026', href: '/compliances/doc/CCM NPI BROCHURE 2026 UK.pdf', icon: DocumentTextIcon },
     ],
     Industries: industriesData.map(ind => ({
       name: ind.title.replace('Contamination Control Mats for ', '').replace(' Industry', ''), // Simplified naming logic

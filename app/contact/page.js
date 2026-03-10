@@ -8,13 +8,13 @@ export const metadata = {
   description:
     "Get in touch with CC Matting for expert contamination control solutions in Ireland. Request a quote or site survey for cleanroom and polymeric matting.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/contact",
+    canonical: "https://www.ccmatting.co.uk/contact",
   },
   openGraph: {
     title: "Contact CC Matting | Expert Contamination Control Solutions",
     description:
       "Inquiry about our up to 99.9% effective polymeric mats. Our team is ready to assist you with your cleanroom needs.",
-    url: "https://www.ccmatting.ie/contact",
+    url: "https://www.ccmatting.co.uk/contact",
     images: ["/CCMate-Logo.jpg"],
     type: "website",
   },
