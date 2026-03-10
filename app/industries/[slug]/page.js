@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://www.ccmatting.co.uk";
   const url = `${baseUrl}/industries/${slug}`;
 
   return {
