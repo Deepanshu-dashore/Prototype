@@ -21,7 +21,7 @@ export default function ComparisonTable() {
                     </div>
                     <div className="col-span-4 relative p-3 shadow-inner border border-gray-200">
                         <div className="text-center text-white relative px-5 py-3 bg-linear-to-br from-[#0b4bd4] via-[#1d63f2] to-[#3b82f6]">
-                            <span className="text-sm font-bold tracking-wide drop-shadow-md">CCM Portable Cleanroom Mats</span>
+                            <span className="text-sm font-bold tracking-wide drop-shadow-md">CCM Portable Cleanroom/Data Center Mats</span>
                             <div className="absolute left-1/2 -bottom-2 w-4 h-4 bg-[#1d63f2] -rotate-45 -translate-x-1/2 shadow-md" />
                         </div>
                     </div>

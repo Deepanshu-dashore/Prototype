@@ -15,11 +15,11 @@ export default function QuickContactStrip() {
             <span>021 4701669</span>
           </a>
           <a
-            href="mailto:info@ccmatting.ie"
+            href="mailto:sales@ccmatting.ie"
             className="flex items-center gap-2 text-neutral-dark font-medium hover:text-primary transition-colors"
           >
             <EnvelopeIcon className="w-5 h-5" aria-hidden="true" />
-            <span>info@ccmatting.ie</span>
+            <span>sales@ccmatting.ie</span>
           </a>
           <a
             href="https://www.linkedin.com/company/ccmatting/"

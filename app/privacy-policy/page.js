@@ -47,10 +47,10 @@ export default function PrivacyPolicy() {
               privacy notice, or our practices with regards to your personal
               information, please contact us at{" "}
               <a
-                href="mailto:info@ccmatting.ie"
+                href="mailto:sales@ccmatting.ie"
                 className="text-primary hover:underline"
               >
-                info@ccmatting.ie
+                sales@ccmatting.ie
               </a>
               .[1][2]
             </p>
@@ -417,10 +417,10 @@ export default function PrivacyPolicy() {
                 If you have questions or comments about your privacy rights, you
                 may email us at{" "}
                 <a
-                  href="mailto:info@ccmatting.ie"
+                  href="mailto:sales@ccmatting.ie"
                   className="text-primary hover:underline"
                 >
-                  info@ccmatting.ie
+                  sales@ccmatting.ie
                 </a>
                 .[2][1]
               </p>
@@ -486,10 +486,10 @@ export default function PrivacyPolicy() {
                 If you have questions or comments about this notice, you may
                 contact us by email at{" "}
                 <a
-                  href="mailto:info@ccmatting.ie"
+                  href="mailto:sales@ccmatting.ie"
                   className="text-primary hover:underline"
                 >
-                  info@ccmatting.ie
+                  sales@ccmatting.ie
                 </a>{" "}
                 or by phone at +353 21 470 1669.[4][5][1]
               </p>
@@ -507,10 +507,10 @@ export default function PrivacyPolicy() {
                 request to review, update, or delete your personal information,
                 please contact us at{" "}
                 <a
-                  href="mailto:info@ccmatting.ie"
+                  href="mailto:sales@ccmatting.ie"
                   className="text-primary hover:underline"
                 >
-                  info@ccmatting.ie
+                  sales@ccmatting.ie
                 </a>
                 .[1][2]
               </p>

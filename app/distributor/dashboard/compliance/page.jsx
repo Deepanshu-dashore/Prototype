@@ -34,7 +34,8 @@ export default function ComplianceDocsPage() {
         { name: "BPR/EPA", description: "Biocidal Products Regulation compliance data", icon: GlobeAmericasIcon, category: "Regulation", status: "Regulatory", href: "#" },
         { name: "Static Dissipative Testing", description: "ESD performance and resistance testing", icon: BoltIcon, category: "Performance", status: "Certified", href: "/compliances/doc/CCM STATIC DISSIPATIVE TEST RESULTS 2026.pdf" },
         { name: "CCMatting Efficacy Data", description: "Internal performance and validation data", icon: ChartBarIcon, category: "Performance", status: "Internal", href: "#" },
-        { name: "SDS SDS", description: "Safety data and material specifications", icon: ExclamationCircleIcon, category: "Safety", status: "Standard", href: "/compliances/doc/CCM MSDS.pdf" }
+        { name: "SDS SDS", description: "Safety data and material specifications", icon: ExclamationCircleIcon, category: "Safety", status: "Standard", href: "/compliances/doc/CCM MSDS.pdf" },
+        { name: "CCM NPI Brochure 2026", description: "New Product Introduction Brochure 2026", icon: DocumentTextIcon, category: "Product", status: "Current", href: "/compliances/doc/CCM NPI BROCH IE 2026.pdf" }
     ];
 
     useEffect(() => {

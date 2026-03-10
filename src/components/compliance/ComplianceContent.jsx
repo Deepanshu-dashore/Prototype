@@ -30,7 +30,8 @@ export default function ComplianceContent() {
         { name: "BPR/EPA", description: "Biocidal Products Regulation compliance data", icon: GlobeAmericasIcon, image: "/compliances/CardImage/EPA.png", href: "#" },
         { name: "Static Dissipative Testing", description: "ESD performance and resistance testing", icon: BoltIcon, image: "/compliances/CardImage/StaticDissipativeTesting.png", href: "/compliances/doc/CCM STATIC DISSIPATIVE TEST RESULTS 2026.pdf" },
         { name: "CCMatting Efficacy Data", description: "Internal performance and validation data", icon: ChartBarIcon, image: "/compliances/CardImage/CCMatting Efficacy Data.png", href: "#" },
-        { name: "SDS Safety Data Sheet", description: "Safety data and material specifications", icon: ExclamationCircleIcon, image: "/compliances/CardImage/SDS Safety Data Sheet.png", href: "/compliances/doc/CCM MSDS.pdf" }
+        { name: "SDS Safety Data Sheet", description: "Safety data and material specifications", icon: ExclamationCircleIcon, image: "/compliances/CardImage/SDS Safety Data Sheet.png", href: "/compliances/doc/CCM MSDS.pdf" },
+        { name: "CCM NPI Brochure 2026", description: "New Product Introduction Brochure 2026", icon: DocumentTextIcon, image: "/compliances/CardImage/CCMatting Efficacy Data.png", href: "/compliances/doc/CCM NPI BROCH IE 2026.pdf" }
     ];
 
     const logos = [
@@ -86,10 +87,10 @@ export default function ComplianceContent() {
                             CC Matting is committed to the highest standards of quality, safety, and environmental responsibility.
                         </p>
                         <p className="text-lg sm:text-xl text-neutral-dark/70 mt-4 max-w-6xl mx-auto leading-relaxed">
-                            "Our manufacturing processes are continuously audited to meet strict in-house quality standards.
+                            Our manufacturing processes are continuously audited to meet strict in-house quality standards.
                             All critical materials are <strong>rigorously tested</strong> to ensure consistent performance in demanding environments.<br />
                             We comply with national and international standards, including <strong>CE, REACH,</strong> and <strong>BPR/EPA regulations.</strong>
-                            Our supply chain is strictly monitored to ensure SVHC substances are absent or within safe limits"
+                            <br />Our supply chain is strictly monitored to ensure SVHC substances are absent or within safe limits.
                         </p>
                     </motion.div>
                 </div>

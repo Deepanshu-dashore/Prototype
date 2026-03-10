@@ -68,7 +68,7 @@ export default function Header({ onContactClick }) {
   const dropdownMenus = {
     Products: [
       { name: 'CCM Heavy Duty', href: '/products/heavy-duty', icon: Square3Stack3DIcon },
-      { name: 'CCM Portable Cleanroom Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
+      { name: 'CCM Portable Cleanroom/Data Center Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
       {
         name: 'CCM Anti-Fatigue Mats',
         href: '#anti-fatigue-mats',
@@ -100,6 +100,7 @@ export default function Header({ onContactClick }) {
       { name: 'BPR/EPA', href: '/compliance5', icon: GlobeAmericasIcon },
       { name: 'Static Dissipative Testing 2026', href: '/compliances/doc/CCM STATIC DISSIPATIVE TEST RESULTS 2026.pdf', icon: BoltIcon },
       { name: 'CCMatting Efficacy Data', href: '/compliance7', icon: ChartBarIcon },
+      { name: 'CCM NPI Brochure 2026', href: '/compliances/doc/CCM NPI BROCH IE 2026.pdf', icon: DocumentTextIcon },
     ],
     Industries: industriesData.map(ind => ({
       name: ind.title.replace('Contamination Control Mats for ', '').replace(' Industry', ''), // Simplified naming logic

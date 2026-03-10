@@ -51,7 +51,7 @@ export default async function SiteMapPage() {
       links: [
         { name: "CCM Heavy Duty Mats", href: "/products/heavy-duty" },
         {
-          name: "CCM Portable Cleanroom Mats",
+          name: "CCM Portable Cleanroom/Data Center Mats",
           href: "/products/portable-cleanroom-mats",
         },
         ...products

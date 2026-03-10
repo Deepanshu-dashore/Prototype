@@ -134,17 +134,17 @@ export default function PortableCleanroomMatsContent() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-center max-w-4xl mx-auto"
+                        className="text-center max-w-6xl mx-auto"
                     >
                         <span className="inline-flex items-center gap-1.5 bg-white text-neutral-dark px-4 py-2 rounded-md text-xs font-medium mb-6 border border-gray-200">
                             <ShieldCheckIcon className="w-3.5 h-3.5" />
                             Portablity
                         </span>
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
-                            CCM Portable Cleanroom Mats
+                        <h1 className="text-4xl sm:text-5xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
+                            CCM Portable Cleanroom/Data Center Mats
                         </h1>
                         <p className="text-lg sm:text-lg text-neutral-dark/70 max-w-4xl mx-auto leading-relaxed">
-                            Designed for facilities that need serious contamination control without permanent installation, our Portable Cleanroom Mats deliver the same performance as our Heavy Duty flooring — but loose laid, flexible, and faster to deploy. For customers considering tacky mats, this is a cleaner, greener, and far more cost-effective alternative that dramatically reduces particulate ingress into critical areas
+                            Designed for facilities that need serious contamination control without permanent installation, our Portable Cleanroom/Data Center Mats deliver the same performance as our Heavy Duty flooring — but loose laid, flexible, and faster to deploy. For customers considering tacky mats, this is a cleaner, greener, and far more cost-effective alternative that dramatically reduces particulate ingress into critical areas
                         </p>
                     </motion.div>
                 </div>
@@ -164,10 +164,10 @@ export default function PortableCleanroomMatsContent() {
                             className="lg:col-span-5"
                         >
                             <div className="relative w-full h-auto">
-                                <ImageZoom src="/assets/products Page/clenRoomCarousle images/home.jpg" alt="CCM Portable Cleanroom Mats">
+                                <ImageZoom src="/assets/products Page/clenRoomCarousle images/home.jpg" alt="CCM Portable Cleanroom/Data Center Mats">
                                     <Image
                                         src="/assets/products%20Page/CleanRoomMate.png"
-                                        alt="CCM Portable Cleanroom Mats"
+                                        alt="CCM Portable Cleanroom/Data Center Mats"
                                         width={1100}
                                         height={500}
                                         className="w-full h-[410px] object-contain object-center rounded-lg bg-white"
@@ -312,7 +312,7 @@ export default function PortableCleanroomMatsContent() {
                             Technical Specifications
                         </h2>
                         <p className="text-sm text-neutral-dark/70 max-w-3xl mx-auto">
-                            Comprehensive technical data and specifications for CCM Portable Cleanroom Mats.
+                            Comprehensive technical data and specifications for CCM Portable Cleanroom/Data Center Mats.
                         </p>
                     </motion.div>
                     <motion.div
