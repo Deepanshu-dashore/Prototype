@@ -337,7 +337,7 @@ export default function DistributorDashboard() {
             </div>
 
             <div className="flex flex-col gap-5 px-6 py-3">
-                <AlertBanner count={pendingCount} />
+                {/* <AlertBanner count={pendingCount} /> */}
                 {/* ── Profile Banner (matches profile page style) ── */}
                 <div className="relative rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-200">
                     {/* Banner image */}
