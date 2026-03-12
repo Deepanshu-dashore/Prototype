@@ -263,16 +263,74 @@ export default function OrderDetailsView({
                                     <DocumentTextIcon className="w-7 h-7 text-primary/50 bg-primary/10 p-1 rounded-md" />
                                 </div>
                                 <h3 className="text-base font-bold text-gray-800">Documents</h3>
+                                {role === "admin" && !updateModal.isOpen && (
+                                    <button
+                                        onClick={() => openUpdateModal(order)}
+                                        className="inline-flex ml-auto items-center gap-1.5 px-1.5 py-1.5 bg-gray-200 border border-gray-200 text-gray-800 text-[12.25px] rounded-md hover:bg-gray-300 hover:border-gray-300 transition-all shadow-sm"
+                                        title="Edit Documents Info"
+                                    >
+                                        <PencilSquareIcon className="w-4 h-4" />
+                                    </button>
+                                )}
                             </div>
 
                             <div className="space-y-4">
                                 <div className="grid grid-cols-3 gap-4">
-                                    <span className="text-xs text-gray-800 font-semibold">PO Number:</span>
+                                    <span className="text-xs text-gray-800 font-semibold pt-2">PO Number:</span>
                                     <div className="col-span-2">
-                                        <span className="text-xs text-gray-400 italic">{order?.po || "Not available"}</span>
+                                        {updateModal.isOpen && role === "admin" ? (
+                                            <input
+                                                type="text"
+                                                value={updateModal.po}
+                                                onChange={(e) => setUpdateModal({ ...updateModal, po: e.target.value })}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-sm shadow-xs focus:ring-primary focus:border-primary text-xs"
+                                                placeholder="Enter PO number"
+                                            />
+                                        ) : (
+                                            <span className="text-xs text-gray-600 inline-block pt-2">{order?.po || "Not available"}</span>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-3 gap-4">
+                                    <span className="text-xs text-gray-800 font-semibold pt-2">Invoice No:</span>
+                                    <div className="col-span-2">
+                                        {updateModal.isOpen && role === "admin" ? (
+                                            <input
+                                                type="text"
+                                                value={updateModal.invoice}
+                                                onChange={(e) => setUpdateModal({ ...updateModal, invoice: e.target.value })}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-sm shadow-xs focus:ring-primary focus:border-primary text-xs"
+                                                placeholder="Enter invoice number"
+                                            />
+                                        ) : (
+                                            <span className="text-xs text-gray-600 inline-block pt-2">{order?.invoice || "Not available"}</span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {updateModal.isOpen && role === "admin" && (
+                                    <div className="grid grid-cols-3 gap-4 pt-2">
+                                        <div className="col-span-1"></div>
+                                        <div className="col-span-2 flex items-center gap-2">
+                                            <button
+                                                onClick={() => setUpdateModal({ ...updateModal, isOpen: false })}
+                                                disabled={isUpdating}
+                                                className="px-3 py-1.5 text-xs text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                onClick={handleUpdateDetails}
+                                                disabled={isUpdating}
+                                                className="px-3 py-1.5 text-xs text-white bg-primary hover:bg-primary/90 rounded-md transition-colors flex items-center gap-1"
+                                            >
+                                                {isUpdating ? "Saving..." : "Save Changes"}
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-dashed border-gray-200 mt-2">
                                     <span className="text-xs text-gray-800 font-semibold">Signed PO:</span>
                                     <div className="col-span-2">
                                         {order?.documents?.find(d => d.name === "po")?.url ? (
@@ -293,12 +351,7 @@ export default function OrderDetailsView({
 
 
 
-                                <div className="grid grid-cols-3 gap-4">
-                                    <span className="text-xs text-gray-800 font-semibold">Invoice No:</span>
-                                    <div className="col-span-2">
-                                        <span className="text-xs text-gray-400 italic">{order?.invoice || "Not available"}</span>
-                                    </div>
-                                </div>
+
                                 <div className="grid grid-cols-3 gap-4">
                                     <span className="text-xs text-gray-800 font-semibold">Official Invoice:</span>
                                     <div className="col-span-2">
