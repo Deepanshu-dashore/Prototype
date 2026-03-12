@@ -9,7 +9,7 @@ export class OrderService {
     const [pending, processed, readyToShip, received, allTotal] =
       await Promise.all([
         Order.countDocuments({ status: "PENDING" }),
-        Order.countDocuments({ status: "PROCESSED" }),
+        Order.countDocuments({ status: "IN PROCESS" }),
         Order.countDocuments({ status: "READY-TO-SHIP" }),
         Order.countDocuments({ status: "RECEIVED" }),
         Order.countDocuments(),

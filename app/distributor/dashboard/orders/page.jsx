@@ -54,7 +54,7 @@ export default function DistributorOrdersPage() {
             case "PENDING":
                 return "bg-amber-50 text-amber-700 border-amber-200";
 
-            case "PROCESSED":
+            case "IN PROCESS":
                 return "bg-sky-50 text-sky-700 border-sky-200";
 
             case "READY-TO-SHIP":

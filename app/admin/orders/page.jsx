@@ -27,7 +27,7 @@ import AdminHeader from "@/src/components/admin/AdminHeader";
 
 const STATUS_OPTIONS = [
     "PENDING",
-    "PROCESSED",
+    "IN PROCESS",
     "READY-TO-SHIP",
     "RECEIVED",
 ];
@@ -157,7 +157,7 @@ export default function AdminOrdersPage() {
                 // Reference: Yellow/Orange for Pending
                 return "bg-[#fdf3e1] text-[#b67319] border-[#fdf3e1]";
 
-            case "PROCESSED":
+            case "IN PROCESS":
                 // Soft Blue for Processed
                 return "bg-[#e1f0fd] text-[#1974b6] border-[#e1f0fd]";
 

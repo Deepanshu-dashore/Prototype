@@ -30,7 +30,7 @@ export default function OrderDetailsView({
                 return role === "admin"
                     ? "bg-[#fdf3e1] text-[#b67319] border-[#fdf3e1]"
                     : "bg-amber-50 text-amber-700 border-amber-200";
-            case "PROCESSED":
+            case "IN PROCESS":
                 return role === "admin"
                     ? "bg-[#e1f0fd] text-[#1974b6] border-[#e1f0fd]"
                     : "bg-sky-50 text-sky-700 border-sky-200";

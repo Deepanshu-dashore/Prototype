@@ -97,7 +97,7 @@ export async function GET(request) {
         currentPage: page,
         statusCounts: {
           PENDING: pending,
-          PROCESSED: processed,
+          "IN PROCESS": processed,
           "READY-TO-SHIP": readyToShip,
           RECEIVED: received,
 

@@ -27,7 +27,7 @@ const STATUS_COLORS = {
     PENDING: "#F59E0B",
     COMPLETED: "#4F46E5",
 
-    PROCESSING: "#7C3AED",
+    "IN PROCESS": "#7C3AED",
     DEFAULT: "#6B7280",
 };
 const PIE_COLORS = ["#F59E0B", "#4F46E5", "#EF4444", "#7C3AED", "#10B981"];
@@ -44,7 +44,7 @@ function StatusBadge({ status }) {
         PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
         COMPLETED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
 
-        PROCESSING: "bg-sky-50 text-sky-700 border border-sky-200",
+        "IN PROCESS": "bg-sky-50 text-sky-700 border border-sky-200",
         RECEIVED: "bg-teal-50 text-teal-700 border border-teal-200",
         "READY-TO-SHIP": "bg-purple-50 text-purple-700 border border-purple-200",
         LOW: "bg-slate-50 text-slate-700 border border-slate-200",
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
         { name: "Pending", value: 30, rawStatus: "PENDING" },
         { name: "Completed", value: 1082, rawStatus: "COMPLETED" },
 
-        { name: "Processing", value: 108, rawStatus: "PROCESSING" },
+        { name: "In Process", value: 108, rawStatus: "IN PROCESS" },
     ];
 
     const totalOrders = data?.dashboardCard?.totalOrders;
