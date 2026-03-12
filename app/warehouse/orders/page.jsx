@@ -516,14 +516,14 @@ export default function WarehouseOrdersPage() {
                                                         View
                                                         <EyeIcon className="w-3.5 h-3.5" />
                                                     </Link>
-                                                    <button
+                                                    {/* <button
                                                         onClick={() => openUpdateModal(order)}
                                                         className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-700 border border-emerald-700 text-white text-[12.25px] rounded-md hover:bg-emerald-800 hover:border-emerald-800 transition-all shadow-sm"
                                                         title="Edit Order"
                                                     >
                                                         Edit
                                                         <PencilSquareIcon className="w-3.5 h-3.5" />
-                                                    </button>
+                                                    </button> */}
                                                 </div>
                                             </td>
                                         </tr>
