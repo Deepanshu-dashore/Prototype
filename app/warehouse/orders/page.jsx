@@ -225,7 +225,7 @@ export default function WarehouseOrdersPage() {
             colorClass: "amber"
         },
         {
-            label: "Processed",
+            label: "In Process",
             count: statusCounts["IN PROCESS"],
             icon: ({ className, style }) => (
                 <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 256 256">
