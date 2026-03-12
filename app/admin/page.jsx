@@ -189,11 +189,11 @@ export default function AdminDashboard() {
     }
 
     return (
-        <div className="min-h-screen p-6 px-16 font-sans">
+        <div className="min-h-screen p-6 sm:px-16 font-sans">
             {/* ── Header ── */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="sm:flex hidden items-center justify-between mb-6">
                 <div>
-                    <h1 className="text-[22px] font-bold text-gray-900 tracking-tight">Admin Dashboard</h1>
+                    <h1 className="sm:text-[22px] text-base font-bold text-gray-900 tracking-tight">Admin Dashboard</h1>
                     <p className="text-xs text-gray-400 mt-0.5">
                         {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
                     </p>
@@ -220,11 +220,11 @@ export default function AdminDashboard() {
             </div>
 
             {/* ── Summary Cards ── */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
                 {cards.map(({ label, value, Icon, iconBg, iconColor }, i) => (
-                    <div key={i} className="bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100 flex items-center justify-between">
+                    <div key={i} className="bg-white relative rounded-2xl px-2 sm:px-4 py-3 shadow-sm border border-gray-100 flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-700 font-medium mb-1">{label}</p>
+                            <p className="sm:text-sm text-[10px] absolute top-3 z-10 sm:relative text-gray-700 font-medium mb-1">{label}</p>
                             <p className="text-2xl font-bold text-gray-900">{value.toLocaleString()}</p>
                         </div>
                         <div className="overflow-hidden h-18">

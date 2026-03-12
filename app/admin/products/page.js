@@ -23,6 +23,7 @@ import {
   TableLoadingSkeleton,
   TableEmptyState,
 } from "@/src/components/ui/TableState";
+import AdminHeader from "@/src/components/admin/AdminHeader";
 
 /* ─── Small reusable field component ─── */
 function FormField({ label, id, error, children }) {
@@ -415,17 +416,12 @@ export default function ProductsPage() {
     <div className="min-h-screen py-8 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Header ── */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              Product Management
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Add, edit, and manage all products in the catalogue.
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            {/* Total badge */}
+        <AdminHeader
+          title="Product Management"
+          subtitle="Add, edit, and manage all products in the catalogue."
+          buttonText="Add Product"
+          buttonLink="#"
+          addOn={
             <div className="bg-white border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
               <ArchiveBoxIcon className="w-5 h-5 text-indigo-600" />
               <div className="flex items-center gap-2">
@@ -441,16 +437,8 @@ export default function ProductsPage() {
                 </p>
               </div>
             </div>
-            {/* Add button */}
-            <button
-              onClick={openAddModal}
-              className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2.5 rounded-lg hover:bg-primary/90 shadow-sm transition-all active:scale-95 text-sm font-medium"
-            >
-              <PlusIcon className="w-4 h-4" />
-              Add Product
-            </button>
-          </div>
-        </div>
+          }
+        />
 
         {/* ── Search Bar ── */}
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row gap-4 justify-start items-center">
@@ -489,23 +477,23 @@ export default function ProductsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
               >
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto w-[calc(100vw-3.5rem)] md:w-[calc(100vw-2rem)] lg:w-auto relative">
                   <table className="w-full text-left border-collapse">
                     <thead className="bg-gray-100/70 border-b border-gray-100">
                       <tr>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                           Product Code
                         </th>
                         <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                           Description
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                           Created
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                           Visibility
                         </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right">
+                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right text-nowrap">
                           Actions
                         </th>
                       </tr>
@@ -545,7 +533,7 @@ export default function ProductsPage() {
                                 <div className="h-10 w-10 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
                                   <ArchiveBoxIcon className="w-5 h-5 text-indigo-600" />
                                 </div>
-                                <span className="text-sm font-semibold text-gray-800 tracking-wide">
+                                <span className="text-sm font-semibold text-gray-800 tracking-wide text-nowrap">
                                   {product.code}
                                 </span>
                               </div>
@@ -559,7 +547,7 @@ export default function ProductsPage() {
                             </td>
 
                             {/* Created date */}
-                            <td className="px-6 py-4">
+                            <td className="px-6 py-4 text-nowrap">
                               <div className="flex items-center gap-1.5 text-xs text-gray-500">
                                 <CalendarIcon className="w-3.5 h-3.5 text-gray-500" />
                                 {formatDate(product.createdAt)}
@@ -639,7 +627,7 @@ export default function ProductsPage() {
 
               {pagination.totalPages > 1 && (
                 <div className="mt-6 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 hidden sm:block">
                     Showing{" "}
                     <span className="font-medium text-gray-900">
                       {(pagination.currentPage - 1) * pagination.limit + 1}
