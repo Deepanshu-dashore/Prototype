@@ -348,6 +348,8 @@ export default function WarehouseOrdersPage() {
                                 Date:
                             </span>
                             <input
+
+
                                 type="date"
                                 className="bg-transparent text-xs border-none p-0 focus:ring-0 text-gray-700 w-24"
                                 value={startDate}
