@@ -628,6 +628,8 @@ export default function WarehouseOrdersPage() {
             />
         </div>
     );
+
+
 }
 
 function StatusCountCard({ label, count, icon: Icon, loading, colorClass, onclick }) {
