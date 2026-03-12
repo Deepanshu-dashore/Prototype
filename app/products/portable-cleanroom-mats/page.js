@@ -4,7 +4,7 @@ import PortableCleanroomMatsContent from "../../../src/components/products/Porta
 export const metadata = {
   title: "Portable Cleanroom Mats | Mobile Contamination Control",
   description:
-    "CCM Portable Cleanroom Mats offer flexible, loose-laid contamination control for raised access floors and modular cleanroom environments.",
+    "CCM Portable Cleanroom/Data Center Mats offer flexible, loose-laid contamination control for raised access floors and modular cleanroom environments.",
   alternates: {
     canonical: "https://www.ccmatting.ie/products/portable-cleanroom-mats",
   },

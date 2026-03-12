@@ -56,7 +56,7 @@ export default function ContactHero() {
   const baseProducts = allProducts.map((product) => product.title);
   const productOptions = [
     "CCM Heavy Duty Mat",
-    "CCM Portable Cleanroom Mats",
+    "CCM Portable Cleanroom/Data Center Mats",
     "CCM Anti-Fatigue Mats"
   ]
     ;

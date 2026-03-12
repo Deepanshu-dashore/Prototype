@@ -25,6 +25,7 @@ import {
   TableEmptyState,
   TableLoadingSkeleton,
 } from "@/src/components/ui/TableState";
+import AdminHeader from "@/src/components/admin/AdminHeader";
 
 export default function BlogboardPage() {
   const router = useRouter();
@@ -147,27 +148,12 @@ export default function BlogboardPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header Section */}
         <div className="flex flex-col gap-6 mb-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-                Blog Management
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">
-                Manage, edit, and publish your content.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Link
-                href="/admin/blogboard/add"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-white px-4 py-2.5 rounded-lg hover:bg-primary/90 shadow-sm transition-all transform active:scale-95 text-sm font-medium"
-              >
-                <PlusIcon className="w-4 h-4" />
-                <span>Add Blog</span>
-              </Link>
-            </div>
-          </div>
-
+          <AdminHeader
+            title="Blog Management"
+            subtitle="Manage, edit, and publish your content."
+            buttonText="Add Blog"
+            buttonLink="/admin/blogboard/add"
+          />
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white relative overflow-hidden p-5 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
@@ -495,19 +481,19 @@ export default function BlogboardPage() {
                     <table className="w-full text-left border-collapse">
                       <thead className="bg-gray-100/80 border-b border-gray-100">
                         <tr>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Title
                           </th>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Category
                           </th>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Author
                           </th>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Date
                           </th>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right">
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right text-nowrap">
                             Actions
                           </th>
                         </tr>
@@ -542,14 +528,14 @@ export default function BlogboardPage() {
                                 </Link>
                               </div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-6 py-4 text-nowrap">
                               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100/50">
                                 {blog.category?.name ||
                                   blog.category ||
                                   "Uncategorized"}
                               </span>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-6 py-4 text-nowrap">
                               <div className="flex items-center gap-2">
                                 {blog.author?.avatar ? (
                                   <img
@@ -569,7 +555,7 @@ export default function BlogboardPage() {
                                 </span>
                               </div>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-6 py-4 text-nowrap">
                               <div className="flex items-center gap-1.5 text-xs text-gray-500">
                                 <CalendarIcon className="w-3.5 h-3.5 text-gray-400" />
                                 {formatDate(blog.createdAt)}
@@ -721,7 +707,7 @@ export default function BlogboardPage() {
         {/* Pagination Controls */}
         {!loading && blogs.length > 0 && (
           <div className="mt-8 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-gray-500 hidden sm:block">
               Showing{" "}
               <span className="font-medium text-gray-900">
                 {(pagination.currentPage - 1) * pagination.limit + 1}

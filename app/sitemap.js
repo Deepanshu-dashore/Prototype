@@ -92,6 +92,11 @@ export default async function sitemap() {
       priority: 0.64,
       lastMod: new Date("2026-03-06T15:43:57+00:00"),
     },
+    {
+      url: "/compliances/doc/CCM%20NPI%20BROCH%20IE%202026.pdf",
+      priority: 0.64,
+      lastMod: new Date("2026-03-10T12:00:00+00:00"),
+    },
   ].map((route) => ({
     url: `${baseUrl}${route.url}`,
     lastModified: route.lastMod,

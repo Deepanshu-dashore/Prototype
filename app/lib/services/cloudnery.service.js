@@ -5,7 +5,7 @@ export class CloudneryService {
     file,
     folder = "default",
     resource_type = "raw",
-    format = "auto",
+    format = "",
   ) {
     try {
       if (!file) {
@@ -17,7 +17,6 @@ export class CloudneryService {
       const uploadOptions = {
         resource_type,
         folder,
-        format,
       };
       // Only set format if it's a valid file extension (not 'image', 'auto', etc.)
       if (format && !["image", "video", "raw", "auto"].includes(format)) {

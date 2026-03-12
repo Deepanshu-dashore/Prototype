@@ -23,10 +23,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
+import AdminHeader from "@/src/components/admin/AdminHeader";
 
 const STATUS_OPTIONS = [
     "PENDING",
-    "PROCESSED",
+    "IN PROCESS",
     "READY-TO-SHIP",
     "RECEIVED",
 ];
@@ -156,7 +157,7 @@ export default function AdminOrdersPage() {
                 // Reference: Yellow/Orange for Pending
                 return "bg-[#fdf3e1] text-[#b67319] border-[#fdf3e1]";
 
-            case "PROCESSED":
+            case "IN PROCESS":
                 // Soft Blue for Processed
                 return "bg-[#e1f0fd] text-[#1974b6] border-[#e1f0fd]";
 
@@ -178,16 +179,12 @@ export default function AdminOrdersPage() {
     return (
         <div className="min-h-screen py-8 font-sans">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-                            Order Management
-                        </h1>
-                        <p className="text-sm text-gray-500 mt-1">Monitor and manage distributor orders, track status and update documents.</p>
-                    </div>
-                    <div className="flex items-center gap-3">
+                <AdminHeader
+                    title="Order Management"
+                    subtitle="Monitor and manage distributor orders, track status and update documents."
+                    addOn={
                         <div className="bg-white border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
-                            <ClipboardDocumentListIcon className="w-5 h-5 text-indigo-600" />
+                            <ClipboardDocumentListIcon className="w-5 h-5 sm:inline-block hidden text-indigo-600" />
                             <div className="flex items-center gap-2">
                                 <p className="text-xs text-indigo-600 font-medium">
                                     Total Orders
@@ -201,11 +198,11 @@ export default function AdminOrdersPage() {
                                 </p>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    }
+                />
 
                 {/* Filters Bar */}
-                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col lg:flex-row gap-4 justify-between items-end lg:items-center mb-8">
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center mb-8">
                     {/* Search */}
                     <div className="relative w-full lg:w-72">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -221,7 +218,7 @@ export default function AdminOrdersPage() {
                         />
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                    <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 w-full lg:w-auto">
                         {/* Status Filter */}
                         <div className="relative">
                             <select
@@ -238,7 +235,7 @@ export default function AdminOrdersPage() {
                         </div>
 
                         {/* Date Filters */}
-                        <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200 min-w-fit">
+                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200 w-full sm:w-auto min-w-fit">
                             <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
                                 Date:
                             </span>
@@ -285,7 +282,7 @@ export default function AdminOrdersPage() {
 
                 {/* Orders Table */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden min-h-[400px]">
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto w-[calc(100vw-3.5rem)] md:w-[calc(100vw-2rem)] lg:w-auto relative">
                         <table className="w-full text-left border-collapse">
                             <thead className="bg-gray-100/70 border-b border-gray-100">
                                 <tr>

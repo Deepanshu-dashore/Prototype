@@ -507,7 +507,7 @@ export default function DistributorDetailsPage({ params }) {
                                                     <td className="px-6 py-4">
                                                         <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold ${order.status === 'RECEIVED' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
                                                             order.status === 'READY-TO-SHIP' ? 'bg-purple-50 text-purple-700 border border-purple-100' :
-                                                                order.status === 'PROCESSED' ? 'bg-sky-50 text-sky-700 border border-sky-100' :
+                                                                order.status === 'IN PROCESS' ? 'bg-sky-50 text-sky-700 border border-sky-100' :
 
                                                                     order.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border border-amber-100' :
                                                                         'bg-gray-50 text-gray-700 border border-gray-100'

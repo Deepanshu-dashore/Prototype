@@ -22,12 +22,12 @@ export default function UtilityBar() {
             <span className="sm:hidden">Call</span>
           </a>
           <a
-            href="mailto:info@ccmatting.ie"
+            href="mailto:sales@ccmatting.ie"
             className="flex items-center gap-2 hover:text-gray-300 transition-colors"
-            aria-label="Email us at info@ccmatting.ie"
+            aria-label="Email us at sales@ccmatting.ie"
           >
             <EnvelopeIcon className="w-4 h-4" aria-hidden="true" />
-            <span className="hidden sm:inline">info@ccmatting.ie</span>
+            <span className="hidden sm:inline">sales@ccmatting.ie</span>
             <span className="sm:hidden">Email</span>
           </a>
           <div className="ml-auto flex items-center gap-2">

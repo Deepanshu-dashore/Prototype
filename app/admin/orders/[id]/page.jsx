@@ -46,7 +46,7 @@ export default function AdminOrderDetailsPage() {
     const handleUpdateDetails = async () => {
         try {
             if (order?.status === "PENDING") {
-                alert("Order status is PENDING. Please update status to PROCESSED first.");
+                alert("Order status is PENDING. Please update status to IN PROCESS first.");
                 return;
             }
             setIsUpdating(true);

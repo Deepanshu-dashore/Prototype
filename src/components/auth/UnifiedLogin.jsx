@@ -66,7 +66,7 @@ export default function UnifiedLogin({
                             alt="Logo"
                             width={100}
                             height={200}
-                            className="object-contain h-13 w-auto"
+                            className="object-contain h-10 sm:h-13 w-auto"
                         />
                         <h1 className="text-lg leading-5 text-nowrap font-extrabold text-primary/50 border-l-3 bg-linear-to-r from-primary/10 to-transparent border-primary/30 p-2 py-2.5 tracking-tight uppercase">
                             {title}

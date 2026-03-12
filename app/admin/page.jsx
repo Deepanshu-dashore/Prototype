@@ -27,7 +27,7 @@ const STATUS_COLORS = {
     PENDING: "#F59E0B",
     COMPLETED: "#4F46E5",
 
-    PROCESSING: "#7C3AED",
+    "IN PROCESS": "#7C3AED",
     DEFAULT: "#6B7280",
 };
 const PIE_COLORS = ["#F59E0B", "#4F46E5", "#EF4444", "#7C3AED", "#10B981"];
@@ -44,7 +44,7 @@ function StatusBadge({ status }) {
         PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
         COMPLETED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
 
-        PROCESSING: "bg-sky-50 text-sky-700 border border-sky-200",
+        "IN PROCESS": "bg-sky-50 text-sky-700 border border-sky-200",
         RECEIVED: "bg-teal-50 text-teal-700 border border-teal-200",
         "READY-TO-SHIP": "bg-purple-50 text-purple-700 border border-purple-200",
         LOW: "bg-slate-50 text-slate-700 border border-slate-200",
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
         { name: "Pending", value: 30, rawStatus: "PENDING" },
         { name: "Completed", value: 1082, rawStatus: "COMPLETED" },
 
-        { name: "Processing", value: 108, rawStatus: "PROCESSING" },
+        { name: "In Process", value: 108, rawStatus: "IN PROCESS" },
     ];
 
     const totalOrders = data?.dashboardCard?.totalOrders;
@@ -189,11 +189,11 @@ export default function AdminDashboard() {
     }
 
     return (
-        <div className="min-h-screen p-6 px-16 font-sans">
+        <div className="min-h-screen p-6 sm:px-16 font-sans">
             {/* ── Header ── */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="sm:flex hidden items-center justify-between mb-6">
                 <div>
-                    <h1 className="text-[22px] font-bold text-gray-900 tracking-tight">Admin Dashboard</h1>
+                    <h1 className="sm:text-[22px] text-base font-bold text-gray-900 tracking-tight">Admin Dashboard</h1>
                     <p className="text-xs text-gray-400 mt-0.5">
                         {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
                     </p>
@@ -220,11 +220,11 @@ export default function AdminDashboard() {
             </div>
 
             {/* ── Summary Cards ── */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
                 {cards.map(({ label, value, Icon, iconBg, iconColor }, i) => (
-                    <div key={i} className="bg-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100 flex items-center justify-between">
+                    <div key={i} className="bg-white relative rounded-2xl px-2 sm:px-4 py-3 shadow-sm border border-gray-100 flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-700 font-medium mb-1">{label}</p>
+                            <p className="sm:text-sm text-[10px] absolute top-3 z-10 sm:relative text-gray-700 font-medium mb-1">{label}</p>
                             <p className="text-2xl font-bold text-gray-900">{value.toLocaleString()}</p>
                         </div>
                         <div className="overflow-hidden h-18">

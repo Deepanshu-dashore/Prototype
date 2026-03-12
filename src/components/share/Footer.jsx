@@ -138,7 +138,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link href="/products/portable-cleanroom-mats" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CCM Portable Cleanroom Mats
+                      CCM Portable Cleanroom/Data Center Mats
                     </Link>
                   </li>
                   <li
@@ -214,9 +214,9 @@ export default function Footer() {
                     </a>
                   </li>
                   <li>
-                    <a href="mailto:info@ccmatting.ie" className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors duration-200 group">
+                    <a href="mailto:sales@ccmatting.ie" className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors duration-200 group">
                       <EnvelopeIcon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                      <span className="break-all">info@ccmatting.ie</span>
+                      <span className="break-all">sales@ccmatting.ie</span>
                     </a>
                   </li>
                 </ul>

@@ -19,7 +19,8 @@ import {
     ClockIcon,
     WrenchScrewdriverIcon,
     BeakerIcon,
-    BoltIcon
+    BoltIcon,
+    ServerStackIcon
 } from "@heroicons/react/24/outline";
 
 export default function PortableCleanroomMatsContent() {
@@ -134,17 +135,17 @@ export default function PortableCleanroomMatsContent() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-center max-w-4xl mx-auto"
+                        className="text-center max-w-6xl mx-auto"
                     >
                         <span className="inline-flex items-center gap-1.5 bg-white text-neutral-dark px-4 py-2 rounded-md text-xs font-medium mb-6 border border-gray-200">
                             <ShieldCheckIcon className="w-3.5 h-3.5" />
                             Portablity
                         </span>
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
-                            CCM Portable Cleanroom Mats
+                        <h1 className="text-4xl sm:text-5xl font-bold text-neutral-dark mb-6 leading-tight tracking-tight">
+                            CCM Portable Cleanroom/Data Center Mats
                         </h1>
                         <p className="text-lg sm:text-lg text-neutral-dark/70 max-w-4xl mx-auto leading-relaxed">
-                            Designed for facilities that need serious contamination control without permanent installation, our Portable Cleanroom Mats deliver the same performance as our Heavy Duty flooring — but loose laid, flexible, and faster to deploy. For customers considering tacky mats, this is a cleaner, greener, and far more cost-effective alternative that dramatically reduces particulate ingress into critical areas
+                            Designed for facilities that need serious contamination control without permanent installation, our Portable Cleanroom/Data Center Mats deliver the same performance as our Heavy Duty flooring — but loose laid, flexible, and faster to deploy. For customers considering tacky mats, this is a cleaner, greener, and far more cost-effective alternative that dramatically reduces particulate ingress into critical areas
                         </p>
                     </motion.div>
                 </div>
@@ -164,10 +165,10 @@ export default function PortableCleanroomMatsContent() {
                             className="lg:col-span-5"
                         >
                             <div className="relative w-full h-auto">
-                                <ImageZoom src="/assets/products Page/clenRoomCarousle images/home.jpg" alt="CCM Portable Cleanroom Mats">
+                                <ImageZoom src="/assets/products Page/clenRoomCarousle images/home.jpg" alt="CCM Portable Cleanroom/Data Center Mats">
                                     <Image
                                         src="/assets/products%20Page/CleanRoomMate.png"
-                                        alt="CCM Portable Cleanroom Mats"
+                                        alt="CCM Portable Cleanroom/Data Center Mats"
                                         width={1100}
                                         height={500}
                                         className="w-full h-[410px] object-contain object-center rounded-lg bg-white"
@@ -245,6 +246,86 @@ export default function PortableCleanroomMatsContent() {
                 </div>
             </section>
 
+            {/* Data Center Focus Section */}
+            <section className="bg-linear-to-b relative from-primary to-[#000e7b] py-16 sm:py-20">
+                <div className="absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.07] mix-blend-multiply" />
+                <div className=" mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-12 lg:mb-16 max-w-7xl mx-auto"
+                    >
+                        <span className="inline-flex items-center gap-1.5 bg-white text-gray-800 px-3 py-1.5 rounded-md text-xs font-semibold mb-6 border border-primary/20 shadow-sm tracking-wider">
+                            <ServerStackIcon className="w-4 h-4" />
+                            Data Center Focus
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
+                            Critical Protection for Data Centers
+                        </h2>
+                        <div className="space-y-4 text-white/80 text-base leading-relaxed">
+                            <p>
+                                Data centers rely on highly sensitive electronic infrastructure where even small amounts of dust or particulate contamination can create operational risks. Contaminants carried in on footwear or wheeled equipment can restrict airflow, contribute to overheating, and increase the likelihood of hardware failure.
+                            </p>
+                            <p>
+                                Maintaining effective contamination control helps protect equipment performance, ensure system reliability, and reduce the risk of costly downtime.
+                            </p>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="bg-white rounded-2xl p-6 sm:p-8 md:p-10 shadow-xl border border-gray-100"
+                    >
+                        <h3 className="text-xl sm:text-2xl font-bold text-neutral-dark mb-8 text-center">
+                            Recommended Installation Points for CCM Data Center Mats
+                        </h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[
+                                {
+                                    title: "Transition Zones",
+                                    desc: "Corridor and hallway transition zones connecting general areas to controlled IT spaces."
+                                },
+                                {
+                                    title: "Equipment Routes",
+                                    desc: "Equipment access routes where racks, carts, or other wheeled systems enter data halls."
+                                },
+                                {
+                                    title: "Entry & Exit Points",
+                                    desc: "Personnel entry and exit points to server rooms and data halls."
+                                },
+                                {
+                                    title: "Controlled Areas",
+                                    desc: "Controlled transition areas such as airlocks and mantraps."
+                                },
+                                {
+                                    title: "Mixed Traffic Zones",
+                                    desc: "Critical IT zones with mixed traffic, including both foot traffic and wheeled equipment movement."
+                                }
+                            ].map((point, i) => (
+                                <div key={i} className="flex gap-4 p-5 rounded-xl border border-gray-100/50 bg-primary/5 transition-colors group">
+                                    <div className="shrink-0 mt-1">
+                                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary text-white transition-colors">
+                                            {i + 1}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold text-sm text-neutral-dark mb-1">{point.title}</h4>
+                                        <p className="text-xs text-neutral-dark/70 leading-relaxed">{point.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
+
             {/* Product Image Carousel Section */}
             {/* <section className="bg-gray-100 py-16 sm:py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -312,7 +393,7 @@ export default function PortableCleanroomMatsContent() {
                             Technical Specifications
                         </h2>
                         <p className="text-sm text-neutral-dark/70 max-w-3xl mx-auto">
-                            Comprehensive technical data and specifications for CCM Portable Cleanroom Mats.
+                            Comprehensive technical data and specifications for CCM Portable Cleanroom/Data Center Mats.
                         </p>
                     </motion.div>
                     <motion.div
