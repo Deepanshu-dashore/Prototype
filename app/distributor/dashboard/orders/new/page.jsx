@@ -305,12 +305,15 @@ function NewOrderContent() {
                                         <div className="md:col-span-2 relative">
                                             <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Quantity</label>
                                             <input
-                                                type="number"
+                                                type="text"
+                                                inputMode="numeric"
                                                 required
-                                                min="1"
                                                 placeholder="0"
                                                 value={item.quantity}
-                                                onChange={(e) => handleItemChange(index, "quantity", parseInt(e.target.value) || 0)}
+                                                onChange={(e) => {
+                                                    const val = e.target.value.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
+                                                    handleItemChange(index, "quantity", val === '' ? '' : parseInt(val));
+                                                }}
                                                 className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-primary focus:border-primary"
                                             />
                                         </div>
@@ -319,13 +322,19 @@ function NewOrderContent() {
                                             <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Length</label>
                                             <div className="relative">
                                                 <input
-                                                    type="number"
+                                                    type="text"
+                                                    inputMode="decimal"
                                                     required
-                                                    min="0"
-                                                    step="0.1"
                                                     placeholder="0.00"
                                                     value={item.length}
-                                                    onChange={(e) => handleItemChange(index, "length", parseFloat(e.target.value) || 0)}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/^0+(?=\d)/, '');
+                                                        handleItemChange(index, "length", val === '' ? '' : val);
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        const parsed = parseFloat(e.target.value) || 0;
+                                                        handleItemChange(index, "length", parsed);
+                                                    }}
                                                     className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-primary focus:border-primary"
                                                 />
                                             </div>
