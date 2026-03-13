@@ -77,13 +77,13 @@ export default function ViewBlogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 font-sans">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-6 md:py-8 font-sans">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6">
         {/* Header Navigation */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-4 sm:mb-6 md:mb-8 flex items-center justify-between gap-2">
           <button
             onClick={() => router.back()}
-            className="group flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm transition-all hover:shadow-md"
+            className="group flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-gray-600 hover:text-gray-900 bg-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-gray-200 shadow-sm transition-all hover:shadow-md"
           >
             <ArrowLeftIcon className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             Back to Blogs
@@ -91,16 +91,16 @@ export default function ViewBlogPage() {
 
           <Link
             href={`/admin/blogboard/edit/${blog._id}`}
-            className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 shadow-sm transition-all text-sm font-medium"
+            className="flex items-center gap-1.5 sm:gap-2 bg-primary text-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-primary/90 shadow-sm transition-all text-xs sm:text-sm font-medium"
           >
             <PencilIcon className="w-4 h-4" />
             Edit Blog
           </Link>
         </div>
 
-        <article className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <article className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           {/* Featured Image */}
-          <div className="relative w-full h-64 md:h-96 bg-gray-100">
+          <div className="relative w-full h-48 sm:h-64 md:h-96 bg-gray-100">
             {blog.featuredImage ? (
               <Image
                 src={blog.featuredImage}
@@ -117,17 +117,17 @@ export default function ViewBlogPage() {
               </div>
             )}
 
-            <div className="absolute top-4 left-4">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/90 backdrop-blur-sm text-gray-800 shadow-sm border border-gray-100">
+            <div className="absolute top-2.5 left-2.5 sm:top-4 sm:left-4">
+              <span className="inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-white/90 backdrop-blur-sm text-gray-800 shadow-sm border border-gray-100">
                 {blog.category?.name || blog.category || "General"}
               </span>
             </div>
           </div>
 
           {/* Content Body */}
-          <div className="p-6 md:p-10">
+          <div className="p-4 sm:p-6 md:p-10">
             {/* Meta Data */}
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-500 mb-6 border-b border-gray-100 pb-6">
+            <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-6 gap-y-2 text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6 border-b border-gray-100 pb-4 sm:pb-6">
               <div className="flex items-center gap-2">
                 {blog.author?.avatar ? (
                   <img
@@ -155,28 +155,28 @@ export default function ViewBlogPage() {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4 sm:mb-6 leading-tight">
               {blog.title}
             </h1>
 
             {/* Excerpt */}
             {blog.excerpt && (
-              <p className="text-lg text-gray-600 leading-relaxed mb-8 italic border-l-4 border-indigo-500 pl-4 bg-gray-50 py-2 pr-2 rounded-r-lg">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed mb-5 sm:mb-8 italic border-l-4 border-indigo-500 pl-3 sm:pl-4 bg-gray-50 py-2 pr-2 rounded-r-lg">
                 {blog.excerpt}
               </p>
             )}
 
             {/* Main Content */}
             <div
-              className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-xl"
+              className="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-xl"
               dangerouslySetInnerHTML={{ __html: blog.content }}
             />
 
             {/* Tags */}
             {blog.tags &&
               (Array.isArray(blog.tags) ? blog.tags.length > 0 : blog.tags) && (
-                <div className="mt-10 pt-6 border-t border-gray-100">
-                  <h4 className="flex items-center gap-2 text-sm font-bold text-gray-900 uppercase tracking-wide mb-3">
+                <div className="mt-6 sm:mt-10 pt-4 sm:pt-6 border-t border-gray-100">
+                  <h4 className="flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide mb-2 sm:mb-3">
                     <TagIcon className="w-4 h-4" />
                     Tags
                   </h4>
@@ -187,7 +187,7 @@ export default function ViewBlogPage() {
                     ).map((tag, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 rounded-md bg-gray-100 text-gray-600 text-sm hover:bg-gray-200 transition-colors"
+                        className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-md bg-gray-100 text-gray-600 text-xs sm:text-sm hover:bg-gray-200 transition-colors"
                       >
                         #{typeof tag === "string" ? tag.trim() : tag}
                       </span>

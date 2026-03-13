@@ -203,24 +203,23 @@ export default function AdminOrdersPage() {
 
                 {/* Filters Bar */}
                 <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center mb-8">
-                    {/* Search */}
-                    <div className="relative w-full lg:w-72">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
+                    <div className="flex gap-4">
+                        {/* Search */}
+                        <div className="relative w-full lg:w-72">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Search orders..."
+                                className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyDown={(e) => e.key === "Enter" && fetchOrders(1)}
+                            />
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Search orders..."
-                            className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && fetchOrders(1)}
-                        />
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 w-full lg:w-auto">
                         {/* Status Filter */}
-                        <div className="relative">
+                        <div className="relative md:hidden">
                             <select
                                 value={filterStatus}
                                 onChange={(e) => setFilterStatus(e.target.value)}
@@ -233,9 +232,26 @@ export default function AdminOrdersPage() {
                             </select>
                             <FunnelIcon className="w-4 h-4 text-gray-400 absolute right-2.5 top-3.5 pointer-events-none" />
                         </div>
+                    </div>
 
+                    <div className="flex flex-wrap items-start sm:items-center gap-3 w-auto">
+
+                        {/* Status Filter */}
+                        <div className="relative hidden md:block">
+                            <select
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                                className="appearance-none bg-white border border-gray-200 text-gray-700 py-2.5 pl-3 pr-8 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer w-36"
+                            >
+                                <option value="ALL">All Status</option>
+                                {STATUS_OPTIONS.map(opt => (
+                                    <option key={opt} value={opt}>{opt}</option>
+                                ))}
+                            </select>
+                            <FunnelIcon className="w-4 h-4 text-gray-400 absolute right-2.5 top-3.5 pointer-events-none" />
+                        </div>
                         {/* Date Filters */}
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200 w-full sm:w-auto min-w-fit">
+                        <div className="flex flex-wrap items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200 w-full sm:w-auto min-w-fit">
                             <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
                                 Date:
                             </span>

@@ -86,10 +86,10 @@ export default function CategoriesPage() {
           subtitle="Manage and view all blog categories with post counts."
           addOn={
             <div className="bg-white border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
-              <FolderIcon className="w-5 h-5 text-indigo-600" />
+              <FolderIcon className="w-5 h-5 sm:inline hidden text-indigo-600" />
               <div className="flex items-center gap-2">
                 <p className="text-xs text-indigo-600 font-medium">
-                  Total Categories
+                  <span className="sm:inline hidden">Total</span> Categories
                 </p>
                 <p className="text-base font-bold bg-indigo-900 text-white rounded px-2">
                   {loading ? (
@@ -179,10 +179,10 @@ export default function CategoriesPage() {
                         >
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-3">
-                              <div className="h-10 w-10 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-                                <FolderIcon className="w-5 h-5 text-indigo-600" />
+                              <div className="sm:h-10 sm:w-10 h-8 w-8 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
+                                <FolderIcon className="sm:w-5 sm:h-5 w-4 h-4 text-indigo-600" />
                               </div>
-                              <span className="text-sm font-medium text-gray-900 text-nowrap">
+                              <span className="sm:text-sm text-xs font-medium text-gray-900 text-nowrap">
                                 {category.name}
                               </span>
                             </div>
@@ -209,7 +209,7 @@ export default function CategoriesPage() {
                               href={`/admin/blogboard?category=${encodeURIComponent(
                                 category.name,
                               )}`}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/5 rounded-lg transition-all"
+                              className="inline-flex text-nowrap items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/5 rounded-lg transition-all"
                             >
                               View Posts
                               <ArrowRightIcon className="w-3.5 h-3.5" />

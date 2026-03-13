@@ -76,13 +76,13 @@ export default function TaglinePage() {
     return (
         <div className="p-6 max-w-7xl mx-auto">
             <div className="mb-8">
-                <h1 className="text-2xl font-bold text-gray-900 border-b pb-4">Manage Tagline</h1>
-                <p className="mt-2 text-sm text-gray-600">
+                <h1 className="md:text-2xl sm:text-xl text-base font-bold text-gray-900 border-b pb-4">Manage Tagline</h1>
+                <p className="mt-2 text-sm hidden sm:block text-gray-600">
                     Update the scrolling Marquee Bar tagline displayed on the public site below the header.
                 </p>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white rounded-lg shadow-sm border p-6 px-4 sm:px-6">
                 {isFetching ? (
                     <div className="flex justify-center p-6">
                         <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -90,13 +90,13 @@ export default function TaglinePage() {
                 ) : (
                     <div className="space-y-6">
                         <div>
-                            <label htmlFor="tagline" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="tagline" className="block sm:text-sm text-xs font-medium text-gray-700 mb-2">
                                 Current Tagline Content
                             </label>
                             <textarea
                                 id="tagline"
                                 rows={10}
-                                className="w-full px-4 py-3 rounded-lg text-base text-gray-600 border border-gray-300 focus:border-primary/80 outline-none transition-all resize-none"
+                                className="w-full px-4 py-3 rounded-lg sm:text-base text-xs text-gray-600 border border-gray-300 focus:border-primary/80 outline-none transition-all resize-none"
                                 placeholder="Enter tagline..."
                                 value={tagLine}
                                 onChange={(e) => setTagLine(e.target.value)}
@@ -107,7 +107,7 @@ export default function TaglinePage() {
                             <button
                                 onClick={handleUpdateClick}
                                 disabled={isLoading || tagLine.trim() === "" || tagLine.trim() === initialTagLine.trim()}
-                                className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                                className="sm:px-6 px-5 py-2.5 bg-blue-600 text-white sm:text-base text-xs font-medium sm:rounded-lg rounded-sm hover:bg-blue-700 disabled:opacity-50 transition-colors"
                             >
                                 {isLoading ? "Updating..." : "Update Tagline"}
                             </button>
@@ -115,7 +115,7 @@ export default function TaglinePage() {
                             <button
                                 onClick={handleDeleteClick}
                                 disabled={isLoading || tagLine.trim() === ""}
-                                className="px-6 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
+                                className="sm:px-6 px-5 py-2.5 bg-red-600 text-white sm:text-base text-xs font-medium sm:rounded-lg rounded-sm hover:bg-red-700 disabled:opacity-50 transition-colors"
                             >
                                 Delete Tagline
                             </button>

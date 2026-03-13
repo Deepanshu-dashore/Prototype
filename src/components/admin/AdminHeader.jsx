@@ -6,7 +6,7 @@ export default function AdminHeader({ title, subtitle, buttonText, buttonLink, a
     return (
         <div className="flex flex-row mb-5 items-center justify-between gap-4">
             <div>
-                <h1 className="sm:text-2xl text-lg text-nowrap font-bold text-gray-900 tracking-tight">
+                <h1 className="md:text-2xl text-base sm:text-lg sm:text-nowrap font-bold text-gray-900 tracking-tight">
                     {title}
                 </h1>
                 <p className="text-sm sm:inline hidden text-gray-500 mt-1">
@@ -21,7 +21,7 @@ export default function AdminHeader({ title, subtitle, buttonText, buttonLink, a
                         href={buttonLink}
                         className="inline-flex items-center justify-center gap-2 bg-primary text-white px-4 py-2.5 rounded-lg hover:bg-primary/90 shadow-sm transition-all transform active:scale-95 text-sm font-medium"
                     >
-                        <PlusIcon className="w-4 h-4" />
+                        <PlusIcon className="w-4 h-4 sm::inline hidden" />
                         <span>{buttonText}</span>
                     </Link>
                 )}

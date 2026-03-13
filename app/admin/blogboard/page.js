@@ -144,8 +144,8 @@ export default function BlogboardPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-4 sm:py-6 md:py-8 font-sans">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         {/* Top Header Section */}
         <div className="flex flex-col gap-6 mb-8">
           <AdminHeader
@@ -155,18 +155,18 @@ export default function BlogboardPage() {
             buttonLink="/admin/blogboard/add"
           />
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white relative overflow-hidden p-5 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+            <div className="bg-white relative overflow-hidden p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">Total Blogs</p>
-                <h3 className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-500">Total Blogs</p>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-0.5 sm:mt-1">
                   {stats.totalBlogs}
                 </h3>
               </div>
-              <div className="w-24 h-24 absolute -right-6 rounded-2xl rotate-45 shadow-xl bg-blue-700/60 flex items-center justify-center text-blue-600">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 absolute -right-4 sm:-right-5 md:-right-6 rounded-xl sm:rounded-2xl rotate-45 shadow-xl bg-blue-700/60 flex items-center justify-center text-blue-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-8 h-8 mt-2 mr-2 text-blue-100 -rotate-45"
+                  className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 mt-1 mr-1 sm:mt-2 sm:mr-2 text-blue-100 -rotate-45"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -186,19 +186,19 @@ export default function BlogboardPage() {
               </div>
             </div>
 
-            <div className="bg-white relative overflow-hidden p-5 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+            <div className="bg-white relative overflow-hidden p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500">
+                <p className="text-xs sm:text-sm font-medium text-gray-500">
                   Today's Posts
                 </p>
-                <h3 className="text-2xl font-bold text-gray-900 mt-1">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-0.5 sm:mt-1">
                   {stats.todayCount}
                 </h3>
               </div>
-              <div className="w-24 h-24 absolute -right-6 rounded-2xl rotate-45 shadow-xl bg-emerald-700/60 flex items-center justify-center text-emerald-600">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 absolute -right-4 sm:-right-5 md:-right-6 rounded-xl sm:rounded-2xl rotate-45 shadow-xl bg-emerald-700/60 flex items-center justify-center text-emerald-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-8 h-8 mt-2 mr-2 text-emerald-100 -rotate-45"
+                  className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 mt-1 mr-1 sm:mt-2 sm:mr-2 text-emerald-100 -rotate-45"
                   viewBox="0 0 36 36"
                 >
                   <path
@@ -318,19 +318,19 @@ export default function BlogboardPage() {
               </div>
             </div>
 
-            <div className="bg-white relative overflow-hidden p-5 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+            <div className="bg-white relative overflow-hidden p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl border border-gray-200 shadow-xs flex items-center justify-between col-span-2 sm:col-span-1">
               <div>
-                <p className="text-sm font-medium text-gray-500">
+                <p className="text-xs sm:text-sm font-medium text-gray-500">
                   Active Categories
                 </p>
-                <h3 className="text-2xl font-bold text-gray-900 mt-1">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mt-0.5 sm:mt-1">
                   {stats.categoryCount}
                 </h3>
               </div>
-              <div className="w-24 h-24 absolute -right-6 rounded-2xl rotate-45 shadow-xl bg-indigo-500/60 flex items-center justify-center text-indigo-600">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 absolute -right-4 sm:-right-5 md:-right-6 rounded-xl sm:rounded-2xl rotate-45 shadow-xl bg-indigo-500/60 flex items-center justify-center text-indigo-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-8 h-8 mt-2 mr-2 text-indigo-100 -rotate-45"
+                  className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 mt-1 mr-1 sm:mt-2 sm:mr-2 text-indigo-100 -rotate-45"
                   viewBox="0 0 24 24"
                 >
                   <g fill="none" stroke="currentColor" strokeWidth={1.5}>
@@ -350,7 +350,7 @@ export default function BlogboardPage() {
           </div>
 
           {/* Filters Bar */}
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col lg:flex-row gap-4 justify-between items-end lg:items-center">
+          <div className="bg-white p-3 sm:p-4 rounded-lg sm:rounded-xl shadow-sm border border-gray-200 flex flex-col lg:flex-row gap-3 sm:gap-4 justify-between items-end lg:items-center">
             {/* Search */}
             <div className="relative w-full lg:w-72">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -359,29 +359,29 @@ export default function BlogboardPage() {
               <input
                 type="text"
                 placeholder="Search by title or category..."
-                className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                className="block w-full pl-9 pr-3 py-2 sm:py-2.5 border border-gray-200 rounded-lg text-xs sm:text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleApplyFilters()}
               />
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full lg:w-auto">
               {/* Date Filters */}
-              <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
+              <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-gray-200">
                 <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
                   Date:
                 </span>
                 <input
                   type="date"
-                  className="bg-transparent text-xs border-none p-0 focus:ring-0 text-gray-700 w-24"
+                  className="bg-transparent text-[10px] sm:text-xs border-none p-0 focus:ring-0 text-gray-700 w-20 sm:w-24"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
                 />
                 <span className="text-gray-300">-</span>
                 <input
                   type="date"
-                  className="bg-transparent text-xs border-none p-0 focus:ring-0 text-gray-700 w-24"
+                  className="bg-transparent text-[10px] sm:text-xs border-none p-0 focus:ring-0 text-gray-700 w-20 sm:w-24"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
                 />
@@ -392,7 +392,7 @@ export default function BlogboardPage() {
                 <select
                   value={sortOrder}
                   onChange={(e) => setSortOrder(e.target.value)}
-                  className="appearance-none bg-white border border-gray-200 text-gray-700 py-2.5 pl-3 pr-8 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer w-32"
+                  className="appearance-none bg-white border border-gray-200 text-gray-700 py-2 sm:py-2.5 pl-2 sm:pl-3 pr-7 sm:pr-8 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer w-24 sm:w-32"
                 >
                   <option value="newest">Newest</option>
                   <option value="oldest">Oldest</option>
@@ -405,7 +405,7 @@ export default function BlogboardPage() {
               {/* Apply Button */}
               <button
                 onClick={handleApplyFilters}
-                className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2.5 rounded-lg hover:bg-gray-800 shadow-sm transition-all text-sm font-medium"
+                className="flex items-center gap-1.5 sm:gap-2 bg-gray-900 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:bg-gray-800 shadow-sm transition-all text-xs sm:text-sm font-medium"
               >
                 <FunnelIcon className="w-4 h-4" />
                 Apply
@@ -475,25 +475,26 @@ export default function BlogboardPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+                  className="bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 overflow-hidden"
                 >
-                  <div className="overflow-x-auto">
+                  {/* Desktop Table - hidden on mobile */}
+                  <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead className="bg-gray-100/80 border-b border-gray-100">
                         <tr>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                          <th className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Title
                           </th>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                          <th className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Category
                           </th>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                          <th className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Author
                           </th>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                          <th className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Date
                           </th>
-                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right text-nowrap">
+                          <th className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right text-nowrap">
                             Actions
                           </th>
                         </tr>
@@ -504,7 +505,7 @@ export default function BlogboardPage() {
                             key={blog._id}
                             className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
                           >
-                            <td className="px-6 py-4">
+                            <td className="px-4 lg:px-6 py-3 lg:py-4">
                               <div className="flex items-center gap-3">
                                 {blog.featuredImage ? (
                                   <div className="h-10 w-10 shrink-0 relative rounded-lg overflow-hidden border border-gray-100">
@@ -528,14 +529,14 @@ export default function BlogboardPage() {
                                 </Link>
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-nowrap">
+                            <td className="px-4 lg:px-6 py-3 lg:py-4 text-nowrap">
                               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100/50">
                                 {blog.category?.name ||
                                   blog.category ||
                                   "Uncategorized"}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-nowrap">
+                            <td className="px-4 lg:px-6 py-3 lg:py-4 text-nowrap">
                               <div className="flex items-center gap-2">
                                 {blog.author?.avatar ? (
                                   <img
@@ -555,34 +556,34 @@ export default function BlogboardPage() {
                                 </span>
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-nowrap">
+                            <td className="px-4 lg:px-6 py-3 lg:py-4 text-nowrap">
                               <div className="flex items-center gap-1.5 text-xs text-gray-500">
                                 <CalendarIcon className="w-3.5 h-3.5 text-gray-400" />
                                 {formatDate(blog.createdAt)}
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-right">
-                              <div className="flex items-center justify-end gap-2">
+                            <td className="px-4 lg:px-6 py-3 lg:py-4 text-right">
+                              <div className="flex items-center justify-end gap-1.5">
                                 <Link
                                   href={`/admin/blogboard/view/${blog._id}`}
                                   className="p-1.5 rounded-md shadow-sm transition-all bg-emerald-600 text-white hover:bg-emerald-700"
                                   title="View Blog"
                                 >
-                                  <EyeIcon className="w-4 h-4" />
+                                  <EyeIcon className="w-3.5 h-3.5" />
                                 </Link>
                                 <Link
                                   href={`/admin/blogboard/edit/${blog._id}`}
                                   className="p-1.5 rounded-md shadow-sm transition-all bg-blue-600 text-white hover:bg-blue-700"
                                   title="Edit"
                                 >
-                                  <PencilIcon className="w-4 h-4" />
+                                  <PencilIcon className="w-3.5 h-3.5" />
                                 </Link>
                                 <button
                                   onClick={() => handleDelete(blog._id)}
                                   className="p-1.5 rounded-md shadow-sm transition-all bg-red-600 text-white hover:bg-red-700"
                                   title="Delete"
                                 >
-                                  <TrashIcon className="w-4 h-4" />
+                                  <TrashIcon className="w-3.5 h-3.5" />
                                 </button>
                               </div>
                             </td>
@@ -591,7 +592,84 @@ export default function BlogboardPage() {
                       </tbody>
                     </table>
                   </div>
-                  <div className="px-6 py-4 bg-gray-50/50 border-t border-gray-100">
+
+                  {/* Mobile Card View - visible only on mobile */}
+                  <div className="md:hidden divide-y divide-gray-100">
+                    {blogs.map((blog, index) => (
+                      <div
+                        key={blog._id}
+                        className={`p-3 sm:p-4 ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
+                      >
+                        <div className="flex items-start gap-3">
+                          {/* Thumbnail */}
+                          {blog.featuredImage ? (
+                            <div className="h-12 w-12 shrink-0 relative rounded-lg overflow-hidden border border-gray-100">
+                              <Image
+                                src={blog.featuredImage}
+                                alt=""
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <div className="h-12 w-12 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 text-sm font-bold">
+                              {getInitials(blog.title)}
+                            </div>
+                          )}
+
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <Link
+                              href={`/admin/blogboard/view/${blog._id}`}
+                              className="text-sm font-semibold text-gray-900 line-clamp-2 hover:text-primary transition-colors"
+                            >
+                              {blog.title}
+                            </Link>
+                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-blue-700 border border-blue-100/50">
+                                {blog.category?.name || blog.category || "Uncategorized"}
+                              </span>
+                              <div className="flex items-center gap-1 text-[10px] text-gray-500">
+                                <CalendarIcon className="w-3 h-3 text-gray-400" />
+                                {formatDate(blog.createdAt)}
+                              </div>
+                              <div className="flex items-center gap-1 text-[10px] text-gray-500">
+                                <UserIcon className="w-3 h-3 text-gray-400" />
+                                {blog.author?.name || blog?.author || "Unknown"}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Actions row */}
+                        <div className="flex items-center justify-end gap-2 mt-2.5 pt-2 border-t border-gray-100/80">
+                          <Link
+                            href={`/admin/blogboard/view/${blog._id}`}
+                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md shadow-sm text-[10px] font-medium transition-all bg-emerald-600 text-white hover:bg-emerald-700"
+                          >
+                            <EyeIcon className="w-3 h-3" />
+                            View
+                          </Link>
+                          <Link
+                            href={`/admin/blogboard/edit/${blog._id}`}
+                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md shadow-sm text-[10px] font-medium transition-all bg-blue-600 text-white hover:bg-blue-700"
+                          >
+                            <PencilIcon className="w-3 h-3" />
+                            Edit
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(blog._id)}
+                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md shadow-sm text-[10px] font-medium transition-all bg-red-600 text-white hover:bg-red-700"
+                          >
+                            <TrashIcon className="w-3 h-3" />
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="px-3 sm:px-6 py-3 sm:py-4 bg-gray-50/50 border-t border-gray-100">
                     <p className="text-xs text-gray-500">
                       Showing{" "}
                       <span className="font-medium text-gray-900">
@@ -608,14 +686,14 @@ export default function BlogboardPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6"
                 >
                   {blogs.map((blog, index) => (
                     <div
                       key={blog._id}
-                      className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col h-full"
+                      className="group bg-white rounded-lg sm:rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col h-full"
                     >
-                      <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
+                      <div className="relative h-36 sm:h-44 md:h-48 w-full bg-gray-100 overflow-hidden">
                         {blog.featuredImage ? (
                           <Image
                             src={blog.featuredImage}
@@ -640,7 +718,7 @@ export default function BlogboardPage() {
                         </div>
                       </div>
 
-                      <div className="p-5 flex flex-col grow">
+                      <div className="p-3 sm:p-4 md:p-5 flex flex-col grow">
                         <div className="flex items-center gap-2 mb-3">
                           <CalendarIcon className="w-3.5 h-3.5 text-gray-400" />
                           <span className="text-xs text-gray-500 font-medium">
@@ -648,12 +726,12 @@ export default function BlogboardPage() {
                           </span>
                         </div>
 
-                        <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-2 leading-snug group-hover:text-primary transition-colors">
+                        <h3 className="text-sm sm:text-base font-bold text-gray-900 mb-1.5 sm:mb-2 line-clamp-2 leading-snug group-hover:text-primary transition-colors">
                           {blog.title}
                         </h3>
 
                         {/* Actions Footer */}
-                        <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100">
+                        <div className="mt-auto pt-3 sm:pt-4 flex items-center justify-between border-t border-gray-100">
                           <div className="flex items-center gap-2">
                             {blog.author?.avatar ? (
                               <img
@@ -706,7 +784,7 @@ export default function BlogboardPage() {
 
         {/* Pagination Controls */}
         {!loading && blogs.length > 0 && (
-          <div className="mt-8 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="mt-4 sm:mt-6 md:mt-8 px-3 sm:px-6 py-3 sm:py-4 bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
             <div className="text-sm text-gray-500 hidden sm:block">
               Showing{" "}
               <span className="font-medium text-gray-900">
@@ -734,7 +812,7 @@ export default function BlogboardPage() {
                   }))
                 }
                 disabled={pagination.currentPage === 1}
-                className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-2.5 sm:px-4 py-1.5 sm:py-2 border border-gray-200 rounded-lg text-xs sm:text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Previous
               </button>
@@ -756,7 +834,7 @@ export default function BlogboardPage() {
                             currentPage: pageNum,
                           }))
                         }
-                        className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
+                        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all ${
                           pagination.currentPage === pageNum
                             ? "bg-primary text-white shadow-md"
                             : "text-gray-600 hover:bg-gray-100"
@@ -790,7 +868,7 @@ export default function BlogboardPage() {
                   }))
                 }
                 disabled={pagination.currentPage === pagination.totalPages}
-                className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-2.5 sm:px-4 py-1.5 sm:py-2 border border-gray-200 rounded-lg text-xs sm:text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Next
               </button>
