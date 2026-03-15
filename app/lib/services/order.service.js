@@ -54,4 +54,11 @@ export class OrderService {
   static async deleteOrder(id) {
     return await Order.findByIdAndDelete(id);
   }
+  static async updateQc(orderId, qcData) {
+    return await Order.findByIdAndUpdate(
+      orderId,
+      { $set: { qc: qcData } },
+      { new: true, runValidators: true },
+    );
+  }
 }

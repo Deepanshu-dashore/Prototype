@@ -1,5 +1,25 @@
 import { Schema, model, models } from "mongoose";
 
+const qcInspectionSchema = new Schema(
+  {
+    distributorCode: { type: String },
+    distributorAccountName: { type: String },
+    orderLength: { type: Number },
+    orderMaterialCode: { type: String },
+    productThicknessWithinSpec: { type: Boolean },
+    materialFreeFromSurfaceDefects: { type: Boolean },
+    productCleanAndFitForPurpose: { type: Boolean },
+    orderReadyForShipment: { type: Boolean, default: false },
+    micrometerImage: { type: String },
+    materialImage: { type: String },
+    palletDimensions: { type: String },
+    palletWeight: { type: Number },
+    processedBy: { type: String },
+    processDate: { type: Date, default: Date.now },
+  },
+  { _id: false },
+);
+
 const orderSchema = new Schema(
   {
     orderBy: {
@@ -7,6 +27,7 @@ const orderSchema = new Schema(
       ref: "Distributor",
       required: true,
     },
+    qc: { type: qcInspectionSchema },
     orderItems: [
       {
         product: {

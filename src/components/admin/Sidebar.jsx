@@ -19,6 +19,7 @@ import {
 const navigation = [
     { name: 'Dashboard', href: '/admin', icon: Squares2X2Icon },
     { name: 'Orders', href: '/admin/orders', icon: DocumentTextIcon },
+    { name: 'Enquiries', href: '/admin/enquiries', icon: FolderIcon },
     { name: 'Distributors', href: '/admin/distributors', icon: UserGroupIcon },
     { name: 'Products', href: '/admin/products', icon: ArchiveBoxIcon },
     {

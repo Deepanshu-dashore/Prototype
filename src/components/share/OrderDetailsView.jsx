@@ -10,7 +10,8 @@ import {
     DocumentTextIcon,
     ClipboardDocumentListIcon,
     PencilSquareIcon,
-    EyeIcon
+    EyeIcon,
+    ClipboardDocumentCheckIcon
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
@@ -94,9 +95,13 @@ export default function OrderDetailsView({
                     </div>
 
                     <div className="flex items-center gap-3">
-                        {/* <button className="px-4 py-2 border border-gray-200 bg-white rounded-lg text-sm font-bold text-gray-700 flex items-center gap-2 hover:bg-gray-50 transition-colors">
-                            <PrinterIcon className="w-4 h-4" /> Print
-                        </button> */}
+                        <button
+                            onClick={() => router.push(`/${role}/orders/${order?._id}/qc`)}
+                            className="px-4 py-2 bg-primary text-white rounded-lg text-sm flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm"
+                        >
+                            <ClipboardDocumentCheckIcon className="w-4 h-4" />
+                            {order?.qc ? "Update QC Report" : "Start QC"}
+                        </button>
                     </div>
                 </div>
 

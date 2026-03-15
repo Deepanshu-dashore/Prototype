@@ -54,6 +54,21 @@ export async function GET(request, { params }) {
           ...doc.toObject(),
           url: getUrls.getUrl(doc.url, doc.resource_type),
         })),
+        qc: {
+          ...order.qc.toObject(),
+          micrometerImage: getUrls.getUrl(
+            order.qc.micrometerImage,
+            order.qc.resource_type,
+          ),
+          materialImage: getUrls.getUrl(
+            order.qc.materialImage,
+            order.qc.resource_type,
+          ),
+          processedBy: getUrls.getUrl(
+            order.qc.processedBy,
+            order.qc.resource_type,
+          ),
+        },
       },
       "Order fetched successfully",
     );
