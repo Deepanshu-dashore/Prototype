@@ -13,13 +13,15 @@ import {
     ArchiveBoxIcon,
     Squares2X2Icon,
     BellIcon,
-    Cog6ToothIcon
+    Cog6ToothIcon,
+    ChatBubbleOvalLeftEllipsisIcon
 } from '@heroicons/react/24/outline'
+import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid'
 
 const navigation = [
     { name: 'Dashboard', href: '/admin', icon: Squares2X2Icon },
     { name: 'Orders', href: '/admin/orders', icon: DocumentTextIcon },
-    { name: 'Enquiries', href: '/admin/enquiries', icon: FolderIcon },
+    { name: 'Enquiries', href: '/admin/enquiries', icon: ChatBubbleOvalLeftEllipsisIcon },
     { name: 'Distributors', href: '/admin/distributors', icon: UserGroupIcon },
     { name: 'Products', href: '/admin/products', icon: ArchiveBoxIcon },
     {
