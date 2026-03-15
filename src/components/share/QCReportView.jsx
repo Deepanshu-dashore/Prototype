@@ -11,6 +11,8 @@ import {
     DocumentCheckIcon
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function QCReportView({ orderId }) {
     const router = useRouter();
@@ -89,6 +91,213 @@ export default function QCReportView({ orderId }) {
         );
     };
 
+    const generatePDF = async () => {
+        const doc = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4"
+        });
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const margin = 15;
+        let currentY = 20;
+
+        // Helper to add text with font styles
+        const addText = (text, x, y, size = 10, style = "normal", color = [0, 0, 0], align = "left") => {
+            doc.setFontSize(size);
+            doc.setFont("helvetica", style);
+            doc.setTextColor(color[0], color[1], color[2]);
+            doc.text(text, x, y, { align });
+        };
+
+        // Helper to load image as base64
+        const loadImage = (url) => {
+            return new Promise((resolve) => {
+                const img = new window.Image();
+                img.crossOrigin = "anonymous";
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0);
+                    resolve(canvas.toDataURL("image/jpeg"));
+                };
+                img.onerror = () => resolve(null);
+                img.src = url;
+            });
+        };
+
+        // 1. Header with Logo
+        const logoData = await loadImage("/CCMate-Logo.jpg");
+        if (logoData) {
+            doc.addImage(logoData, "JPEG", margin, currentY - 5, 45, 15);
+        }
+
+        // Header Titles
+        addText("OUTBOUND INSPECTION REPORT", margin + 50, currentY, 14, "bold", [31, 41, 55]);
+        addText("CERTIFICATE OF QUALITY ASSURANCE", margin + 50, currentY + 6, 9, "bold", [75, 85, 99]);
+
+        // Report Details (Right side)
+        addText("REPORT DETAILS", pageWidth - margin, currentY - 2, 8, "bold", [156, 163, 175], "right");
+        addText(`Order #${orderId?.slice(-6).toUpperCase()}`, pageWidth - margin, currentY + 4, 11, "bold", [55, 65, 81], "right");
+        addText(formatDate(qc.processDate), pageWidth - margin, currentY + 9, 9, "normal", [75, 85, 99], "right");
+
+        currentY += 25;
+
+        // 2. Section 1: General Information
+        autoTable(doc, {
+            startY: currentY,
+            head: [[{ content: "1. GENERAL INFORMATION", colSpan: 4 }]],
+            body: [
+                ["DISTRIBUTOR CODE", qc.distributorCode || "N/A", "DISTRIBUTOR ACCOUNT", qc.distributorAccountName || "N/A"],
+                ["MATERIAL CODE", qc.orderMaterialCode || "N/A", "ORDER LENGTH", qc.orderLength ? `${qc.orderLength} m (2M WIDE ROLL)` : "N/A"]
+            ],
+            theme: "grid",
+            headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
+            columnStyles: {
+                0: { fillColor: [249, 250, 251], textColor: [75, 85, 99], fontStyle: "bold", fontSize: 8, cellWidth: 40 },
+                1: { textColor: [17, 24, 39], fontSize: 9, cellWidth: 50 },
+                2: { fillColor: [249, 250, 251], textColor: [75, 85, 99], fontStyle: "bold", fontSize: 8, cellWidth: 40 },
+                3: { textColor: [17, 24, 39], fontSize: 9, cellWidth: 50 }
+            },
+            styles: { cellPadding: 4, lineColor: [209, 213, 219], lineWidth: 0.1 },
+            margin: { left: margin, right: margin }
+        });
+
+        currentY = doc.lastAutoTable.finalY + 10;
+
+        // 3. Section 2: Inspection Checklist
+        const booleanToText = (val) => val ? "APPROVED" : "NOT APPROVED";
+        const booleanToColor = (val) => val ? [16, 185, 129] : [239, 68, 68];
+
+        autoTable(doc, {
+            startY: currentY,
+            head: [["2. INSPECTION CHECKLIST", "RESULT"]],
+            body: [
+                ["Product Thickness within Spec (2.75MM – 0.05MM)", booleanToText(qc.productThicknessWithinSpec)],
+                ["Material Free from Surface Defects", booleanToText(qc.materialFreeFromSurfaceDefects)],
+                ["Product Clean & Fit for Purpose", booleanToText(qc.productCleanAndFitForPurpose)],
+                ["Order Ready for Shipment", booleanToText(qc.orderReadyForShipment)]
+            ],
+            theme: "grid",
+            headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
+            columnStyles: {
+                0: { textColor: [31, 41, 55], fontSize: 9, cellWidth: "auto" },
+                1: { fontStyle: "bold", fontSize: 9, cellWidth: 40, halign: "center" }
+            },
+            styles: { cellPadding: 4, lineColor: [209, 213, 219], lineWidth: 0.1 },
+            didDrawCell: (data) => {
+                if (data.section === 'body' && data.column.index === 1) {
+                    const val = data.cell.raw === "APPROVED";
+                    doc.setTextColor(val ? 5 : 185, val ? 150 : 28, val ? 105 : 28); // Green for Approved, Red for Not
+                }
+            },
+            margin: { left: margin, right: margin }
+        });
+
+        currentY = doc.lastAutoTable.finalY + 10;
+
+        // 4. Section 3: Shipping Configuration
+        autoTable(doc, {
+            startY: currentY,
+            head: [
+                [{ content: "3. SHIPPING CONFIGURATION", colSpan: 4 }]
+            ],
+            body: [
+                ["PALLET DIMENSIONS", qc.palletDimensions || "N/A", "PALLET WEIGHT", qc.palletWeight || "N/A"]
+            ],
+            theme: "grid",
+            headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
+            columnStyles: {
+                0: { fillColor: [249, 250, 251], textColor: [75, 85, 99], fontStyle: "bold", fontSize: 8, cellWidth: 40 },
+                1: { textColor: [17, 24, 39], fontSize: 9, cellWidth: 50 },
+                2: { fillColor: [249, 250, 251], textColor: [75, 85, 99], fontStyle: "bold", fontSize: 8, cellWidth: 40 },
+                3: { textColor: [17, 24, 39], fontSize: 9, cellWidth: 50 }
+            },
+            styles: { cellPadding: 4, lineColor: [209, 213, 219], lineWidth: 0.1 },
+            margin: { left: margin, right: margin }
+        });
+
+        currentY = doc.lastAutoTable.finalY + 10;
+
+        // Check if we need a new page for images
+        if (currentY > 200) {
+            doc.addPage();
+            currentY = 20;
+        }
+
+        // 5. Section 4: Photographic Evidence
+        addText("4. PHOTOGRAPHIC EVIDENCE", margin, currentY, 10, "bold", [17, 24, 39]);
+        currentY += 8;
+
+        const imgWidth = (pageWidth - 2 * margin - 10) / 2;
+        const imgHeight = (imgWidth * 3) / 4;
+
+        // Load evidence images
+        const micrometerImg = qc.micrometerImage ? await loadImage(qc.micrometerImage) : null;
+        const materialImg = qc.materialImage ? await loadImage(qc.materialImage) : null;
+
+        // Image 1: Micrometer
+        doc.setDrawColor(9, 31, 208);
+        doc.setFillColor(9, 31, 208);
+        doc.rect(margin, currentY, imgWidth, 8, "FD");
+        addText("MICROMETER SPEC", margin + imgWidth / 2, currentY + 5.5, 7, "bold", [255, 255, 255], "center");
+        doc.setDrawColor(209, 213, 219);
+        doc.rect(margin, currentY + 8, imgWidth, imgHeight);
+        if (micrometerImg) {
+            doc.addImage(micrometerImg, "JPEG", margin + 2, currentY + 10, imgWidth - 4, imgHeight - 4);
+        } else {
+            addText("No Image Available", margin + imgWidth / 2, currentY + 8 + imgHeight / 2, 8, "italic", [156, 163, 175], "center");
+        }
+
+        // Image 2: Material
+        doc.setFillColor(9, 31, 208);
+        doc.setDrawColor(9, 31, 208);
+        doc.rect(margin + imgWidth + 10, currentY, imgWidth, 8, "FD");
+        addText("MATERIAL PRE-WRAP", margin + imgWidth + 10 + imgWidth / 2, currentY + 5.5, 7, "bold", [255, 255, 255], "center");
+        doc.setDrawColor(209, 213, 219);
+        doc.rect(margin + imgWidth + 10, currentY + 8, imgWidth, imgHeight);
+        if (materialImg) {
+            doc.addImage(materialImg, "JPEG", margin + imgWidth + 10 + 2, currentY + 10, imgWidth - 4, imgHeight - 4);
+        } else {
+            addText("No Image Available", margin + imgWidth + 10 + imgWidth / 2, currentY + 8 + imgHeight / 2, 8, "italic", [156, 163, 175], "center");
+        }
+
+        currentY += imgHeight + 20;
+
+        // 6. Footer Signature
+        if (currentY > 250) {
+            doc.addPage();
+            currentY = 20;
+        }
+
+        doc.setDrawColor(229, 231, 235);
+        doc.setLineWidth(0.5);
+        doc.line(margin, currentY, pageWidth - margin, currentY);
+        currentY += 10;
+
+        addText("COMPANY CERTIFICATION", margin, currentY, 9, "bold", [17, 24, 39]);
+        const certText = "This report confirms that the referenced order has been inspected and meets all certified quality assurance standards.";
+        const splitCertText = doc.splitTextToSize(certText, 100);
+        doc.text(splitCertText, margin, currentY + 5);
+
+        // Signature on right
+        const sigWidth = 60;
+        const sigX = pageWidth - margin - sigWidth;
+        const sigImg = qc.processedBy ? await loadImage(qc.processedBy) : null;
+
+        if (sigImg) {
+            doc.addImage(sigImg, "JPEG", sigX, currentY - 5, sigWidth, 20);
+        } else {
+            addText("Signature Missing", sigX + sigWidth / 2, currentY + 5, 8, "italic", [156, 163, 175], "center");
+        }
+        doc.line(sigX, currentY + 16, sigX + sigWidth, currentY + 16);
+        addText("PROCESSED BY / AUTHORIZED SIGNATURE", sigX + sigWidth / 2, currentY + 21, 7, "bold", [55, 65, 81], "center");
+
+        doc.save(`QC_Report_${orderId?.slice(-6).toUpperCase()}.pdf`);
+    };
+
     return (
         <div className="min-h-screen font-sans bg-[#f8fafc] pb-24 print:bg-white print:pb-0">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 print:pt-0 print:max-w-full">
@@ -114,8 +323,8 @@ export default function QCReportView({ orderId }) {
 
                     <div className="flex items-center gap-3">
                         <button
-                            onClick={() => window.print()}
-                            className="px-4 py-2 bg-primary text-white rounded-md text-sm font-semibold flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm"
+                            onClick={generatePDF}
+                            className="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm"
                         >
                             <PrinterIcon className="w-4 h-4" />
                             Download PDF
@@ -124,126 +333,131 @@ export default function QCReportView({ orderId }) {
                 </div>
 
                 {/* Printable QC Report Document */}
-                <div className="bg-white border border-gray-300 print:shadow-none print:border-none print:m-0 mx-auto w-full max-w-4xl shadow-md">
+                <div className="bg-white border border-gray-300 print:shadow-none print:border-none print:m-0 mx-auto w-full max-w-4xl shadow-md overflow-hidden">
 
                     {/* Report Header */}
-                    <div className="px-8 py-5 border-b-2 border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                            {/* <DocumentCheckIcon className="w-12 h-12 text-gray-900" /> */}
+                    <div className="px-4 sm:px-8 py-5 border-b-2 border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                             <Image
                                 src="/CCMate-Logo.jpg"
                                 alt="CC Logo"
                                 width={120}
                                 height={120}
-                                className="w-48 h-16 object-contain"
+                                className="w-40 h-14 sm:w-48 sm:h-16 object-contain"
                             />
-                            <div className="border-l-2 border-accent/30 pl-2 -ml-2">
-                                <h2 className="text-lg font-bold text-gray-900 uppercase tracking-tight">Outbound Inspection Report</h2>
-                                <p className="text-[12px] font-semibold text-gray-600 uppercase tracking-wider">Certificate of Quality Assurance</p>
+                            <div className="sm:border-l-2 border-accent/30 sm:pl-4">
+                                <h2 className="text-base sm:text-lg font-bold text-gray-900 uppercase tracking-tight">Outbound Inspection Report</h2>
+                                <p className="text-[10px] sm:text-[12px] font-semibold text-gray-600 uppercase tracking-wider">Certificate of Quality Assurance</p>
                             </div>
                         </div>
-                        <div className="text-right border-l-2 border-gray-200 pl-6">
-                            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Report Details</p>
-                            <p className="text-base font-bold text-gray-800 leading-tight">Order #{orderId?.slice(-6).toUpperCase()}</p>
-                            <p className="text-sm font-medium text-gray-700 mt-1">{formatDate(qc.processDate)}</p>
+                        <div className="text-center md:text-right md:border-l-2 border-gray-200 md:pl-6 w-full md:w-auto">
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-1">Report Details</p>
+                            <p className="text-sm sm:text-base font-bold text-gray-800 leading-tight">Order #{orderId?.slice(-6).toUpperCase()}</p>
+                            <p className="text-xs sm:text-sm font-medium text-gray-600 mt-1">{formatDate(qc.processDate)}</p>
                         </div>
                     </div>
 
-                    <div className="p-8">
+                    <div className="p-4 sm:p-8">
                         {/* Tabular Layout */}
                         <div className="w-full">
 
                             {/* General Information Table */}
-                            <table className="w-full border-collapse border border-gray-300 mb-8">
-                                <thead>
-                                    <tr>
-                                        <th colSpan="4" className="bg-gray-100 border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-gray-900 uppercase">
-                                            1. General Information
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-xs font-bold text-gray-600 w-1/4 uppercase">Distributor Code</td>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">{qc.distributorCode || "N/A"}</td>
-                                        <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-xs font-bold text-gray-600 w-1/4 uppercase">Distributor Account</td>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">{qc.distributorAccountName || "N/A"}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-xs font-bold text-gray-600 uppercase">Material Code</td>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900">{qc.orderMaterialCode || "N/A"}</td>
-                                        <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-xs font-bold text-gray-600 uppercase">Order Length</td>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900">{qc.orderLength ? `${qc.orderLength} m (2M WIDE ROLL)` : "N/A"}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 mb-8">
+                                <table className="w-full border-collapse border border-gray-300 min-w-[600px] sm:min-w-full">
+                                    <thead>
+                                        <tr>
+                                            <th colSpan="4" className="bg-[#091fd0] border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-white uppercase">
+                                                1. General Information
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">Distributor Code</td>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">{qc.distributorCode || "N/A"}</td>
+                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">Distributor Account</td>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">{qc.distributorAccountName || "N/A"}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 uppercase">Material Code</td>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900">{qc.orderMaterialCode || "N/A"}</td>
+                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 uppercase">Order Length</td>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900">{qc.orderLength ? `${qc.orderLength} m (2M WIDE ROLL)` : "N/A"}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
                             {/* Inspection Checklist Table */}
-                            <table className="w-full border-collapse border border-gray-300 mb-8">
-                                <thead>
-                                    <tr>
-                                        <th colSpan="2" className="bg-gray-100 border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-gray-900 uppercase">
-                                            2. Inspection Checklist
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th className="bg-gray-50 border border-gray-300 px-4 py-2 text-left text-xs font-bold text-gray-600 w-[70%] uppercase">Inspection Item</th>
-                                        <th className="bg-gray-50 border border-gray-300 px-4 py-2 text-left text-xs font-bold text-gray-600 w-[30%] uppercase">Result</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Product Thickness within Spec (2.75MM – 0.05MM)</td>
-                                        <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={qc.productThicknessWithinSpec} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Material Free from Surface Defects</td>
-                                        <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={qc.materialFreeFromSurfaceDefects} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Product Clean & Fit for Purpose</td>
-                                        <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={qc.productCleanAndFitForPurpose} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Order Ready for Shipment</td>
-                                        <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={qc.orderReadyForShipment} /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 mb-8">
+                                <table className="w-full border-collapse border border-gray-300 min-w-[600px] sm:min-w-full">
+                                    <thead>
+                                        <tr>
+                                            <th colSpan="2" className="bg-[#091fd0] border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-white uppercase">
+                                                2. Inspection Checklist
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th className="bg-gray-50 border border-gray-300 px-4 py-2 text-left text-xs font-bold text-gray-600 w-[70%] uppercase">Inspection Item</th>
+                                            <th className="bg-gray-50 border border-gray-300 px-4 py-2 text-left text-xs font-bold text-gray-600 w-[30%] uppercase">Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Product Thickness within Spec (2.75MM – 0.05MM)</td>
+                                            <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={qc.productThicknessWithinSpec} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Material Free from Surface Defects</td>
+                                            <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={qc.materialFreeFromSurfaceDefects} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Product Clean & Fit for Purpose</td>
+                                            <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={qc.productCleanAndFitForPurpose} /></td>
+                                        </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Order Ready for Shipment</td>
+                                            <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={qc.orderReadyForShipment} /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
                             {/* Shipping Config Table */}
-                            <table className="w-full border-collapse border border-gray-300 mb-12">
-                                <thead>
-                                    <tr>
-                                        <th colSpan="4" className="bg-gray-100 border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-gray-900 uppercase">
-                                            3. Shipping Configuration
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-xs font-bold text-gray-600 w-1/4 uppercase">Pallet Dimensions</td>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">{qc.palletDimensions || "N/A"}</td>
-                                        <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-xs font-bold text-gray-600 w-1/4 uppercase">Pallet Weight</td>
-                                        <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">{qc.palletWeight ? `${qc.palletWeight}` : "N/A"}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 mb-12">
+                                <table className="w-full border-collapse border border-gray-300 min-w-[600px] sm:min-w-full">
+                                    <thead>
+                                        <tr>
+                                            <th colSpan="4" className="bg-[#091fd0] border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-white uppercase">
+                                                3. Shipping Configuration
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">Pallet Dimensions</td>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">{qc.palletDimensions || "N/A"}</td>
+                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">Pallet Weight</td>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">{qc.palletWeight ? `${qc.palletWeight}` : "N/A"}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
                             {/* Photographic Evidence Grid */}
                             <div className="w-full print:break-inside-avoid">
-                                <h3 className="bg-gray-100 border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-gray-900 uppercase mb-4">
+                                <h3 className="bg-[#091fd0] border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-white uppercase mb-4">
                                     4. Photographic Evidence
                                 </h3>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="flex flex-col border border-gray-300 bg-white">
-                                        <div className="border-b border-gray-300 bg-gray-50 px-3 py-2 text-center">
-                                            <p className="text-xs font-bold text-gray-700 uppercase">Micrometer Spec</p>
+                                    <div className="flex flex-col border border-gray-300 bg-white group">
+                                        <div className="border-b border-gray-300 bg-gray-50 group-hover:bg-primary/5 transition-colors px-3 py-2 text-center">
+                                            <p className="text-[10px] font-bold text-gray-700 uppercase">Micrometer Spec</p>
                                         </div>
-                                        <div className="aspect-4/3 w-full p-2 bg-white flex items-center justify-center">
+                                        <div className="aspect-[4/3] w-full p-2 bg-white flex items-center justify-center overflow-hidden">
                                             {qc.micrometerImage ? (
-                                                <a href={qc.micrometerImage} target="_blank" rel="noopener noreferrer" className="w-full h-full block">
+                                                <a href={qc.micrometerImage} target="_blank" rel="noopener noreferrer" className="w-full h-full block group-hover:scale-[1.02] transition-transform">
                                                     <img src={qc.micrometerImage} alt="Micrometer Reading" className="w-full h-full object-contain" />
                                                 </a>
                                             ) : (
@@ -252,13 +466,13 @@ export default function QCReportView({ orderId }) {
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-col border border-gray-300 bg-white">
-                                        <div className="border-b border-gray-300 bg-gray-50 px-3 py-2 text-center">
-                                            <p className="text-xs font-bold text-gray-700 uppercase">Material Pre-wrap</p>
+                                    <div className="flex flex-col border border-gray-300 bg-white group">
+                                        <div className="border-b border-gray-300 bg-gray-50 group-hover:bg-primary/5 transition-colors px-3 py-2 text-center">
+                                            <p className="text-[10px] font-bold text-gray-700 uppercase">Material Pre-wrap</p>
                                         </div>
-                                        <div className="aspect-4/3 w-full p-2 bg-white flex items-center justify-center">
+                                        <div className="aspect-[4/3] w-full p-2 bg-white flex items-center justify-center overflow-hidden">
                                             {qc.materialImage ? (
-                                                <a href={qc.materialImage} target="_blank" rel="noopener noreferrer" className="w-full h-full block">
+                                                <a href={qc.materialImage} target="_blank" rel="noopener noreferrer" className="w-full h-full block group-hover:scale-[1.02] transition-transform">
                                                     <img src={qc.materialImage} alt="Material Picture" className="w-full h-full object-contain" />
                                                 </a>
                                             ) : (
@@ -270,13 +484,13 @@ export default function QCReportView({ orderId }) {
                             </div>
 
                             {/* Footer Signature Area */}
-                            <div className="mt-16 pt-8 border-t-2 border-gray-200 flex justify-between items-end print:break-inside-avoid">
-                                <div className="text-sm text-gray-600 w-1/2">
+                            <div className="mt-16 pt-8 border-t-2 border-gray-200 flex flex-col sm:flex-row justify-between items-center sm:items-end gap-8 print:break-inside-avoid print:flex-row">
+                                <div className="text-sm text-gray-600 w-full sm:w-1/2 text-center sm:text-left">
                                     <p className="font-bold text-gray-900 mb-1">Company Certification</p>
-                                    <p>This report confirms that the referenced order has been inspected and meets all certified quality assurance standards.</p>
+                                    <p className="text-xs sm:text-sm">This report confirms that the referenced order has been inspected and meets all certified quality assurance standards.</p>
                                 </div>
-                                <div className="w-72 text-center">
-                                    <div className="h-24 w-full flex items-center justify-center border-b border-gray-300 mb-2">
+                                <div className="w-full sm:w-72 text-center">
+                                    <div className="h-24 w-full flex items-center justify-center border-b border-gray-300 mb-2 bg-gray-50/50">
                                         {qc.processedBy ? (
                                             <a href={qc.processedBy} target="_blank" rel="noopener noreferrer" className="h-[90%] block">
                                                 <img src={qc.processedBy} alt="Authorized Signature" className="h-full object-contain" />
@@ -285,7 +499,7 @@ export default function QCReportView({ orderId }) {
                                             <span className="text-xs text-gray-400 italic">Signature Missing</span>
                                         )}
                                     </div>
-                                    <p className="text-xs font-bold text-gray-700 uppercase tracking-wider">Processed By / Authorized Signature</p>
+                                    <p className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">Processed By / Authorized Signature</p>
                                 </div>
                             </div>
 

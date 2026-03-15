@@ -54,7 +54,7 @@ export async function GET(request, { params }) {
           ...doc.toObject(),
           url: getUrls.getUrl(doc.url, doc.resource_type),
         })),
-        qc: {
+        qc: order.qc && {
           ...order.qc.toObject(),
           micrometerImage: getUrls.getUrl(
             order.qc.micrometerImage,

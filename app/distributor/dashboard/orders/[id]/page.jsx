@@ -126,9 +126,9 @@ export default function DistributorOrderDetailsPage() {
                         {order?.qc && (
                             <button
                                 onClick={() => router.push(`/distributor/dashboard/orders/${order?._id}/qc`)}
-                                className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm"
+                                className="px-4 py-2 bg-primary text-white rounded-lg text-sm flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm"
                             >
-                                <ClipboardDocumentCheckIcon className="w-4 h-4" /> 
+                                <ClipboardDocumentCheckIcon className="w-4 h-4" />
                                 View QC Report
                             </button>
                         )}
