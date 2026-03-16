@@ -232,11 +232,10 @@ export default function WarehouseDistributorsPage() {
                                                     )}
                                                     <Link
                                                         href={`/warehouse/distributors/${dist._id}`}
-                                                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
+                                                        className="inline-flex items-center gap-1.5 px-2 py-2 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
                                                         title="View Details"
                                                     >
-                                                        View
-                                                        <EyeIcon className="w-3.5 h-3.5" />
+                                                        <EyeIcon className="w-4 h-4" />
                                                     </Link>
                                                 </div>
                                             </td>

@@ -351,8 +351,8 @@ export default function AdminOrdersPage() {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col gap-1.5">
-                                                    <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs cursor-pointer flex gap-2 items-center text-gray-600 font-medium">
-                                                        {order.orderItems?.length || 0} Items <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
+                                                    <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs text-nowrap cursor-pointer flex gap-2 items-center text-gray-600 font-medium">
+                                                        {order.orderItems?.length || 0} Products <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
                                                     </span>
                                                 </div>
                                                 {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-white border rounded-sm p-2 w-52 ease-in z-50 shadow-lg">

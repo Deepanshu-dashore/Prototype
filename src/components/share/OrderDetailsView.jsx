@@ -268,7 +268,7 @@ export default function OrderDetailsView({
                                     <DocumentTextIcon className="w-7 h-7 text-primary/50 bg-primary/10 p-1 rounded-md" />
                                 </div>
                                 <h3 className="text-base font-bold text-gray-800">Documents</h3>
-                                {role === "admin" && !updateModal.isOpen && (
+                                { (role === "admin" || role === "warehouse") && !updateModal.isOpen && (
                                     <button
                                         onClick={() => openUpdateModal(order)}
                                         className="inline-flex ml-auto items-center gap-1.5 px-1.5 py-1.5 bg-gray-200 border border-gray-200 text-gray-800 text-[12.25px] rounded-md hover:bg-gray-300 hover:border-gray-300 transition-all shadow-sm"
@@ -283,7 +283,7 @@ export default function OrderDetailsView({
                                 <div className="grid grid-cols-3 gap-4">
                                     <span className="text-xs text-gray-800 font-semibold pt-2">PO Number:</span>
                                     <div className="col-span-2">
-                                        {updateModal.isOpen && role === "admin" ? (
+                                        {updateModal.isOpen && (role === "admin" || role === "warehouse") ? (
                                             <input
                                                 type="text"
                                                 value={updateModal.po}
@@ -299,7 +299,7 @@ export default function OrderDetailsView({
                                 <div className="grid grid-cols-3 gap-4">
                                     <span className="text-xs text-gray-800 font-semibold pt-2">Invoice No:</span>
                                     <div className="col-span-2">
-                                        {updateModal.isOpen && role === "admin" ? (
+                                        {updateModal.isOpen && (role === "admin" || role === "warehouse") ? (
                                             <input
                                                 type="text"
                                                 value={updateModal.invoice}
@@ -313,7 +313,7 @@ export default function OrderDetailsView({
                                     </div>
                                 </div>
 
-                                {updateModal.isOpen && role === "admin" && (
+                                {updateModal.isOpen && (role === "admin" || role === "warehouse") && (
                                     <div className="grid grid-cols-3 gap-4 pt-2">
                                         <div className="col-span-1"></div>
                                         <div className="col-span-2 flex items-center gap-2">

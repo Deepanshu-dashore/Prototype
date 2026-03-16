@@ -25,6 +25,14 @@ export default function WarehouseOrderDetailsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const [updateModal, setUpdateModal] = useState({
+        isOpen: false,
+        orderId: null,
+        po: "",
+        invoice: ""
+    });
+    const [isUpdating, setIsUpdating] = useState(false);
+
     useEffect(() => {
         if (id) fetchOrderDetails();
     }, [id]);
@@ -42,6 +50,27 @@ export default function WarehouseOrderDetailsPage() {
             setError(err.response?.data?.message || err.message || "An error occurred");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleUpdateDetails = async () => {
+        try {
+            setIsUpdating(true);
+            const res = await axios.patch(`/api/order/${id}`, {
+                po: updateModal.po,
+                invoice: updateModal.invoice
+            });
+
+            if (res.data?.success) {
+                setOrder({ ...order, po: updateModal.po, invoice: updateModal.invoice });
+                setUpdateModal({ ...updateModal, isOpen: false });
+            } else {
+                alert(res.data?.message || "Failed to update order details");
+            }
+        } catch (err) {
+            alert(err.response?.data?.message || err.message || "An error occurred while updating");
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -67,6 +96,10 @@ export default function WarehouseOrderDetailsPage() {
         <OrderDetailsView
             order={order}
             role="warehouse"
+            updateModal={updateModal}
+            setUpdateModal={setUpdateModal}
+            isUpdating={isUpdating}
+            handleUpdateDetails={handleUpdateDetails}
         />
     );
 }

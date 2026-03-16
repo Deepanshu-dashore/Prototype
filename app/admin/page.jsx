@@ -390,21 +390,29 @@ export default function AdminDashboard() {
                                         ? order.orderItems.length
                                         : "—";
                                     return (
-                                        <tr key={order._id} className="hover:bg-gray-50/60 transition-colors">
-                                            <td className="px-5 py-3 text-xs font-semibold text-gray-700 font-mono">{orderId}</td>
+                                        <tr key={order._id} className="hover:bg-gray-50/60 transition-colors group cursor-pointer">
+                                            <td className="px-5 py-3 text-xs font-semibold text-gray-700 font-mono">
+                                                <Link href={`/admin/orders/${order._id}`} className="hover:text-blue-600 transition-colors">
+                                                    {orderId}
+                                                </Link>
+                                            </td>
                                             <td className="px-5 py-3">
-                                                <div className="flex items-center gap-2">
+                                                <Link href={`/admin/orders/${order._id}`} className="flex items-center gap-2">
                                                     <div className="w-7 h-7 rounded-md bg-blue-50 border border-blue-100 flex items-center justify-center text-[9px] font-bold text-blue-400 shrink-0">
                                                         {initials}
                                                     </div>
                                                     <span className="text-xs text-gray-700 truncate max-w-[120px]" title={companyName}>{companyName}</span>
-                                                </div>
+                                                </Link>
                                             </td>
                                             <td className="px-5 py-3">
-                                                <StatusBadge status={order.status} />
+                                                <Link href={`/admin/orders/${order._id}`}>
+                                                    <StatusBadge status={order.status} />
+                                                </Link>
                                             </td>
                                             <td className="px-5 py-3 text-xs font-semibold text-gray-700 text-right">
-                                                <span className="inline-flex px-2 items-center justify-center w-fit h-6 rounded-full bg-gray-100 text-gray-600 text-[11px] font-bold">{order?.orderItems?.length || 0} Items</span>
+                                                <Link href={`/admin/orders/${order._id}`}>
+                                                    <span className="inline-flex px-2 items-center justify-center w-fit h-6 rounded-full bg-gray-100 text-gray-600 text-[11px] font-bold">{order?.orderItems?.length || 0} Items</span>
+                                                </Link>
                                             </td>
                                         </tr>
                                     );
@@ -471,14 +479,7 @@ export default function AdminDashboard() {
                             );
                         })}
 
-                        {(!data?.recentNewDirtubutors || data.recentNewDirtubutors.length === 0) && (
-                            <div className="flex flex-col items-center justify-center py-10 opacity-60">
-                                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-2">
-                                    <UserGroupIcon className="w-6 h-6 text-gray-300" />
-                                </div>
-                                <p className="text-xs text-gray-400 font-medium">No pending requests</p>
-                            </div>
-                        )}
+                               
                     </div>
                 </div>
             </div>
