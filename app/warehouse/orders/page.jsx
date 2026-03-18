@@ -18,7 +18,8 @@ import {
     CubeIcon,
     ClipboardDocumentListIcon,
     FunnelIcon,
-    ChatBubbleBottomCenterTextIcon
+    ChatBubbleBottomCenterTextIcon,
+    ChevronDownIcon
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
@@ -74,6 +75,8 @@ export default function WarehouseOrdersPage() {
 
         TOTAL: 0
     });
+
+    const [productList, setProductList] = useState(null);
 
     useEffect(() => {
         fetchOrders(pagination.currentPage);
@@ -194,16 +197,20 @@ export default function WarehouseOrdersPage() {
     const getStatusColor = (status) => {
         switch (status) {
             case "PENDING":
-                return "bg-amber-50 text-amber-700 border-amber-200";
+                // Reference: Yellow/Orange for Pending
+                return "bg-[#fdf3e1] text-[#b67319] border-[#fdf3e1]";
 
             case "IN PROCESS":
-                return "bg-sky-50 text-sky-700 border-sky-200";
+                // Soft Blue for Processed
+                return "bg-[#e1f0fd] text-[#1974b6] border-[#e1f0fd]";
 
             case "READY-TO-SHIP":
-                return "bg-purple-50 text-purple-700 border-purple-200";
+                // Soft Purple for Ready to Ship
+                return "bg-[#f3e1fd] text-[#8b19b6] border-[#f3e1fd]";
 
             case "RECEIVED":
-                return "bg-emerald-50 text-emerald-700 border-emerald-200";
+                // Reference: Green for Completed/Received
+                return "bg-[#dff5e9] text-[#00865a] border-[#dff5e9]";
 
 
 
@@ -392,34 +399,36 @@ export default function WarehouseOrdersPage() {
 
                 {/* Orders Table */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden min-h-[400px]">
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto w-[calc(100vw-3.5rem)] md:w-[calc(100vw-2rem)] lg:w-auto relative">
                         <table className="w-full text-left border-collapse">
-                            <thead className="bg-gray-50/50 border-b border-gray-100">
+                            <thead className="bg-gray-100/70 border-b border-gray-100">
                                 <tr>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Order Info</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Order Date</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Distributor</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">PO / Invoice</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Info</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Distributor</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Products</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">Order Date</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">PO</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Invoice</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
-                                    <TableLoadingSkeleton columns={6} rows={10} />
+                                    <TableLoadingSkeleton rows={5} columns={8} />
                                 ) : error ? (
                                     <tr>
-                                        <td colSpan="6" className="px-6 py-12 text-center text-red-500 bg-red-50/20 font-medium">{error}</td>
+                                        <td colSpan="8" className="px-6 py-12 text-center text-red-500">{error}</td>
                                     </tr>
                                 ) : orders.length === 0 ? (
                                     <TableEmptyState
-                                        colSpan={6}
-                                        title="No orders found"
-                                        message="No orders match your current filters. Try searching with different keywords."
+                                        colSpan={8}
+                                        title="No Orders Found"
+                                        message="We couldn't find any orders matching your filters. Try search or adjust dates."
                                     />
                                 ) : (
-                                    orders.map((order) => (
-                                        <tr key={order._id} className="hover:bg-gray-50/60 transition-colors">
+                                    orders.map((order, index) => (
+                                        <tr key={order._id} className={`hover:bg-gray-50/60 transition-colors ${index % 2 !== 0 ? 'bg-slate-50' : 'bg-white'}`}>
                                             <td className="px-6 py-4 flex items-center gap-2 font-mono text-sm text-gray-800 hover:text-primary">
                                                 <div className="p-2 bg-primary/10 rounded-md">
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-primary" viewBox="0 0 24 24">
@@ -427,26 +436,34 @@ export default function WarehouseOrdersPage() {
                                                         <path fill="currentColor" d="M20 3a2 2 0 0 1 2 2v3H2V5a2 2 0 0 1 2-2zm-6 10h-4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2" className="duoicon-primary-layer"></path>
                                                     </svg>
                                                 </div>
-                                                <Link href={`/warehouse/orders/${order._id}`} className="font-semibold text-gray-800 underline-offset-2 hover:text-primary hover:underline">
+                                                <Link href={`/warehouse/orders/${order._id}`} className="font-semibold text-gray-600 underline-offset-2 hover:text-primary hover:underline">
                                                     #{order._id.slice(-6).toUpperCase()}
                                                 </Link>
+                                                {order.instructions && (
+                                                    <span title="Instruction" className="text-[9px] text-orange-600 animate-pulse font-bold bg-orange-100 px-1.5 py-0.5 rounded border border-orange-300 w-fit flex items-center gap-1">
+                                                        <ChatBubbleBottomCenterTextIcon className="w-3 h-3" strokeWidth={2} />
+                                                    </span>
+                                                )}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                                    <span className="text-sm font-medium text-gray-600 line-clamp-1">{order.orderBy?.companyName || "Unknown"}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="flex flex-col gap-1">
-                                                    <span className="text-sm font-medium text-gray-900 line-clamp-1">{order.orderBy?.companyName || "Unknown"}</span>
-                                                    <div className="flex items-center gap-3">
-                                                        <span className="text-xs text-gray-500">{order.orderItems?.length || 0} items</span>
-                                                        {order.instructions && (
-                                                            <span className="text-[9px] text-indigo-600 font-bold bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100 w-fit flex items-center gap-1">
-                                                                <ChatBubbleBottomCenterTextIcon className="w-3 h-3" /> Instruction
-                                                            </span>
-                                                        )}
-                                                    </div>
+                                                <div className="flex flex-col gap-1.5">
+                                                    <span onClick={() => setProductList(order._id === productList ? null : order._id)} className="text-xs text-nowrap cursor-pointer flex gap-2 items-center text-gray-600 font-medium">
+                                                        {order.orderItems?.length || 0} Products <ChevronDownIcon className={`h-4 w-4 p-0.5 border border-gray-300 rounded-sm transition-transform duration-300 ease-in-out ${order._id === productList && "rotate-180"}`} />
+                                                    </span>
+                                                </div>
+                                                {productList === order._id && <div className="flex absolute flex-col gap-2 mt-2 bg-white border rounded-sm p-2 w-52 ease-in z-50 shadow-lg">
+                                                    {order?.orderItems.map(item => (<span key={item._id} className="text-[10px] text-gray-500"><span className="w-1.5 my-auto aspect-square rounded-full bg-primary/60 inline-block mx-2"></span>{item.product.code}</span>))
+                                                    }
+                                                </div>}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex flex-col">
+                                                    <span className="text-xs font-medium text-gray-600 text-nowrap">{new Date(order.createdAt).toDateString()}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
@@ -477,13 +494,13 @@ export default function WarehouseOrdersPage() {
                                                     </div>
                                                 ) : (
                                                     <div className="flex items-center gap-2">
-                                                        <span className={`inline-flex justify-center min-w-22 text-center items-center px-2.5 py-0.5 rounded-sm text-[10px] font-semibold ${getStatusColor(order.status)} border shadow-xs`}>
+                                                        <span className={`inline-flex text-nowrap justify-center min-w-22 text-center items-center px-2 py-0.5 rounded-sm text-[10px] font-bold ${getStatusColor(order.status)} border shadow-xs`}>
                                                             {order.status}
                                                         </span>
                                                         <button
                                                             onClick={() => {
+                                                                setTempStatus(order.status)
                                                                 setEditingStatusOrderId(order._id);
-                                                                setTempStatus(order.status);
                                                             }}
                                                             className="p-1 text-gray-400 hover:text-primary transition-colors hover:bg-gray-100 rounded-md"
                                                         >
@@ -492,17 +509,45 @@ export default function WarehouseOrdersPage() {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 <div className="flex flex-col gap-1">
                                                     {order.po ? (
-                                                        <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100 w-fit font-mono">PO: {order.po}</span>
+                                                        <>
+                                                            <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100 w-fit font-mono">#{order.po}</span>
+                                                            {order.poLink?.url && (
+                                                                <a
+                                                                    href={order.poLink.url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-[9px] text-indigo-600 font-bold hover:underline flex items-center gap-1"
+                                                                >
+                                                                    <EyeIcon className="w-3 h-3" /> View PO
+                                                                </a>
+                                                            )}
+                                                        </>
                                                     ) : (
-                                                        <span className="text-xs text-gray-400 italic">No PO</span>
+                                                        <span className="text-xs text-gray-400 italic"># Not added</span>
                                                     )}
+                                                </div>
+                                            </td>
+                                            <td className="px-2 py-4">
+                                                <div className="flex flex-col gap-1">
                                                     {order.invoice ? (
-                                                        <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 w-fit font-mono">INV: {order.invoice}</span>
+                                                        <>
+                                                            <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 w-fit font-mono">#{order.invoice}</span>
+                                                            {order.invoiceLink?.url && (
+                                                                <a
+                                                                    href={order.invoiceLink.url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-[9px] text-green-600 font-bold hover:underline flex items-center gap-1"
+                                                                >
+                                                                    <EyeIcon className="w-3 h-3" /> View Invoice
+                                                                </a>
+                                                            )}
+                                                        </>
                                                     ) : (
-                                                        <span className="text-xs text-gray-400 italic">No Invoice</span>
+                                                        <span className="text-xs text-gray-400 italic"># Not added</span>
                                                     )}
                                                 </div>
                                             </td>
@@ -510,20 +555,13 @@ export default function WarehouseOrdersPage() {
                                                 <div className="flex items-center justify-end gap-2">
                                                     <Link
                                                         href={`/warehouse/orders/${order._id}`}
-                                                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
+                                                        className="inline-flex items-center gap-1.5 px-2 py-2 bg-primary border border-primary text-white text-[12.25px] rounded-md hover:bg-primary/80 hover:border-primary/20 transition-all shadow-sm"
                                                         title="View Details"
                                                     >
-                                                        View
-                                                        <EyeIcon className="w-3.5 h-3.5" />
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20">
+                                                            <path fill="currentColor" d="M11.078 0c.294 0 .557.183.656.457l.706 1.957q.379.094.654.192q.3.107.78.33l1.644-.87a.7.7 0 0 1 .832.131l1.446 1.495c.192.199.246.49.138.744l-.771 1.807q.191.352.308.604q.126.273.312.76l1.797.77c.27.115.437.385.419.674l-.132 2.075a.69.69 0 0 1-.46.605l-1.702.605q-.073.352-.154.606a9 9 0 0 1-.298.774l.855 1.89a.68.68 0 0 1-.168.793l-1.626 1.452a.7.7 0 0 1-.796.096l-1.676-.888a7 7 0 0 1-.81.367l-.732.274l-.65 1.8a.7.7 0 0 1-.64.457L9.11 20a.7.7 0 0 1-.669-.447l-.766-2.027a15 15 0 0 1-.776-.29a10 10 0 0 1-.618-.293l-1.9.812a.7.7 0 0 1-.755-.133L2.22 16.303a.68.68 0 0 1-.155-.783l.817-1.78a10 10 0 0 1-.302-.644a14 14 0 0 1-.3-.811L.49 11.74a.69.69 0 0 1-.49-.683l.07-1.921a.69.69 0 0 1 .392-.594L2.34 7.64q.13-.478.23-.748a9 9 0 0 1 .314-.712L2.07 4.46a.68.68 0 0 1 .15-.79l1.404-1.326a.7.7 0 0 1 .75-.138l1.898.784q.314-.209.572-.344q.307-.162.824-.346l.66-1.841A.7.7 0 0 1 8.984 0zm-.49 1.377H9.475L8.87 3.071a.7.7 0 0 1-.434.423c-.436.145-.751.27-.935.367q-.294.155-.74.47a.7.7 0 0 1-.673.074l-1.83-.755l-.713.674l.743 1.57a.68.68 0 0 1-.006.597c-.2.401-.335.697-.403.879a10 10 0 0 0-.27.922a.69.69 0 0 1-.37.45l-1.79.859l-.036.98l1.62.492c.215.065.385.23.456.442q.241.722.38 1.056a10 10 0 0 0 .404.827a.68.68 0 0 1 .019.606l-.751 1.638l.711.668l1.782-.762a.7.7 0 0 1 .603.024q.55.288.809.398c.175.073.51.195.996.361a.7.7 0 0 1 .424.41l.708 1.871l.926-.02l.597-1.654a.7.7 0 0 1 .409-.413l1.037-.388q.394-.145.951-.46a.7.7 0 0 1 .674-.008l1.577.835l.887-.791L15.856 14a.68.68 0 0 1-.001-.56c.182-.407.305-.714.367-.91q.093-.29.185-.825a.69.69 0 0 1 .451-.533l1.648-.585l.072-1.14l-1.62-.694a.7.7 0 0 1-.377-.394a15 15 0 0 0-.378-.944a11 11 0 0 0-.42-.794a.68.68 0 0 1-.035-.606l.725-1.7l-.764-.79l-1.488.788a.7.7 0 0 1-.633.013a11 11 0 0 0-.968-.426a7 7 0 0 0-.857-.23a.7.7 0 0 1-.508-.441zm-.564 4.264c2.435 0 4.41 1.953 4.41 4.361s-1.975 4.36-4.41 4.36s-4.41-1.952-4.41-4.36s1.974-4.36 4.41-4.36m0 1.378c-1.667 0-3.018 1.335-3.018 2.983s1.351 2.984 3.018 2.984s3.017-1.336 3.017-2.984s-1.35-2.983-3.017-2.983"></path>
+                                                        </svg>
                                                     </Link>
-                                                    {/* <button
-                                                        onClick={() => openUpdateModal(order)}
-                                                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-700 border border-emerald-700 text-white text-[12.25px] rounded-md hover:bg-emerald-800 hover:border-emerald-800 transition-all shadow-sm"
-                                                        title="Edit Order"
-                                                    >
-                                                        Edit
-                                                        <PencilSquareIcon className="w-3.5 h-3.5" />
-                                                    </button> */}
                                                 </div>
                                             </td>
                                         </tr>
