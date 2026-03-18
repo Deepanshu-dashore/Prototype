@@ -413,8 +413,8 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pb-8 font-sans">
+      <div className="max-w-7xl mx-auto">
         {/* ── Header ── */}
         <AdminHeader
           title="Product Management"
@@ -444,160 +444,161 @@ export default function ProductsPage() {
           }
         />
 
-        {/* ── Search Bar ── */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row gap-4 justify-start items-center">
-          <div className="relative w-full md:w-72">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search by code or description..."
-              className="block w-full pl-9 pr-20 py-2 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              onKeyDown={(e) => e.key === "Enter" && fetchProducts(1)}
-            />
-            <button
-              onClick={() => fetchProducts(1)}
-              className="absolute right-1 top-1 bottom-1 px-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md text-xs font-medium transition-colors"
-              type="button"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-
-        {/* ── Content ── */}
-        <div className="min-h-[400px]">
-          {error ? (
-            <div className="rounded-lg bg-red-50 p-4 border border-red-100 text-center">
-              <p className="text-sm text-red-600 font-medium">{error}</p>
-            </div>
-          ) : (
-            <>
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+        <div className="px-4 sm:px-6 lg:px-8">
+          {/* ── Search Bar ── */}
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row gap-4 justify-start items-center">
+            <div className="relative w-full md:w-72">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search by code or description..."
+                className="block w-full pl-9 pr-20 py-2 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onKeyDown={(e) => e.key === "Enter" && fetchProducts(1)}
+              />
+              <button
+                onClick={() => fetchProducts(1)}
+                className="absolute right-1 top-1 bottom-1 px-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md text-xs font-medium transition-colors"
+                type="button"
               >
-                <div className="overflow-x-auto w-[calc(100vw-3.5rem)] md:w-[calc(100vw-2rem)] lg:w-auto relative">
-                  <table className="w-full text-left border-collapse">
-                    <thead className="bg-gray-100/70 border-b border-gray-100">
-                      <tr>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
-                          Product Code
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                          Description
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
-                          Created
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
-                          Visibility
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right text-nowrap">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {loading ? (
-                        <TableLoadingSkeleton
-                          columns={5}
-                          rows={pagination.limit}
-                        />
-                      ) : products.length === 0 ? (
-                        <TableEmptyState
-                          title={
-                            searchQuery
-                              ? "No products found"
-                              : "No products yet"
-                          }
-                          message={
-                            searchQuery
-                              ? "Try adjusting your search query to find what you're looking for."
-                              : "Get started by adding your first product to the catalogue."
-                          }
-                          colSpan={5}
-                        />
-                      ) : (
-                        products.map((product, index) => (
-                          <motion.tr
-                            key={product._id}
-                            initial={{ opacity: 0, y: 5 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.04 }}
-                            className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
-                          >
-                            {/* Code */}
-                            <td className="px-6 py-4">
-                              <div className="flex items-center gap-3">
-                                <div className="sm:h-10 sm:w-10 h-6 w-6 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-                                  <ArchiveBoxIcon className="sm:w-5 sm:h-5 w-3 h-3 text-indigo-600" />
+                Search
+              </button>
+            </div>
+          </div>
+
+          {/* ── Content ── */}
+          <div className="min-h-[400px]">
+            {error ? (
+              <div className="rounded-lg bg-red-50 p-4 border border-red-100 text-center">
+                <p className="text-sm text-red-600 font-medium">{error}</p>
+              </div>
+            ) : (
+              <>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+                >
+                  <div className="overflow-x-auto w-[calc(100vw-3.5rem)] md:w-[calc(100vw-2rem)] lg:w-auto relative">
+                    <table className="w-full text-left border-collapse">
+                      <thead className="bg-gray-100/70 border-b border-gray-100">
+                        <tr>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                            Product Code
+                          </th>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Description
+                          </th>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                            Created
+                          </th>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                            Visibility
+                          </th>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right text-nowrap">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {loading ? (
+                          <TableLoadingSkeleton
+                            columns={5}
+                            rows={pagination.limit}
+                          />
+                        ) : products.length === 0 ? (
+                          <TableEmptyState
+                            title={
+                              searchQuery
+                                ? "No products found"
+                                : "No products yet"
+                            }
+                            message={
+                              searchQuery
+                                ? "Try adjusting your search query to find what you're looking for."
+                                : "Get started by adding your first product to the catalogue."
+                            }
+                            colSpan={5}
+                          />
+                        ) : (
+                          products.map((product, index) => (
+                            <motion.tr
+                              key={product._id}
+                              initial={{ opacity: 0, y: 5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.04 }}
+                              className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
+                            >
+                              {/* Code */}
+                              <td className="px-6 py-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="sm:h-10 sm:w-10 h-6 w-6 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
+                                    <ArchiveBoxIcon className="sm:w-5 sm:h-5 w-3 h-3 text-indigo-600" />
+                                  </div>
+                                  <span className="sm:text-sm text-xs font-semibold text-gray-800 tracking-wide text-nowrap">
+                                    {product.code}
+                                  </span>
                                 </div>
-                                <span className="sm:text-sm text-xs font-semibold text-gray-800 tracking-wide text-nowrap">
-                                  {product.code}
-                                </span>
-                              </div>
-                            </td>
+                              </td>
 
-                            {/* Description */}
-                            <td className="px-6 py-4 max-w-xs">
-                              <p className="sm:text-sm text-xs text-gray-600 line-clamp-2">
-                                {product.description}
-                              </p>
-                            </td>
+                              {/* Description */}
+                              <td className="px-6 py-4 max-w-xs">
+                                <p className="sm:text-sm text-xs text-gray-600 line-clamp-2">
+                                  {product.description}
+                                </p>
+                              </td>
 
-                            {/* Created date */}
-                            <td className="px-6 py-4 text-nowrap">
-                              <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                                <CalendarIcon className="w-3.5 h-3.5 text-gray-500" />
-                                {formatDate(product.createdAt)}
-                              </div>
-                            </td>
+                              {/* Created date */}
+                              <td className="px-6 py-4 text-nowrap">
+                                <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                                  <CalendarIcon className="w-3.5 h-3.5 text-gray-500" />
+                                  {formatDate(product.createdAt)}
+                                </div>
+                              </td>
 
-                            {/* Visibility */}
-                            <td className="px-6 py-4">
-                              <button
-                                onClick={() =>
-                                  setVisibilityModal({
-                                    isOpen: true,
-                                    productId: product._id,
-                                  })
-                                }
-                                className={`relative inline-flex sm:h-6 sm:w-11 h-4.5 w-8 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 ${
-                                  product.visibility !== false
-                                    ? "bg-indigo-500"
-                                    : "bg-gray-300"
-                                }`}
-                                role="switch"
-                                aria-checked={product.visibility !== false}
-                                title="Toggle Visibility"
-                              >
-                                <span
-                                  className={`pointer-events-none  sm:translate-y-0.5 inline-block sm:h-4 sm:w-4 h-3.5 w-3.5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                    product.visibility !== false
-                                      ? "sm:translate-x-5.5 translate-x-3.5"
-                                      : "sm:translate-x-0.5 -translate-x-0.5"
-                                  }`}
-                                />
-                              </button>
-                            </td>
-
-                            {/* Actions */}
-                            <td className="px-6 py-4 text-right">
-                              <div className="flex items-center justify-end gap-2">
+                              {/* Visibility */}
+                              <td className="px-6 py-4">
                                 <button
-                                  onClick={() => openEditModal(product)}
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-emerald-700 text-white hover:bg-emerald-800 transition-colors"
-                                  title="Edit Product"
+                                  onClick={() =>
+                                    setVisibilityModal({
+                                      isOpen: true,
+                                      productId: product._id,
+                                    })
+                                  }
+                                  className={`relative inline-flex sm:h-6 sm:w-11 h-4.5 w-8 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 ${
+                                    product.visibility !== false
+                                      ? "bg-indigo-500"
+                                      : "bg-gray-300"
+                                  }`}
+                                  role="switch"
+                                  aria-checked={product.visibility !== false}
+                                  title="Toggle Visibility"
                                 >
-                                  Edit
-                                  <PencilSquareIcon className="w-3.5 h-3.5" />
+                                  <span
+                                    className={`pointer-events-none  sm:translate-y-0.5 inline-block sm:h-4 sm:w-4 h-3.5 w-3.5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                      product.visibility !== false
+                                        ? "sm:translate-x-5.5 translate-x-3.5"
+                                        : "sm:translate-x-0.5 -translate-x-0.5"
+                                    }`}
+                                  />
                                 </button>
-                                {/* <button
+                              </td>
+
+                              {/* Actions */}
+                              <td className="px-6 py-4 text-right">
+                                <div className="flex items-center justify-end gap-2">
+                                  <button
+                                    onClick={() => openEditModal(product)}
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-emerald-700 text-white hover:bg-emerald-800 transition-colors"
+                                    title="Edit Product"
+                                  >
+                                    Edit
+                                    <PencilSquareIcon className="w-3.5 h-3.5" />
+                                  </button>
+                                  {/* <button
                                 onClick={() => handleDelete(product._id)}
                                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
                                 title="Delete Product"
@@ -605,201 +606,207 @@ export default function ProductsPage() {
                                 Delete
                                 <TrashIcon className="w-3.5 h-3.5" />
                               </button> */}
-                              </div>
-                            </td>
-                          </motion.tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="px-6 py-3 bg-gray-50/50 border-t border-gray-100">
-                  <p className="text-xs text-gray-500">
-                    Showing{" "}
-                    <span className="font-medium text-gray-900">
-                      {products.length}
-                    </span>{" "}
-                    of{" "}
-                    <span className="font-medium text-gray-900">
-                      {pagination.totalItems}
-                    </span>{" "}
-                    products
-                  </p>
-                </div>
-              </motion.div>
-
-              {pagination.totalPages > 1 && (
-                <div className="mt-6 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-sm text-gray-500 hidden sm:block">
-                    Showing{" "}
-                    <span className="font-medium text-gray-900">
-                      {(pagination.currentPage - 1) * pagination.limit + 1}
-                    </span>{" "}
-                    to{" "}
-                    <span className="font-medium text-gray-900">
-                      {Math.min(
-                        pagination.currentPage * pagination.limit,
-                        pagination.totalItems,
-                      )}
-                    </span>{" "}
-                    of{" "}
-                    <span className="font-medium text-gray-900">
-                      {pagination.totalItems}
-                    </span>{" "}
-                    results
+                                </div>
+                              </td>
+                            </motion.tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() =>
-                        setPagination((prev) => ({
-                          ...prev,
-                          currentPage: Math.max(1, prev.currentPage - 1),
-                        }))
-                      }
-                      disabled={pagination.currentPage === 1}
-                      className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                    >
-                      Previous
-                    </button>
-                    <div className="flex items-center gap-1">
-                      {[...Array(pagination.totalPages)].map((_, i) => {
-                        const pageNum = i + 1;
-                        if (
-                          pageNum === 1 ||
-                          pageNum === pagination.totalPages ||
-                          (pageNum >= pagination.currentPage - 1 &&
-                            pageNum <= pagination.currentPage + 1)
-                        ) {
-                          return (
-                            <button
-                              key={pageNum}
-                              onClick={() =>
-                                setPagination((prev) => ({
-                                  ...prev,
-                                  currentPage: pageNum,
-                                }))
-                              }
-                              className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
-                                pagination.currentPage === pageNum
-                                  ? "bg-primary text-white shadow-md"
-                                  : "text-gray-600 hover:bg-gray-100"
-                              }`}
-                            >
-                              {pageNum}
-                            </button>
-                          );
-                        } else if (
-                          (pageNum === pagination.currentPage - 2 &&
-                            pageNum > 1) ||
-                          (pageNum === pagination.currentPage + 2 &&
-                            pageNum < pagination.totalPages)
-                        ) {
-                          return (
-                            <span key={pageNum} className="px-1 text-gray-400">
-                              ...
-                            </span>
-                          );
-                        }
-                        return null;
-                      })}
+
+                  <div className="px-6 py-3 bg-gray-50/50 border-t border-gray-100">
+                    <p className="text-xs text-gray-500">
+                      Showing{" "}
+                      <span className="font-medium text-gray-900">
+                        {products.length}
+                      </span>{" "}
+                      of{" "}
+                      <span className="font-medium text-gray-900">
+                        {pagination.totalItems}
+                      </span>{" "}
+                      products
+                    </p>
+                  </div>
+                </motion.div>
+
+                {pagination.totalPages > 1 && (
+                  <div className="mt-6 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="text-sm text-gray-500 hidden sm:block">
+                      Showing{" "}
+                      <span className="font-medium text-gray-900">
+                        {(pagination.currentPage - 1) * pagination.limit + 1}
+                      </span>{" "}
+                      to{" "}
+                      <span className="font-medium text-gray-900">
+                        {Math.min(
+                          pagination.currentPage * pagination.limit,
+                          pagination.totalItems,
+                        )}
+                      </span>{" "}
+                      of{" "}
+                      <span className="font-medium text-gray-900">
+                        {pagination.totalItems}
+                      </span>{" "}
+                      results
                     </div>
-                    <button
-                      onClick={() =>
-                        setPagination((prev) => ({
-                          ...prev,
-                          currentPage: Math.min(
-                            prev.totalPages,
-                            prev.currentPage + 1,
-                          ),
-                        }))
-                      }
-                      disabled={
-                        pagination.currentPage === pagination.totalPages
-                      }
-                      className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                    >
-                      Next
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() =>
+                          setPagination((prev) => ({
+                            ...prev,
+                            currentPage: Math.max(1, prev.currentPage - 1),
+                          }))
+                        }
+                        disabled={pagination.currentPage === 1}
+                        className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      >
+                        Previous
+                      </button>
+                      <div className="flex items-center gap-1">
+                        {[...Array(pagination.totalPages)].map((_, i) => {
+                          const pageNum = i + 1;
+                          if (
+                            pageNum === 1 ||
+                            pageNum === pagination.totalPages ||
+                            (pageNum >= pagination.currentPage - 1 &&
+                              pageNum <= pagination.currentPage + 1)
+                          ) {
+                            return (
+                              <button
+                                key={pageNum}
+                                onClick={() =>
+                                  setPagination((prev) => ({
+                                    ...prev,
+                                    currentPage: pageNum,
+                                  }))
+                                }
+                                className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
+                                  pagination.currentPage === pageNum
+                                    ? "bg-primary text-white shadow-md"
+                                    : "text-gray-600 hover:bg-gray-100"
+                                }`}
+                              >
+                                {pageNum}
+                              </button>
+                            );
+                          } else if (
+                            (pageNum === pagination.currentPage - 2 &&
+                              pageNum > 1) ||
+                            (pageNum === pagination.currentPage + 2 &&
+                              pageNum < pagination.totalPages)
+                          ) {
+                            return (
+                              <span
+                                key={pageNum}
+                                className="px-1 text-gray-400"
+                              >
+                                ...
+                              </span>
+                            );
+                          }
+                          return null;
+                        })}
+                      </div>
+                      <button
+                        onClick={() =>
+                          setPagination((prev) => ({
+                            ...prev,
+                            currentPage: Math.min(
+                              prev.totalPages,
+                              prev.currentPage + 1,
+                            ),
+                          }))
+                        }
+                        disabled={
+                          pagination.currentPage === pagination.totalPages
+                        }
+                        className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      >
+                        Next
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </>
-          )}
+                )}
+              </>
+            )}
+          </div>
         </div>
+
+        {/* ── Add / Edit Modal ── */}
+        <ProductModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onSaved={() =>
+            fetchProducts(editProduct ? pagination.currentPage : 1)
+          }
+          editProduct={editProduct}
+        />
+
+        {/* ── Delete Confirmation Modal ── */}
+        <ConfirmationModal
+          isOpen={deleteModal.isOpen}
+          onClose={() => setDeleteModal({ isOpen: false, productId: null })}
+          onConfirm={confirmDelete}
+          title="Delete Product"
+          message="Are you sure you want to permanently delete this product? This action cannot be undone."
+          type="delete"
+          confirmText="Delete Product"
+          isLoading={isDeleting}
+        />
+        <ConfirmationModal
+          isOpen={visibilityModal.isOpen}
+          icon={({ className }) => (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={className}
+              viewBox="0 0 24 24"
+            >
+              <defs>
+                <path
+                  id="SVGnvzg3hCy"
+                  fill="currentColor"
+                  d="M15.92 12.799Q16 12.41 16 12a4 4 0 0 0-4.799-3.92zM8.667 9.788a4 4 0 0 0 5.545 5.545z"
+                ></path>
+              </defs>
+              <g fill="none">
+                <use
+                  href="#SVGnvzg3hCy"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                ></use>
+                <path
+                  fill="currentColor"
+                  fillOpacity={0.25}
+                  fillRule="evenodd"
+                  d="m15.787 16.909l-8.929-8.93c-1.314.986-2.373 2.138-3.046 2.955c-.388.472-.582.707-.582 1.066s.194.594.582 1.066C5.232 14.79 8.364 18 12 18c1.353 0 2.636-.445 3.787-1.091M9.577 6.456A7 7 0 0 1 12 6c3.636 0 6.768 3.21 8.188 4.934c.388.472.582.707.582 1.066s-.194.594-.582 1.066a19.5 19.5 0 0 1-1.95 2.05z"
+                  clipRule="evenodd"
+                ></path>
+                <use
+                  href="#SVGnvzg3hCy"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                ></use>
+                <path
+                  stroke="currentColor"
+                  strokeWidth={1.2}
+                  d="m8 5l12 12"
+                ></path>
+              </g>
+            </svg>
+          )}
+          onClose={() => setVisibilityModal({ isOpen: false, productId: null })}
+          onConfirm={() => {
+            toggleVisibility(visibilityModal.productId);
+            setVisibilityModal({ isOpen: false, productId: null });
+          }}
+          title="Visbility Update"
+          message="Are you sure you want to update visbility of this product?"
+          type="edit"
+          confirmText="Update Visibility"
+          isLoading={isUpdating}
+        />
       </div>
-
-      {/* ── Add / Edit Modal ── */}
-      <ProductModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSaved={() => fetchProducts(editProduct ? pagination.currentPage : 1)}
-        editProduct={editProduct}
-      />
-
-      {/* ── Delete Confirmation Modal ── */}
-      <ConfirmationModal
-        isOpen={deleteModal.isOpen}
-        onClose={() => setDeleteModal({ isOpen: false, productId: null })}
-        onConfirm={confirmDelete}
-        title="Delete Product"
-        message="Are you sure you want to permanently delete this product? This action cannot be undone."
-        type="delete"
-        confirmText="Delete Product"
-        isLoading={isDeleting}
-      />
-      <ConfirmationModal
-        isOpen={visibilityModal.isOpen}
-        icon={({ className }) => (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className={className}
-            viewBox="0 0 24 24"
-          >
-            <defs>
-              <path
-                id="SVGnvzg3hCy"
-                fill="currentColor"
-                d="M15.92 12.799Q16 12.41 16 12a4 4 0 0 0-4.799-3.92zM8.667 9.788a4 4 0 0 0 5.545 5.545z"
-              ></path>
-            </defs>
-            <g fill="none">
-              <use
-                href="#SVGnvzg3hCy"
-                fillRule="evenodd"
-                clipRule="evenodd"
-              ></use>
-              <path
-                fill="currentColor"
-                fillOpacity={0.25}
-                fillRule="evenodd"
-                d="m15.787 16.909l-8.929-8.93c-1.314.986-2.373 2.138-3.046 2.955c-.388.472-.582.707-.582 1.066s.194.594.582 1.066C5.232 14.79 8.364 18 12 18c1.353 0 2.636-.445 3.787-1.091M9.577 6.456A7 7 0 0 1 12 6c3.636 0 6.768 3.21 8.188 4.934c.388.472.582.707.582 1.066s-.194.594-.582 1.066a19.5 19.5 0 0 1-1.95 2.05z"
-                clipRule="evenodd"
-              ></path>
-              <use
-                href="#SVGnvzg3hCy"
-                fillRule="evenodd"
-                clipRule="evenodd"
-              ></use>
-              <path
-                stroke="currentColor"
-                strokeWidth={1.2}
-                d="m8 5l12 12"
-              ></path>
-            </g>
-          </svg>
-        )}
-        onClose={() => setVisibilityModal({ isOpen: false, productId: null })}
-        onConfirm={() => {
-          toggleVisibility(visibilityModal.productId);
-          setVisibilityModal({ isOpen: false, productId: null });
-        }}
-        title="Visbility Update"
-        message="Are you sure you want to update visbility of this product?"
-        type="edit"
-        confirmText="Update Visibility"
-        isLoading={isUpdating}
-      />
     </div>
   );
 }

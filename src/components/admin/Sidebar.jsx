@@ -14,7 +14,8 @@ import {
     Squares2X2Icon,
     BellIcon,
     Cog6ToothIcon,
-    ChatBubbleOvalLeftEllipsisIcon
+    ChatBubbleOvalLeftEllipsisIcon,
+    MegaphoneIcon,
 } from '@heroicons/react/24/outline'
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid'
 
@@ -30,6 +31,14 @@ const navigation = [
         children: [
             { name: 'All post', href: '/admin/blogboard' },
             { name: 'Categories', href: '/admin/categories' },
+        ]
+    },
+    {
+        name: 'Marketing Material',
+        icon: MegaphoneIcon,
+        children: [
+            { name: 'Add Material', href: '/admin/marketing/add' },
+            { name: 'Manage Materials', href: '/admin/marketing' },
         ]
     },
     { name: 'Tagline', href: '/admin/tagline', icon: Cog6ToothIcon },

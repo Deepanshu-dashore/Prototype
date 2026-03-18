@@ -8,7 +8,8 @@ import {
     UserCircleIcon,
     ClipboardDocumentListIcon,
     DocumentCheckIcon,
-    PlusCircleIcon
+    PlusCircleIcon,
+    MegaphoneIcon,
 } from "@heroicons/react/24/outline";
 import DashboardSidebar from "@/src/components/layout/DashboardSidebar";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
@@ -45,6 +46,7 @@ export default function DistributorLayout({ children }) {
         { name: "Add Order", href: "/distributor/dashboard/orders/new", icon: PlusCircleIcon },
         { name: 'Orders', href: '/distributor/dashboard/orders', icon: ClipboardDocumentListIcon },
         { name: 'Compliance Docs', href: '/distributor/dashboard/compliance', icon: DocumentCheckIcon },
+        { name: 'Marketing Material', href: '/distributor/dashboard/marketing', icon: MegaphoneIcon },
         { name: 'Profile', href: '/distributor/dashboard/profile', icon: UserCircleIcon },
     ];
 

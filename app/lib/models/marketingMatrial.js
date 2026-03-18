@@ -1,0 +1,29 @@
+import { Schema, model, models } from "mongoose";
+
+const marketingAssetSchema = new Schema(
+  {
+    title: { type: String, required: true },
+    type: {
+      type: String,
+      enum: ["youtube", "social_post", "case_study", "playbook"],
+      required: true,
+    },
+    url: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    tags: [String],
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  { timestamps: true },
+);
+
+const MarketingAsset =
+  models.MarketingAsset || model("MarketingAsset", marketingAssetSchema);
+
+export default MarketingAsset;

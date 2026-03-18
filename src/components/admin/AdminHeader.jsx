@@ -4,12 +4,12 @@ import React from 'react'
 
 export default function AdminHeader({ title, subtitle, buttonText, buttonLink, addOn }) {
     return (
-        <div className="flex flex-row mb-5 items-center justify-between gap-4">
+        <div className="flex flex-row mb-5 items-center justify-between gap-4 bg-white border-b px-10 py-4 border-gray-100 ">
             <div>
-                <h1 className="md:text-2xl text-base sm:text-lg sm:text-nowrap font-bold text-gray-900 tracking-tight">
+                <h1 className="text-base sm:text-lg sm:text-nowrap font-bold text-gray-900 tracking-tight">
                     {title}
                 </h1>
-                <p className="text-sm sm:inline hidden text-gray-500 mt-1">
+                <p className="text-xs sm:inline hidden text-gray-500 mt-1">
                     {subtitle}
                 </p>
             </div>

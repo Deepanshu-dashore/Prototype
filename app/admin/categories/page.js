@@ -78,8 +78,8 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pb-8 font-sans">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <AdminHeader
           title="Blog Categories"
@@ -102,220 +102,223 @@ export default function CategoriesPage() {
             </div>
           }
         />
-
-        {/* Search Bar */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
+        <div className="px-3 sm:px-4 md:px-6 lg:px-8">
+          {/* Search Bar */}
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <MagnifyingGlassIcon className="h-4 w-4 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search categories..."
+                className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
             </div>
-            <input
-              type="text"
-              placeholder="Search categories..."
-              className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
           </div>
-        </div>
 
-        {/* Content */}
-        <div className="min-h-[400px]">
-          {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </div>
-          ) : error ? (
-            <div className="rounded-lg bg-red-50 p-4 border border-red-100 text-center">
-              <p className="text-sm text-red-600 font-medium">{error}</p>
-            </div>
-          ) : categories.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-xl border border-gray-100 shadow-sm border-dashed">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-50">
-                <FolderIcon className="h-6 w-6 text-gray-400" />
+          {/* Content */}
+          <div className="min-h-[400px]">
+            {loading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
               </div>
-              <h3 className="mt-2 text-sm font-semibold text-gray-900">
-                {searchQuery ? "No categories found" : "No categories yet"}
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                {searchQuery
-                  ? "Try adjusting your search query."
-                  : "Categories will appear here once blogs are created."}
-              </p>
-            </div>
-          ) : (
-            <>
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
-              >
-                <div className="overflow-x-auto w-[calc(100vw-3.5rem)] md:w-[calc(100vw-2rem)] lg:w-auto relative">
-                  <table className="w-full text-left border-collapse">
-                    <thead className="bg-gray-100/70 border-b border-gray-100">
-                      <tr>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
-                          Category Name
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
-                          Blog Count
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
-                          Latest Post
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right text-nowrap">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {categories.map((category, index) => (
-                        <motion.tr
-                          key={category.name}
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.05 }}
-                          className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
-                        >
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-3">
-                              <div className="sm:h-10 sm:w-10 h-8 w-8 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-                                <FolderIcon className="sm:w-5 sm:h-5 w-4 h-4 text-indigo-600" />
-                              </div>
-                              <span className="sm:text-sm text-xs font-medium text-gray-900 text-nowrap">
-                                {category.name}
-                              </span>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 text-nowrap">
-                            <div className="flex items-center gap-2">
-                              <DocumentTextIcon className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-600 font-medium text-nowrap">
-                                {category.count}
-                              </span>
-                              <span className="text-xs text-gray-400">
-                                {category.count === 1 ? "post" : "posts"}
-                              </span>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 text-nowrap">
-                            <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                              <CalendarIcon className="w-3.5 h-3.5 text-gray-400" />
-                              {formatDate(category.latestBlog)}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 text-right">
-                            <Link
-                              href={`/admin/blogboard?category=${encodeURIComponent(
-                                category.name,
-                              )}`}
-                              className="inline-flex text-nowrap items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/5 rounded-lg transition-all"
-                            >
-                              View Posts
-                              <ArrowRightIcon className="w-3.5 h-3.5" />
-                            </Link>
-                          </td>
-                        </motion.tr>
-                      ))}
-                    </tbody>
-                  </table>
+            ) : error ? (
+              <div className="rounded-lg bg-red-50 p-4 border border-red-100 text-center">
+                <p className="text-sm text-red-600 font-medium">{error}</p>
+              </div>
+            ) : categories.length === 0 ? (
+              <div className="text-center py-20 bg-white rounded-xl border border-gray-100 shadow-sm border-dashed">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-50">
+                  <FolderIcon className="h-6 w-6 text-gray-400" />
                 </div>
-              </motion.div>
-
-              {/* Pagination Controls */}
-              <div className="mt-8 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-sm text-gray-500 hidden sm:block">
-                  Showing{" "}
-                  <span className="font-medium text-gray-900">
-                    {(pagination.currentPage - 1) * pagination.limit + 1}
-                  </span>{" "}
-                  to{" "}
-                  <span className="font-medium text-gray-900">
-                    {Math.min(
-                      pagination.currentPage * pagination.limit,
-                      pagination.totalItems,
-                    )}
-                  </span>{" "}
-                  of{" "}
-                  <span className="font-medium text-gray-900">
-                    {pagination.totalItems}
-                  </span>{" "}
-                  results
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() =>
-                      setPagination((prev) => ({
-                        ...prev,
-                        currentPage: Math.max(1, prev.currentPage - 1),
-                      }))
-                    }
-                    disabled={pagination.currentPage === 1}
-                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    Previous
-                  </button>
-                  <div className="flex items-center gap-1">
-                    {[...Array(pagination.totalPages)].map((_, i) => {
-                      const pageNum = i + 1;
-                      if (
-                        pageNum === 1 ||
-                        pageNum === pagination.totalPages ||
-                        (pageNum >= pagination.currentPage - 1 &&
-                          pageNum <= pagination.currentPage + 1)
-                      ) {
-                        return (
-                          <button
-                            key={pageNum}
-                            onClick={() =>
-                              setPagination((prev) => ({
-                                ...prev,
-                                currentPage: pageNum,
-                              }))
-                            }
-                            className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
-                              pagination.currentPage === pageNum
-                                ? "bg-primary text-white shadow-md"
-                                : "text-gray-600 hover:bg-gray-100"
-                            }`}
+                <h3 className="mt-2 text-sm font-semibold text-gray-900">
+                  {searchQuery ? "No categories found" : "No categories yet"}
+                </h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  {searchQuery
+                    ? "Try adjusting your search query."
+                    : "Categories will appear here once blogs are created."}
+                </p>
+              </div>
+            ) : (
+              <>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+                >
+                  <div className="overflow-x-auto w-[calc(100vw-3.5rem)] md:w-[calc(100vw-2rem)] lg:w-auto relative">
+                    <table className="w-full text-left border-collapse">
+                      <thead className="bg-gray-100/70 border-b border-gray-100">
+                        <tr>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                            Category Name
+                          </th>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                            Blog Count
+                          </th>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
+                            Latest Post
+                          </th>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right text-nowrap">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {categories.map((category, index) => (
+                          <motion.tr
+                            key={category.name}
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                            className={`hover:bg-gray-50/60 transition-colors group ${index % 2 !== 0 ? "bg-slate-50" : "bg-white"}`}
                           >
-                            {pageNum}
-                          </button>
-                        );
-                      } else if (
-                        (pageNum === pagination.currentPage - 2 &&
-                          pageNum > 1) ||
-                        (pageNum === pagination.currentPage + 2 &&
-                          pageNum < pagination.totalPages)
-                      ) {
-                        return (
-                          <span key={pageNum} className="px-1 text-gray-400">
-                            ...
-                          </span>
-                        );
-                      }
-                      return null;
-                    })}
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <div className="sm:h-10 sm:w-10 h-8 w-8 shrink-0 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
+                                  <FolderIcon className="sm:w-5 sm:h-5 w-4 h-4 text-indigo-600" />
+                                </div>
+                                <span className="sm:text-sm text-xs font-medium text-gray-900 text-nowrap">
+                                  {category.name}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-nowrap">
+                              <div className="flex items-center gap-2">
+                                <DocumentTextIcon className="w-4 h-4 text-gray-400" />
+                                <span className="text-sm text-gray-600 font-medium text-nowrap">
+                                  {category.count}
+                                </span>
+                                <span className="text-xs text-gray-400">
+                                  {category.count === 1 ? "post" : "posts"}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-nowrap">
+                              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                                <CalendarIcon className="w-3.5 h-3.5 text-gray-400" />
+                                {formatDate(category.latestBlog)}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <Link
+                                href={`/admin/blogboard?category=${encodeURIComponent(
+                                  category.name,
+                                )}`}
+                                className="inline-flex text-nowrap items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/5 rounded-lg transition-all"
+                              >
+                                View Posts
+                                <ArrowRightIcon className="w-3.5 h-3.5" />
+                              </Link>
+                            </td>
+                          </motion.tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                  <button
-                    onClick={() =>
-                      setPagination((prev) => ({
-                        ...prev,
-                        currentPage: Math.min(
-                          pagination.totalPages,
-                          pagination.currentPage + 1,
-                        ),
-                      }))
-                    }
-                    disabled={pagination.currentPage === pagination.totalPages}
-                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    Next
-                  </button>
+                </motion.div>
+
+                {/* Pagination Controls */}
+                <div className="mt-8 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-sm text-gray-500 hidden sm:block">
+                    Showing{" "}
+                    <span className="font-medium text-gray-900">
+                      {(pagination.currentPage - 1) * pagination.limit + 1}
+                    </span>{" "}
+                    to{" "}
+                    <span className="font-medium text-gray-900">
+                      {Math.min(
+                        pagination.currentPage * pagination.limit,
+                        pagination.totalItems,
+                      )}
+                    </span>{" "}
+                    of{" "}
+                    <span className="font-medium text-gray-900">
+                      {pagination.totalItems}
+                    </span>{" "}
+                    results
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() =>
+                        setPagination((prev) => ({
+                          ...prev,
+                          currentPage: Math.max(1, prev.currentPage - 1),
+                        }))
+                      }
+                      disabled={pagination.currentPage === 1}
+                      className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Previous
+                    </button>
+                    <div className="flex items-center gap-1">
+                      {[...Array(pagination.totalPages)].map((_, i) => {
+                        const pageNum = i + 1;
+                        if (
+                          pageNum === 1 ||
+                          pageNum === pagination.totalPages ||
+                          (pageNum >= pagination.currentPage - 1 &&
+                            pageNum <= pagination.currentPage + 1)
+                        ) {
+                          return (
+                            <button
+                              key={pageNum}
+                              onClick={() =>
+                                setPagination((prev) => ({
+                                  ...prev,
+                                  currentPage: pageNum,
+                                }))
+                              }
+                              className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
+                                pagination.currentPage === pageNum
+                                  ? "bg-primary text-white shadow-md"
+                                  : "text-gray-600 hover:bg-gray-100"
+                              }`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        } else if (
+                          (pageNum === pagination.currentPage - 2 &&
+                            pageNum > 1) ||
+                          (pageNum === pagination.currentPage + 2 &&
+                            pageNum < pagination.totalPages)
+                        ) {
+                          return (
+                            <span key={pageNum} className="px-1 text-gray-400">
+                              ...
+                            </span>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                    <button
+                      onClick={() =>
+                        setPagination((prev) => ({
+                          ...prev,
+                          currentPage: Math.min(
+                            pagination.totalPages,
+                            pagination.currentPage + 1,
+                          ),
+                        }))
+                      }
+                      disabled={
+                        pagination.currentPage === pagination.totalPages
+                      }
+                      className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
