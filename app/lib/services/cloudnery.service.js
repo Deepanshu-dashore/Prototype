@@ -32,7 +32,7 @@ export class CloudneryService {
           .end(buffer);
       });
       if (result) {
-        // console.log(result);
+        console.log(result.secure_url);
         const buildUrl = result.secure_url.split("upload/")[1];
         return {
           url: buildUrl,

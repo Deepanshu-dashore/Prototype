@@ -8,6 +8,9 @@ const marketingAssetSchema = new Schema(
       enum: ["youtube", "social_post", "case_study", "playbook"],
       required: true,
     },
+    attachment: {
+      type: String,
+    },
     url: {
       type: String,
     },

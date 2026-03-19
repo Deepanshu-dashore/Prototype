@@ -46,7 +46,17 @@ export default function DistributorLayout({ children }) {
         { name: "Add Order", href: "/distributor/dashboard/orders/new", icon: PlusCircleIcon },
         { name: 'Orders', href: '/distributor/dashboard/orders', icon: ClipboardDocumentListIcon },
         { name: 'Compliance Docs', href: '/distributor/dashboard/compliance', icon: DocumentCheckIcon },
-        { name: 'Marketing Material', href: '/distributor/dashboard/marketing', icon: MegaphoneIcon },
+        {
+            name: 'Marketing Material',
+            icon: MegaphoneIcon,
+            href: '/distributor/dashboard/marketing',
+            children: [
+                { name: 'Case Studies', href: '/distributor/dashboard/marketing/case_study' },
+                { name: 'Youtube Links', href: '/distributor/dashboard/marketing/youtube' },
+                { name: 'Social Media Creatives', href: '/distributor/dashboard/marketing/social_post' },
+                { name: 'Strategic Marketing Doc', href: '/distributor/dashboard/marketing/playbook' },
+            ]
+        },
         { name: 'Profile', href: '/distributor/dashboard/profile', icon: UserCircleIcon },
     ];
 

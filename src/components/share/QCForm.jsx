@@ -62,7 +62,7 @@ export default function QCForm({ orderId, role = "admin" }) {
         const { name, files: selectedFiles } = e.target;
         if (selectedFiles && selectedFiles[0]) {
             const file = selectedFiles[0];
-            
+
             // Security / Validation
             if (!file.type.startsWith("image/")) {
                 setError("Please upload a valid image file (JPG, PNG).");
@@ -72,7 +72,7 @@ export default function QCForm({ orderId, role = "admin" }) {
                 setError(`File ${file.name} is too large. Maximum size is 10MB.`);
                 return;
             }
-            
+
             setError(""); // clear any previous errors
 
             setFiles(prev => ({
@@ -211,10 +211,10 @@ export default function QCForm({ orderId, role = "admin" }) {
                         <ChevronLeftIcon className="w-5 h-5" strokeWidth={2.5} />
                     </button>
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+                        <h1 className="text-xl font-bold text-gray-900 tracking-tight">
                             QC Outbound Inspection
                         </h1>
-                        <p className="text-sm text-gray-500 mt-1">
+                        <p className="text-xs text-gray-500 mt-1">
                             Order #{orderId?.slice(-6).toUpperCase()}
                         </p>
                     </div>

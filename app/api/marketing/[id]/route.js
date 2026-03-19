@@ -5,8 +5,6 @@ import { MarketingAssetService } from "@/app/lib/services/marketingAsset.service
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { getUrls } from "@/app/lib/utils/geturl";
 
-
-
 // ── GET single asset (used by edit page) ─────────────────────────────────────
 export async function GET(request, { params }) {
   const { id } = await params;
@@ -20,6 +18,9 @@ export async function GET(request, { params }) {
     let result = asset.toObject ? asset.toObject() : { ...asset };
     if (result.type === "case_study" || result.type === "playbook") {
       result.url = getUrls.getUrl(result.url, "raw");
+    }
+    if (result.type === "social_post") {
+      result.attachment = getUrls.getUrl(result.attachment, "image");
     }
     return ApiResponse(200, result, "Marketing asset fetched successfully");
   } catch (error) {
@@ -37,6 +38,8 @@ export async function PUT(request, { params }) {
   const description = formData.get("description");
   const tags = formData.get("tags");
   const file = formData.get("file");
+  const attachment = formData.get("attachment");
+  const attachmentType = formData.get("attachmentType");
   const user = await verifyJWT();
   let uploadUrl = null;
   if (!user || !roleVerify(["admin"], user)) {
@@ -48,27 +51,61 @@ export async function PUT(request, { params }) {
   }
   try {
     if (file && file.size > 0) {
-      if (existingCheck.type === "youtube" || existingCheck.type === "social_post") {
+      if (
+        existingCheck.type === "youtube" ||
+        existingCheck.type === "social_post"
+      ) {
         return ApiResponse(400, null, "File is not allowed for this type");
       }
       if (existingCheck.url) {
         await CloudneryService.delete(existingCheck.url, "raw");
       }
-      uploadUrl = await CloudneryService.upload(file, "marketing-assets", "raw", "pdf");
+      uploadUrl = await CloudneryService.upload(
+        file,
+        "marketing-assets",
+        "raw",
+        "pdf",
+      );
       if (!uploadUrl) {
         return ApiResponse(400, null, "File upload failed, try again");
       }
     }
+
+    let socialAttachmentUrl = null;
+    if (attachment && attachment.size > 0 && type === "social_post") {
+      if (existingCheck.attachment) {
+        await CloudneryService.delete(
+          existingCheck.attachment,
+          attachmentType || "image",
+        );
+      }
+      socialAttachmentUrl = await CloudneryService.upload(
+        attachment,
+        "marketing-assets",
+        attachmentType || "image",
+      );
+      if (!socialAttachmentUrl) {
+        return ApiResponse(400, null, "Attachment upload failed, try again");
+      }
+    }
     const setTages = new Set(tags ? tags.split(",") : []);
     const uniqueTags = [...setTages];
-    const marketingAsset = await MarketingAssetService.updateMarketingAsset(id, {
-      title,
-      type,
-      url: uploadUrl || url || existingCheck.url,
-      description,
-      tags: uniqueTags,
-    });
-    return ApiResponse(200, marketingAsset, "Marketing asset updated successfully");
+    const marketingAsset = await MarketingAssetService.updateMarketingAsset(
+      id,
+      {
+        title,
+        type,
+        url: uploadUrl?.url || url || existingCheck.url,
+        attachment: socialAttachmentUrl?.url || existingCheck.attachment,
+        description,
+        tags: uniqueTags,
+      },
+    );
+    return ApiResponse(
+      200,
+      marketingAsset,
+      "Marketing asset updated successfully",
+    );
   } catch (error) {
     return ApiResponse(500, null, "Error updating marketing asset");
   }
@@ -86,11 +123,21 @@ export async function DELETE(request, { params }) {
     if (!existingCheck) {
       return ApiResponse(404, null, "Marketing asset not found");
     }
-    if (existingCheck.url && (existingCheck.type === "case_study" || existingCheck.type === "playbook")) {
+    if (
+      existingCheck.url &&
+      (existingCheck.type === "case_study" || existingCheck.type === "playbook")
+    ) {
       await CloudneryService.delete(existingCheck.url, "raw");
     }
+    if (existingCheck.attachment && existingCheck.type === "social_post") {
+      await CloudneryService.delete(existingCheck.attachment, "image");
+    }
     const marketingAsset = await MarketingAssetService.deleteMarketingAsset(id);
-    return ApiResponse(200, marketingAsset, "Marketing asset deleted successfully");
+    return ApiResponse(
+      200,
+      marketingAsset,
+      "Marketing asset deleted successfully",
+    );
   } catch (error) {
     return ApiResponse(500, null, "Error deleting marketing asset");
   }

@@ -6,8 +6,6 @@ import { MarketingAssetService } from "@/app/lib/services/marketingAsset.service
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { getUrls } from "@/app/lib/utils/geturl";
 
-
-
 export async function POST(req) {
   const user = await verifyJWT();
   if (!user || !roleVerify(["admin"], user)) {
@@ -22,18 +20,53 @@ export async function POST(req) {
     const description = formData.get("description");
     const tags = formData.get("tags");
     const file = formData.get("file");
+    const attachment = formData.get("attachment");
+    const attachmentType = formData.get("attachmentType");
     let marketingAsset = {};
     const setTages = new Set(tags.split(","));
     const uniqueTags = [...setTages];
     if (!title) {
       return ApiResponse(400, null, "All fields are required");
     }
-    if (type === "youtube" || type === "social_post") {
+    if (type !== "social_post" && attachment) {
+      return ApiResponse(400, null, "Unwanted field Attachment");
+    }
+    if (type === "social_post" && !attachment) {
+      return ApiResponse(400, null, "Attachment is required for social post");
+    }
+    if (type === "social_post" && !attachmentType) {
+      return ApiResponse(
+        400,
+        null,
+        "Attachment type is required for social post",
+      );
+    }
+    if (attachmentType && !["image", "video"].includes(attachmentType)) {
+      return ApiResponse(400, null, "Invalid attachment type");
+    }
+    if (type === "youtube") {
       marketingAsset = await MarketingAssetService.createMarketingAsset({
         title,
         type,
         url,
         description,
+        tags: uniqueTags,
+      });
+    } else if (type === "social_post") {
+      const attachmentUrl = await CloudneryService.upload(
+        attachment,
+        "marketing-assets",
+        attachmentType,
+      );
+      if (!attachmentUrl) {
+        return ApiResponse(400, null, "File upload failed, try again");
+      }
+      marketingAsset = await MarketingAssetService.createMarketingAsset({
+        title,
+        type,
+        url,
+        description,
+        attachment: attachmentUrl?.url,
         tags: uniqueTags,
       });
     } else if (type === "case_study" || type === "playbook") {
@@ -52,7 +85,7 @@ export async function POST(req) {
       marketingAsset = await MarketingAssetService.createMarketingAsset({
         title,
         type,
-        url: uploadUrl,
+        url: uploadUrl?.url,
         description,
         tags: uniqueTags,
       });
@@ -63,6 +96,7 @@ export async function POST(req) {
       "Marketing asset created successfully",
     );
   } catch (error) {
+    console.log(error);
     return ApiResponse(500, null, "Error for creating marketing asset");
   }
 }
@@ -83,7 +117,21 @@ export async function GET() {
     } = result;
     const buildUrl = data.map((asset) => {
       if (asset.type === "youtube" || asset.type === "social_post") {
-        return asset;
+        return {
+          ...asset,
+          attachment: asset.attachment
+            ? getUrls.getUrl(
+                asset.attachment,
+                asset.attachment.includes(".mp4") ||
+                  asset.attachment.includes(".avi") ||
+                  asset.attachment.includes(".mov") ||
+                  asset.attachment.includes(".wmv") ||
+                  asset.attachment.includes(".webm")
+                  ? "video"
+                  : "image",
+              )
+            : undefined,
+        };
       } else {
         return {
           ...asset,

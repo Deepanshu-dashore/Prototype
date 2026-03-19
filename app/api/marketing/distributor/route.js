@@ -5,7 +5,7 @@ import { MarketingAssetService } from "@/app/lib/services/marketingAsset.service
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { getUrls } from "@/app/lib/utils/geturl";
 
-export async function GET() {
+export async function GET(req) {
   const user = await verifyJWT();
   const distributor = await verifyDistributorJWT();
 
@@ -17,9 +17,15 @@ export async function GET() {
   }
 
   try {
-    const { data } = await MarketingAssetService.getAllMarketingAssets({
-      isActive: true,
-    });
+    const { searchParams } = new URL(req.url);
+    const type = searchParams.get("type");
+
+    const query = { isActive: true };
+    if (type && type !== "all") {
+      query.type = type;
+    }
+
+    const { data } = await MarketingAssetService.getAllMarketingAssets(query);
     const buildUrl = data.map((asset) => {
       if (asset.type === "youtube" || asset.type === "social_post") {
         return asset;

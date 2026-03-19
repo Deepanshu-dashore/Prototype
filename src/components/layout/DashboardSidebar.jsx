@@ -47,7 +47,7 @@ function NavItem({ item, pathname, setMobileMenuOpen }) {
                 </button>
 
                 {isOpen && (
-                    <div className="pl-11 space-y-1">
+                    <div className="pl-2 ml-5 space-y-1 border-l-2 border-gray-200/80">
                         {item.children.map((child) => {
                             const isChildActive = pathname === child.href;
                             return (
@@ -55,7 +55,7 @@ function NavItem({ item, pathname, setMobileMenuOpen }) {
                                     key={child.name}
                                     href={child.href}
                                     className={`
-                                        flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all
+                                        flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-all
                                         ${isChildActive
                                             ? 'text-primary bg-primary/5'
                                             : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
@@ -174,9 +174,12 @@ export default function DashboardSidebar({
                     <div className="p-4 border-t border-gray-100 space-y-2">
                         <button
                             onClick={logoutAction}
-                            className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                            className="w-full border border-gray-100 hover:border-red-100 flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                         >
-                            <ArrowLeftOnRectangleIcon className="w-5 h-5" />
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 bg-red-500 rounded-md p-0.5 text-red-50" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M12 20a8 8 0 1 1 0-16z" opacity={0.5}></path>
+                                <path fill="currentColor" fillRule="evenodd" d="M16.47 8.47a.75.75 0 0 0 0 1.06l1.72 1.72H10a.75.75 0 0 0 0 1.5h8.19l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 0 0-1.06 0" clipRule="evenodd"></path>
+                            </svg>
                             Logout
                         </button>
 
