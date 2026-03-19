@@ -11,6 +11,7 @@ import {
     DocumentTextIcon,
     BookOpenIcon,
     XMarkIcon,
+    EyeIcon,
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
@@ -84,13 +85,6 @@ function YouTubeCard({ asset }) {
             <div className="p-4 flex-1 flex flex-col gap-2">
                 <h3 className="text-sm font-semibold text-gray-800 leading-snug line-clamp-2">{asset.title}</h3>
                 {asset.description && <p className="text-xs text-gray-500 line-clamp-2">{asset.description}</p>}
-                {asset.tags?.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-auto pt-1">
-                        {asset.tags.slice(0, 3).map((t, i) => (
-                            <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 font-medium border border-red-100">#{t.trim()}</span>
-                        ))}
-                    </div>
-                )}
             </div>
             <div className="px-4 py-2.5 border-t border-gray-50 bg-gray-50/50">
                 <span className="text-[10px] text-gray-400">{formatDate(asset.createdAt)}</span>
@@ -101,6 +95,8 @@ function YouTubeCard({ asset }) {
 
 // ─── Social Post Row Table ─────────────────────────────────────────────────────
 function SocialPostTable({ assets, loading }) {
+    const [previewMedia, setPreviewMedia] = useState(null);
+
     return (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
@@ -109,9 +105,9 @@ function SocialPostTable({ assets, loading }) {
                         <tr className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-100 bg-gray-50/60 transition-colors whitespace-nowrap">
                             <th className="px-5 py-3 text-left w-12">#</th>
                             <th className="px-5 py-3 text-left min-w-[200px]">Title</th>
+                            <th className="px-5 py-3 text-left min-w-[120px]">Media View</th>
                             <th className="px-5 py-3 text-left min-w-[250px]">Description</th>
                             <th className="px-5 py-3 text-left min-w-[150px]">Link</th>
-                            <th className="px-5 py-3 text-left min-w-[120px]">Tags</th>
                             <th className="px-5 py-3 text-left min-w-[100px]">Date</th>
                         </tr>
                     </thead>
@@ -138,6 +134,19 @@ function SocialPostTable({ assets, loading }) {
                                             )}
                                         </div>
                                     </td>
+                                    <td className="px-5 py-3.5">
+                                        {a.attachment ? (
+                                            <button
+                                                onClick={() => setPreviewMedia({ url: a.attachment, type: a.attachmentType })}
+                                                className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:underline group"
+                                            >
+                                                <PlayIcon className="w-4 h-4 text-blue-500 fill-blue-50 group-hover:fill-blue-100 transition-colors" />
+                                                View Media
+                                            </button>
+                                        ) : (
+                                            <span className="text-xs text-gray-300">Not given</span>
+                                        )}
+                                    </td>
                                     <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
                                         <p className="truncate">{a.description || "—"}</p>
                                     </td>
@@ -151,15 +160,6 @@ function SocialPostTable({ assets, loading }) {
                                             <span className="text-xs text-gray-400">—</span>
                                         )}
                                     </td>
-                                    <td className="px-5 py-3.5">
-                                        <ul className="flex flex-col gap-0.5 list-disc list-inside">
-                                            {(a.tags || []).slice(0, 3).map((t, j) => (
-                                                <li key={j} className="text-[11px] text-blue-600 font-medium">
-                                                    <span className="text-blue-600">#{t.trim()}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </td>
                                     <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">{formatDate(a.createdAt)}</td>
                                 </tr>
                             ))
@@ -167,13 +167,20 @@ function SocialPostTable({ assets, loading }) {
                     </tbody>
                 </table>
             </div>
+            {previewMedia && (
+                <MediaPreviewModal
+                    media={previewMedia.url}
+                    attachmentType={previewMedia.type}
+                    onClose={() => setPreviewMedia(null)}
+                />
+            )}
         </div>
     );
 }
 
 // ─── PDF Table (Case Study / Playbook) ────────────────────────────────────────
 function PDFTable({ assets, loading, accentColor = "emerald" }) {
-    const [previewId, setPreviewId] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
     const colorMap = {
         emerald: { bg: "bg-emerald-50", text: "text-emerald-600", border: "border-emerald-200", icon: DocumentTextIcon },
         purple: { bg: "bg-purple-50", text: "text-purple-600", border: "border-purple-200", icon: BookOpenIcon },
@@ -189,92 +196,129 @@ function PDFTable({ assets, loading, accentColor = "emerald" }) {
                         <tr className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-100 bg-gray-50/60 transition-colors whitespace-nowrap">
                             <th className="px-5 py-3 text-left w-12">#</th>
                             <th className="px-5 py-3 text-left min-w-[200px]">Title</th>
+                            <th className="px-5 py-3 text-left min-w-[120px]">PDF View</th>
                             <th className="px-5 py-3 text-left min-w-[250px]">Description</th>
-                            <th className="px-5 py-3 text-left min-w-[120px]">Tags</th>
-                            <th className="px-5 py-3 text-left min-w-[120px]">PDF Preview</th>
                             <th className="px-5 py-3 text-left min-w-[100px]">Date</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
                         {loading ? (
-                            <TableLoadingSkeleton columns={6} rows={5} />
+                            <TableLoadingSkeleton columns={5} rows={5} />
                         ) : assets.length === 0 ? (
-                            <TableEmptyState colSpan={6} title="No Files Available" message="No documents have been added yet." />
+                            <TableEmptyState colSpan={5} title="No Files Available" message="No documents have been added yet." />
                         ) : (
                             assets.map((a, i) => (
-                                <Fragment key={a._id}>
-                                    <tr className="hover:bg-gray-50/60 transition-colors">
-                                        <td className="px-5 py-3.5 text-xs text-gray-400 font-mono">{i + 1}</td>
-                                        <td className="px-5 py-3.5">
-                                            <div className="flex items-center gap-2">
-                                                <div className={`w-8 h-8 rounded-lg ${c.bg} flex items-center justify-center shrink-0`}>
-                                                    <IconComp className={`w-4 h-4 ${c.text}`} />
-                                                </div>
-                                                {a.url ? (
-                                                    <a href={a.url} target="_blank" rel="noreferrer" className="text-sm font-semibold text-gray-800 max-w-[180px] truncate hover:text-emerald-600 hover:underline transition-colors">
-                                                        {a.title}
-                                                    </a>
-                                                ) : (
-                                                    <p className="text-sm font-semibold text-gray-800 max-w-[180px] truncate">{a.title}</p>
-                                                )}
+                                <tr key={a._id} className="hover:bg-gray-50/60 transition-colors">
+                                    <td className="px-5 py-3.5 text-xs text-gray-400 font-mono">{i + 1}</td>
+                                    <td className="px-5 py-3.5">
+                                        <div className="flex items-center gap-2">
+                                            <div className={`w-8 h-8 rounded-lg ${c.bg} flex items-center justify-center shrink-0`}>
+                                                <IconComp className={`w-4 h-4 ${c.text}`} />
                                             </div>
-                                        </td>
-                                        <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
-                                            <p className="truncate">{a.description || "—"}</p>
-                                        </td>
-                                        <td className="px-5 py-3.5">
-                                            <div className="flex flex-wrap gap-1">
-                                                {(a.tags || []).slice(0, 2).map((t, j) => (
-                                                    <span key={j} className={`text-[10px] px-2 py-0.5 rounded-full ${c.bg} ${c.text} border ${c.border} font-medium`}>
-                                                        #{t.trim()}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </td>
-                                        <td className="px-5 py-3.5">
                                             {a.url ? (
-                                                <button
-                                                    onClick={() => setPreviewId(previewId === a._id ? null : a._id)}
-                                                    className={`flex items-center gap-1.5 text-xs font-semibold ${c.text} hover:underline`}
-                                                >
-                                                    <PlayIcon className="w-3.5 h-3.5 fill-current" />
-                                                    {previewId === a._id ? "Close Preview" : "View PDF"}
-                                                </button>
+                                                <a href={a.url} target="_blank" rel="noreferrer" className={`text-sm font-semibold text-gray-800 max-w-[180px] truncate hover:${c.text} hover:underline transition-colors`}>
+                                                    {a.title}
+                                                </a>
                                             ) : (
-                                                <span className="text-xs text-gray-300">Not available</span>
+                                                <p className="text-sm font-semibold text-gray-800 max-w-[180px] truncate">{a.title}</p>
                                             )}
-                                        </td>
-                                        <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">{formatDate(a.createdAt)}</td>
-                                    </tr>
-                                    {previewId === a._id && a.url && (
-                                        <tr>
-                                            <td colSpan={6} className="px-5 pb-5">
-                                                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-inner relative">
-                                                    <div className={`flex items-center justify-between px-4 py-2 ${c.bg} border-b ${c.border}`}>
-                                                        <span className={`text-xs font-semibold ${c.text}`}>{a.title}</span>
-                                                        <button
-                                                            onClick={() => setPreviewId(null)}
-                                                            className={`p-1 rounded-lg hover:bg-white/50 ${c.text}`}
-                                                        >
-                                                            <XMarkIcon className="w-4 h-4" />
-                                                        </button>
-                                                    </div>
-                                                    <iframe src={a.url} className="w-full h-96" title={a.title} />
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </Fragment>
+                                        </div>
+                                    </td>
+                                    <td className="px-5 py-3.5">
+                                        {a.url ? (
+                                            <button
+                                                onClick={() => setPreviewUrl(a.url)}
+                                                className={`flex items-center gap-1.5 text-xs font-semibold ${c.text} hover:underline`}
+                                            >
+                                                <EyeIcon className="w-3.5 h-3.5" />
+                                                View PDF
+                                            </button>
+                                        ) : (
+                                            <span className="text-xs text-gray-300">Not available</span>
+                                        )}
+                                    </td>
+                                    <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
+                                        <p className="truncate">{a.description || "—"}</p>
+                                    </td>
+                                    <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">{formatDate(a.createdAt)}</td>
+                                </tr>
                             ))
                         )}
                     </tbody>
                 </table>
             </div>
+            {previewUrl && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setPreviewUrl(null)}>
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full h-[90vh] overflow-hidden relative animate-in zoom-in-95 duration-200 flex flex-col" onClick={e => e.stopPropagation()}>
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white">
+                            <h3 className="text-sm font-bold text-gray-900">PDF Preview</h3>
+                            <button onClick={() => setPreviewUrl(null)} className="p-2 rounded-xl hover:bg-gray-100 text-gray-400 hover:text-gray-900 transition-all">
+                                <XMarkIcon className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="flex-1 bg-gray-50 p-4">
+                            <iframe src={`${previewUrl}#toolbar=0`} className="w-full h-full rounded-xl border border-gray-200 shadow-sm" title="PDF Preview" />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
+// ─── Media Preview Modal ───────────────────────────────────────────────────────
+function MediaPreviewModal({ media, attachmentType, onClose }) {
+    if (!media) return null;
+
+    const isVideo = attachmentType === "video" ||
+        media.includes("video") ||
+        media.toLowerCase().endsWith(".mp4") ||
+        media.toLowerCase().endsWith(".avi") ||
+        media.toLowerCase().endsWith(".mov") ||
+        media.toLowerCase().endsWith(".wmv") ||
+        media.toLowerCase().endsWith(".webm");
+
+    return (
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+            onClick={onClose}
+        >
+            <div
+                className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden relative animate-in zoom-in-95 duration-200"
+                onClick={e => e.stopPropagation()}
+            >
+                <div className="absolute top-4 right-4 z-10">
+                    <button
+                        onClick={onClose}
+                        className="p-2 rounded-full bg-black/10 hover:bg-black/20 text-gray-700 transition-colors"
+                    >
+                        <XMarkIcon className="w-5 h-5" />
+                    </button>
+                </div>
+
+                <div className="p-1 min-h-[300px] flex items-center justify-center bg-gray-50">
+                    {isVideo ? (
+                        <video
+                            src={media}
+                            className="w-full aspect-video rounded-xl shadow-inner shadow-black/10 outline-none"
+                            controls
+                            autoPlay
+                            playsInline
+                        />
+                    ) : (
+                        <img
+                            src={media}
+                            alt="Preview"
+                            className="max-w-full max-h-[80vh] object-contain rounded-xl"
+                        />
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function DistributorMarketingPage() {
     const params = useParams();
     const { type } = params;
@@ -319,12 +363,12 @@ export default function DistributorMarketingPage() {
                 <div className="flex items-center gap-3">
                     {activeCat && (
                         <div className={`w-8 h-8 rounded-xl ${activeCat.bg} flex items-center justify-center shrink-0`}>
-                            <activeCat.icon className={`w-4 h-4 ${activeCat.color}`} />
+                            <activeCat.icon className={`w-10 h-10 ${activeCat.color}`} />
                         </div>
                     )}
                     <div>
-                        <h2 className="text-sm font-bold text-gray-800">{activeCat?.label || "Marketing Resources"}</h2>
-                        <p className="text-[11px] text-gray-400">{filteredAssets.length} resource{filteredAssets.length !== 1 ? "s" : ""} available</p>
+                        <h2 className="text-lg font-bold text-gray-800">{activeCat?.label || "Marketing Resources"}</h2>
+                        <p className="text-xs text-gray-500">{filteredAssets.length} resource{filteredAssets.length !== 1 ? "s" : ""} available</p>
                     </div>
                 </div>
 

@@ -20,7 +20,18 @@ export async function GET(request, { params }) {
       result.url = getUrls.getUrl(result.url, "raw");
     }
     if (result.type === "social_post") {
-      result.attachment = getUrls.getUrl(result.attachment, "image");
+      result.attachment = result.attachment
+        ? getUrls.getUrl(
+            result.attachment,
+            result.attachment.includes(".mp4") ||
+              result.attachment.includes(".avi") ||
+              result.attachment.includes(".mov") ||
+              result.attachment.includes(".wmv") ||
+              result.attachment.includes(".webm")
+              ? "video"
+              : "image",
+          )
+        : undefined;
     }
     return ApiResponse(200, result, "Marketing asset fetched successfully");
   } catch (error) {

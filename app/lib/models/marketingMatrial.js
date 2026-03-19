@@ -11,6 +11,9 @@ const marketingAssetSchema = new Schema(
     attachment: {
       type: String,
     },
+    attachmentType: {
+      type: String,
+    },
     url: {
       type: String,
     },
@@ -21,6 +24,10 @@ const marketingAssetSchema = new Schema(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    priority: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true },

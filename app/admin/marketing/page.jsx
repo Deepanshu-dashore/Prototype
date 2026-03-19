@@ -617,7 +617,7 @@ export default function AdminMarketingPage() {
                 buttonLink="/admin/marketing/add"
             />
 
-            <div className="p-6 flex flex-col">
+            <div className="p-6 flex flex-col pt-0">
 
                 {/* ── Stats Cards Row (reference style: horizontal scroll, icon + label + count) ── */}
                 <div className="grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 md:grid-cols-3 bg-white items-center py-5 rounded-2xl border border-gray-100 shadow-sm gap-3 overflow-x-auto">

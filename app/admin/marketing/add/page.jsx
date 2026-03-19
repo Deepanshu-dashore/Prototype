@@ -16,6 +16,7 @@ import {
     DocumentTextIcon,
     BookOpenIcon,
     XMarkIcon,
+    ChartBarIcon,
 } from "@heroicons/react/24/outline";
 
 // ─── Type Options ──────────────────────────────────────────────────────────────
@@ -37,14 +38,14 @@ export default function AddMarketingPage() {
     const pdfFileRef = useRef();
     const mediaFileRef = useRef();
 
-    const [form, setForm] = useState({ title: "", type: "youtube", url: "", description: "", tags: "", attachmentType: "image" });
+    const [form, setForm] = useState({ title: "", type: "youtube", url: "", description: "", tags: "", attachmentType: "image", priority: 0 });
     const [file, setFile] = useState(null); // Used for PDF or Media depending on type
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
     const [dragOver, setDragOver] = useState(false);
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
-    const overLimit = wordCount > 500;
+    const overLimit = wordCount > 100;
 
     const isPDFType = form.type === "case_study" || form.type === "playbook";
     const isSocialPost = form.type === "social_post";
@@ -61,6 +62,7 @@ export default function AddMarketingPage() {
             fd.append("url", form.url);
             fd.append("description", form.description);
             fd.append("tags", form.tags);
+            fd.append("priority", form.priority);
             if (file) {
                 if (form.type === "social_post") {
                     fd.append("attachment", file);
@@ -345,7 +347,7 @@ export default function AddMarketingPage() {
                         <div className="flex items-center justify-between mb-1.5">
                             <label className="bg-white font-semibold px-2 inline-block text-sm text-gray-700 tracking-tight">Description <span className="text-gray-400 font-normal">(optional)</span></label>
                             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${overLimit ? "bg-red-100 text-red-600" : "bg-gray-100 text-gray-500"}`}>
-                                {wordCount} / 500 words
+                                {wordCount} / 100 words
                             </span>
                         </div>
                         <textarea
@@ -356,8 +358,30 @@ export default function AddMarketingPage() {
                             className={`w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border ${overLimit ? "border-red-400 ring-1 ring-red-400" : "border-gray-200"} text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all resize-none`}
                         />
                         {overLimit && (
-                            <p className="text-[10px] text-red-500 mt-1 font-medium ml-2">Description is too long. Please reduce it to 500 words or less.</p>
+                            <p className="text-[10px] text-red-500 mt-1 font-medium ml-2">Description is too long. Please reduce it to 100 words or less.</p>
                         )}
+                    </div>
+                </div>
+
+                {/* Sorting & Categorization */}
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4">
+                    <div className="flex items-center gap-2 mb-1">
+                        <div className="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center">
+                            <ChartBarIcon className="w-4 h-4 text-gray-500" />
+                        </div>
+                        <h2 className="text-sm font-bold text-gray-800">Sorting & Categorization</h2>
+                    </div>
+
+                    {/* Priority */}
+                    <div>
+                        <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Display Priority <span className="text-gray-400 font-normal">(lower numbers appear first)</span></label>
+                        <input
+                            type="number"
+                            value={form.priority}
+                            onChange={e => setForm(f => ({ ...f, priority: parseInt(e.target.value) || 0 }))}
+                            placeholder="e.g. 1"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all"
+                        />
                     </div>
 
                     {/* Tags */}
@@ -415,7 +439,7 @@ export default function AddMarketingPage() {
                                     return;
                                 }
                                 if (overLimit) {
-                                    setError("Description cannot exceed 500 words.");
+                                    setError("Description cannot exceed 100 words.");
                                     return;
                                 }
                                 setError("");

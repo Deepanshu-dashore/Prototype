@@ -28,7 +28,21 @@ export async function GET(req) {
     const { data } = await MarketingAssetService.getAllMarketingAssets(query);
     const buildUrl = data.map((asset) => {
       if (asset.type === "youtube" || asset.type === "social_post") {
-        return asset;
+        return {
+          ...asset,
+          attachment: asset.attachment
+            ? getUrls.getUrl(
+                asset.attachment,
+                asset.attachment.includes(".mp4") ||
+                  asset.attachment.includes(".avi") ||
+                  asset.attachment.includes(".mov") ||
+                  asset.attachment.includes(".wmv") ||
+                  asset.attachment.includes(".webm")
+                  ? "video"
+                  : "image",
+              )
+            : undefined,
+        };
       } else {
         return {
           ...asset,
