@@ -194,7 +194,7 @@ const CircularProgressBar = ({
 
     return (
         <div className="relative w-fit">
-            <svg width={size} height={size} className="rotate-[-90deg]">
+            <svg width={size} height={size} className="-rotate-90">
                 {/* Background Circle */}
                 <circle
                     cx={size / 2}

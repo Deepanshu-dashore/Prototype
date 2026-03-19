@@ -455,7 +455,7 @@ export default function QCReportView({ orderId }) {
                                         <div className="border-b border-gray-300 bg-gray-50 group-hover:bg-primary/5 transition-colors px-3 py-2 text-center">
                                             <p className="text-[10px] font-bold text-gray-700 uppercase">Micrometer Spec</p>
                                         </div>
-                                        <div className="aspect-[4/3] w-full p-2 bg-white flex items-center justify-center overflow-hidden">
+                                        <div className="aspect-4/3 w-full p-2 bg-white flex items-center justify-center overflow-hidden">
                                             {qc.micrometerImage ? (
                                                 <a href={qc.micrometerImage} target="_blank" rel="noopener noreferrer" className="w-full h-full block group-hover:scale-[1.02] transition-transform">
                                                     <img src={qc.micrometerImage} alt="Micrometer Reading" className="w-full h-full object-contain" />
@@ -470,7 +470,7 @@ export default function QCReportView({ orderId }) {
                                         <div className="border-b border-gray-300 bg-gray-50 group-hover:bg-primary/5 transition-colors px-3 py-2 text-center">
                                             <p className="text-[10px] font-bold text-gray-700 uppercase">Material Pre-wrap</p>
                                         </div>
-                                        <div className="aspect-[4/3] w-full p-2 bg-white flex items-center justify-center overflow-hidden">
+                                        <div className="aspect-4/3 w-full p-2 bg-white flex items-center justify-center overflow-hidden">
                                             {qc.materialImage ? (
                                                 <a href={qc.materialImage} target="_blank" rel="noopener noreferrer" className="w-full h-full block group-hover:scale-[1.02] transition-transform">
                                                     <img src={qc.materialImage} alt="Material Picture" className="w-full h-full object-contain" />
