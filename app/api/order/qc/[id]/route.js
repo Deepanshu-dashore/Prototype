@@ -1,10 +1,12 @@
 import connect from "@/app/lib/db/connect";
 import roleVerify from "@/app/lib/middlewares/roleVerify";
+import { verifyDistributorJWT } from "@/app/lib/middlewares/verifyDistibutorJwt";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
 import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { CloudneryService } from "@/app/lib/services/cloudnery.service";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import { getUrls } from "@/app/lib/utils/geturl";
 
 export async function POST(request, { params }) {
   const user = await verifyJWT();
@@ -19,25 +21,23 @@ export async function POST(request, { params }) {
   try {
     const { id } = await params;
     const formData = await request.formData();
-    const {
-      distributorCode,
-      distributorAccountName,
-      orderLength,
-      orderMaterialCode,
-      productThicknessWithinSpec,
-      materialFreeFromSurfaceDefects,
-      productCleanAndFitForPurpose,
-      orderReadyForShipment,
-      palletDimensions,
-      palletWeight,
-    } = Object.fromEntries(formData.entries());
-    const micrometerImage = formData.get("micrometerImage");
-    const materialImage = formData.get("materialImage");
-    const processedBy = formData.get("processedBy");
 
-    if (!micrometerImage || !materialImage || !processedBy) {
-      return ApiResponse(400, null, "All fields are required");
+    const distributorCode = formData.get("distributorCode");
+    const distributorAccountName = formData.get("distributorAccountName");
+    const orderReadyForShipment =
+      formData.get("orderReadyForShipment") === "true";
+    const processedByFile = formData.get("processedBy"); // This is the signature/processedBy image
+    const productsMetadataStr = formData.get("productsMetadata");
+
+    if (!productsMetadataStr || !processedByFile) {
+      return ApiResponse(
+        400,
+        null,
+        "Products data and processed by signature are required",
+      );
     }
+
+    const productsMetadata = JSON.parse(productsMetadataStr);
 
     // Security check: Server side bypass validation
     const validateImage = (file) => {
@@ -48,61 +48,139 @@ export async function POST(request, { params }) {
       return true;
     };
 
-    if (!validateImage(micrometerImage) || !validateImage(materialImage) || !validateImage(processedBy)) {
-      return ApiResponse(400, null, "Invalid file upload. Only images (JPG, PNG) under 10MB are allowed.");
+    if (!validateImage(processedByFile)) {
+      return ApiResponse(
+        400,
+        null,
+        "Invalid processed by signature image. Only images (JPG, PNG) under 10MB are allowed.",
+      );
     }
 
-    const micrometerImageResult = await CloudneryService.upload(
-      micrometerImage,
-      "qc",
-      "image",
-      "jpg",
-    );
-    if (!micrometerImageResult) {
-      return ApiResponse(500, null, "Failed to upload micrometer image");
-    }
-
-    const materialImageResult = await CloudneryService.upload(
-      materialImage,
-      "qc",
-      "image",
-      "jpg",
-    );
-    if (!materialImageResult) {
-      return ApiResponse(500, null, "Failed to upload material image");
-    }
-
+    // Upload processedBy signature
     const processedByResult = await CloudneryService.upload(
-      processedBy,
+      processedByFile,
       "qc",
       "image",
       "jpg",
     );
-    if (!processedBy) {
-      return ApiResponse(500, null, "Failed to upload processed by");
+    if (!processedByResult) {
+      return ApiResponse(500, null, "Failed to upload processed by signature");
+    }
+
+    const processedProducts = [];
+
+    for (let i = 0; i < productsMetadata.length; i++) {
+      const product = productsMetadata[i];
+      const micrometerImage = formData.get(`micrometerImage_${i}`);
+      const materialImage = formData.get(`materialImage_${i}`);
+
+      if (!micrometerImage || !materialImage) {
+        return ApiResponse(
+          400,
+          null,
+          `Images are required for product: ${product.materialCode}`,
+        );
+      }
+
+      if (!validateImage(micrometerImage) || !validateImage(materialImage)) {
+        return ApiResponse(
+          400,
+          null,
+          `Invalid image upload for product: ${product.materialCode}. Only images (JPG, PNG) under 10MB are allowed.`,
+        );
+      }
+
+      const micrometerResult = await CloudneryService.upload(
+        micrometerImage,
+        "qc",
+        "image",
+        "jpg",
+      );
+      if (!micrometerResult) {
+        return ApiResponse(
+          500,
+          null,
+          `Failed to upload micrometer image for product: ${product.materialCode}`,
+        );
+      }
+
+      const materialResult = await CloudneryService.upload(
+        materialImage,
+        "qc",
+        "image",
+        "jpg",
+      );
+      if (!materialResult) {
+        return ApiResponse(
+          500,
+          null,
+          `Failed to upload material image for product: ${product.materialCode}`,
+        );
+      }
+
+      processedProducts.push({
+        materialCode: product.materialCode,
+        length: product.length,
+        thicknessWithinSpec: product.thicknessWithinSpec,
+        materialFreeFromSurfaceDefects: product.materialFreeFromSurfaceDefects,
+        cleanAndFitForPurpose: product.cleanAndFitForPurpose,
+        micrometerImage: micrometerResult.url,
+        materialImage: materialResult.url,
+        palletDimensions: product.palletDimensions,
+        palletWeight: product.palletWeight,
+      });
     }
 
     const order = await OrderService.updateQc(id, {
       distributorCode,
       distributorAccountName,
-      orderLength,
-      orderMaterialCode,
-      productThicknessWithinSpec,
-      materialFreeFromSurfaceDefects,
-      productCleanAndFitForPurpose,
+      products: processedProducts,
       orderReadyForShipment,
-      palletDimensions,
-      palletWeight,
-      micrometerImage: micrometerImageResult.url,
-      materialImage: materialImageResult.url,
       processedBy: processedByResult.url,
       processDate: new Date(),
     });
+
     if (!order) {
       return ApiResponse(404, null, "Order QC not updated");
     }
     return ApiResponse(200, order, "Order QC updated successfully");
   } catch (error) {
     return ApiResponse(500, null, "Error updating order QC: " + error.message);
+  }
+}
+
+export async function GET(request, { params }) {
+  const user = await verifyJWT();
+  const distributor = await verifyDistributorJWT();
+  if (!user?.id && !distributor?.id) {
+    return ApiResponse(401, null, "Unauthorized request");
+  }
+  if (!roleVerify(["admin", "distributor", "warehouse"], user || distributor)) {
+    return ApiResponse(403, null, "Forbidden: insufficient permissions");
+  }
+  await connect();
+  try {
+    const { id } = await params;
+    const order = await OrderService.getOrderById(id);
+    if (!order) {
+      return ApiResponse(404, null, "Order not found");
+    }
+    return ApiResponse(
+      200,
+      {
+        ...(order.qc && {
+          ...order.qc.toObject(),
+          processedBy: getUrls.getUrl(order.qc.processedBy),
+          products: order.qc.products?.map((product) => ({
+            ...product.toObject(),
+            micrometerImage: getUrls.getUrl(product.micrometerImage),
+            materialImage: getUrls.getUrl(product.materialImage),
+          })),
+        }),
+      },
+      "Order QC fetched successfully",
+    );
+  } catch (error) {
+    return ApiResponse(500, null, "Error fetching order QC: " + error.message);
   }
 }

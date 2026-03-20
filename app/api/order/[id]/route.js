@@ -56,18 +56,12 @@ export async function GET(request, { params }) {
         })),
         qc: order.qc && {
           ...order.qc.toObject(),
-          micrometerImage: getUrls.getUrl(
-            order.qc.micrometerImage,
-            order.qc.resource_type,
-          ),
-          materialImage: getUrls.getUrl(
-            order.qc.materialImage,
-            order.qc.resource_type,
-          ),
-          processedBy: getUrls.getUrl(
-            order.qc.processedBy,
-            order.qc.resource_type,
-          ),
+          processedBy: getUrls.getUrl(order.qc.processedBy),
+          products: order.qc.products?.map((product) => ({
+            ...product.toObject(),
+            micrometerImage: getUrls.getUrl(product.micrometerImage),
+            materialImage: getUrls.getUrl(product.materialImage),
+          })),
         },
       },
       "Order fetched successfully",

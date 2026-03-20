@@ -14,6 +14,7 @@ import {
 export default function QCForm({ orderId, role = "admin" }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [fetchingOrder, setFetchingOrder] = useState(true);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
 
@@ -21,34 +22,61 @@ export default function QCForm({ orderId, role = "admin" }) {
     const [formData, setFormData] = useState({
         distributorCode: "",
         distributorAccountName: "",
-        orderLength: "",
-        orderMaterialCode: "",
-        productThicknessWithinSpec: false,
-        materialFreeFromSurfaceDefects: false,
-        productCleanAndFitForPurpose: false,
+        products: [], // Array of products from orderItems
         orderReadyForShipment: false,
-        palletDimensions: "",
-        palletWeight: "",
     });
 
     const [files, setFiles] = useState({
-        micrometerImage: null,
-        materialImage: null,
-        processedBy: null,
+        processedBy: null, // Global signature
+        products: [] // Array of { micrometerImage, materialImage } for each product
     });
 
     const [previews, setPreviews] = useState({
-        micrometerImage: null,
-        materialImage: null,
         processedBy: null,
+        products: [] // Array of { micrometerImage, materialImage } for each product
     });
 
-    // Cleanup on unmount
+    // Fetch order on mount to pre-fill
     useEffect(() => {
-        return () => {
-            // Optionally could use a ref to clean up object URLs on component unmount
+        const fetchOrder = async () => {
+            try {
+                setFetchingOrder(true);
+                const response = await axios.get(`/api/order/${orderId}`);
+                const order = response.data.data;
+
+                if (order) {
+                    setFormData({
+                        distributorAccountName: order.orderBy?.companyName || "",
+                        orderReadyForShipment: false,
+                        products: order.orderItems.map(item => ({
+                            materialCode: item.product?.code || "",
+                            length: item.length || 0,
+                            thicknessWithinSpec: false,
+                            materialFreeFromSurfaceDefects: false,
+                            cleanAndFitForPurpose: false,
+                            palletDimensions: "",
+                            palletWeight: 0,
+                        }))
+                    });
+
+                    // Initialize files and previews state for products
+                    const initialFiles = order.orderItems.map(() => ({
+                        micrometerImage: null,
+                        materialImage: null
+                    }));
+                    setFiles(prev => ({ ...prev, products: initialFiles }));
+                    setPreviews(prev => ({ ...prev, products: initialFiles }));
+                }
+            } catch (err) {
+                console.error("Error fetching order:", err);
+                setError("Failed to fetch order details. Please try again.");
+            } finally {
+                setFetchingOrder(false);
+            }
         };
-    }, []);
+
+        if (orderId) fetchOrder();
+    }, [orderId]);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -58,12 +86,25 @@ export default function QCForm({ orderId, role = "admin" }) {
         }));
     };
 
-    const handleFileChange = (e) => {
+    const handleProductInputChange = (index, e) => {
+        const { name, value, type, checked } = e.target;
+        const newVal = type === 'checkbox' ? checked : value;
+
+        setFormData(prev => {
+            const updatedProducts = [...prev.products];
+            updatedProducts[index] = {
+                ...updatedProducts[index],
+                [name]: newVal
+            };
+            return { ...prev, products: updatedProducts };
+        });
+    };
+
+    const handleFileChange = (e, index = null) => {
         const { name, files: selectedFiles } = e.target;
         if (selectedFiles && selectedFiles[0]) {
             const file = selectedFiles[0];
 
-            // Security / Validation
             if (!file.type.startsWith("image/")) {
                 setError("Please upload a valid image file (JPG, PNG).");
                 return;
@@ -73,39 +114,74 @@ export default function QCForm({ orderId, role = "admin" }) {
                 return;
             }
 
-            setError(""); // clear any previous errors
+            setError("");
 
-            setFiles(prev => ({
-                ...prev,
-                [name]: file
-            }));
+            if (index === null) {
+                // Global file (processedBy)
+                setFiles(prev => ({ ...prev, [name]: file }));
+                if (previews[name]) URL.revokeObjectURL(previews[name]);
+                setPreviews(prev => ({ ...prev, [name]: URL.createObjectURL(file) }));
+            } else {
+                // Product-specific file
+                setFiles(prev => {
+                    const updatedProductFiles = [...prev.products];
+                    updatedProductFiles[index] = {
+                        ...updatedProductFiles[index],
+                        [name]: file
+                    };
+                    return { ...prev, products: updatedProductFiles };
+                });
 
-            if (previews[name]) {
-                URL.revokeObjectURL(previews[name]);
+                setPreviews(prev => {
+                    const updatedProductPreviews = [...prev.products];
+                    if (updatedProductPreviews[index][name]) {
+                        URL.revokeObjectURL(updatedProductPreviews[index][name]);
+                    }
+                    updatedProductPreviews[index] = {
+                        ...updatedProductPreviews[index],
+                        [name]: URL.createObjectURL(file)
+                    };
+                    return { ...prev, products: updatedProductPreviews };
+                });
             }
-
-            const previewUrl = URL.createObjectURL(file);
-            setPreviews(prev => ({
-                ...prev,
-                [name]: previewUrl
-            }));
         }
     };
 
-    const handleRemoveFile = (name) => {
-        setFiles(prev => ({ ...prev, [name]: null }));
-        if (previews[name]) {
-            URL.revokeObjectURL(previews[name]);
+    const handleRemoveFile = (name, index = null) => {
+        if (index === null) {
+            setFiles(prev => ({ ...prev, [name]: null }));
+            if (previews[name]) URL.revokeObjectURL(previews[name]);
+            setPreviews(prev => ({ ...prev, [name]: null }));
+        } else {
+            setFiles(prev => {
+                const updatedProductFiles = [...prev.products];
+                updatedProductFiles[index] = { ...updatedProductFiles[index], [name]: null };
+                return { ...prev, products: updatedProductFiles };
+            });
+            setPreviews(prev => {
+                const updatedProductPreviews = [...prev.products];
+                if (updatedProductPreviews[index][name]) {
+                    URL.revokeObjectURL(updatedProductPreviews[index][name]);
+                }
+                updatedProductPreviews[index] = { ...updatedProductPreviews[index], [name]: null };
+                return { ...prev, products: updatedProductPreviews };
+            });
         }
-        setPreviews(prev => ({ ...prev, [name]: null }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
-        if (!files.micrometerImage || !files.materialImage || !files.processedBy) {
-            setError("All image fields (Micrometer, Material, Processed By) are required.");
+        // Basic validation
+        if (!files.processedBy) {
+            setError("Signature (Processed By) is required.");
+            return;
+        }
+
+        const missingImages = files.products.some((p, i) => !p.micrometerImage || !p.materialImage);
+        if (missingImages) {
+            setError("All product images (Micrometer & Material) are required for each item.");
             return;
         }
 
@@ -113,20 +189,22 @@ export default function QCForm({ orderId, role = "admin" }) {
             setLoading(true);
             const data = new FormData();
 
-            // Append text/boolean fields
-            Object.entries(formData).forEach(([key, value]) => {
-                data.append(key, value);
-            });
-
-            // Append files
-            data.append("micrometerImage", files.micrometerImage);
-            data.append("materialImage", files.materialImage);
+            data.append("distributorCode", formData.distributorCode);
+            data.append("distributorAccountName", formData.distributorAccountName);
+            data.append("orderReadyForShipment", formData.orderReadyForShipment);
             data.append("processedBy", files.processedBy);
 
+            // Send products non-file data as JSON
+            data.append("productsMetadata", JSON.stringify(formData.products));
+
+            // Append product images specifically
+            files.products.forEach((productFile, index) => {
+                data.append(`micrometerImage_${index}`, productFile.micrometerImage);
+                data.append(`materialImage_${index}`, productFile.materialImage);
+            });
+
             const response = await axios.post(`/api/order/qc/${orderId}`, data, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+                headers: { 'Content-Type': 'multipart/form-data' }
             });
 
             if (response.data.success || response.status === 200) {
@@ -142,61 +220,80 @@ export default function QCForm({ orderId, role = "admin" }) {
         }
     };
 
-    const FileUploadComponent = ({ label, name, required, IconDoc = PhotoIcon }) => (
-        <div className="space-y-2">
-            <label className="block text-sm font-semibold text-gray-700 min-h-[40px]">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
-            <div className={`relative flex justify-center border border-dashed rounded-2xl transition-all duration-200 overflow-hidden ${files[name] ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary/40 hover:bg-gray-50'}`}>
-                {files[name] ? (
-                    <div className="relative w-full aspect-4/3 group bg-gray-50">
-                        <img
-                            src={previews[name]}
-                            alt={files[name].name}
-                            className="w-full h-full object-cover rounded-xl"
-                        />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
-                            <DocumentCheckIcon className="h-8 w-8 text-white mb-2" />
-                            <p className="text-xs text-white font-medium truncate w-full text-center px-2">
-                                {files[name].name}
-                            </p>
-                            <button
-                                type="button"
-                                onClick={() => handleRemoveFile(name)}
-                                className="mt-3 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
-                            >
-                                <XMarkIcon className="w-3.5 h-3.5" strokeWidth={3} /> Remove
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <label htmlFor={name} className="w-full cursor-pointer aspect-4/3 flex flex-col items-center justify-center p-6 text-center">
-                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-                            {/* <PhotoIcon className="h-8 w-8 text-gray-400 group-hover:text-primary transition-colors" /> */}
-                            <IconDoc className="h-8 w-8 text-gray-400 group-hover:text-primary transition-colors" />
-                        </div>
-                        <div className="flex text-sm text-gray-600 justify-center">
-                            <div
-                                className="relative cursor-pointer rounded-md font-bold text-gray-600 focus-within:outline-none"
-                            >
-                                <span>Click to upload</span>
-                                <input
-                                    id={name}
-                                    name={name}
-                                    type="file"
-                                    accept="image/*"
-                                    className="sr-only"
-                                    onChange={handleFileChange}
-                                    required={required}
-                                />
+    const FileUploadComponent = ({ label, name, required, index = null, IconDoc = PhotoIcon, reverse = false }) => {
+        const file = index === null ? files[name] : files.products[index]?.[name];
+        const preview = index === null ? previews[name] : previews.products[index]?.[name];
+        const id = index === null ? name : `${name}_${index}`;
+
+        return (
+            <div className="space-y-2">
+                {!reverse && <label className="block text-sm font-semibold text-gray-700 min-h-[40px]">
+                    {label} {required && <span className="text-red-500">*</span>}
+                </label>}
+                <div className={`relative flex justify-center border border-dashed rounded-2xl transition-all duration-200 overflow-hidden ${file ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary/40 hover:bg-gray-50'}`}>
+                    {file ? (
+                        <div className="relative w-full aspect-4/3 group bg-gray-50">
+                            <img
+                                src={preview}
+                                alt={file.name}
+                                className="w-full h-full object-cover rounded-xl"
+                            />
+                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
+                                <DocumentCheckIcon className="h-8 w-8 text-white mb-2" />
+                                <p className="text-xs text-white font-medium truncate w-full text-center px-2">
+                                    {file.name}
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveFile(name, index)}
+                                    className="mt-3 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
+                                >
+                                    <XMarkIcon className="w-3.5 h-3.5" strokeWidth={3} /> Remove
+                                </button>
                             </div>
                         </div>
-                        <p className="text-xs text-gray-500 mt-2">JPG, PNG up to 10MB</p>
-                    </label>
-                )}
+                    ) : (
+                        <label htmlFor={id} className="w-full cursor-pointer aspect-4/1 flex items-center justify-between max-w-68 p-6 text-center">
+                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                                <IconDoc className="h-8 w-8 text-gray-400 group-hover:text-primary transition-colors" />
+                            </div>
+                            <div className="flex flex-col items-start justify-center">
+                                <div className="flex text-sm text-gray-600 justify-center">
+                                    <div className="relative cursor-pointer rounded-md font-bold text-gray-600 focus-within:outline-none">
+                                        <span>Click to upload</span>
+                                        <input
+                                            id={id}
+                                            name={name}
+                                            type="file"
+                                            accept="image/*"
+                                            className="sr-only"
+                                            onChange={(e) => handleFileChange(e, index)}
+                                            required={required}
+                                        />
+                                    </div>
+                                </div>
+                                <p className="text-xs text-gray-500 mt-2">JPG, PNG up to 10MB</p>
+                            </div>
+                        </label>
+                    )}
+                </div>
+                {reverse && <label className="block text-sm font-semibold text-gray-700 min-h-[40px]">
+                    {label} {required && <span className="text-red-500">*</span>}
+                </label>}
             </div>
-        </div>
-    );
+        );
+    };
+
+    if (fetchingOrder) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
+                <div className="flex flex-col items-center gap-3">
+                    <ArrowPathIcon className="w-10 h-10 text-primary animate-spin" />
+                    <p className="text-gray-500 font-medium">Loading order details...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen font-sans bg-[#f8fafc] pb-24">
@@ -231,12 +328,12 @@ export default function QCForm({ orderId, role = "admin" }) {
                 )}
 
                 {error && (
-                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-                        <p className="text-red-600 text-sm">{error}</p>
+                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl shadow-sm">
+                        <p className="text-red-600 text-sm font-medium">{error}</p>
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-12">
 
                     {/* General Information Card */}
                     <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
@@ -264,115 +361,165 @@ export default function QCForm({ orderId, role = "admin" }) {
                                     placeholder="Account Name"
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-gray-700">Order Material Code</label>
-                                <input
-                                    type="text"
-                                    name="orderMaterialCode"
-                                    value={formData.orderMaterialCode}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                    placeholder="e.g. MAT-001"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-gray-700">Order Length (2M WIDE ROLL)</label>
-                                <input
-                                    type="number"
-                                    name="orderLength"
-                                    value={formData.orderLength}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                    placeholder="0.0"
-                                />
-                            </div>
                         </div>
                     </div>
 
-                    {/* Inspection Checklist Card */}
-                    <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
-                        <h3 className="text-lg font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">Inspection Checklist</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                            {[
-                                { name: "productThicknessWithinSpec", label: "Product Thickness within Specification (2.75MM – 0.05MM)" },
-                                { name: "materialFreeFromSurfaceDefects", label: "Material Free from Surface Defects" },
-                                { name: "productCleanAndFitForPurpose", label: "Product Clean & Fit for Purpose" },
-                                { name: "orderReadyForShipment", label: "Order Ready for Shipment" }
-                            ].map((field) => (
-                                <div key={field.name} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                    {/* Products Sections */}
+                    {formData.products.map((product, index) => (
+                        <div key={index} className="space-y-6">
+                            <div className="flex items-center gap-4">
+                                <div className="h-px flex-1 bg-gray-300/80"></div>
+                                <h3 className="text-sm font-bold text-gray-600 bg-gray-200 p-1 px-3 uppercase">
+                                    Product {index + 1} : {product.materialCode}
+                                </h3>
+                                <div className="h-px flex-1 bg-gray-300/80"></div>
+                            </div>
+
+                            {/* Inspection & Material Code Details */}
+                            <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-6">
+                                        <h4 className="text-md font-bold text-gray-800 border-b border-gray-50 pb-2">Material Details</h4>
+                                        <div className="grid grid-cols-1 gap-4">
+                                            <div className="space-y-2">
+                                                <label className="block text-sm font-semibold text-gray-700">Material Code</label>
+                                                <input
+                                                    type="text"
+                                                    disabled
+                                                    value={product.materialCode}
+                                                    className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-gray-500 text-sm cursor-not-allowed"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="block text-sm font-semibold text-gray-700">Order Length (2M WIDE ROLL)</label>
+                                                <input
+                                                    type="number"
+                                                    name="length"
+                                                    value={product.length}
+                                                    onChange={(e) => handleProductInputChange(index, e)}
+                                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                                                    placeholder="0.0"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <h4 className="text-md font-bold text-gray-800 border-b border-gray-50 pb-2">Inspection Checklist</h4>
+                                        <div className="grid grid-cols-1 gap-2">
+                                            {[
+                                                { name: "thicknessWithinSpec", label: "Product Thickness within Specification (2.75MM – 0.05MM)" },
+                                                { name: "materialFreeFromSurfaceDefects", label: "Material Free from Surface Defects" },
+                                                { name: "cleanAndFitForPurpose", label: "Product Clean & Fit for Purpose" },
+                                            ].map((field) => (
+                                                <div key={field.name} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                                                    <div className="relative flex items-center justify-center">
+                                                        <input
+                                                            type="checkbox"
+                                                            name={field.name}
+                                                            id={`${field.name}_${index}`}
+                                                            checked={product[field.name]}
+                                                            onChange={(e) => handleProductInputChange(index, e)}
+                                                            className="w-5 h-5 text-primary bg-white border-2 border-gray-300 rounded cursor-pointer focus:ring-primary focus:ring-offset-2 transition-all checked:border-primary"
+                                                        />
+                                                    </div>
+                                                    <label htmlFor={`${field.name}_${index}`} className="text-sm font-medium text-gray-700 cursor-pointer select-none flex-1">
+                                                        {field.label}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Shipping Details for Product */}
+                            <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
+                                <h4 className="text-md font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">Shipping Information</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-semibold text-gray-700">Pallet Dimensions</label>
+                                        <input
+                                            type="text"
+                                            name="palletDimensions"
+                                            value={product.palletDimensions}
+                                            onChange={(e) => handleProductInputChange(index, e)}
+                                            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                                            placeholder="e.g. 120 x 100 x 150 cm"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-semibold text-gray-700">Pallet Weight</label>
+                                        <input
+                                            type="number"
+                                            name="palletWeight"
+                                            value={product.palletWeight}
+                                            onChange={(e) => handleProductInputChange(index, e)}
+                                            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                                            placeholder="0.0"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Images for Product */}
+                            <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
+                                <h4 className="text-md font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">Photographic Evidence</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <FileUploadComponent
+                                        label="Micrometer showing thickness spec"
+                                        name="micrometerImage"
+                                        index={index}
+                                        IconDoc={({ className }) => (
+                                            <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24">
+                                                <path fill="currentColor" d="M16 22c-1.886 0-2.828 0-3.414-.586c-.503-.502-.574-1.267-.584-2.664L12 17.25V6.75l.002-1.5c.01-1.397.081-2.162.584-2.664C13.172 2 14.114 2 16 2h2c1.886 0 2.828 0 3.414.586S22 4.114 22 6v12c0 1.886 0 2.828-.586 3.414S19.886 22 18 22z" opacity={0.5}></path>
+                                                <path fill="currentColor" d="M15 8.25h-3v1.5h3a.75.75 0 0 0 0-1.5m-1-3h-1.998L12 6.75h2a.75.75 0 0 0 0-1.5m0 6h-2v1.5h2a.75.75 0 0 0 0-1.5m1 3h-3v1.5h3a.75.75 0 0 0 0-1.5m-1 3h-2l.002 1.5H14a.75.75 0 0 0 0-1.5m-6-2.27V7a7.9 7.9 0 0 1-3 .59A7.9 7.9 0 0 1 2 7v7.98c0 .622 0 .934.038 1.24a5 5 0 0 0 .25 1.056c.102.29.241.569.52 1.126l1.468 2.937a.809.809 0 0 0 1.448 0l1.468-2.937c.279-.557.418-.835.52-1.126a5 5 0 0 0 .25-1.057C8 15.914 8 15.602 8 14.98"></path>
+                                                <path fill="currentColor" d="M5 2a3 3 0 0 1 3 3v2a7.9 7.9 0 0 1-3 .589A7.9 7.9 0 0 1 2 7V5a3 3 0 0 1 3-3" opacity={0.5}></path>
+                                            </svg>
+                                        )}
+                                        required={true}
+                                    />
+                                    <FileUploadComponent
+                                        IconDoc={({ className }) => (<svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24">
+                                            <path fill="currentColor" d="M12 14.195c-.176 0-.348-.046-.5-.133l-9-5.198a1 1 0 0 1 0-1.732l9-5.194c.31-.177.69-.177 1 0l9 5.194a1 1 0 0 1 0 1.732l-9 5.198a1 1 0 0 1-.5.133" opacity={0.25}></path>
+                                            <path fill="currentColor" d="m21.5 11.132l-1.964-1.134l-7.036 4.064c-.31.178-.69.178-1 0L4.464 9.998L2.5 11.132a1 1 0 0 0 0 1.732l9 5.198c.31.178.69.178 1 0l9-5.198a1 1 0 0 0 0-1.732" opacity={0.5}></path>
+                                            <path fill="currentColor" d="m21.5 15.132l-1.964-1.134l-7.036 4.064c-.31.178-.69.178-1 0l-7.036-4.064L2.5 15.132a1 1 0 0 0 0 1.732l9 5.198c.31.178.69.178 1 0l9-5.198a1 1 0 0 0 0-1.732"></path>
+                                        </svg>)}
+                                        label="Material picture before wrapping"
+                                        name="materialImage"
+                                        index={index}
+                                        required={true}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+
+                    {/* Overall Ready Check & Signature */}
+                    <div className="bg-white rounded-2xl shadow-[0_2_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
+                        <h3 className="text-lg font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">Final Confirmation</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10">
                                     <div className="relative flex items-center justify-center">
                                         <input
                                             type="checkbox"
-                                            name={field.name}
-                                            id={field.name}
-                                            checked={formData[field.name]}
+                                            name="orderReadyForShipment"
+                                            id="orderReadyForShipment"
+                                            checked={formData.orderReadyForShipment}
                                             onChange={handleInputChange}
-                                            className="w-5 h-5 text-primary bg-white border-2 border-gray-300 rounded cursor-pointer focus:ring-primary focus:ring-offset-2 transition-all checked:border-primary"
+                                            className="w-6 h-6 text-primary bg-white border-2 border-primary/30 rounded cursor-pointer focus:ring-primary focus:ring-offset-2 transition-all checked:border-primary"
                                         />
                                     </div>
-                                    <label htmlFor={field.name} className="text-sm font-medium text-gray-700 cursor-pointer select-none flex-1">
-                                        {field.label}
+                                    <label htmlFor="orderReadyForShipment" className="text-sm font-semibold text-gray-800 cursor-pointer select-none">
+                                        Order Ready for Shipment
                                     </label>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Shipping Details */}
-                    <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
-                        <h3 className="text-lg font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">Shipping Information</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-gray-700">Pallet Dimensions</label>
-                                <input
-                                    type="text"
-                                    name="palletDimensions"
-                                    value={formData.palletDimensions}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                    placeholder="e.g. 120 x 100 x 150 cm"
-                                />
+                                <p className="text-xs text-gray-500 italic">
+                                    Please ensure all inspection criteria have been met and photographic evidence is attached before final submission.
+                                </p>
                             </div>
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-gray-700">Pallet Weight</label>
-                                <input
-                                    type="number"
-                                    name="palletWeight"
-                                    value={formData.palletWeight}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                    placeholder="0.0"
-                                />
-                            </div>
-                        </div>
-                    </div>
 
-                    {/* Documentation / Images */}
-                    <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
-                        <h3 className="text-lg font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">Photographic Evidence</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <FileUploadComponent
-                                label="Micrometer showing thickness spec"
-                                name="micrometerImage"
-                                IconDoc={({ className }) => (
-                                    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24">
-                                        <path fill="currentColor" d="M16 22c-1.886 0-2.828 0-3.414-.586c-.503-.502-.574-1.267-.584-2.664L12 17.25V6.75l.002-1.5c.01-1.397.081-2.162.584-2.664C13.172 2 14.114 2 16 2h2c1.886 0 2.828 0 3.414.586S22 4.114 22 6v12c0 1.886 0 2.828-.586 3.414S19.886 22 18 22z" opacity={0.5}></path>
-                                        <path fill="currentColor" d="M15 8.25h-3v1.5h3a.75.75 0 0 0 0-1.5m-1-3h-1.998L12 6.75h2a.75.75 0 0 0 0-1.5m0 6h-2v1.5h2a.75.75 0 0 0 0-1.5m1 3h-3v1.5h3a.75.75 0 0 0 0-1.5m-1 3h-2l.002 1.5H14a.75.75 0 0 0 0-1.5m-6-2.27V7a7.9 7.9 0 0 1-3 .59A7.9 7.9 0 0 1 2 7v7.98c0 .622 0 .934.038 1.24a5 5 0 0 0 .25 1.056c.102.29.241.569.52 1.126l1.468 2.937a.809.809 0 0 0 1.448 0l1.468-2.937c.279-.557.418-.835.52-1.126a5 5 0 0 0 .25-1.057C8 15.914 8 15.602 8 14.98"></path>
-                                        <path fill="currentColor" d="M5 2a3 3 0 0 1 3 3v2a7.9 7.9 0 0 1-3 .589A7.9 7.9 0 0 1 2 7V5a3 3 0 0 1 3-3" opacity={0.5}></path>
-                                    </svg>
-                                )}
-                                required={true}
-                            />
-                            <FileUploadComponent
-                                IconDoc={({ className }) => (<svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M12 14.195c-.176 0-.348-.046-.5-.133l-9-5.198a1 1 0 0 1 0-1.732l9-5.194c.31-.177.69-.177 1 0l9 5.194a1 1 0 0 1 0 1.732l-9 5.198a1 1 0 0 1-.5.133" opacity={0.25}></path>
-                                    <path fill="currentColor" d="m21.5 11.132l-1.964-1.134l-7.036 4.064c-.31.178-.69.178-1 0L4.464 9.998L2.5 11.132a1 1 0 0 0 0 1.732l9 5.198c.31.178.69.178 1 0l9-5.198a1 1 0 0 0 0-1.732" opacity={0.5}></path>
-                                    <path fill="currentColor" d="m21.5 15.132l-1.964-1.134l-7.036 4.064c-.31.178-.69.178-1 0l-7.036-4.064L2.5 15.132a1 1 0 0 0 0 1.732l9 5.198c.31.178.69.178 1 0l9-5.198a1 1 0 0 0 0-1.732"></path>
-                                </svg>)}
-                                label="Material picture before wrapping"
-                                name="materialImage"
-                                required={true}
-                            />
                             <FileUploadComponent
                                 IconDoc={({ className }) => (<svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24">
                                     <g fill="currentColor" fillRule="evenodd" clipRule="evenodd">
@@ -381,6 +528,7 @@ export default function QCForm({ orderId, role = "admin" }) {
                                         <path d="M11.387 16.825c.258-.184.475-.419.64-.69c.15-.24.26-.32.39-.57c.3-.6.54-1.2.8-1.79c2.21.56 2.52-.9 2.57-1.35a1.92 1.92 0 0 0-.92-1.829a2.21 2.21 0 0 0-1.91-.17a2 2 0 0 0-1.09 1.57a1.41 1.41 0 0 0 .6 1.44c-.37.48-.75.95-1.12 1.45l-.48.69a2.7 2.7 0 0 0-.35.89c-.13.699.33.719.87.36m1.64-4.549a.9.9 0 0 1 .44-.63a1 1 0 0 1 .82.07a.77.77 0 0 1 .45.68c0 .58-.55 1-1.51.42a.43.43 0 0 1-.2-.54"></path>
                                     </g>
                                 </svg>)}
+                                reverse={true}
                                 label="Picture of Processed by/Signature"
                                 name="processedBy"
                                 required={true}
@@ -417,3 +565,5 @@ export default function QCForm({ orderId, role = "admin" }) {
         </div>
     );
 }
+
+// export default QCForm;
