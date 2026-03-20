@@ -4,15 +4,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import {
-    ChevronLeftIcon,
-    CubeIcon,
-    PencilIcon,
-    PrinterIcon,
-    CheckCircleIcon,
-    BuildingOfficeIcon,
-    DocumentTextIcon,
-    ClipboardDocumentListIcon,
-    EyeIcon
 } from "@heroicons/react/24/outline";
 import OrderDetailsView from "@/src/components/share/OrderDetailsView";
 
@@ -32,6 +23,7 @@ export default function WarehouseOrderDetailsPage() {
         invoice: ""
     });
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isCleaningQC, setIsCleaningQC] = useState(false);
 
     useEffect(() => {
         if (id) fetchOrderDetails();
@@ -74,6 +66,22 @@ export default function WarehouseOrderDetailsPage() {
         }
     };
 
+    const handleCleanQC = async () => {
+        try {
+            setIsCleaningQC(true);
+            const res = await axios.delete(`/api/order/qc/${id}`);
+            if (res.data?.success) {
+                setOrder({ ...order, qc: null });
+            } else {
+                alert(res.data?.message || "Failed to clean QC data");
+            }
+        } catch (err) {
+            alert(err.response?.data?.message || err.message || "Error cleaning QC data");
+        } finally {
+            setIsCleaningQC(false);
+        }
+    };
+
     if (loading) return (
         <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">
             <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-200 border-t-primary"></div>
@@ -100,6 +108,8 @@ export default function WarehouseOrderDetailsPage() {
             setUpdateModal={setUpdateModal}
             isUpdating={isUpdating}
             handleUpdateDetails={handleUpdateDetails}
+            handleCleanQC={handleCleanQC}
+            isCleaningQC={isCleaningQC}
         />
     );
 }

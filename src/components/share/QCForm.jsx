@@ -46,17 +46,21 @@ export default function QCForm({ orderId, role = "admin" }) {
 
                 if (order) {
                     setFormData({
-                        distributorAccountName: order.orderBy?.companyName || "",
-                        orderReadyForShipment: false,
-                        products: order.orderItems.map(item => ({
-                            materialCode: item.product?.code || "",
-                            length: item.length || 0,
-                            thicknessWithinSpec: false,
-                            materialFreeFromSurfaceDefects: false,
-                            cleanAndFitForPurpose: false,
-                            palletDimensions: "",
-                            palletWeight: 0,
-                        }))
+                        distributorCode: order.qc?.distributorCode || "",
+                        distributorAccountName: order.qc?.distributorAccountName || order.orderBy?.companyName || "",
+                        orderReadyForShipment: order.qc?.orderReadyForShipment || false,
+                        products: order.orderItems.map((item, idx) => {
+                            const existingProduct = order.qc?.products?.[idx];
+                            return {
+                                materialCode: item.product?.code || "",
+                                length: existingProduct?.length || item.length || 0,
+                                thicknessWithinSpec: existingProduct?.thicknessWithinSpec || false,
+                                materialFreeFromSurfaceDefects: existingProduct?.materialFreeFromSurfaceDefects || false,
+                                cleanAndFitForPurpose: existingProduct?.cleanAndFitForPurpose || false,
+                                palletDimensions: existingProduct?.palletDimensions || "",
+                                palletWeight: existingProduct?.palletWeight || 0,
+                            }
+                        })
                     });
 
                     // Initialize files and previews state for products

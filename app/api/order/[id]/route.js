@@ -88,9 +88,24 @@ export async function DELETE(request, { params }) {
       return ApiResponse(404, null, "Order not found");
     }
     if (findOrder.documents?.length > 0) {
-      findOrder.documents?.forEach(async (doc) => {
-        await CloudneryService.delete(doc?.url, doc?.resource_type);
-      });
+      for (const doc of findOrder.documents) {
+        if (doc?.url) {
+          await CloudneryService.delete(doc.url, doc.resource_type || "raw");
+        }
+      }
+    }
+    if (findOrder.qc?.products?.length > 0) {
+      for (const product of findOrder.qc.products) {
+        if (product.micrometerImage) {
+          await CloudneryService.delete(product.micrometerImage, "image");
+        }
+        if (product.materialImage) {
+          await CloudneryService.delete(product.materialImage, "image");
+        }
+      }
+    }
+    if (findOrder.qc?.processedBy) {
+      await CloudneryService.delete(findOrder.qc.processedBy, "image");
     }
     const order = await OrderService.deleteOrder(id);
     if (!order) {

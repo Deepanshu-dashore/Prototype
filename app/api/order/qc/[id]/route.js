@@ -184,3 +184,45 @@ export async function GET(request, { params }) {
     return ApiResponse(500, null, "Error fetching order QC: " + error.message);
   }
 }
+
+export async function DELETE(request, { params }) {
+  const user = await verifyJWT();
+  const warehouse = await verifyWarehouseJWT();
+  if (!user?.id && !warehouse?.id) {
+    return ApiResponse(401, null, "Unauthorized request");
+  }
+  if (!roleVerify(["admin", "warehouse"], user || warehouse)) {
+    return ApiResponse(403, null, "Forbidden: insufficient permissions");
+  }
+  await connect();
+  try {
+    const { id } = await params;
+    const findOrder = await OrderService.getOrderById(id);
+    if (!findOrder) {
+      return ApiResponse(404, null, "Order not found");
+    }
+    if (!findOrder.qc) {
+      return ApiResponse(400, null, "Order doesn't have QC");
+    }
+    if (findOrder.qc?.products?.length > 0) {
+      for (const product of findOrder.qc.products) {
+        if (product.micrometerImage) {
+          await CloudneryService.delete(product.micrometerImage, "image");
+        }
+        if (product.materialImage) {
+          await CloudneryService.delete(product.materialImage, "image");
+        }
+      }
+    }
+    if (findOrder.qc?.processedBy) {
+      await CloudneryService.delete(findOrder.qc.processedBy, "image");
+    }
+    const updatedOrder = await OrderService.updateOrder(id, { qc: null });
+    if (!updatedOrder) {
+      return ApiResponse(404, null, "Order QC not deleted");
+    }
+    return ApiResponse(200, updatedOrder, "Order QC deleted successfully");
+  } catch (error) {
+    return ApiResponse(500, null, "Error deleting order: " + error.message);
+  }
+}

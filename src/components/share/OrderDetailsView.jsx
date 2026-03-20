@@ -11,9 +11,12 @@ import {
     ClipboardDocumentListIcon,
     PencilSquareIcon,
     EyeIcon,
-    ClipboardDocumentCheckIcon
+    ClipboardDocumentCheckIcon,
+    TrashIcon
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
 export default function OrderDetailsView({
     order,
@@ -22,8 +25,11 @@ export default function OrderDetailsView({
     setUpdateModal = () => { },
     isUpdating = false,
     handleUpdateDetails = () => { },
+    handleCleanQC = () => { },
+    isCleaningQC = false
 }) {
     const router = useRouter();
+    const [isCleanModalOpen, setIsCleanModalOpen] = useState(false);
 
     const getStatusStyle = (status) => {
         switch (status) {
@@ -102,8 +108,35 @@ export default function OrderDetailsView({
                             <ClipboardDocumentCheckIcon className="w-4 h-4" />
                             {order?.qc ? "Update QC Report" : "Start QC"}
                         </button>
+                        {order?.qc && (role === "admin" || role === "warehouse") && (
+                            <button
+                                onClick={() => setIsCleanModalOpen(true)}
+                                disabled={isCleaningQC}
+                                className="px-4 py-2 text-red-50 bg-red-600 border border-red-100 rounded-lg text-sm flex items-center gap-2 hover:bg-red-700 transition-colors shadow-sm disabled:opacity-50"
+                                title="Clean QC Data"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="m16.875 21.525l-1.4-1.4l2.1-2.125l-2.1-2.125l1.4-1.4l2.125 2.1l2.125-2.1l1.4 1.4l-2.1 2.125l2.1 2.125l-1.4 1.4l-2.125-2.1zM9 9V7h9v2zm0 3v-2h9v2zM6 22q-1.25 0-2.125-.875T3 19v-3h3V2h15v10.375q-.475-.175-.975-.262T19 12.025V4H8v12h5.35q-.175.5-.262 1T13 18q0 1.1.388 2.125T14.55 22z"></path>
+                                </svg>
+                                {isCleaningQC ? "Cleaning..." : "Clean QC"}
+                            </button>
+                        )}
                     </div>
                 </div>
+
+                <ConfirmationModal
+                    isOpen={isCleanModalOpen}
+                    onClose={() => setIsCleanModalOpen(false)}
+                    onConfirm={async () => {
+                        await handleCleanQC();
+                        setIsCleanModalOpen(false);
+                    }}
+                    title="Clean QC Data"
+                    message="Are you sure you want to clean QC data? This action will permanently delete all QC related images and records from the order. This action cannot be undone."
+                    type="delete"
+                    confirmText="Clean Data"
+                    isLoading={isCleaningQC}
+                />
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
@@ -268,7 +301,7 @@ export default function OrderDetailsView({
                                     <DocumentTextIcon className="w-7 h-7 text-primary/50 bg-primary/10 p-1 rounded-md" />
                                 </div>
                                 <h3 className="text-base font-bold text-gray-800">Documents</h3>
-                                { (role === "admin" || role === "warehouse") && !updateModal.isOpen && (
+                                {(role === "admin" || role === "warehouse") && !updateModal.isOpen && (
                                     <button
                                         onClick={() => openUpdateModal(order)}
                                         className="inline-flex ml-auto items-center gap-1.5 px-1.5 py-1.5 bg-gray-200 border border-gray-200 text-gray-800 text-[12.25px] rounded-md hover:bg-gray-300 hover:border-gray-300 transition-all shadow-sm"
