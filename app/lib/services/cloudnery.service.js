@@ -45,39 +45,21 @@ export class CloudneryService {
     }
   }
 
-  static async delete(fileId, arg2 = "image", arg3 = null) {
+  static async delete(fileId, resource_type = "raw") {
     try {
-      if (!fileId) return null;
-
-      // Handle the case where someone calls .delete(id, folder, type)
-      let resource_type = arg3 || arg2 || "image";
-      // Ensure it's one of the standard Cloudinary resource types
-      if (!["image", "video", "raw"].includes(resource_type)) {
-        resource_type = "image";
-      }
-
+      let publicId = null;
       const fileName = fileId.split("/");
-      // Check if the first part is a version (starts with 'v' followed by numbers)
-      const hasVersion =
-        fileName[0].startsWith("v") && !isNaN(fileName[0].substring(1));
-
-      let publicIdParts = hasVersion ? fileName.slice(1) : fileName;
-      let publicId = publicIdParts.join("/");
-
       if (resource_type !== "raw") {
-        // Remove extension for images and videos
-        publicId = publicId.split(".")[0];
+        publicId = fileName.slice(1).join("/").split(".")[0];
+      } else {
+        publicId = fileName.slice(1).join("/");
       }
-
-      console.log(`Cloudnery: Deleting ${publicId} (${resource_type})`);
       const result = await cloudinary.uploader.destroy(publicId, {
         resource_type,
       });
-
       if (result) {
         return {
           success: true,
-          result,
         };
       }
     } catch (error) {
