@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import Link from "next/link";
 import {
     MagnifyingGlassIcon,
@@ -16,14 +16,8 @@ import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/Table
 import AdminHeader from "@/src/components/admin/AdminHeader";
 
 export default function DistributorsPage() {
-    const [distributors, setDistributors] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const api = useApiClient();
     const [searchQuery, setSearchQuery] = useState("");
-    const [verifyingId, setVerifyingId] = useState(null);
-    const [deleteModal, setDeleteModal] = useState({ isOpen: false, distId: null });
-    const [isDeleting, setIsDeleting] = useState(false);
-
     const [pagination, setPagination] = useState({
         currentPage: 1,
         totalPages: 1,
@@ -31,85 +25,63 @@ export default function DistributorsPage() {
         limit: 10
     });
 
+    const [deleteModal, setDeleteModal] = useState({ isOpen: false, distId: null });
+
+    const params = new URLSearchParams();
+    if (searchQuery) params.append("search", searchQuery);
+    params.append("page", pagination.currentPage);
+    params.append("limit", pagination.limit);
+    params.append("paginate", "true");
+
+    const queryKey = ["distributors", pagination.currentPage, searchQuery];
+    const { data: distributorsData, isLoading: loading, error: fetchError } = api.useGet(
+        queryKey,
+        `/distributor?${params.toString()}`
+    );
+
+    const distributors = distributorsData?.data?.distributors || [];
+    const error = fetchError?.message || "";
+
     useEffect(() => {
-        fetchDistributors(pagination.currentPage);
-    }, [pagination.currentPage]);
-
-    const fetchDistributors = async (page = 1) => {
-        try {
-            setLoading(true);
-            const params = new URLSearchParams();
-            if (searchQuery) params.append("search", searchQuery);
-            params.append("page", page);
-            params.append("limit", pagination.limit);
-            params.append("paginate", "true");
-
-            const res = await axios.get(`/api/distributor?${params.toString()}`);
-            if (res.data?.success) {
-                setDistributors(res.data.data.distributors || []);
-                setPagination(prev => ({
-                    ...prev,
-                    totalPages: res.data.data.totalPages,
-                    totalItems: res.data.data.totalItems,
-                    currentPage: res.data.data.currentPage
-                }));
-            } else {
-                setError(res.data?.message || "Failed to fetch distributors");
-            }
-        } catch (err) {
-            setError(err.message || "Something went wrong");
-        } finally {
-            setLoading(false);
+        if (distributorsData?.data) {
+            setPagination(prev => ({
+                ...prev,
+                totalPages: distributorsData.data.totalPages,
+                totalItems: distributorsData.data.totalItems,
+                currentPage: distributorsData.data.currentPage
+            }));
         }
-    };
+    }, [distributorsData]);
+
+    const verifyMutation = api.usePatch(queryKey, "/distributor/verify", {
+        onError: (err) => alert(err.response?.data?.message || err.message || "Something went wrong during verification")
+    });
+
+    const deleteMutation = api.useDelete(queryKey, "/distributor", {
+        onSuccess: () => {
+            setDeleteModal({ isOpen: false, distId: null });
+        },
+        onError: (err) => alert(err.response?.data?.message || err.message || "Something went wrong during deletion")
+    });
+
+    const verifyingId = verifyMutation.isPending ? verifyMutation.variables?.id : null;
+    const isDeleting = deleteMutation.isPending;
 
     const handleSearch = () => {
-        if (pagination.currentPage === 1) {
-            fetchDistributors(1);
-        } else {
-            setPagination(prev => ({ ...prev, currentPage: 1 }));
-        }
+        setPagination(prev => ({ ...prev, currentPage: 1 }));
     };
 
-    const handleVerify = async (id) => {
-        try {
-            setVerifyingId(id);
-            const res = await axios.patch(`/api/distributor/verify/${id}`);
-            if (res.data?.success) {
-                // Update local state
-                setDistributors(distributors.map(d =>
-                    d._id === id ? { ...d, verification: { ...d.verification, isVerified: true, verifiedDate: new Date() } } : d
-                ));
-            } else {
-                alert(res.data?.message || "Failed to verify distributor");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Something went wrong during verification");
-        } finally {
-            setVerifyingId(null);
-        }
+    const handleVerify = (id) => {
+        verifyMutation.mutate({ id, data: {} });
     };
 
     const handleDelete = (id) => {
         setDeleteModal({ isOpen: true, distId: id });
     };
 
-    const confirmDelete = async () => {
+    const confirmDelete = () => {
         if (!deleteModal.distId) return;
-        try {
-            setIsDeleting(true);
-            const res = await axios.delete(`/api/distributor/${deleteModal.distId}`);
-            if (res.data?.success) {
-                fetchDistributors(pagination.currentPage);
-                setDeleteModal({ isOpen: false, distId: null });
-            } else {
-                alert(res.data?.message || "Failed to delete distributor");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Something went wrong during deletion");
-        } finally {
-            setIsDeleting(false);
-        }
+        deleteMutation.mutate(deleteModal.distId);
     };
 
     const formatDate = (date) =>

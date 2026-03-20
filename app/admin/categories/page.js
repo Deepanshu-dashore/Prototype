@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import Link from "next/link";
 import {
   FolderIcon,
@@ -15,9 +15,7 @@ import { motion } from "framer-motion";
 import AdminHeader from "@/src/components/admin/AdminHeader";
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const api = useApiClient();
   const [searchQuery, setSearchQuery] = useState("");
 
   const [pagination, setPagination] = useState({
@@ -27,39 +25,32 @@ export default function CategoriesPage() {
     limit: 10,
   });
 
+  const params = new URLSearchParams();
+  params.append("page", pagination.currentPage);
+  params.append("limit", pagination.limit);
+  if (searchQuery) params.append("search", searchQuery);
+
+  const queryKey = ["categories", pagination.currentPage, searchQuery];
+  const {
+    data: categoriesData,
+    isLoading: loading,
+    error: fetchError,
+  } = api.useGet(queryKey, `/blogs/category?${params.toString()}`);
+
+  const categories = categoriesData?.data?.categoriesWithCounts || [];
+  const error = fetchError?.message || "";
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchCategories(pagination.currentPage);
-    }, 300); // 300ms debounce
-    return () => clearTimeout(timer);
-  }, [pagination.currentPage, searchQuery]);
-
-  const fetchCategories = async (page = 1) => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      params.append("page", page);
-      params.append("limit", pagination.limit);
-      if (searchQuery) params.append("search", searchQuery);
-
-      const res = await axios.get(`/api/blogs/category?${params.toString()}`);
-      if (res.data?.success && res.data?.data?.categoriesWithCounts) {
-        setCategories(res.data.data.categoriesWithCounts);
-        setPagination((prev) => ({
-          ...prev,
-          totalPages: res.data.data.totalPages,
-          totalItems: res.data.data.totalCategories,
-          currentPage: res.data.data.currentPage,
-        }));
-      } else {
-        setError(res.data?.message || "Failed to fetch categories");
-      }
-    } catch (err) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setLoading(false);
+    if (categoriesData?.data) {
+      const data = categoriesData.data;
+      setPagination((prev) => ({
+        ...prev,
+        totalPages: data.totalPages,
+        totalItems: data.totalCategories,
+        currentPage: data.currentPage,
+      }));
     }
-  };
+  }, [categoriesData]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import Link from "next/link";
 import {
     DocumentTextIcon,
@@ -33,9 +33,7 @@ const STATUS_OPTIONS = [
 ];
 
 export default function AdminOrdersPage() {
-    const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const api = useApiClient();
     const [searchQuery, setSearchQuery] = useState("");
 
     const [pagination, setPagination] = useState({
@@ -46,7 +44,6 @@ export default function AdminOrdersPage() {
     });
     const [statusUpdatingId, setStatusUpdatingId] = useState(null);
 
-
     const [deleteModal, setDeleteModal] = useState({
         isOpen: false,
         orderId: null
@@ -56,10 +53,7 @@ export default function AdminOrdersPage() {
         orderId: null,
         status: null,
     });
-    const [isUpdating, setIsUpdating] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
 
-    // New state for inline status editing
     const [editingStatusOrderId, setEditingStatusOrderId] = useState(null);
     const [tempStatus, setTempStatus] = useState("");
 
@@ -68,87 +62,72 @@ export default function AdminOrdersPage() {
     const [endDate, setEndDate] = useState("");
     const [productList, setProductList] = useState(null);
 
+    const params = new URLSearchParams();
+    params.append("page", pagination.currentPage);
+    params.append("limit", pagination.limit);
+    if (searchQuery) params.append("search", searchQuery);
+    if (filterStatus && filterStatus !== "ALL") params.append("status", filterStatus);
+    if (startDate) params.append("startDate", startDate);
+    if (endDate) params.append("endDate", endDate);
+
+    const queryKey = ["orders", pagination.currentPage, searchQuery, filterStatus, startDate, endDate];
+    const { data: ordersData, isLoading: loading, error: fetchError } = api.useGet(
+        queryKey,
+        `/order?${params.toString()}`
+    );
+
+    const orders = ordersData?.data?.orders || [];
+    const error = fetchError?.message || "";
+
     useEffect(() => {
-        fetchOrders(pagination.currentPage);
-    }, [pagination.currentPage]);
-
-    const fetchOrders = async (page = 1) => {
-        try {
-            setLoading(true);
-            const params = new URLSearchParams();
-            params.append("page", page);
-            params.append("limit", pagination.limit);
-            if (searchQuery) params.append("search", searchQuery);
-            if (filterStatus && filterStatus !== "ALL") params.append("status", filterStatus);
-            if (startDate) params.append("startDate", startDate);
-            if (endDate) params.append("endDate", endDate);
-
-            const res = await axios.get(`/api/order?${params.toString()}`);
-            if (res.data?.success) {
-                const data = res.data.data;
-                setOrders(data.orders || []);
-                setPagination((prev) => ({
-                    ...prev,
-                    totalItems: data.totalItems || 0,
-                    totalPages: data.totalPages || 1,
-                    currentPage: data.currentPage || page,
-                }));
-            } else {
-                setError(res.data?.message || "Failed to fetch orders");
-            }
-            console.trace("Order details", res.data.data)
-        } catch (err) {
-            console.log("Order list error", err)
-            setError(err.message || "Something went wrong");
-        } finally {
-            setLoading(false);
+        if (ordersData?.data) {
+            const data = ordersData.data;
+            setPagination((prev) => ({
+                ...prev,
+                totalItems: data.totalItems || 0,
+                totalPages: data.totalPages || 1,
+                currentPage: data.currentPage || prev.currentPage,
+            }));
         }
+    }, [ordersData]);
+
+    const statusMutation = api.usePatch(queryKey, "", {
+        onSuccess: () => {
+            setEditingStatusOrderId(null);
+        },
+        onError: (err) => alert(err.response?.data?.message || err.message || "Error updating status")
+    });
+
+    const deleteMutation = api.useDelete(queryKey, "/order", {
+        onSuccess: () => {
+            setDeleteModal({ isOpen: false, orderId: null });
+        },
+        onError: (err) => alert(err.response?.data?.message || err.message || "Error deleting order")
+    });
+
+    const isUpdating = statusMutation.isPending;
+    const isDeleting = deleteMutation.isPending;
+
+    const handleStatusUpdate = (orderId, newStatus) => {
+        if (!orderId || !newStatus) return;
+        const findOrder = orders.find(o => o._id === orderId);
+        if (findOrder?.status === newStatus) {
+            alert("Order status is already " + newStatus);
+            return;
+        }
+
+        setStatusUpdatingId(orderId);
+        statusMutation.mutate({
+            url: `/order/update-status/${orderId}`,
+            status: newStatus
+        }, {
+            onSettled: () => setStatusUpdatingId(null)
+        });
     };
 
-    const handleStatusUpdate = async (orderId, newStatus) => {
-        try {
-            setIsUpdating(true);
-            if (!orderId || !newStatus) return;
-            const findOrder = orders.find(o => o._id === orderId);
-            if (findOrder?.status === newStatus) {
-                alert("Order status is already " + newStatus);
-                return;
-            }
-
-            setStatusUpdatingId(orderId);
-            const res = await axios.patch(`/api/order/update-status/${orderId}`, {
-                status: newStatus
-            });
-            if (res.data?.success) {
-                setOrders(prev => prev.map(o => o._id === orderId ? { ...o, status: newStatus } : o));
-                setEditingStatusOrderId(null);
-                setIsUpdating(false);
-            } else {
-                alert(res.data?.message || "Failed to update status");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Error updating status");
-        } finally {
-            setStatusUpdatingId(null);
-            setIsUpdating(false);
-        }
-    };
-
-    const handleDelete = async () => {
-        try {
-            setIsDeleting(true);
-            const res = await axios.delete(`/api/order/${deleteModal.orderId}`);
-            if (res.data?.success) {
-                setOrders(prev => prev.filter(o => o._id !== deleteModal.orderId));
-                setDeleteModal({ isOpen: false, orderId: null });
-            } else {
-                alert(res.data?.message || "Failed to delete order");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Error deleting order");
-        } finally {
-            setIsDeleting(false);
-        }
+    const handleDelete = () => {
+        if (!deleteModal.orderId) return;
+        deleteMutation.mutate(deleteModal.orderId);
     };
 
     const getStatusColor = (status) => {
@@ -216,7 +195,7 @@ export default function AdminOrdersPage() {
                                     className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    onKeyDown={(e) => e.key === "Enter" && fetchOrders(1)}
+                                    onKeyDown={(e) => e.key === "Enter" && setPagination(p => ({ ...p, currentPage: 1 }))}
                                 />
                             </div>
                             {/* Status Filter */}
@@ -278,7 +257,7 @@ export default function AdminOrdersPage() {
                                         setStartDate("");
                                         setEndDate("");
                                         setSearchQuery("");
-                                        fetchOrders(1);
+                                        setPagination(p => ({ ...p, currentPage: 1 }));
                                     }}
                                     className="p-2.5 text-gray-400 hover:text-red-500 transition-colors border border-gray-200 rounded-lg hover:border-red-200 hover:bg-red-50"
                                     title="Reset Filters"
@@ -286,7 +265,7 @@ export default function AdminOrdersPage() {
                                     <ArrowPathIcon className={`w-4 h-4 ${loading && 'animate-spin'}`} />
                                 </button>
                                 <button
-                                    onClick={() => fetchOrders(1)}
+                                    onClick={() => setPagination(p => ({ ...p, currentPage: 1 }))}
                                     disabled={loading}
                                     className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2.5 rounded-lg hover:bg-gray-800 shadow-sm transition-all text-sm font-medium disabled:opacity-50"
                                 >

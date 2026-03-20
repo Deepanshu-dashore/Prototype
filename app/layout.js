@@ -52,13 +52,16 @@ export const metadata = {
 };
 
 import { Toaster } from "react-hot-toast";
+import TanstackProvider from "../src/providers/TanstackProvider";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="antialiased">
-        <ContactFormProvider>{children}</ContactFormProvider>
-        <Toaster position="top-right" />
+        <TanstackProvider>
+          <ContactFormProvider>{children}</ContactFormProvider>
+          <Toaster position="top-right" />
+        </TanstackProvider>
       </body>
     </html>
   );

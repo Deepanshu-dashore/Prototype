@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Fragment } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import {
     TrashIcon,
     PencilSquareIcon,
@@ -539,73 +539,54 @@ function PDFTable({ assets, loading, onEdit, onDelete, onToggleVisibility, accen
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 export default function AdminMarketingPage() {
+    const api = useApiClient();
     const [categoryTab, setCategoryTab] = useState("youtube");
-    const [assets, setAssets] = useState([]);
-    const [counts, setCounts] = useState({ youtube: 0, social_post: 0, case_study: 0, playbook: 0 });
-    const [loading, setLoading] = useState(true);
 
     // Modal states
     const [deleteTarget, setDeleteTarget] = useState(null);
-    const [deleting, setDeleting] = useState(false);
     const [visibilityTarget, setVisibilityTarget] = useState(null);
-    const [togglingVisibility, setTogglingVisibility] = useState(false);
     const [previewMedia, setPreviewMedia] = useState(null);
 
-    const fetchAssets = async () => {
-        try {
-            setLoading(true);
-            const res = await axios.get("/api/marketing");
-            if (res.data?.success) {
-                const { data, totalYoutube, totalSocialPost, totalCaseStudy, totalPlaybook } = res.data.data;
-                setAssets(data || []);
-                setCounts({
-                    youtube: totalYoutube || 0,
-                    social_post: totalSocialPost || 0,
-                    case_study: totalCaseStudy || 0,
-                    playbook: totalPlaybook || 0,
-                });
-            }
-        } catch (e) {
-            console.error("Fetch error:", e);
-        } finally {
-            setLoading(false);
-        }
+    const queryKey = ["marketing"];
+    const { data: marketingData, isLoading: loading, error: fetchError } = api.useGet(
+        queryKey,
+        "/marketing"
+    );
+
+    const assets = marketingData?.data?.data || [];
+    const counts = {
+        youtube: marketingData?.data?.totalYoutube || 0,
+        social_post: marketingData?.data?.totalSocialPost || 0,
+        case_study: marketingData?.data?.totalCaseStudy || 0,
+        playbook: marketingData?.data?.totalPlaybook || 0,
     };
 
-    useEffect(() => { fetchAssets(); }, []);
+    const deleteMutation = api.useDelete(queryKey, "/marketing", {
+        onSuccess: () => setDeleteTarget(null),
+        onError: (err) => alert(err.response?.data?.message || err.message || "Delete error")
+    });
+
+    const statusMutation = api.usePut(queryKey, "/marketing/status", {
+        onSuccess: () => setVisibilityTarget(null),
+        onError: (err) => alert(err.response?.data?.message || err.message || "Toggle error")
+    });
 
     const handleEdit = (asset) => {
-        // Navigate to separate edit page
         window.location.href = `/admin/marketing/edit/${asset._id}`;
     };
 
     const handleDelete = async () => {
         if (!deleteTarget) return;
-        setDeleting(true);
-        try {
-            await axios.delete(`/api/marketing/${deleteTarget._id}`);
-            await fetchAssets();
-        } catch (e) {
-            console.error("Delete error:", e);
-        } finally {
-            setDeleting(false);
-            setDeleteTarget(null);
-        }
+        deleteMutation.mutate(deleteTarget._id);
     };
 
     const handleToggleVisibility = async () => {
         if (!visibilityTarget) return;
-        setTogglingVisibility(true);
-        try {
-            await axios.put(`/api/marketing/status/${visibilityTarget._id}`);
-            await fetchAssets();
-        } catch (e) {
-            console.error("Toggle error:", e);
-        } finally {
-            setTogglingVisibility(false);
-            setVisibilityTarget(null);
-        }
+        statusMutation.mutate(visibilityTarget._id);
     };
+
+    const deleting = deleteMutation.isPending;
+    const togglingVisibility = statusMutation.isPending;
 
     const filteredAssets = categoryTab === "all" ? assets : assets.filter(a => a.type === categoryTab);
     const totalAll = counts.youtube + counts.social_post + counts.case_study + counts.playbook;

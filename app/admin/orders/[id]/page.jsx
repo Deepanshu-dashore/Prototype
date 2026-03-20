@@ -1,18 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import { useParams, useRouter } from "next/navigation";
 import OrderDetailsView from "@/src/components/share/OrderDetailsView";
 
 
 export default function AdminOrderDetailsPage() {
+    const api = useApiClient();
     const params = useParams();
     const id = params?.id;
     const router = useRouter();
-    const [order, setOrder] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
 
     const [updateModal, setUpdateModal] = useState({
         isOpen: false,
@@ -21,67 +19,44 @@ export default function AdminOrderDetailsPage() {
         invoice: "",
         type: "info"
     });
-    const [isUpdating, setIsUpdating] = useState(false);
-    const [isCleaningQC, setIsCleaningQC] = useState(false);
 
-    useEffect(() => {
-        if (id) fetchOrderDetails();
-    }, [id]);
+    const queryKey = ["order", id];
+    const { data: orderData, isLoading: loading, error: fetchError } = api.useGet(
+        queryKey,
+        `/order/${id}`,
+        { enabled: !!id }
+    );
 
-    const fetchOrderDetails = async () => {
-        try {
-            setLoading(true);
-            const res = await axios.get(`/api/order/${id}`);
-            if (res.data?.success) {
-                setOrder(res.data.data);
-            } else {
-                setError(res.data?.message || "Failed to fetch order details");
-            }
-        } catch (err) {
-            setError(err.response?.data?.message || err.message || "An error occurred");
-        } finally {
-            setLoading(false);
-        }
-    };
+    const order = orderData?.data || null;
+    const error = fetchError?.message || "";
+
+    const updateDetailsMutation = api.usePatch(queryKey, `/order/${id}`, {
+        onSuccess: () => {
+            setUpdateModal(prev => ({ ...prev, isOpen: false }));
+        },
+        onError: (err) => alert(err.response?.data?.message || err.message || "Error updating details")
+    });
+
+    const cleanQCMutation = api.useDelete(queryKey, `/order/qc/${id}`, {
+        onError: (err) => alert(err.response?.data?.message || err.message || "Error cleaning QC data")
+    });
+
+    const isUpdating = updateDetailsMutation.isPending;
+    const isCleaningQC = cleanQCMutation.isPending;
 
     const handleUpdateDetails = async () => {
-        try {
-            if (order?.status === "PENDING") {
-                alert("Order status is PENDING. Please update status to IN PROCESS first.");
-                return;
-            }
-            setIsUpdating(true);
-            const res = await axios.patch(`/api/order/${order._id}`, {
-                po: updateModal.po,
-                invoice: updateModal.invoice
-            });
-            if (res.data?.success) {
-                setOrder({ ...order, po: updateModal.po, invoice: updateModal.invoice });
-                setUpdateModal({ ...updateModal, isOpen: false });
-            } else {
-                alert(res.data?.message || "Failed to update details");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Error updating details");
-        } finally {
-            setIsUpdating(false);
+        if (order?.status === "PENDING") {
+            alert("Order status is PENDING. Please update status to IN PROCESS first.");
+            return;
         }
+        updateDetailsMutation.mutate({
+            po: updateModal.po,
+            invoice: updateModal.invoice
+        });
     };
 
     const handleCleanQC = async () => {
-        try {
-            setIsCleaningQC(true);
-            const res = await axios.delete(`/api/order/qc/${id}`);
-            if (res.data?.success) {
-                setOrder({ ...order, qc: null });
-            } else {
-                alert(res.data?.message || "Failed to clean QC data");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Error cleaning QC data");
-        } finally {
-            setIsCleaningQC(false);
-        }
+        cleanQCMutation.mutate();
     };
 
     if (loading) return (

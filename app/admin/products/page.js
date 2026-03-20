@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CubeIcon,
@@ -48,10 +48,10 @@ function FormField({ label, id, error, children }) {
 
 /* ─── Add / Edit Modal ─── */
 function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
+  const api = useApiClient();
   const isEdit = Boolean(editProduct);
   const [form, setForm] = useState({ code: "", description: "" });
   const [errors, setErrors] = useState({});
-  const [saving, setSaving] = useState(false);
   const [serverError, setServerError] = useState("");
   const codeRef = useRef(null);
   const descRef = useRef(null);
@@ -71,11 +71,46 @@ function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
       setServerError("");
       // focus first field
       setTimeout(() => codeRef.current?.focus(), 80);
-    } else {
-      // clear refs on close
-      setSaving(false);
     }
   }, [isOpen, editProduct]);
+
+  const validate = () => {
+    const e = {};
+    if (!form.code.trim()) e.code = "Product code is required.";
+    if (!form.description.trim()) e.description = "Description is required.";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const saveMutation = api.usePost("products", "/product", {
+    onSuccess: () => {
+      onSaved();
+      onClose();
+    },
+    onError: (err) => {
+      setServerError(
+        err.response?.data?.message || err.message || "Something went wrong",
+      );
+    },
+  });
+
+  const updateMutation = api.usePut(
+    "products",
+    `/product/${editProduct?._id}`,
+    {
+      onSuccess: () => {
+        onSaved();
+        onClose();
+      },
+      onError: (err) => {
+        setServerError(
+          err.response?.data?.message || err.message || "Something went wrong",
+        );
+      },
+    },
+  );
+
+  const saving = saveMutation.isPending || updateMutation.isPending;
 
   // Escape key closes modal
   useEffect(() => {
@@ -87,19 +122,10 @@ function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, saving, onClose]);
 
-  const validate = () => {
-    const e = {};
-    if (!form.code.trim()) e.code = "Product code is required.";
-    if (!form.description.trim()) e.description = "Description is required.";
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
-
   const handleSubmit = useCallback(
     async (e) => {
       if (e?.preventDefault) e.preventDefault();
       if (!validate()) {
-        // focus the first errored field
         setTimeout(() => {
           const firstErr = document.querySelector(
             "#product-code:invalid, [data-error='true']",
@@ -108,26 +134,14 @@ function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
         }, 50);
         return;
       }
-      setSaving(true);
       setServerError("");
-      try {
-        if (isEdit) {
-          await axios.put(`/api/product/${editProduct._id}`, form);
-        } else {
-          await axios.post("/api/product", form);
-        }
-        onSaved();
-        onClose();
-      } catch (err) {
-        setServerError(
-          err.response?.data?.message || err.message || "Something went wrong",
-        );
-      } finally {
-        setSaving(false);
+      if (isEdit) {
+        updateMutation.mutate(form);
+      } else {
+        saveMutation.mutate(form);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [form, isEdit, editProduct, onSaved, onClose],
+    [form, isEdit, editProduct, onSaved, onClose, saveMutation, updateMutation],
   );
 
   if (!isOpen) return null;
@@ -285,9 +299,7 @@ function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
 
 /* ─── Main Page ─── */
 export default function ProductsPage() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const api = useApiClient();
   const [searchQuery, setSearchQuery] = useState("");
 
   const [pagination, setPagination] = useState({
@@ -310,44 +322,62 @@ export default function ProductsPage() {
     isOpen: false,
     productId: null,
   });
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
 
-  // Debounced fetch on search / page change
+  const params = new URLSearchParams();
+  params.append("page", pagination.currentPage);
+  params.append("limit", pagination.limit);
+  if (searchQuery) params.append("search", searchQuery);
+
+  const {
+    data: productsData,
+    isLoading: loading,
+    error: fetchError,
+  } = api.useGet(
+    ["products", pagination.currentPage, searchQuery],
+    `/product?${params.toString()}`,
+  );
+
+  const products = productsData?.data?.products || [];
+  const error = fetchError?.message || "";
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchProducts(pagination.currentPage);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [pagination.currentPage, searchQuery]);
-
-  const fetchProducts = async (page = 1) => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      params.append("page", page);
-      params.append("limit", pagination.limit);
-      if (searchQuery) params.append("search", searchQuery);
-
-      const res = await axios.get(`/api/product?${params.toString()}`);
-      if (res.data?.success) {
-        const data = res.data.data;
-        setProducts(data.products || []);
-        setPagination((prev) => ({
-          ...prev,
-          totalPages: data.totalPages || 1,
-          totalItems: data.totalProducts || 0,
-          currentPage: data.currentPage || page,
-        }));
-      } else {
-        setError(res.data?.message || "Failed to fetch products");
-      }
-    } catch (err) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setLoading(false);
+    if (productsData?.data) {
+      const data = productsData.data;
+      setPagination((prev) => ({
+        ...prev,
+        totalPages: data.totalPages || 1,
+        totalItems: data.totalProducts || 0,
+        currentPage: data.currentPage || prev.currentPage,
+      }));
     }
-  };
+  }, [productsData]);
+
+  const visibilityMutation = api.usePatch(
+    ["products", pagination.currentPage, searchQuery],
+    "/product/status",
+    {
+      onSuccess: () => setVisibilityModal({ isOpen: false, productId: null }),
+      onError: (err) =>
+        alert(
+          err.response?.data?.message || err.message || "Something went wrong",
+        ),
+    },
+  );
+
+  const deleteMutation = api.useDelete(
+    ["products", pagination.currentPage, searchQuery],
+    "/product",
+    {
+      onSuccess: () => setDeleteModal({ isOpen: false, productId: null }),
+      onError: (err) =>
+        alert(
+          err.response?.data?.message || err.message || "Something went wrong",
+        ),
+    },
+  );
+
+  const isUpdating = visibilityMutation.isPending;
+  const isDeleting = deleteMutation.isPending;
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -370,37 +400,11 @@ export default function ProductsPage() {
 
   const confirmDelete = async () => {
     if (!deleteModal.productId) return;
-    try {
-      setIsDeleting(true);
-      const res = await axios.delete(`/api/product/${deleteModal.productId}`);
-      if (res.data?.success) {
-        fetchProducts(pagination.currentPage);
-        setDeleteModal({ isOpen: false, productId: null });
-      } else {
-        alert(res.data?.message || "Failed to delete product");
-      }
-    } catch (err) {
-      alert(
-        err.response?.data?.message || err.message || "Something went wrong",
-      );
-    } finally {
-      setIsDeleting(false);
-    }
+    deleteMutation.mutate(deleteModal.productId);
   };
 
   const toggleVisibility = async (id) => {
-    try {
-      const res = await axios.patch("/api/product/status", { id });
-      if (res.status === 200 || res.data?.success) {
-        fetchProducts(pagination.currentPage);
-      } else {
-        alert(res.data?.message || "Failed to update visibility");
-      }
-    } catch (err) {
-      alert(
-        err.response?.data?.message || err.message || "Something went wrong",
-      );
-    }
+    visibilityMutation.mutate({ id });
   };
 
   const formatDate = (date) => {
@@ -457,10 +461,13 @@ export default function ProductsPage() {
                 className="block w-full pl-9 pr-20 py-2 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                 value={searchQuery}
                 onChange={handleSearchChange}
-                onKeyDown={(e) => e.key === "Enter" && fetchProducts(1)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" &&
+                  setPagination((p) => ({ ...p, currentPage: 1 }))
+                }
               />
               <button
-                onClick={() => fetchProducts(1)}
+                onClick={() => setPagination((p) => ({ ...p, currentPage: 1 }))}
                 className="absolute right-1 top-1 bottom-1 px-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md text-xs font-medium transition-colors"
                 type="button"
               >
@@ -737,9 +744,7 @@ export default function ProductsPage() {
         <ProductModal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
-          onSaved={() =>
-            fetchProducts(editProduct ? pagination.currentPage : 1)
-          }
+          onSaved={() => {}}
           editProduct={editProduct}
         />
 

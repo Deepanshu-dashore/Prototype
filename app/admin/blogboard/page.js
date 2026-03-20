@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,15 +28,8 @@ import {
 import AdminHeader from "@/src/components/admin/AdminHeader";
 
 export default function BlogboardPage() {
+  const api = useApiClient();
   const router = useRouter();
-  const [blogs, setBlogs] = useState([]);
-  const [stats, setStats] = useState({
-    totalBlogs: 0,
-    todayCount: 0,
-    categoryCount: 0,
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   // Filter States
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,52 +45,59 @@ export default function BlogboardPage() {
     limit: 10,
   });
 
-  useEffect(() => {
-    fetchBlogs(pagination.currentPage);
-  }, [pagination.currentPage]);
+  const params = new URLSearchParams();
+  if (searchQuery) params.append("search", searchQuery);
+  if (startDate) params.append("startDate", startDate);
+  if (endDate) params.append("endDate", endDate);
+  if (sortOrder) params.append("sort", sortOrder);
+  params.append("page", pagination.currentPage);
+  params.append("limit", pagination.limit);
 
-  const fetchBlogs = async (page = 1) => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (searchQuery) params.append("search", searchQuery);
-      if (startDate) params.append("startDate", startDate);
-      if (endDate) params.append("endDate", endDate);
-      if (sortOrder) params.append("sort", sortOrder);
-      params.append("page", page);
-      params.append("limit", pagination.limit);
+  const queryKey = [
+    "blogs",
+    pagination.currentPage,
+    searchQuery,
+    startDate,
+    endDate,
+    sortOrder,
+  ];
+  const {
+    data: blogsData,
+    isLoading: loading,
+    error: fetchError,
+  } = api.useGet(queryKey, `/blogs?${params.toString()}`);
 
-      const res = await axios.get(`/api/blogs?${params.toString()}`);
-      if (res.data?.success) {
-        const data = res.data.data;
-        setBlogs(data.blogs || []);
-        setStats({
-          totalBlogs: data.totalBlogs || 0,
-          todayCount: data.todayBlogCount || 0,
-          categoryCount: data.totalCategories?.length || 0,
-        });
-        setPagination((prev) => ({
-          ...prev,
-          totalPages: data.totalPages,
-          totalItems: data.totalBlogs,
-          currentPage: data.currentPage,
-        }));
-      } else {
-        setError(res.data?.message || "Failed to fetch blogs");
-      }
-    } catch (err) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
+  const blogs = blogsData?.data?.blogs || [];
+  const stats = {
+    totalBlogs: blogsData?.data?.totalBlogs || 0,
+    todayCount: blogsData?.data?.todayBlogCount || 0,
+    categoryCount: blogsData?.data?.totalCategories?.length || 0,
   };
+  const error = fetchError?.message || "";
+
+  useEffect(() => {
+    if (blogsData?.data) {
+      const data = blogsData.data;
+      setPagination((prev) => ({
+        ...prev,
+        totalPages: data.totalPages,
+        totalItems: data.totalBlogs,
+        currentPage: data.currentPage,
+      }));
+    }
+  }, [blogsData]);
+
+  const deleteMutation = api.useDelete(queryKey, "/blogs", {
+    onSuccess: () => {
+      setDeleteModal({ isOpen: false, blogId: null });
+    },
+    onError: (err) => alert(err.message || "Something went wrong"),
+  });
+
+  const isDeleting = deleteMutation.isPending;
 
   const handleApplyFilters = () => {
-    if (pagination.currentPage === 1) {
-      fetchBlogs(1);
-    } else {
-      setPagination((prev) => ({ ...prev, currentPage: 1 }));
-    }
+    setPagination((prev) => ({ ...prev, currentPage: 1 }));
   };
 
   // Modal States
@@ -105,7 +105,6 @@ export default function BlogboardPage() {
     isOpen: false,
     blogId: null,
   });
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = (id) => {
     setDeleteModal({ isOpen: true, blogId: id });
@@ -113,21 +112,7 @@ export default function BlogboardPage() {
 
   const confirmDelete = async () => {
     if (!deleteModal.blogId) return;
-
-    try {
-      setIsDeleting(true);
-      const res = await axios.delete(`/api/blogs?id=${deleteModal.blogId}`);
-      if (res.data?.success) {
-        fetchBlogs(pagination.currentPage);
-        setDeleteModal({ isOpen: false, blogId: null });
-      } else {
-        alert(res.data?.message || "Failed to delete blog");
-      }
-    } catch (err) {
-      alert(err.message || "Something went wrong");
-    } finally {
-      setIsDeleting(false);
-    }
+    deleteMutation.mutate({ params: { id: deleteModal.blogId } });
   };
 
   const formatDate = (date) =>

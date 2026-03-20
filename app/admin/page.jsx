@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import {
     AreaChart, Area, XAxis, YAxis, CartesianGrid,
     Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend
@@ -77,25 +77,16 @@ function DonutCenter({ totalOrders }) {
 }
 
 export default function AdminDashboard() {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [activeFilter, setActiveFilter] = useState("All");
+    const api = useApiClient();
     const [graphRange, setGraphRange] = useState("yearly"); // yearly, monthly, currentMonth
 
-    useEffect(() => { fetchDashboardData(graphRange); }, [graphRange]);
+    const queryKey = ["admin-dashboard", graphRange];
+    const { data: dashboardData, isLoading: loading, error: fetchError } = api.useGet(
+        queryKey,
+        `/dashbord/admin?range=${graphRange}`
+    );
 
-    const fetchDashboardData = async (range = graphRange) => {
-        try {
-            setLoading(true);
-            const res = await axios.get(`/api/dashbord/admin?range=${range}`);
-            console.log(res.data);
-            if (res.data?.success) setData(res.data.data);
-        } catch (e) {
-            console.log("Dashboard fetch error:", e);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const data = dashboardData?.data || null;
 
     const cards = [
         {
@@ -479,7 +470,7 @@ export default function AdminDashboard() {
                             );
                         })}
 
-                               
+
                     </div>
                 </div>
             </div>

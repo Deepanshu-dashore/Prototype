@@ -42,7 +42,7 @@ export default function LoginContent() {
                 document.cookie = `user=${encodeURIComponent(userData)}; max-age=${maxAge}; path=/; SameSite=Strict`
             }
 
-            router.push('/admin')
+            router.push('/admin/')
         } catch (err) {
             if (err.response?.data?.message) {
                 setError(err.response.data.message)

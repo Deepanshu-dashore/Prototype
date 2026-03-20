@@ -1,40 +1,45 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import { toast } from "react-hot-toast";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
 export default function TaglinePage() {
+    const api = useApiClient();
     const [tagLine, setTagLine] = useState("");
-    const [initialTagLine, setInitialTagLine] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [isFetching, setIsFetching] = useState(true);
-
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-    useEffect(() => {
-        fetchTagLine();
-    }, []);
+    // Dynamic hooks via ApiClient
+    const { data: tagLineData, isLoading: isFetching } = api.useGet("tagline", "/tag-line");
+    const updateMutation = api.usePost("tagline", "/tag-line", {
+        onSuccess: () => {
+            toast.success("Tagline updated successfully");
+            setIsUpdateModalOpen(false);
+        },
+        onError: () => toast.error("Failed to update tagline")
+    });
+    const deleteMutation = api.useDelete("tagline", "/tag-line", {
+        onSuccess: () => {
+            toast.success("Tagline deleted successfully");
+            setIsDeleteModalOpen(false);
+            setTagLine("");
+        },
+        onError: () => toast.error("Failed to delete tagline")
+    });
 
-    const fetchTagLine = async () => {
-        setIsFetching(true);
-        try {
-            const res = await axios.get("/api/tag-line");
-            const fetchedTagLine = res.data?.data || "";
-            setTagLine(fetchedTagLine);
-            setInitialTagLine(fetchedTagLine);
-        } catch (error) {
-            console.error("Error fetching tagline", error);
-            toast.error("Failed to load tagline");
-        } finally {
-            setIsFetching(false);
+    const isLoading = updateMutation.isPending || deleteMutation.isPending;
+
+    // Sync input with fetched data
+    useEffect(() => {
+        if (tagLineData?.data !== undefined) {
+            setTagLine(tagLineData.data);
         }
-    };
+    }, [tagLineData]);
 
     const handleUpdateClick = () => {
-        if (tagLine.trim() === initialTagLine.trim()) return;
+        if (tagLine.trim() === (tagLineData?.data || "").trim()) return;
         setIsUpdateModalOpen(true);
     };
 
@@ -42,35 +47,12 @@ export default function TaglinePage() {
         setIsDeleteModalOpen(true);
     };
 
-    const confirmUpdate = async () => {
-        setIsLoading(true);
-        try {
-            await axios.post("/api/tag-line", { tagLine });
-            toast.success("Tagline updated successfully");
-        } catch (error) {
-            console.error("Error updating tagline", error);
-            toast.error("Failed to update tagline");
-        } finally {
-            setIsLoading(false);
-            setIsUpdateModalOpen(false);
-            fetchTagLine();
-        }
+    const confirmUpdate = () => {
+        updateMutation.mutate({ tagLine });
     };
 
-    const confirmDelete = async () => {
-        setIsLoading(true);
-        try {
-            await axios.delete("/api/tag-line");
-            setTagLine("");
-            toast.success("Tagline deleted successfully");
-        } catch (error) {
-            console.error("Error deleting tagline", error);
-            toast.error("Failed to delete tagline");
-        } finally {
-            setIsLoading(false);
-            setIsDeleteModalOpen(false);
-            fetchTagLine();
-        }
+    const confirmDelete = () => {
+        deleteMutation.mutate();
     };
 
     return (
@@ -106,7 +88,7 @@ export default function TaglinePage() {
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={handleUpdateClick}
-                                disabled={isLoading || tagLine.trim() === "" || tagLine.trim() === initialTagLine.trim()}
+                                disabled={isLoading || tagLine.trim() === "" || tagLine.trim() === (tagLineData?.data || "").trim()}
                                 className="sm:px-6 px-5 py-2.5 bg-blue-600 text-white sm:text-base text-xs font-medium sm:rounded-lg rounded-sm hover:bg-blue-700 disabled:opacity-50 transition-colors"
                             >
                                 {isLoading ? "Updating..." : "Update Tagline"}

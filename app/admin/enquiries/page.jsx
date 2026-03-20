@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import Link from "next/link";
 import {
     DocumentTextIcon,
@@ -18,9 +18,7 @@ import AdminHeader from "@/src/components/admin/AdminHeader";
 import ViewEnquiryModal from "@/src/components/admin/ViewEnquiryModal";
 
 export default function AdminEnquiriesPage() {
-    const [enquiries, setEnquiries] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const api = useApiClient();
     const [searchQuery, setSearchQuery] = useState("");
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -33,62 +31,50 @@ export default function AdminEnquiriesPage() {
         isOpen: false,
         enquiryId: null
     });
-    const [isDeleting, setIsDeleting] = useState(false);
 
     const [viewModal, setViewModal] = useState({
         isOpen: false,
         enquiry: null
     });
 
+    const params = new URLSearchParams();
+    params.append("page", pagination.currentPage);
+    params.append("limit", pagination.limit);
+    if (searchQuery) params.append("search", searchQuery);
+
+    const queryKey = ["enquiries", pagination.currentPage, searchQuery];
+    const { data: enquiriesData, isLoading: loading, error: fetchError } = api.useGet(
+        queryKey,
+        `/enquiry?${params.toString()}`
+    );
+
+    const enquiries = enquiriesData?.data?.enquiries || [];
+    const error = fetchError?.message || "";
+
     useEffect(() => {
-        fetchEnquiries(pagination.currentPage);
-    }, [pagination.currentPage]);
-
-    const fetchEnquiries = async (page = 1) => {
-        try {
-            setLoading(true);
-            const params = new URLSearchParams();
-            params.append("page", page);
-            params.append("limit", pagination.limit);
-            if (searchQuery) params.append("search", searchQuery);
-
-            const res = await axios.get(`/api/enquiry?${params.toString()}`);
-            if (res.data?.success) {
-                const data = res.data.data;
-                setEnquiries(data.enquiries || []);
-                setPagination(prev => ({
-                    ...prev,
-                    totalItems: data.totalItems || 0,
-                    totalPages: data.totalPages || 1,
-                    currentPage: data.currentPage || page
-                }));
-            } else {
-                setError(res.data?.message || "Failed to fetch enquiries");
-            }
-        } catch (err) {
-            console.log("Enquiries list error", err);
-            setError(err.message || "Something went wrong");
-        } finally {
-            setLoading(false);
+        if (enquiriesData?.data) {
+            const data = enquiriesData.data;
+            setPagination(prev => ({
+                ...prev,
+                totalItems: data.totalItems || 0,
+                totalPages: data.totalPages || 1,
+                currentPage: data.currentPage || prev.currentPage
+            }));
         }
-    };
+    }, [enquiriesData]);
 
-    const handleDelete = async () => {
-        try {
-            setIsDeleting(true);
-            const res = await axios.delete(`/api/enquiry/${deleteModal.enquiryId}`);
-            if (res.data?.success) {
-                setEnquiries(prev => prev.filter(e => e._id !== deleteModal.enquiryId));
-                setDeleteModal({ isOpen: false, enquiryId: null });
-                fetchEnquiries(1); // refresh pagination 
-            } else {
-                alert(res.data?.message || "Failed to delete enquiry");
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || err.message || "Error deleting enquiry");
-        } finally {
-            setIsDeleting(false);
-        }
+    const deleteMutation = api.useDelete(queryKey, "/enquiry", {
+        onSuccess: () => {
+            setDeleteModal({ isOpen: false, enquiryId: null });
+        },
+        onError: (err) => alert(err.response?.data?.message || err.message || "Error deleting enquiry")
+    });
+
+    const isDeleting = deleteMutation.isPending;
+
+    const handleDelete = () => {
+        if (!deleteModal.enquiryId) return;
+        deleteMutation.mutate(deleteModal.enquiryId);
     };
 
     return (
@@ -131,14 +117,14 @@ export default function AdminEnquiriesPage() {
                                     className="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    onKeyDown={(e) => e.key === "Enter" && fetchEnquiries(1)}
+                                    onKeyDown={(e) => e.key === "Enter" && setPagination(p => ({ ...p, currentPage: 1 }))}
                                 />
                             </div>
                         </div>
 
                         <div className="flex gap-2">
                             <button
-                                onClick={() => fetchEnquiries(1)}
+                                onClick={() => setPagination(p => ({ ...p, currentPage: 1 }))}
                                 disabled={loading}
                                 className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2.5 rounded-lg hover:bg-gray-800 shadow-sm transition-all text-sm font-medium disabled:opacity-50"
                             >
@@ -148,7 +134,7 @@ export default function AdminEnquiriesPage() {
                             <button
                                 onClick={() => {
                                     setSearchQuery("");
-                                    fetchEnquiries(1);
+                                    setPagination(p => ({ ...p, currentPage: 1 }));
                                 }}
                                 className="p-2.5 text-gray-400 hover:text-red-500 transition-colors border border-gray-200 rounded-lg hover:border-red-200 hover:bg-red-50"
                                 title="Reset filters"
