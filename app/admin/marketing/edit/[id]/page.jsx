@@ -225,7 +225,7 @@ export default function EditMarketingPage() {
                     {(form.type === "youtube" || form.type === "social_post") && (
                         <div>
                             <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">
-                                {form.type === "youtube" ? "YouTube URL" : "Post Link / URL"} <span className="text-red-500">*</span>
+                                {form.type === "youtube" ? "YouTube URL" : "Post Link / URL"} {form.type !== "social_post" && <span className="text-red-500">*</span>}
                             </label>
                             <div className="relative">
                                 <LinkIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -478,8 +478,8 @@ export default function EditMarketingPage() {
                                     setError("Title is required.");
                                     return;
                                 }
-                                if ((form.type === "youtube" || form.type === "social_post") && !form.url) {
-                                    setError("URL is required.");
+                                if (form.type === "youtube" && !form.url) {
+                                    setError("URL is required for YouTube videos.");
                                     return;
                                 }
                                 if (overLimit) {

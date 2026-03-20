@@ -106,7 +106,10 @@ export async function PUT(request, { params }) {
       {
         title,
         type,
-        url: uploadUrl?.url || url || existingCheck.url,
+        url:
+          type === "social_post"
+            ? url
+            : uploadUrl?.url || url || existingCheck.url,
         attachment: socialAttachmentUrl?.url || existingCheck.attachment,
         description,
         tags: uniqueTags,

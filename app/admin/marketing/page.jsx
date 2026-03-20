@@ -15,6 +15,7 @@ import {
     EyeIcon,
     EyeSlashIcon,
     LinkIcon,
+    ShareIcon,
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
@@ -285,6 +286,16 @@ function YouTubeCard({ asset, onEdit, onDelete, onToggleVisibility }) {
             <div className="flex items-center justify-between gap-2 px-3 py-2.5 border-t border-gray-50 bg-gray-50/50">
                 <span className="text-[12px] text-gray-400">{formatDate(asset.createdAt)}</span>
                 <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => {
+                            navigator.clipboard.writeText(asset.url);
+                            alert("Link copied to clipboard!");
+                        }}
+                        className="p-1.5 rounded-lg hover:bg-emerald-50 bg-emerald-100 border text-gray-700 hover:text-emerald-600 transition-colors"
+                        title="Share Link"
+                    >
+                        <ShareIcon className="w-4 h-4" />
+                    </button>
                     <button onClick={() => onToggleVisibility(asset)} className={`p-1.5 rounded-lg transition-colors border ${asset.isActive ? "hover:bg-amber-50 bg-amber-100 text-gray-700 hover:text-amber-600" : "hover:bg-emerald-50 bg-emerald-100 text-gray-700 hover:text-emerald-600"}`} title={asset.isActive ? "Hide" : "Show"}>
                         {asset.isActive ? <EyeSlashIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
                     </button>

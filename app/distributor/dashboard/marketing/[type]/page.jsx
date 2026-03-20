@@ -12,6 +12,7 @@ import {
     BookOpenIcon,
     XMarkIcon,
     EyeIcon,
+    ShareIcon,
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
@@ -86,8 +87,54 @@ function YouTubeCard({ asset }) {
                 <h3 className="text-sm font-semibold text-gray-800 leading-snug line-clamp-2">{asset.title}</h3>
                 {asset.description && <p className="text-xs text-gray-500 line-clamp-2">{asset.description}</p>}
             </div>
-            <div className="px-4 py-2.5 border-t border-gray-50 bg-gray-50/50">
+            <div className="px-4 py-2.5 border-t border-gray-50 bg-gray-50/50 flex items-center justify-between">
                 <span className="text-[10px] text-gray-400">{formatDate(asset.createdAt)}</span>
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(asset.url);
+                        alert("Link copied to clipboard!");
+                    }}
+                    className="flex items-center gap-1.5 text-[11px] font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg border border-blue-100 transition-all active:scale-95"
+                    title="Copy Video Link"
+                >
+                    <ShareIcon className="w-3.5 h-3.5" />
+                    Share
+                </button>
+            </div>
+        </div>
+    );
+}
+
+// ─── Skeletons ───────────────────────────────────────────────────────────────
+function YouTubeSkeleton() {
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col animate-pulse">
+                    <div className="w-full aspect-video bg-gray-100" />
+                    <div className="p-4 flex-1 flex flex-col gap-2">
+                        <div className="h-4 bg-gray-100 rounded-md w-3/4" />
+                        <div className="h-3 bg-gray-50 rounded-md w-full" />
+                        <div className="h-3 bg-gray-50 rounded-md w-5/6" />
+                    </div>
+                    <div className="px-4 py-3 border-t border-gray-50 flex justify-between items-center">
+                        <div className="h-3 bg-gray-50 rounded-md w-16" />
+                        <div className="h-8 bg-gray-50 rounded-lg w-20" />
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function HeaderSkeleton() {
+    return (
+        <div className="flex items-center gap-3 animate-pulse">
+            <div className="w-8 h-8 rounded-xl bg-gray-100 shrink-0" />
+            <div className="flex flex-col gap-2">
+                <div className="h-5 bg-gray-100 rounded-md w-40" />
+                <div className="h-3 bg-gray-100 rounded-md w-24" />
             </div>
         </div>
     );
@@ -360,26 +407,34 @@ export default function DistributorMarketingPage() {
 
             <div className="p-6 flex flex-col gap-6">
                 {/* ── Section Header ── */}
-                <div className="flex items-center gap-3">
-                    {activeCat && (
-                        <div className={`w-8 h-8 rounded-xl ${activeCat.bg} flex items-center justify-center shrink-0`}>
-                            <activeCat.icon className={`w-10 h-10 ${activeCat.color}`} />
+                {loading ? (
+                    <HeaderSkeleton />
+                ) : (
+                    <div className="flex items-center gap-3">
+                        {activeCat && (
+                            <div className={`w-8 h-8 rounded-xl ${activeCat.bg} flex items-center justify-center shrink-0`}>
+                                <activeCat.icon className={`w-10 h-10 ${activeCat.color}`} />
+                            </div>
+                        )}
+                        <div>
+                            <h2 className="text-lg font-bold text-gray-800">{activeCat?.label || "Marketing Resources"}</h2>
+                            <p className="text-xs text-gray-500">{filteredAssets.length} resource{filteredAssets.length !== 1 ? "s" : ""} available</p>
                         </div>
-                    )}
-                    <div>
-                        <h2 className="text-lg font-bold text-gray-800">{activeCat?.label || "Marketing Resources"}</h2>
-                        <p className="text-xs text-gray-500">{filteredAssets.length} resource{filteredAssets.length !== 1 ? "s" : ""} available</p>
                     </div>
-                </div>
+                )}
 
                 {/* ── Content Panel ── */}
                 <div className="flex flex-col gap-4">
                     {type === "youtube" && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            {filteredAssets.map(a => (
-                                <YouTubeCard key={a._id} asset={a} />
-                            ))}
-                        </div>
+                        loading ? (
+                            <YouTubeSkeleton />
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                {filteredAssets.map(a => (
+                                    <YouTubeCard key={a._id} asset={a} />
+                                ))}
+                            </div>
+                        )
                     )}
 
                     {type === "social_post" && (
