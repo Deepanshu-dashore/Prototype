@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, use } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import Link from "next/link";
 import {
     ArrowLeftIcon,
@@ -25,10 +25,8 @@ import { useRef } from "react";
 import toast from "react-hot-toast";
 
 export default function DistributorDetailsPage({ params }) {
+    const api = useApiClient();
     const { id } = use(params);
-    const [distributor, setDistributor] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
     const [pagination, setPagination] = useState({
         currentPage: 1,
         totalItems: 0,
@@ -38,31 +36,38 @@ export default function DistributorDetailsPage({ params }) {
     const fileInputRef = useRef(null);
     const [selectedDocId, setSelectedDocId] = useState(null);
 
-    useEffect(() => {
-        fetchDistributor(pagination.currentPage);
-    }, [id, pagination.currentPage]);
+    const queryKey = ["distributor", id, pagination.currentPage];
+    const { data: distributorData, isLoading: loading, error: fetchError } = api.useGet(
+        queryKey,
+        `/distributor/admin/${id}?page=${pagination.currentPage}&limit=${pagination.limit}`,
+        { enabled: !!id }
+    );
 
-    const fetchDistributor = async (page = 1) => {
-        try {
-            setLoading(true);
-            const res = await axios.get(`/api/distributor/admin/${id}?page=${page}&limit=${pagination.limit}`);
-            if (res.data?.success) {
-                setDistributor(res.data.data);
-                setPagination(prev => ({
-                    ...prev,
-                    totalItems: res.data.data.totalOrders || 0,
-                    currentPage: page
-                }));
-                console.trace("distibutor data", res.data);
-            } else {
-                setError(res.data?.message || "Failed to fetch distributor");
-            }
-        } catch (err) {
-            setError(err.message || "Something went wrong");
-        } finally {
-            setLoading(false);
+    const distributor = distributorData?.data || null;
+    const error = fetchError?.message || "";
+
+    const uploadMutation = api.usePatch(queryKey, `/distributor/upload-compliance/${id}`, {
+        onSuccess: (res) => {
+            toast.success(`Document ${selectedDocId} uploaded successfully!`);
+            setUploadingDoc(null);
+            setSelectedDocId(null);
+        },
+        onError: (err) => {
+            const errorMsg = err.response?.data?.message || err.message || "Something went wrong during upload";
+            toast.error(errorMsg);
+            setUploadingDoc(null);
+            setSelectedDocId(null);
         }
-    };
+    });
+
+    useEffect(() => {
+        if (distributorData?.success) {
+            setPagination(prev => ({
+                ...prev,
+                totalItems: distributorData.data.totalOrders || 0,
+            }));
+        }
+    }, [distributorData]);
 
     const handleUploadClick = (docId) => {
         setSelectedDocId(docId);
@@ -73,35 +78,16 @@ export default function DistributorDetailsPage({ params }) {
         const file = e.target.files?.[0];
         if (!file || !selectedDocId) return;
 
-        try {
-            setUploadingDoc(selectedDocId);
-            setError("");
+        setUploadingDoc(selectedDocId);
+        const formData = new FormData();
+        formData.append("file", file);
 
-            const uploadToastId = toast.loading(`Uploading ${selectedDocId}...`);
+        uploadMutation.mutate({
+            url: `/distributor/upload-compliance/${id}?documentId=${selectedDocId}`,
+            data: formData
+        });
 
-            const formData = new FormData();
-            formData.append("file", file);
-
-            const res = await axios.patch(
-                `/api/distributor/upload-compliance/${id}?documentId=${selectedDocId}`,
-                formData,
-                { headers: { "Content-Type": "multipart/form-data" } }
-            );
-
-            if (res.data?.success) {
-                toast.success(`Document ${selectedDocId} uploaded successfully!`, { id: uploadToastId });
-                fetchDistributor(pagination.currentPage);
-            } else {
-                toast.error(res.data?.message || "Failed to upload document", { id: uploadToastId });
-            }
-        } catch (err) {
-            const errorMsg = err.response?.data?.message || err.message || "Something went wrong during upload";
-            toast.error(errorMsg);
-        } finally {
-            setUploadingDoc(null);
-            setSelectedDocId(null);
-            if (fileInputRef.current) fileInputRef.current.value = "";
-        }
+        if (fileInputRef.current) fileInputRef.current.value = "";
     };
 
     const formatDate = (date) =>

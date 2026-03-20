@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import { useRouter } from "next/navigation";
 import { use } from "react";
 import {
@@ -11,33 +11,20 @@ import {
 import Image from "next/image";
 
 export default function EnquiryDetailsPage({ params }) {
+    const api = useApiClient();
     const router = useRouter();
     const resolvedParams = use(params);
     const { id } = resolvedParams;
 
-    const [enquiry, setEnquiry] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const queryKey = ["enquiry", id];
+    const { data: enquiryData, isLoading: loading, error: fetchError } = api.useGet(
+        queryKey,
+        `/enquiry/${id}`,
+        { enabled: !!id }
+    );
 
-    useEffect(() => {
-        if (id) fetchEnquiryDetails();
-    }, [id]);
-
-    const fetchEnquiryDetails = async () => {
-        try {
-            setLoading(true);
-            const res = await axios.get(`/api/enquiry/${id}`);
-            if (res.data?.success) {
-                setEnquiry(res.data.data);
-            } else {
-                setError(res.data?.message || "Failed to fetch enquiry details");
-            }
-        } catch (err) {
-            setError(err.message || "An error occurred");
-        } finally {
-            setLoading(false);
-        }
-    };
+    const enquiry = enquiryData?.data || null;
+    const error = fetchError?.message || "";
 
     if (loading) return (
         <div className="flex justify-center flex-col gap-3 items-center min-h-[50vh]">

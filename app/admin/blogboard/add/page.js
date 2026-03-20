@@ -2,16 +2,16 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import EditorInstructions from "@/src/components/admin/EditorInstructions";
 import { useDropzone } from "react-dropzone";
 
 export default function AddBlogPage() {
+  const api = useApiClient();
   const router = useRouter();
   const contentEditorRef = useRef(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -27,6 +27,18 @@ export default function AddBlogPage() {
   });
 
   const [previewImage, setPreviewImage] = useState(null);
+
+  const createMutation = api.usePost("blogs", "/blogs", {
+    onSuccess: () => router.push("/admin/blogboard"),
+    onError: (err) =>
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "An error occurred while creating the blog",
+      ),
+  });
+
+  const loading = createMutation.isPending;
 
   // Configure react-dropzone
   const onDrop = (acceptedFiles) => {
@@ -92,51 +104,32 @@ export default function AddBlogPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
-    try {
-      const tagsArray = formData.tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean);
+    const tagsArray = formData.tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
 
-      // Build multipart FormData
-      const payload = new FormData();
-      payload.append("title", formData.title);
-      payload.append("excerpt", formData.excerpt);
-      payload.append("category", formData.category);
-      payload.append("author", formData.author || "CC Matting");
-      payload.append("content", formData.content);
-      payload.append("featured", formData.featured || false);
-      payload.append("readingTime", parseInt(formData.readingTime) || 5);
-      payload.append(
-        "tags",
-        JSON.stringify(tagsArray.length > 0 ? tagsArray : ["general"]),
-      );
+    // Build multipart FormData
+    const payload = new FormData();
+    payload.append("title", formData.title);
+    payload.append("excerpt", formData.excerpt);
+    payload.append("category", formData.category);
+    payload.append("author", formData.author || "CC Matting");
+    payload.append("content", formData.content);
+    payload.append("featured", formData.featured || false);
+    payload.append("readingTime", parseInt(formData.readingTime) || 5);
+    payload.append(
+      "tags",
+      JSON.stringify(tagsArray.length > 0 ? tagsArray : ["general"]),
+    );
 
-      // Attach image file if selected
-      if (formData.featuredImage instanceof File) {
-        payload.append("featuredImage", formData.featuredImage);
-      }
-
-      const response = await axios.post("/api/blogs", payload, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      if (response.data?.success) {
-        router.push("/admin/blogboard");
-      } else {
-        throw new Error(response.data?.message || "Failed to create blog");
-      }
-    } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          "An error occurred while creating the blog",
-      );
-    } finally {
-      setLoading(false);
+    // Attach image file if selected
+    if (formData.featuredImage instanceof File) {
+      payload.append("featuredImage", formData.featuredImage);
     }
+
+    createMutation.mutate(payload);
   };
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import { useRouter } from "next/navigation";
 import {
     DocumentCheckIcon,
@@ -12,11 +12,31 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function QCForm({ orderId, role = "admin" }) {
+    const api = useApiClient();
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [fetchingOrder, setFetchingOrder] = useState(true);
-    const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [error, setError] = useState("");
+
+    const queryKey = ["order", orderId];
+    const { data: orderData, isLoading: fetchingOrder, error: fetchError } = api.useGet(
+        queryKey,
+        `/order/${orderId}`,
+        { enabled: !!orderId }
+    );
+
+    const submitMutation = api.usePost(queryKey, `/order/qc/${orderId}`, {
+        onSuccess: () => {
+            setSuccess(true);
+            setTimeout(() => {
+                router.push(`/${role}/orders/${orderId}`);
+            }, 2000);
+        },
+        onError: (err) => {
+            setError(err.response?.data?.message || err.message || "Failed to submit QC form");
+        }
+    });
+
+    const loading = submitMutation.isPending;
 
     // Form states
     const [formData, setFormData] = useState({
@@ -36,51 +56,35 @@ export default function QCForm({ orderId, role = "admin" }) {
         products: [] // Array of { micrometerImage, materialImage } for each product
     });
 
-    // Fetch order on mount to pre-fill
     useEffect(() => {
-        const fetchOrder = async () => {
-            try {
-                setFetchingOrder(true);
-                const response = await axios.get(`/api/order/${orderId}`);
-                const order = response.data.data;
+        if (orderData?.success) {
+            const order = orderData.data;
+            setFormData({
+                distributorCode: order.qc?.distributorCode || "",
+                distributorAccountName: order.qc?.distributorAccountName || order.orderBy?.companyName || "",
+                orderReadyForShipment: order.qc?.orderReadyForShipment || false,
+                products: order.orderItems.map((item, idx) => {
+                    const existingProduct = order.qc?.products?.[idx];
+                    return {
+                        materialCode: item.product?.code || "",
+                        length: existingProduct?.length || item.length || 0,
+                        thicknessWithinSpec: existingProduct?.thicknessWithinSpec || false,
+                        materialFreeFromSurfaceDefects: existingProduct?.materialFreeFromSurfaceDefects || false,
+                        cleanAndFitForPurpose: existingProduct?.cleanAndFitForPurpose || false,
+                        palletDimensions: existingProduct?.palletDimensions || "",
+                        palletWeight: existingProduct?.palletWeight || 0,
+                    }
+                })
+            });
 
-                if (order) {
-                    setFormData({
-                        distributorCode: order.qc?.distributorCode || "",
-                        distributorAccountName: order.qc?.distributorAccountName || order.orderBy?.companyName || "",
-                        orderReadyForShipment: order.qc?.orderReadyForShipment || false,
-                        products: order.orderItems.map((item, idx) => {
-                            const existingProduct = order.qc?.products?.[idx];
-                            return {
-                                materialCode: item.product?.code || "",
-                                length: existingProduct?.length || item.length || 0,
-                                thicknessWithinSpec: existingProduct?.thicknessWithinSpec || false,
-                                materialFreeFromSurfaceDefects: existingProduct?.materialFreeFromSurfaceDefects || false,
-                                cleanAndFitForPurpose: existingProduct?.cleanAndFitForPurpose || false,
-                                palletDimensions: existingProduct?.palletDimensions || "",
-                                palletWeight: existingProduct?.palletWeight || 0,
-                            }
-                        })
-                    });
-
-                    // Initialize files and previews state for products
-                    const initialFiles = order.orderItems.map(() => ({
-                        micrometerImage: null,
-                        materialImage: null
-                    }));
-                    setFiles(prev => ({ ...prev, products: initialFiles }));
-                    setPreviews(prev => ({ ...prev, products: initialFiles }));
-                }
-            } catch (err) {
-                console.error("Error fetching order:", err);
-                setError("Failed to fetch order details. Please try again.");
-            } finally {
-                setFetchingOrder(false);
-            }
-        };
-
-        if (orderId) fetchOrder();
-    }, [orderId]);
+            const initialFiles = order.orderItems.map(() => ({
+                micrometerImage: null,
+                materialImage: null
+            }));
+            setFiles(prev => ({ ...prev, products: initialFiles }));
+            setPreviews(prev => ({ ...prev, products: initialFiles }));
+        }
+    }, [orderData]);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -177,7 +181,6 @@ export default function QCForm({ orderId, role = "admin" }) {
         e.preventDefault();
         setError("");
 
-        // Basic validation
         if (!files.processedBy) {
             setError("Signature (Processed By) is required.");
             return;
@@ -189,39 +192,18 @@ export default function QCForm({ orderId, role = "admin" }) {
             return;
         }
 
-        try {
-            setLoading(true);
-            const data = new FormData();
+        const data = new FormData();
+        data.append("distributorCode", formData.distributorCode);
+        data.append("distributorAccountName", formData.distributorAccountName);
+        data.append("orderReadyForShipment", formData.orderReadyForShipment);
+        data.append("processedBy", files.processedBy);
+        data.append("productsMetadata", JSON.stringify(formData.products));
+        files.products.forEach((productFile, index) => {
+            data.append(`micrometerImage_${index}`, productFile.micrometerImage);
+            data.append(`materialImage_${index}`, productFile.materialImage);
+        });
 
-            data.append("distributorCode", formData.distributorCode);
-            data.append("distributorAccountName", formData.distributorAccountName);
-            data.append("orderReadyForShipment", formData.orderReadyForShipment);
-            data.append("processedBy", files.processedBy);
-
-            // Send products non-file data as JSON
-            data.append("productsMetadata", JSON.stringify(formData.products));
-
-            // Append product images specifically
-            files.products.forEach((productFile, index) => {
-                data.append(`micrometerImage_${index}`, productFile.micrometerImage);
-                data.append(`materialImage_${index}`, productFile.materialImage);
-            });
-
-            const response = await axios.post(`/api/order/qc/${orderId}`, data, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
-
-            if (response.data.success || response.status === 200) {
-                setSuccess(true);
-                setTimeout(() => {
-                    router.push(`/${role}/orders/${orderId}`);
-                }, 2000);
-            }
-        } catch (err) {
-            setError(err.response?.data?.message || err.message || "Failed to submit QC form");
-        } finally {
-            setLoading(false);
-        }
+        submitMutation.mutate(data);
     };
 
     const FileUploadComponent = ({ label, name, required, index = null, IconDoc = PhotoIcon, reverse = false }) => {

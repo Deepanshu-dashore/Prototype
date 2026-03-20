@@ -2,14 +2,46 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
+import { useApiClient } from '@/src/config/axios'
 import UnifiedLogin from './UnifiedLogin'
 
 export default function LoginContent() {
+    const api = useApiClient()
     const router = useRouter()
-    const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [role, setRole] = useState('admin')
+
+    const loginMutation = api.usePost(null, "/auth/login", {
+        onSuccess: (response) => {
+            if (response.data) {
+                const userData = JSON.stringify(response.data)
+                const maxAge = 60 * 60 * 24 * 7 // 7 days
+                document.cookie = `user=${encodeURIComponent(userData)}; max-age=${maxAge}; path=/; SameSite=Strict`
+            }
+            router.push('/admin/')
+        },
+        onError: (err) => {
+            setError(err.response?.data?.message || err.message || 'An error occurred. Please try again.')
+        }
+    })
+
+    const warehouseLoginMutation = api.usePost(null, "/warehouse/login", {
+        onSuccess: (response) => {
+            if (response.data) {
+                const { warehouse } = response.data
+                const maxAge = 60 * 60 * 24 * 7 // 7 days
+                document.cookie = `warehouse_user=${encodeURIComponent(
+                    JSON.stringify(warehouse)
+                )}; max-age=${maxAge}; path=/; SameSite=Strict`
+            }
+            router.push("/warehouse/orders")
+        },
+        onError: (err) => {
+            setError(err.response?.data?.message || err.message || "An error occurred. Please try again.")
+        }
+    })
+
+    const loading = loginMutation.isPending || warehouseLoginMutation.isPending
 
     useEffect(() => {
         // Clear all cookies on same site
@@ -24,68 +56,20 @@ export default function LoginContent() {
 
     const handleSubmit = async (formData) => {
         setError('')
-        setLoading(true)
+        const { email: identifier, password } = formData
+        const isEmail = identifier.includes('@')
+        const requestBody = isEmail
+            ? { email: identifier, password }
+            : { name: identifier, password }
 
-        try {
-            const { email: identifier, password } = formData
-            const isEmail = identifier.includes('@')
-            const requestBody = isEmail
-                ? { email: identifier, password }
-                : { name: identifier, password }
-
-            const response = await axios.post('/api/auth/login', requestBody)
-
-
-            if (response.data?.data) {
-                const userData = JSON.stringify(response.data.data)
-                const maxAge = 60 * 60 * 24 * 7 // 7 days
-                document.cookie = `user=${encodeURIComponent(userData)}; max-age=${maxAge}; path=/; SameSite=Strict`
-            }
-
-            router.push('/admin/')
-        } catch (err) {
-            if (err.response?.data?.message) {
-                setError(err.response.data.message)
-            } else if (err.message) {
-                setError(err.message)
-            } else {
-                setError('An error occurred. Please try again.')
-            }
-            setLoading(false)
-        }
+        loginMutation.mutate(requestBody)
     }
 
     const handleWarehouseSubmit = async (formData) => {
-        setError("");
-        setLoading(true);
-
-        try {
-            const { name, password } = formData;
-            const response = await axios.post("/api/warehouse/login", {
-                name,
-                password,
-            });
-
-            if (response.data?.data) {
-                const { warehouse, warehouseToken } = response.data.data;
-                const maxAge = 60 * 60 * 24 * 7; // 7 days
-                document.cookie = `warehouse_user=${encodeURIComponent(
-                    JSON.stringify(warehouse)
-                )}; max-age=${maxAge}; path=/; SameSite=Strict`;
-            }
-
-            router.push("/warehouse/orders");
-        } catch (err) {
-            if (err.response?.data?.message) {
-                setError(err.response.data.message);
-            } else if (err.message) {
-                setError(err.message);
-            } else {
-                setError("An error occurred. Please try again.");
-            }
-            setLoading(false);
-        }
-    };
+        setError("")
+        const { name, password } = formData
+        warehouseLoginMutation.mutate({ name, password })
+    }
 
     return (
         <UnifiedLogin

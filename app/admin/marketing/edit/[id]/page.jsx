@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import { useRouter, useParams } from "next/navigation";
 import {
     ArrowLeftIcon,
@@ -32,6 +32,7 @@ function getYouTubeId(url) {
 }
 
 export default function EditMarketingPage() {
+    const api = useApiClient();
     const router = useRouter();
     const { id } = useParams();
     const pdfFileRef = useRef();
@@ -41,10 +42,24 @@ export default function EditMarketingPage() {
     const [file, setFile] = useState(null);
     const [existingUrl, setExistingUrl] = useState("");
     const [existingAttachment, setExistingAttachment] = useState("");
-    const [submitting, setSubmitting] = useState(false);
-    const [loadingAsset, setLoadingAsset] = useState(true);
     const [error, setError] = useState("");
     const [dragOver, setDragOver] = useState(false);
+
+    const queryKey = ["marketing", id];
+    const { data: assetData, isLoading: loadingAsset, error: fetchError } = api.useGet(
+        queryKey,
+        `/marketing/${id}`,
+        { enabled: !!id }
+    );
+
+    const updateMutation = api.usePut(queryKey, `/marketing/${id}`, {
+        onSuccess: () => router.push("/admin/marketing"),
+        onError: (err) => {
+            setError(err?.response?.data?.message || err.message || "Something went wrong. Please try again.");
+        }
+    });
+
+    const submitting = updateMutation.isPending;
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
     const overLimit = wordCount > 500;
@@ -55,54 +70,37 @@ export default function EditMarketingPage() {
     const youtubeThumb = form.type === "youtube" && form.url ? (() => { const vid = getYouTubeId(form.url); return vid ? `https://img.youtube.com/vi/${vid}/hqdefault.jpg` : null; })() : null;
 
     useEffect(() => {
-        if (!id) return;
-        (async () => {
-            try {
-                const res = await axios.get(`/api/marketing/${id}`);
-                if (res.data?.success) {
-                    const a = res.data.data;
-                    setForm({
-                        title: a.title || "",
-                        type: a.type || "youtube",
-                        url: a.url || "",
-                        description: a.description || "",
-                        tags: Array.isArray(a.tags) ? a.tags.join(", ") : a.tags || "",
-                    });
-                    setExistingUrl(a.url || "");
-                    setExistingAttachment(a.attachment || "");
-                }
-            } catch (e) {
-                setError("Failed to load asset. Please go back and try again.");
-            } finally {
-                setLoadingAsset(false);
-            }
-        })();
-    }, [id]);
+        if (assetData?.success) {
+            const a = assetData.data;
+            setForm({
+                title: a.title || "",
+                type: a.type || "youtube",
+                url: a.url || "",
+                description: a.description || "",
+                tags: Array.isArray(a.tags) ? a.tags.join(", ") : a.tags || "",
+            });
+            setExistingUrl(a.url || "");
+            setExistingAttachment(a.attachment || "");
+        }
+    }, [assetData]);
 
     const handleSubmit = async () => {
         setError("");
-        setSubmitting(true);
-        try {
-            const fd = new FormData();
-            fd.append("title", form.title);
-            fd.append("type", form.type);
-            fd.append("url", form.url);
-            fd.append("description", form.description);
-            fd.append("tags", form.tags);
-            if (file) {
-                if (form.type === "social_post") {
-                    fd.append("attachment", file);
-                    fd.append("attachmentType", form.attachmentType);
-                } else {
-                    fd.append("file", file);
-                }
+        const fd = new FormData();
+        fd.append("title", form.title);
+        fd.append("type", form.type);
+        fd.append("url", form.url);
+        fd.append("description", form.description);
+        fd.append("tags", form.tags);
+        if (file) {
+            if (form.type === "social_post") {
+                fd.append("attachment", file);
+                fd.append("attachmentType", form.attachmentType);
+            } else {
+                fd.append("file", file);
             }
-            await axios.put(`/api/marketing/${id}`, fd);
-            router.push("/admin/marketing");
-        } catch (err) {
-            setError(err?.response?.data?.message || "Something went wrong. Please try again.");
-            setSubmitting(false);
         }
+        updateMutation.mutate(fd);
     };
 
     const handleDrop = (e, target) => {

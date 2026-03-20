@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useParams } from "next/navigation";
 import Image from "next/image";
@@ -10,13 +10,12 @@ import EditorInstructions from "@/src/components/admin/EditorInstructions";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
 export default function EditBlogPage() {
+  const api = useApiClient();
   const router = useRouter();
   const params = useParams();
   const { id } = params;
 
   const contentEditorRef = useRef(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -33,52 +32,41 @@ export default function EditBlogPage() {
 
   const [previewImage, setPreviewImage] = useState(null);
 
-  useEffect(() => {
-    if (id) {
-      fetchBlogData();
-    }
-  }, [id]);
+  const queryKey = ["blog", id];
+  const {
+    data: blogData,
+    isLoading: loading,
+    error: fetchError,
+  } = api.useGet(queryKey, `/blogs?id=${id}`, { enabled: !!id });
 
-  const fetchBlogData = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(`/api/blogs?id=${id}`);
-      if (res.data?.success) {
-        const blog = res.data.data;
-        setFormData({
-          title: blog.title || "",
-          excerpt: blog.excerpt || "",
-          category:
-            typeof blog.category === "object"
-              ? blog.category.name
-              : blog.category || "",
-          tags: Array.isArray(blog.tags)
-            ? blog.tags.join(", ")
-            : blog.tags || "",
-          author:
-            typeof blog.author === "object"
-              ? blog.author.name
-              : blog.author || "CC Matting",
-          content: blog.content || "",
-          featured: blog.featured || false,
-          readingTime: blog.readingTime || 5,
-          featuredImage: blog.featuredImage || null,
-        });
-        if (blog.content && contentEditorRef.current) {
-          contentEditorRef.current.innerHTML = blog.content;
-        }
-        if (blog.featuredImage) {
-          setPreviewImage(blog.featuredImage);
-        }
-      } else {
-        setError(res.data?.message || "Failed to fetch blog details");
+  useEffect(() => {
+    if (blogData?.success) {
+      const blog = blogData.data;
+      setFormData({
+        title: blog.title || "",
+        excerpt: blog.excerpt || "",
+        category:
+          typeof blog.category === "object"
+            ? blog.category.name
+            : blog.category || "",
+        tags: Array.isArray(blog.tags) ? blog.tags.join(", ") : blog.tags || "",
+        author:
+          typeof blog.author === "object"
+            ? blog.author.name
+            : blog.author || "CC Matting",
+        content: blog.content || "",
+        featured: blog.featured || false,
+        readingTime: blog.readingTime || 5,
+        featuredImage: blog.featuredImage || null,
+      });
+      if (blog.content && contentEditorRef.current) {
+        contentEditorRef.current.innerHTML = blog.content;
       }
-    } catch (err) {
-      setError(err.message || "Error fetching blog details");
-    } finally {
-      setLoading(false);
+      if (blog.featuredImage) {
+        setPreviewImage(blog.featuredImage);
+      }
     }
-  };
+  }, [blogData]);
 
   // Sync contentEditable with formData only if content was changed from outside
   useEffect(() => {
@@ -126,59 +114,54 @@ export default function EditBlogPage() {
     setShowSaveModal(true);
   };
 
-  const confirmSave = async () => {
-    setError("");
-    setSaving(true);
-
-    try {
-      const tagsArray = formData.tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean);
-
-      // Build multipart FormData
-      const payload = new FormData();
-      payload.append("id", id);
-      payload.append("title", formData.title);
-      payload.append("excerpt", formData.excerpt);
-      payload.append("category", formData.category);
-      payload.append("author", formData.author || "CC Matting");
-      payload.append("content", formData.content);
-      payload.append("featured", formData.featured || false);
-      payload.append("readingTime", parseInt(formData.readingTime) || 5);
-      payload.append(
-        "tags",
-        JSON.stringify(tagsArray.length > 0 ? tagsArray : ["general"]),
-      );
-
-      // Attach new image file if selected, otherwise send existing URL
-      if (formData.featuredImage instanceof File) {
-        payload.append("featuredImage", formData.featuredImage);
-      } else if (formData.featuredImage) {
-        payload.append("existingImage", formData.featuredImage);
-      }
-
-      const response = await axios.patch("/api/blogs", payload, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      if (response.data?.success) {
-        setShowSaveModal(false);
-        router.push("/admin/blogboard");
-        router.refresh();
-      } else {
-        throw new Error(response.data?.message || "Failed to update blog");
-      }
-    } catch (err) {
+  const editMutation = api.usePatch(queryKey, "/blogs", {
+    onSuccess: () => {
+      setShowSaveModal(false);
+      router.push("/admin/blogboard");
+    },
+    onError: (err) => {
       setError(
         err.response?.data?.message ||
           err.message ||
           "An error occurred while updating the blog",
       );
       setShowSaveModal(false);
-    } finally {
-      setSaving(false);
+    },
+  });
+
+  const saving = editMutation.isPending;
+
+  const confirmSave = async () => {
+    setError("");
+
+    const tagsArray = formData.tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+
+    // Build multipart FormData
+    const payload = new FormData();
+    payload.append("id", id);
+    payload.append("title", formData.title);
+    payload.append("excerpt", formData.excerpt);
+    payload.append("category", formData.category);
+    payload.append("author", formData.author || "CC Matting");
+    payload.append("content", formData.content);
+    payload.append("featured", formData.featured || false);
+    payload.append("readingTime", parseInt(formData.readingTime) || 5);
+    payload.append(
+      "tags",
+      JSON.stringify(tagsArray.length > 0 ? tagsArray : ["general"]),
+    );
+
+    // Attach new image file if selected, otherwise send existing URL
+    if (formData.featuredImage instanceof File) {
+      payload.append("featuredImage", formData.featuredImage);
+    } else if (formData.featuredImage) {
+      payload.append("existingImage", formData.featuredImage);
     }
+
+    editMutation.mutate(payload);
   };
 
   if (loading) {
@@ -427,7 +410,7 @@ export default function EditBlogPage() {
                   const html = e.target.innerHTML;
                   setFormData((prev) => ({ ...prev, content: html }));
                 }}
-                className="w-full min-h-[250px] sm:min-h-[350px] md:min-h-[400px] border border-gray-300 rounded-b-lg p-3 sm:p-4 md:p-6 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent prose max-w-none bg-white shadow-inner [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_blockquote]:bg-gray-50 [&_blockquote]:border-l-[4px] [&_blockquote]:border-primary/40 [&_blockquote]:pl-5 [&_blockquote]:pr-5 [&_blockquote]:py-5 [&_blockquote]:rounded-r [&_blockquote]:my-8 [&_blockquote]:italic [&_blockquote]:text-gray-700 [&_h1]:text-2xl sm:[&_h1]:text-4xl [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_h4]:text-base sm:[&_h4]:text-lg [&_h5]:text-sm sm:[&_h5]:text-base [&_h5]:font-bold [&_h6]:text-xs sm:[&_h6]:text-sm [&_h6]:font-bold [&_p]:my-3 sm:[&_p]:my-4 [&_p]:leading-relaxed text-sm sm:text-base"
+                className="w-full min-h-[250px] sm:min-h-[350px] md:min-h-[400px] border border-gray-300 rounded-b-lg p-3 sm:p-4 md:p-6 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent prose max-w-none bg-white shadow-inner [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_blockquote]:bg-gray-50 [&_blockquote]:border-l-4 [&_blockquote]:border-primary/40 [&_blockquote]:pl-5 [&_blockquote]:pr-5 [&_blockquote]:py-5 [&_blockquote]:rounded-r [&_blockquote]:my-8 [&_blockquote]:italic [&_blockquote]:text-gray-700 [&_h1]:text-2xl sm:[&_h1]:text-4xl [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_h4]:text-base sm:[&_h4]:text-lg [&_h5]:text-sm sm:[&_h5]:text-base [&_h5]:font-bold [&_h6]:text-xs sm:[&_h6]:text-sm [&_h6]:font-bold [&_p]:my-3 sm:[&_p]:my-4 [&_p]:leading-relaxed text-sm sm:text-base"
                 style={{ whiteSpace: "pre-wrap" }}
                 data-placeholder="Start typing your blog content here..."
                 suppressContentEditableWarning

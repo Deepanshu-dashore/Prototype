@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import axios from "axios";
+import { useApiClient } from "@/src/config/axios";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,32 +15,20 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function ViewBlogPage() {
+  const api = useApiClient();
   const router = useRouter();
   const params = useParams();
   const { id } = params;
-  const [blog, setBlog] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (id) fetchBlog();
-  }, [id]);
+  const queryKey = ["blog", id];
+  const {
+    data: blogData,
+    isLoading: loading,
+    error: fetchError,
+  } = api.useGet(queryKey, `/blogs?id=${id}`, { enabled: !!id });
 
-  const fetchBlog = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(`/api/blogs?id=${id}`);
-      if (res.data?.success) {
-        setBlog(res.data.data);
-      } else {
-        setError(res.data?.message || "Failed to fetch blog");
-      }
-    } catch (err) {
-      setError(err.message || "Error fetching blog details");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const blog = blogData?.data || null;
+  const error = fetchError?.message || "";
 
   const formatDate = (date) =>
     date
