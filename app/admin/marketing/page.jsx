@@ -643,7 +643,7 @@ export default function AdminMarketingPage() {
                     {STAT_CARDS.map(sc => (
                         <div key={sc.key} className="bg-white md:border-l border-l-0 md:border-t-0 border-t md:pt-0 pt-2 border-dashed border-neutral-200 flex items-center gap-4 px-5">
                             <CircularProgressBar
-                                percentage={assets.length > 0 ? (counts[sc.key] / assets.length) * 100 : 0}
+                                percentage={100}
                                 color={sc.hex}
                                 size={55}
                                 icon={<sc.icon className={`w-8 h-8 ${sc.color}`} />}

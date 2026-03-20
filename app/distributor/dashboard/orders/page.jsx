@@ -184,11 +184,11 @@ export default function DistributorOrdersPage() {
                                         <td className="px-6 py-3 text-right">
                                             <Link
                                                 href={`/distributor/dashboard/orders/${order._id}`}
-                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary border border-gray-200 text-white text-[12.25px] rounded-lg hover:text-white hover:bg-primary/90 hover:border-primary/20 transition-all shadow-xs"
+                                                className="inline-flex items-center gap-1.5 px-2 py-1.5 bg-primary border border-gray-200 text-white text-[12.25px] rounded-md hover:text-white hover:bg-primary/90 hover:border-primary/20 transition-all shadow-xs"
                                                 title="View Details"
                                             >
-                                                View
-                                                <EyeIcon className="w-3.5 h-3.5" />
+                                                {/* View */}
+                                                <EyeIcon className="w-4 h-4" />
                                             </Link>
                                         </td>
                                     </tr>
