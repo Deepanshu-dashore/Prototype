@@ -22,8 +22,8 @@ export async function POST(request) {
     const otpSend = await OtpService.sendOtp(
       email,
       otpVerificationTemplate({ otp: GenratedOtp, expire: "10 minutes", name }),
-      "CC Matting <dashd9396@gmail.com>",
-      "OTP Verification",
+      process.env.EMAIL_FROM,
+      "CC Matting OTP Verification",
     );
     return ApiResponse(otpSend.status, null, otpSend.message);
   } catch (error) {

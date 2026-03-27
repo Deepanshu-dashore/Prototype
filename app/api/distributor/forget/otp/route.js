@@ -22,8 +22,8 @@ export async function POST(request) {
         expire: "10 minutes",
         name: User?.companyName || email || "Distributor",
       }),
-      "CC Matting <dashd9396@gmail.com>",
-      "OTP Verification",
+      process.env.EMAIL_FROM,
+      "CC Matting OTP Verification",
     );
     return ApiResponse(otpSend.status, null, otpSend.message);
   } catch (error) {

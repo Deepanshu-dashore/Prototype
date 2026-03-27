@@ -61,7 +61,7 @@ export async function POST(request) {
       billingAddress: billingAddress || registeredAddress,
     });
     await mail({
-      from: "CC Matting <dashd9396@gmail.com>",
+      from: process.env.EMAIL_FROM,
       to: process.env.ADMIN_EMAIL,
       subject: "Distributor Request",
       body: newDistributorApplicationTemplate({

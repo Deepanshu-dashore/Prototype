@@ -40,7 +40,7 @@ export async function PATCH(request, { params }) {
 
     // Send email with plain password
     await mail({
-      from: "CC Matting <dashd9396@gmail.com>",
+      from: process.env.EMAIL_FROM,
       to: distributor.companyEmail,
       subject: "Distributor Verified - CC Matting",
       body: distributorVerificationTemplate({
