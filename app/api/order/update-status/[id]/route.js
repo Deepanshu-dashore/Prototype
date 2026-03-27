@@ -29,6 +29,7 @@ export async function PATCH(request, { params }) {
     }
     const getOrder = await OrderService.getOrderById(id);
     const send = await mail({
+      from: process.env.ORDER_EMAIL_FROM,
       to: getOrder.orderBy.companyEmail,
       subject: "Order Status Update",
       body: distributorOrderStatusTemplate({
