@@ -95,7 +95,7 @@ export default function DistributorRegister() {
         try {
             const res = await axios.post("/api/distributor/otp", {
                 email: formData.companyEmail,
-                name: formData.companyName || "Distributor Request"
+                name: formData.companyName || "Distributor"
             });
             if (res.data?.success) {
                 setOtpSent(true);
