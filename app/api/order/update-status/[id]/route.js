@@ -13,7 +13,8 @@ export async function PATCH(request, { params }) {
   if (!user?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
-  if (!roleVerify(["admin", "warehouse"], user || warehouse)) {
+  const hasAccess = roleVerify(["admin", "warehouse"], user) || roleVerify(["admin", "warehouse"], warehouse);
+  if (!hasAccess) {
     return ApiResponse(403, null, "Forbidden: insufficient permissions");
   }
   await connect();
@@ -23,28 +24,32 @@ export async function PATCH(request, { params }) {
     if (!body.status) {
       return ApiResponse(400, null, "Status is required");
     }
-    const order = await OrderService.updateOrder(id, { status: body.status });
+    
+    const orderStatus = body.status.toUpperCase();
+    const order = await OrderService.updateOrder(id, { status: orderStatus });
     if (!order) {
       return ApiResponse(404, null, "Order not updated");
     }
     const getOrder = await OrderService.getOrderById(id);
-    const send = await mail({
-      from: process.env.ORDER_EMAIL_FROM,
-      to: getOrder.orderBy.companyEmail,
-      subject: "Order Status Update",
-      body: distributorOrderStatusTemplate({
-        distributorName: getOrder.orderBy.companyName,
-        orderId: `#${String(getOrder._id).slice(-6).toUpperCase()}`,
-        orderDate: new Date(getOrder.createdAt).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
+    if (getOrder?.orderBy?.companyEmail) {
+      const send = await mail({
+        from: process.env.ORDER_EMAIL_FROM,
+        to: getOrder.orderBy.companyEmail,
+        subject: "Order Status Update",
+        body: distributorOrderStatusTemplate({
+          distributorName: getOrder.orderBy.companyName || "Distributor",
+          orderId: `#${String(getOrder._id).slice(-6).toUpperCase()}`,
+          orderDate: new Date(getOrder.createdAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+          totalItems: getOrder.orderItems?.length || 0,
+          status: orderStatus,
         }),
-        totalItems: getOrder.orderItems.length,
-        status: body.status,
-      }),
-    });
-    // console.log("Mail sent successfully", send);
+      });
+      // console.log("Mail sent successfully", send);
+    }
     return ApiResponse(200, order, "Order updated successfully");
   } catch (error) {
     return ApiResponse(500, null, "Error updating order: " + error.message);
