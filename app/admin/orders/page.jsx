@@ -362,11 +362,16 @@ export default function AdminOrdersPage() {
                                                                 disabled={statusUpdatingId === order._id}
                                                                 className="p-1 text-green-600 hover:bg-green-100 border border-green-200 bg-green-50 rounded-md transition-colors disabled:opacity-50"
                                                             >
-                                                                <CheckBadgeIcon className="w-5 h-5" />
+                                                                {statusUpdatingId === order._id ? (
+                                                                    <ArrowPathIcon className="w-5 h-5 animate-spin" />
+                                                                ) : (
+                                                                    <CheckBadgeIcon className="w-5 h-5" />
+                                                                )}
                                                             </button>
                                                             <button
                                                                 onClick={() => setEditingStatusOrderId(null)}
-                                                                className="p-1 text-red-600 hover:bg-red-100 border border-red-200 bg-red-50 rounded-md transition-colors"
+                                                                disabled={statusUpdatingId === order._id}
+                                                                className="p-1 text-red-600 hover:bg-red-100 border border-red-200 bg-red-50 rounded-md transition-colors disabled:opacity-50"
                                                             >
                                                                 <XCircleIcon className="w-5 h-5" />
                                                             </button>

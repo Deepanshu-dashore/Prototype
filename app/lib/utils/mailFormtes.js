@@ -2,7 +2,7 @@ export const otpVerificationTemplate = ({
   otp,
   expire,
   name,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
 }) => {
@@ -133,7 +133,7 @@ export const forgotPasswordOtpTemplate = ({
   otp,
   expire = "10 minutes",
   name,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
 }) => {
@@ -263,10 +263,10 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
 
 export const passwordSecurityAlertTemplate = ({
   name,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
-  resetLink = "https://prototype-alpha-six.vercel.app/distributor/forget-password",
+  resetLink = "https://ccmatting.ie/distributor/forget-password",
 }) => {
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -396,7 +396,7 @@ export const distributorVerificationTemplate = ({
   loginEmail,
   password,
   loginUrl,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   supportEmail = "support@ccmatting.com",
 }) => {
   return `
@@ -533,7 +533,7 @@ export const newDistributorApplicationTemplate = ({
   distributorEmail,
   distributorPhone,
   verificationUrl,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
 }) => {
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -643,7 +643,7 @@ export const orderCreatedTemplate = ({
   orderDate,
   distributorName,
   totalItems,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
 }) => {
@@ -764,7 +764,7 @@ export const distributorOrderStatusTemplate = ({
   orderDate,
   totalItems,
   status,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
   brandColor = "#0b3aa4",
@@ -891,7 +891,7 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
   <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
       <td align="center" style="padding:28px 0 10px 0;">
-        <a href="https://prototype-alpha-six.vercel.app/distributor/dashboard/orders"
+        <a href="https://ccmatting.ie/distributor/dashboard/orders"
            style="
             background:${brandColor};
             color:#ffffff;
