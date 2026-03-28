@@ -820,7 +820,7 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
   </h1>
 
   <p style="font-size:14px;line-height:22px;margin:0 0 14px 0;">
-    Dear <strong>${distributorName || "Distributor"}</strong>,
+    Hello <strong>${distributorName || "Distributor"}</strong>,
   </p>
 
   <p style="font-size:14px;line-height:22px;margin:0 0 24px 0;color:#374151;">
