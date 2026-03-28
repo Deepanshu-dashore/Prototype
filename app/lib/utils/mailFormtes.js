@@ -821,8 +821,8 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
     Order Status Notification
   </h1>
 
-  <p style="font-size:13px;line-height:22px;margin:0 0 14px 0;">
-    Dear <strong>${distributorName || "Distributor"}</strong>,
+  <p style="font-size:14px;line-height:22px;margin:0 0 14px 0;">
+    Hello <strong>${distributorName || "Distributor"}</strong>,
   </p>
 
   <p style="font-size:13px;line-height:22px;margin:0 0 24px 0;color:#374151;">
@@ -959,7 +959,8 @@ export const orderConfirmationTemplate = ({
 
   const formattedOrderId = `ORD-${String(order._id).slice(-6).toUpperCase()}`;
 
-  const shippingAddress = distributor?.shippingAddress || distributor?.registeredAddress;
+  const shippingAddress =
+    distributor?.shippingAddress || distributor?.registeredAddress;
   const addressHtml = shippingAddress
     ? `
     <div style="color: #4b5563; font-size: 13px; line-height: 1.5;">
@@ -986,7 +987,7 @@ export const orderConfirmationTemplate = ({
         ${item.length || 0}m
       </td>
     </tr>
-  `
+  `,
     )
     .join("");
 
@@ -1081,7 +1082,7 @@ export const orderConfirmationTemplate = ({
                 order.documents?.length > 0
                   ? `
               <div style="margin-top: 30px; text-align: center;">
-                <a href="${getUrls.getUrl(order.documents[0].url,order.documents[0].resource_type)}" style="background-color: #2563eb; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; display: inline-block;">View PO Document</a>
+                <a href="${getUrls.getUrl(order.documents[0].url, order.documents[0].resource_type)}" style="background-color: #2563eb; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; display: inline-block;">View PO Document</a>
               </div>
               `
                   : ""
