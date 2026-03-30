@@ -218,7 +218,6 @@
       "name": "Distributors",
       "shortDescription": "Guide for managing partner accounts and portal access levels.",
       "longDescription": "This procedure ensures the integrity of the CC Matting partner ecosystem by standardizing how distributor profiles are managed. It covers the complete partner lifecycle, including digital onboarding, profile branding, and industrial access control. Standardizing editorial output improves international site visibility and provides distributors with valuable industry context for their respective markets.",
-      "thumbnail": "/ccmating_distributor_banner_1770291446716.png",
       "relatedSOPs": [
         { "id": "13", "name": "Distributor Verification" },
         { "id": "14", "name": "Partner Insight & Overview" }
@@ -307,7 +306,8 @@
       "shortDescription": "Standardized steps for publishing industry-relevant CCM news.",
       "longDescription": "The Blog Management Hub is the editorial command center for CC Matting news distribution. This SOP covers the end-to-end lifecycle of corporate communications—from auditing existing posts with real-time performance metrics to managing diverse industrial categories. The dashboard provides strategic visibility into post counts and category-specific activity, ensuring the CCM voice remains current and search-optimized.",
       "relatedSOPs": [
-        { "id": "16", "name": "Add New Blog" }
+        { "id": "16", "name": "Add New Blog" },
+        { "id": "17", "name": "Blog Categories Management" }
       ],
       "department": "Marketing",
       "lastUpdate": "30/03/2026",
@@ -316,15 +316,42 @@
         "purpose": "To provide a professional editorial framework for managing and auditing corporate matting news.",
         "scope": "Digital editors and marketing strategists.",
         "images": [
-           "/Sops/blog/manage.png",
-           "/Sops/blog/catgory.png"
+           "/Sops/blog/manage.png"
         ],
         "steps": [
           "Dashboard Overview: Monitor the 'Total Blogs', 'Today's Posts', and 'Active Categories' state cards to track current editorial output.",
           "Search & Filter: Utilize the secondary navigation to search by title or category. Apply Date Range filters (dd-mm-yyyy) to isolate historic posts.",
           "Post Audit: Review the main table for Category, Author (Typically CC Matting), and Publishing Date. Use Actions icons for editing or removal.",
-          "Category Management: Enter the Blog Categories tab to view post counts per industrial focus (e.g., Technology, Installations). Click 'View Posts' to filter by category.",
-          "New Post Creation: To publish a new industry insight, click the 'Add Blog' button and refer to the Add New Blog SOP."
+          "News Management: To publish a new industry insight, click the 'Add Blog' button and refer to the Add New Blog SOP.",
+          "Classification Audit: To manage industrial focuses and categorical post counts, refer to the Blog Categories Management SOP."
+        ]
+      }
+    },
+    {
+      "id": "17",
+      "sopCode": "BCM1717",
+      "name": "Blog Categories Management",
+      "shortDescription": "Protocol for auditing and managing industrial blog classifications.",
+      "longDescription": "Industrial categorization is essential for ensuring distributors can quickly filter relevant matting news. This procedure defines the required framework for auditing active categories, tracking post counts per category, and monitoring the latest publishing activity across diverse industrial niches. The system provides a centralized view of all organizational focuses and their relative news frequency.",
+      "relatedSOPs": [
+        { "id": "7", "name": "Blogs" },
+        { "id": "16", "name": "Add New Blog" }
+      ],
+      "department": "Marketing",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To maintain a synchronized and audited industrial taxonomy for all corporate CCM news.",
+        "scope": "Content strategists and metadata managers.",
+        "images": [
+           "/Sops/blog/catgory.png"
+        ],
+        "steps": [
+          "Interface Navigation: Navigate to the 'Categories' tab in the main blog management hub to launch the classification board.",
+          "State Audit: Review the 'Total Categories' state card to monitor the expanse of the current industrial news footprint.",
+          "Metric Verification: Audit the Category Name and Blog Count columns and ensure that high-value categories (e.g., Installations, Technology) remain active.",
+          "Lifecycle Audit: Monitor the 'Latest Post' column to identify industrial niches that require fresh editorial content.",
+          "Data Refinement: Click 'View Posts' to isolate and audit all entries within a specific industrial focus."
         ]
       }
     },
@@ -335,7 +362,8 @@
       "shortDescription": "Editorial guide for creating SEO-optimized industry insights.",
       "longDescription": "Creating high-impact blog content involves careful title selection, strategic category placement, and the correct application of the CCM Rich Text Editor. This procedure defines the mandatory fields and formatting standards required to maintain a professional brand voice across the global network. Correct utilization of headings and featured imagery is essential for international site indexing and user engagement.",
       "relatedSOPs": [
-        { "id": "7", "name": "Blogs" }
+        { "id": "7", "name": "Blogs" },
+        { "id": "17", "name": "Blog Categories Management" }
       ],
       "department": "Marketing",
       "lastUpdate": "30/03/2026",
@@ -351,9 +379,9 @@
           "Initialization: Navigate to 'Blogs' > 'Add' to enter the editorial creation model.",
           "Metadata Setup: Enter the main Title and a concise Excerpt (summary). Select a Category and add comma-separated Tags for SEO.",
           "Author Identification: Author Name defaults to CC Matting for unified corporate representation.",
-          "Content Editing: Utilize the Rich Text Toolbar (B, I, U, Lists, Quote Blocks) and ensure proper heading structure (H1 for main title, H2-H4 for subsections).",
+          "Rich Text Protocol: Utilize the editor toolbar for formatting. Standardize on H1 for titles, H2 for major sections, and H3 for sub-sections. Use Bullet Lists for features and Numbered Lists for sequential steps.",
           "Visual Identity: Upload the Featured Image (recommended 1200x630px) and select the 'Mark as Featured' toggle for high-priority news.",
-          "Final Audit: Set the Reading Time based on content length and click 'Create Blog' to publish. The post will instantly synchronize with the international portal regions."
+          "Final Audit: Set the Reading Time based on content volume and click 'Create Blog' to publish. The post will instantly synchronize with the international portal regions."
         ]
       }
     },
