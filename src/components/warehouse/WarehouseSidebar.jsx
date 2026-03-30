@@ -8,11 +8,13 @@ import { useState } from 'react'
 import {
     UserGroupIcon,
     ClipboardDocumentListIcon,
+    BookOpenIcon,
 } from '@heroicons/react/24/outline'
 
 const navigation = [
     { name: 'Orders', href: '/warehouse/orders', icon: ClipboardDocumentListIcon },
     { name: 'Distributors', href: '/warehouse/distributors', icon: UserGroupIcon },
+    { name: 'SOPs', href: '/warehouse/sops', icon: BookOpenIcon },
 ]
 
 export default function WarehouseSidebar() {

@@ -15,7 +15,7 @@
         { "id": "13", "name": "Distributor Verification" },
         { "id": "8", "name": "QC Form" }
       ],
-      "department": "Production & QC",
+      "department": "Warehouse / QC",
       "lastUpdate": "29/03/2025",
       "updateRequired": false,
       "content": {
@@ -47,7 +47,7 @@
         { "id": "13", "name": "Distributor Verification" },
         { "id": "14", "name": "Partner Insight & Overview" }
       ],
-      "department": "Operations & Logistics",
+      "department": "Warehouse / Logistics",
       "lastUpdate": "30/03/2026",
       "updateRequired": false,
       "content": {
@@ -105,7 +105,7 @@
         { "id": "4", "name": "Distributors" },
         { "id": "13", "name": "Distributor Verification" }
       ],
-      "department": "Management",
+      "department": "Warehouse / Management",
       "lastUpdate": "30/03/2026",
       "updateRequired": false,
       "content": {
@@ -222,7 +222,7 @@
         { "id": "13", "name": "Distributor Verification" },
         { "id": "14", "name": "Partner Insight & Overview" }
       ],
-      "department": "Management",
+      "department": "Warehouse / Management",
       "lastUpdate": "30/03/2026",
       "updateRequired": false,
       "content": {
@@ -379,7 +379,7 @@
           "Initialization: Navigate to 'Blogs' > 'Add' to enter the editorial creation model.",
           "Metadata Setup: Enter the main Title and a concise Excerpt (summary). Select a Category and add comma-separated Tags for SEO.",
           "Author Identification: Author Name defaults to CC Matting for unified corporate representation.",
-          "Rich Text Protocol: Utilize the editor toolbar for formatting. Standardize on H1 for titles, H2 for major sections, and H3 for sub-sections. Use Bullet Lists for features and Numbered Lists for sequential steps.",
+          "Rich Text Protocol: Utilize the editor toolbar for formatting. Standardize on H1 for titles, H2 for major sections, and H3 for sub-sections. Use Bullet Lists for features and Numbered Lists for steps.",
           "Visual Identity: Upload the Featured Image (recommended 1200x630px) and select the 'Mark as Featured' toggle for high-priority news.",
           "Final Audit: Set the Reading Time based on content volume and click 'Create Blog' to publish. The post will instantly synchronize with the international portal regions."
         ]
@@ -396,7 +396,7 @@
         { "id": "2", "name": "Orders" },
         { "id": "1", "name": "Quality Control (QC)" }
       ],
-      "department": "Production & QC",
+      "department": "Warehouse / QC",
       "lastUpdate": "30/03/2026",
       "updateRequired": false,
       "content": {
@@ -434,7 +434,7 @@
         { "id": "2", "name": "Orders" },
         { "id": "8", "name": "QC Form" }
       ],
-      "department": "Operations & Logistics",
+      "department": "Warehouse / Logistics",
       "lastUpdate": "30/03/2026",
       "updateRequired": false,
       "content": {
@@ -464,7 +464,7 @@
         { "id": "2", "name": "Orders" },
         { "id": "11", "name": "Distributor PO Verification" }
       ],
-      "department": "Operations & Logistics",
+      "department": "Warehouse / Logistics",
       "lastUpdate": "30/03/2026",
       "updateRequired": false,
       "content": {
@@ -493,7 +493,7 @@
         { "id": "2", "name": "Orders" },
         { "id": "10", "name": "PO & Invoice Management" }
       ],
-      "department": "Management",
+      "department": "Warehouse / Management",
       "lastUpdate": "30/03/2026",
       "updateRequired": false,
       "content": {

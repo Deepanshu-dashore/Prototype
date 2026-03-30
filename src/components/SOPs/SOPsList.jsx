@@ -3,14 +3,21 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const SOPsList = ({ sops: sopsData, onSelect }) => {
+const SOPsList = ({ sops: sopsData, onSelect, initialFilter = "All", hideFilter = false }) => {
   const { portalInfo, sops } = sopsData;
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeFilter, setActiveFilter] = useState(initialFilter);
 
-  const filteredSOPs = sops.filter(sop =>
-    sop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    sop.sopCode.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredSOPs = sops.filter(sop => {
+    const matchesSearch = sop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      sop.sopCode.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    if (activeFilter === "All") return matchesSearch;
+    if (activeFilter === "Warehouse") {
+      return matchesSearch && sop.department?.toLowerCase().includes("warehouse");
+    }
+    return matchesSearch;
+  });
 
   return (
     <div className="px-5 pt-10 mx-auto pb-20 max-w-7xl">
@@ -71,10 +78,32 @@ const SOPsList = ({ sops: sopsData, onSelect }) => {
           <div className="px-3 py-2 bg-[#f7f6f3] rounded-md text-sm font-semibold text-[#37352f] flex items-center gap-2 border border-[#eee]">
             <span className="opacity-60 text-xs">▦</span> Company SOPs
           </div>
-          <div className="ml-auto flex gap-2 text-gray-400">
-            <span className="cursor-pointer hover:text-black">Sort</span>
-            <span className="cursor-pointer hover:text-black">Filter</span>
-          </div>
+          {!hideFilter && (
+            <div className="ml-auto flex items-center gap-4">
+              <div className="flex bg-[#f7f6f3] p-1 rounded-lg border border-[#eee]">
+                <button
+                  onClick={() => setActiveFilter("All")}
+                  className={`px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all ${
+                    activeFilter === "All"
+                      ? "bg-white shadow-sm text-blue-600 scale-100"
+                      : "text-gray-500 hover:text-black hover:bg-gray-200"
+                  }`}
+                >
+                  All SOPs
+                </button>
+                <button
+                  onClick={() => setActiveFilter("Warehouse")}
+                  className={`px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all ${
+                    activeFilter === "Warehouse"
+                      ? "bg-white shadow-sm text-blue-600 scale-100"
+                      : "text-gray-500 hover:text-black hover:bg-gray-200"
+                  }`}
+                >
+                  Warehouse
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* SOPs Simplified Table */}

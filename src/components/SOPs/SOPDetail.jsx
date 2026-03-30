@@ -138,32 +138,45 @@ const SOPDetail = ({ sop, onBack, onSelect, sops }) => {
                </section>
 
 
-               {/* Related SOPs */}
-               {sop.relatedSOPs && sop.relatedSOPs.length > 0 && (
-                  <>
-                     <div className="border-t border-gray-100"></div>
-                     <section>
-                        <div className="flex items-center gap-3 mb-5">
-                           <h2 className="text-lg font-bold text-gray-700 capitalize">Primary Related Procedures</h2>
-                        </div>
-                        <div className="pl-4 flex flex-wrap gap-2">
-                           {sop.relatedSOPs.map(related => (
-                              <button
-                                 key={related.id}
-                                 onClick={() => {
-                                    const found = sops.sops.find(s => s.id === related.id);
-                                    if (found) onSelect(found);
-                                 }}
-                                 className="inline-flex items-center gap-1.5 bg-gray-50 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-200 text-gray-700 hover:text-indigo-700 text-[13px] font-medium px-3 py-1.5 rounded-full transition-all"
-                              >
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg>
-                                 {related.name}
-                              </button>
-                           ))}
-                        </div>
-                     </section>
-                  </>
-               )}
+               {/* Related SOPs - Filtered by scope */}
+               {(() => {
+                  const filteredRelated = (sop.relatedSOPs || []).filter(related => {
+                     const relatedFull = (sops.sops || []).find(s => s.id === related.id);
+                     if (!relatedFull) return false;
+                     if (activeFilter === "Warehouse") {
+                        return relatedFull.department?.toLowerCase().includes("warehouse");
+                     }
+                     return true;
+                  });
+
+                  if (filteredRelated.length === 0) return null;
+
+                  return (
+                     <>
+                        <div className="border-t border-gray-100"></div>
+                        <section>
+                           <div className="flex items-center gap-3 mb-5">
+                              <h2 className="text-lg font-bold text-gray-700 capitalize">Primary Related Procedures</h2>
+                           </div>
+                           <div className="pl-4 flex flex-wrap gap-2">
+                              {filteredRelated.map(related => (
+                                 <button
+                                    key={related.id}
+                                    onClick={() => {
+                                       const found = sops.sops.find(s => s.id === related.id);
+                                       if (found) onSelect(found);
+                                    }}
+                                    className="inline-flex items-center gap-1.5 bg-gray-50 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-200 text-gray-700 hover:text-indigo-700 text-[13px] font-medium px-3 py-1.5 rounded-full transition-all"
+                                 >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /></svg>
+                                    {related.name}
+                                 </button>
+                              ))}
+                           </div>
+                        </section>
+                     </>
+                  );
+               })()}
 
                <div className="border-t border-gray-100"></div>
 
