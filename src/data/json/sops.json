@@ -1,0 +1,488 @@
+{
+  "portalInfo": {
+    "title": "Portal SOPs",
+    "description": "This internal portal serves as the single source of truth for CC Matting operational procedures. Use these verified protocols to ensure standardized execution across all regional and international operations."
+  },
+  "sops": [
+    {
+      "id": "1",
+      "sopCode": "MQC101",
+      "name": "Quality Control (QC)",
+      "shortDescription": "General protocol for inspecting raw matting materials and verifying quality standards.",
+      "longDescription": "The Quality Control (QC) foundation ensures that all materials entering the CC Matting production line meet strict international performance and safety standards. This procedure defines the baseline inspections required to prevent defective stock from progressing into finished goods, covering everything from documentation audit to physical tackiness and thickness measurements.",
+      "relatedSOPs": [
+        { "id": "2", "name": "Orders" },
+        { "id": "13", "name": "Distributor Verification" },
+        { "id": "8", "name": "QC Form" }
+      ],
+      "department": "Production & QC",
+      "lastUpdate": "29/03/2025",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To ensure all incoming matting materials meet the specified quality standards before entering the production line.",
+        "scope": "Applies to all raw material arrivals at the CC Matting warehouse.",
+        "images": [
+           "/assets/installation/CCM Gilead1.jpeg",
+           "/assets/installation/Wuxi.jpeg"
+        ],
+        "steps": [
+          "Verify shipment documentation against original Purchase Order.",
+          "Inspect outer packaging for any transit damage or pallet compromise.",
+          "Perform random sampling measurements on mat thickness and adhesive tackiness.",
+          "Verify distributor code markings and branding alignment.",
+          "Log results in the QC Management System and move to Approved storage."
+        ]
+      }
+    },
+    {
+      "id": "2",
+      "sopCode": "ORD200",
+      "name": "Orders",
+      "shortDescription": "Strategic overview of the CC Matting order lifecycle and fulfillment architecture.",
+      "longDescription": "The Orders module is the central nervous system of the CC Matting administrative experience. This high-level SOP provides an overview of the global order fulfillment lifecycle, spanning from initial lead capture and order placement to final dispatch. Understanding the interconnected nature of status updates, document verification, and quality compliance is essential for any logistics coordinator managing international matting shipments.",
+      "relatedSOPs": [
+        { "id": "9", "name": "Order Status Update" },
+        { "id": "10", "name": "PO & Invoice Management" },
+        { "id": "11", "name": "Distributor PO Verification" },
+        { "id": "13", "name": "Distributor Verification" },
+        { "id": "14", "name": "Partner Insight & Overview" }
+      ],
+      "department": "Operations & Logistics",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To provide a strategic roadmap for the CC Matting order management ecosystem, ensuring all stakeholders understand the transition points between administrative, document, and quality control stages.",
+        "scope": "Applies to all administrative, logistics, and management personnel operating within the CCP (CC Matting Portal).",
+        "images": [
+           "/Sops/order/OrderMange.png",
+           "/Sops/order/fliterSearch.png",
+           "/Sops/order/OrderDetailsPage.png"
+        ],
+        "steps": [
+          "Navigate to the Order tab via the admin sidebar to enter the global management hub.",
+          "Utilize the advanced Filter and Search tools to isolate specific order records for review.",
+          "Review the Order Overview table to identify the current lifecycle stage of each shipment.",
+          "Access specific sub-procedures (Status Update, PO Management, or QC) for tactical execution items.",
+          "Ensure all documentation is synchronized before escalating an order to the final QC stage."
+        ]
+      }
+    },
+    {
+      "id": "13",
+      "sopCode": "DIV1313",
+      "name": "Distributor Verification",
+      "shortDescription": "Two-step operational protocol for auditing and authorizing new international partners.",
+      "longDescription": "The Distributor Verification procedure is a high-security protocol ensuring that only vetted and legitimate matting distributors gain access to the proprietary CCP platform. This SOP provides the required framework for a dual-stage authentication process, combining partner email confirmation with internal administrative review. Standardizing this onboarding process provides a secure starting point for the professional partner relationship.",
+      "relatedSOPs": [
+        { "id": "4", "name": "Distributors" },
+        { "id": "14", "name": "Partner Insight & Overview" }
+      ],
+      "department": "Management",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To standardize the high-security onboarding and authentication of new matting distributors.",
+        "scope": "System administrators and partner relationship managers.",
+        "images": [
+           "/Sops/distibutor/manage.png"
+        ],
+        "steps": [
+          "Interface Access: Click on the Distributors tab in the primary admin sidebar to open the partner management Hub.",
+          "Stage 1: Partner Email Verification: Once a new distributor registers, they must perform an initial self-verification via the automated confirmation link sent to their corporate email address.",
+          "Stage 2: Administrative Audit: Identify the pending distributor row and click the View button to audit their credentials and profile accuracy.",
+          "Official Authorization: Click the Verify button to grant the distributor official access to the CCP network. The verified status badge will reflect on the management hub after a few seconds.",
+          "Credential Generation: Upon successful admin verification, the system will trigger a final email to the distributor containing an auto-generated secure password for their first platform login."
+        ]
+      }
+    },
+    {
+      "id": "14",
+      "sopCode": "PIV1414",
+      "name": "Partner Insight & Overview",
+      "shortDescription": "Standardized procedure for auditing distributor details, documentation, and history.",
+      "longDescription": "The Partner Insight View is the analytical command hub for distributor relationship management. This procedure defines the required framework for auditing partner-side documentation, logistical warehouse coordinates, and historic procurement performance. This holistic overview provides the strategic context needed for senior management to approve high-value shipments and audit partner compliance with global shipping standards.",
+      "relatedSOPs": [
+        { "id": "4", "name": "Distributors" },
+        { "id": "13", "name": "Distributor Verification" }
+      ],
+      "department": "Management",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To provide absolute administrative visibility into distributor identity, logistics capabilities, and historic order performance.",
+        "scope": "Fulfillment leads and partner account directors.",
+        "images": [
+           "/Sops/distibutor/distibutorView1.png",
+           "/Sops/distibutor/distibutorView2.png",
+           "/Sops/distibutor/distributorDocUpload.png",
+           "/Sops/distibutor/orderHistory.png"
+        ],
+        "steps": [
+          "Analytical Onboarding: Identify the target distributor in the global management hub and click the Manage button to launch the Partner Insight View.",
+          "Section 1: Contact Authenticity: Audit the Partner Contact Details block to verify international billing and technical coordinates (Refer to distibutorView1 image).",
+          "Section 2: Logistics & Addressing: Verify primary and regional warehouse locations within the Address Section to ensure logistical pathing is valid (Refer to distibutorView2 image).",
+          "Section 3: Digital Documentation: Audit partner-uploaded Signed POs and Agreements via the Document Table. If identifiers are missing, coordinate for immediate upload (Refer to distributorDocUpload image).",
+          "Section 4: Performance Tracking: Review the historic Order History Table to analyze previous procurement behavior and current shipment lead times (Refer to orderHistory image)."
+        ]
+      }
+    },
+    {
+      "id": "3",
+      "sopCode": "ENQ303",
+      "name": "Enquiries",
+      "shortDescription": "Procedure for lifecycle management of international sales inquiries.",
+      "longDescription": "The Enquiry Handling SOP encapsulates the capturing and qualification of high-value leads generated through international digital channels. This SOP provides a structural framework for viewing captured leads, vetting their logistical requirements, and securely purging outdated or irrelevant records after verification. It ensures that the global lead board remains accurate and focused only on actionable procurement opportunities.",
+      "relatedSOPs": [
+        { "id": "2", "name": "Orders" }
+      ],
+      "thumbnail": "/Sops/enquiry/Manage.png",
+      "department": "Distributor Relations",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To maintain a synchronized and audited enquiry database by providing standardized methods for record review and secure deletion of non-actionable leads.",
+        "scope": "All sales heads and regional distributor managers monitor the international Enquiry Board.",
+        "images": [
+           "/Sops/enquiry/Manage.png",
+           "/Sops/enquiry/view.png",
+           "/Sops/enquiry/deleteConformation.png"
+        ],
+        "steps": [
+          "Dashboard Access: Click on the Enquiry tab in the primary sidebar to open the international leads table.",
+          "Record Inspection (View): Click the Eye Button on any particular inquiry record to trigger the detailed overview modal.",
+          "Analytical Review: Within the modal, check logistical requirements, partner interest, and content. Click Close to return to the board.",
+          "Record Maintenance (Delete): Identify obsolete or unqualified leads and click the Delete Button located in the same data table.",
+          "Confirmation: In the appearing confirmation modal, verify the deletion request. High-importance records will be permanently purged in a few minutes.",
+          "Synchronization: Monitor the Enquiry Board for 2-3 minutes to ensure the UI successfully reflects the record removal."
+        ]
+      }
+    },
+    {
+      "id": "5",
+      "sopCode": "PRO505",
+      "name": "Products",
+      "shortDescription": "Minimalist lifecycle protocol for managing CCP global product listings.",
+      "longDescription": "The Product Management SOP provides a streamlined framework for the high-efficiency maintenance of the global matting catalog. This procedure clarifies that only structural and descriptive data is required for primary product lifecycle actions, ensuring high administrative speed while managing distributor visibility. It prevents the presentation of inaccurate or out-of-stock matting offerings to international partners.",
+      "thumbnail": "/Sops/product/manage.png",
+      "relatedSOPs": [
+        { "id": "1", "name": "Quality Control (QC)" }
+      ],
+      "department": "R&D / Production",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To facilitate high-speed catalog updates by focusing only on essential identifying and descriptive information during addition or modification.",
+        "scope": "Product managers and database administrators responsible for CCP product maintenance.",
+        "images": [
+           "/Sops/product/manage.png",
+           "/Sops/product/addButton.png",
+           "/Sops/product/add&editModel.png",
+           "/Sops/product/visblityToggle.png",
+           "/Sops/product/visbilityConform.png"
+        ],
+        "steps": [
+          "Accessing Module: Enter the Products management hub from the primary admin sidebar.",
+          "New Offerings (Add Product): Click the Add Product button and populate the two mandatory fields: Product Code and Product Description.",
+          "Continuous Improvement (Edit Product): Click the Edit Icon on any product row and update the identifying Code or the industrial Description as required.",
+          "Strategic Display (Visibility): Utilize the Visibility Toggle located next to each product row to hide or show items for global distributors (Confirm in the appearing modal)."
+        ]
+      }
+    },
+    {
+      "id": "12",
+      "sopCode": "TAG1212",
+      "name": "Tagline",
+      "shortDescription": "Procedure for managing global industrial messaging on the public CCM portal.",
+      "longDescription": "The Tagline Management SOP defines the tactical process for updating high-visibility industrial messaging. This procedure ensures that the central CCM portal reflects current marketing strategies and industrial focuses. Standardizing the tagline update process ensures that all international visitors encounter verified and up-to-date brand positioning.",
+      "relatedSOPs": [
+        { "id": "6", "name": "Marketing Material" }
+      ],
+      "department": "Marketing",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To maintain up-to-date marketing messaging on the main corporate site for international visitors.",
+        "scope": "Marketing coordinators authorized to manage public brand positioning.",
+        "images": [],
+        "steps": [
+          "Interface Access: Click on the Tagline link in the primary admin sidebar to enter the management board.",
+          "Messaging Modification: Locate the central text input field to write your new marketing tagline.",
+          "Update Validation: Click the Update button to commit changes. Note: If the new messaging is identical to the current tagline, the Update button will remain disabled to prevent redundant server requests.",
+          "Global Visibility: This tagline is successfully synchronized and displayed on the main corporate site for all customers and international distributor visitors."
+        ]
+      }
+    },
+    {
+      "id": "4",
+      "sopCode": "DIS404",
+      "name": "Distributors",
+      "shortDescription": "Guide for managing partner accounts and portal access levels.",
+      "longDescription": "This procedure ensures the integrity of the CC Matting partner ecosystem by standardizing how distributor profiles are managed. It covers the complete partner lifecycle, including digital onboarding, profile branding, and industrial access control. Standardizing editorial output improves international site visibility and provides distributors with valuable industry context for their respective markets.",
+      "thumbnail": "/ccmating_distributor_banner_1770291446716.png",
+      "relatedSOPs": [
+        { "id": "13", "name": "Distributor Verification" },
+        { "id": "14", "name": "Partner Insight & Overview" }
+      ],
+      "department": "Management",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "Standardize the onboarding and lifecycle maintenance of CC Matting distributor profiles.",
+        "scope": "Partner account managers and administrative coordinators.",
+        "images": [
+           "/Sops/distibutor/manage.png"
+        ],
+        "steps": [
+          "Navigation: Enter the Distributors dashboard hub via the primary sidebar to view the global partner board.",
+          "Lifecycle Management: Utilize the Add Distributor and Edit actions to maintain partner credentials and branding identifiers.",
+          "Access Control (Visibility): Use the portal toggle to grant or revoke international hub access for specific partners.",
+          "Deep Audit: For specific profile analysis (Documents, Contacts, Orders), select a partner and click the Manage button to launch the Partner Insight & Overview SOP."
+        ]
+      }
+    },
+    {
+      "id": "6",
+      "sopCode": "MKT606",
+      "name": "Marketing Material",
+      "shortDescription": "Guidelines for centralizing marketing collateral and partner notifications.",
+      "longDescription": "The Marketing Material module serves as the primary repository for all sales collateral distributed to the global CCM network. This SOP provides a comprehensive guide for managing diverse media types, including YouTube content, social assets, and technical PDF documentation. The system utilizes a categorized tab design, allowing administrators to filter assets by material type and monitor total counts through real-time state cards.",
+      "relatedSOPs": [
+        { "id": "15", "name": "Add Marketing Material" },
+        { "id": "12", "name": "Tagline" }
+      ],
+      "department": "Marketing",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To provide a centralized platform for the distribution of verified marketing assets across the international partner network.",
+        "scope": "Marketing coordinators and content managers.",
+        "images": [
+           "/Sops/marketing/manageTable.png"
+        ],
+        "steps": [
+          "Category Management: Click on the Marketing Material tab to access the multi-tab dashboard. Utilize specific tabs for YouTube, Social Post, Case Study, or Playbook navigation.",
+          "State Audit: Review the top-level 'State Cards' to monitor total asset inventory and specific material channel counts.",
+          "Channel 1 - YouTube Video: This category is used for embedding high-focus product demonstrations or industrial case films via external video links.",
+          "Channel 2 - Social Post: Management of localized social media imagery and video reels authorized for distributor re-distribution.",
+          "Channel 3 - Case Study: Internal documentation of successful CCM installations and performance data provided in PDF format.",
+          "Channel 4 - Playbook: Strategy and branding guides for partners to ensure professional corporate representation across all regions.",
+          "Asset Distribution: To add new media to these channels, click the Add Material button and refer to the Add Marketing Material SOP."
+        ]
+      }
+    },
+    {
+      "id": "15",
+      "sopCode": "AMM1515",
+      "name": "Add Marketing Material",
+      "shortDescription": "Technical guide for adding YouTube videos, social assets, and PDF documentation.",
+      "longDescription": "Adding new marketing collateral requires precise metadata entry to ensure correct categorization and searchability for global distributors. This SOP defines the mandatory fields and media requirements for each of the four material types. Accurate tagging and descriptive text are critical for ensuring partners can quickly locate relevant sales support materials based on industry focus.",
+      "relatedSOPs": [
+        { "id": "6", "name": "Marketing Material" }
+      ],
+      "department": "Marketing",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To ensure standardized and search-optimized entry of new sales collateral into the CCP network.",
+        "scope": "Marketing staff and digital content editors.",
+        "images": [
+           "/Sops/marketing/add.png",
+           "/Sops/marketing/addSocial.png",
+           "/Sops/marketing/manageYt.png"
+        ],
+        "steps": [
+          "Type Selection: Click the Add Material button and select the suitable Material Type from the dropdown (YouTube, Social Post, etc.).",
+          "Protocol for YouTube: Enter a clear Title and the secure YouTube URL. Provide an optional 100-word description and comma-separated tags (Refer to manageYt image).",
+          "Protocol for Social Post: Input the Title and Post Link. Select Attachment Type (Image or Video) and upload high-res files (JPG, PNG, WebP) via the drop-zone (Refer to addSocial image).",
+          "Protocol for Documentation (Case Study/Playbook): Enter the Title and upload the verified PDF file (max 50 MB recommended).",
+          "Metadata Entry: For all types, ensure Description and industry-specific Tags (e.g., marketing, launch) are populated for partner-side filtering.",
+          "Commitment: Click Add Material to synchronize the asset. The new entry will immediately reflect in the corresponding channel tab."
+        ]
+      }
+    },
+    {
+      "id": "7",
+      "sopCode": "BLG707",
+      "name": "Blogs",
+      "shortDescription": "Standardized steps for publishing industry-relevant CCM news.",
+      "longDescription": "The Blog Management Hub is the editorial command center for CC Matting news distribution. This SOP covers the end-to-end lifecycle of corporate communications—from auditing existing posts with real-time performance metrics to managing diverse industrial categories. The dashboard provides strategic visibility into post counts and category-specific activity, ensuring the CCM voice remains current and search-optimized.",
+      "relatedSOPs": [
+        { "id": "16", "name": "Add New Blog" }
+      ],
+      "department": "Marketing",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To provide a professional editorial framework for managing and auditing corporate matting news.",
+        "scope": "Digital editors and marketing strategists.",
+        "images": [
+           "/Sops/blog/manage.png",
+           "/Sops/blog/catgory.png"
+        ],
+        "steps": [
+          "Dashboard Overview: Monitor the 'Total Blogs', 'Today's Posts', and 'Active Categories' state cards to track current editorial output.",
+          "Search & Filter: Utilize the secondary navigation to search by title or category. Apply Date Range filters (dd-mm-yyyy) to isolate historic posts.",
+          "Post Audit: Review the main table for Category, Author (Typically CC Matting), and Publishing Date. Use Actions icons for editing or removal.",
+          "Category Management: Enter the Blog Categories tab to view post counts per industrial focus (e.g., Technology, Installations). Click 'View Posts' to filter by category.",
+          "New Post Creation: To publish a new industry insight, click the 'Add Blog' button and refer to the Add New Blog SOP."
+        ]
+      }
+    },
+    {
+      "id": "16",
+      "sopCode": "ANB1616",
+      "name": "Add New Blog",
+      "shortDescription": "Editorial guide for creating SEO-optimized industry insights.",
+      "longDescription": "Creating high-impact blog content involves careful title selection, strategic category placement, and the correct application of the CCM Rich Text Editor. This procedure defines the mandatory fields and formatting standards required to maintain a professional brand voice across the global network. Correct utilization of headings and featured imagery is essential for international site indexing and user engagement.",
+      "relatedSOPs": [
+        { "id": "7", "name": "Blogs" }
+      ],
+      "department": "Marketing",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To standardize the editorial creation process for CCM news and industry insights.",
+        "scope": "Content creators and digital marketing personnel.",
+        "images": [
+           "/Sops/blog/add1.png",
+           "/Sops/blog/add2.png"
+        ],
+        "steps": [
+          "Initialization: Navigate to 'Blogs' > 'Add' to enter the editorial creation model.",
+          "Metadata Setup: Enter the main Title and a concise Excerpt (summary). Select a Category and add comma-separated Tags for SEO.",
+          "Author Identification: Author Name defaults to CC Matting for unified corporate representation.",
+          "Content Editing: Utilize the Rich Text Toolbar (B, I, U, Lists, Quote Blocks) and ensure proper heading structure (H1 for main title, H2-H4 for subsections).",
+          "Visual Identity: Upload the Featured Image (recommended 1200x630px) and select the 'Mark as Featured' toggle for high-priority news.",
+          "Final Audit: Set the Reading Time based on content length and click 'Create Blog' to publish. The post will instantly synchronize with the international portal regions."
+        ]
+      }
+    },
+    {
+      "id": "8",
+      "sopCode": "QCF808",
+      "name": "QC Form",
+      "shortDescription": "Step-by-step standardized protocol for submission of the Quality Control Compliance Form.",
+      "longDescription": "The Quality Control Compliance Form (QCF) procedure is the final regulatory gate before goods are cleared for international shipment. This procedure provides a high-reliability method for logging material inspections, pallet configurations, and photographic evidence for every product in a customer order. The completion of this form with an authorized signature is mandatory for all international logistical dispatch.",
+      "thumbnail": "/Sops/qc/qcForm.png",
+      "relatedSOPs": [
+        { "id": "2", "name": "Orders" },
+        { "id": "1", "name": "Quality Control (QC)" }
+      ],
+      "department": "Production & QC",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To standardize the final inspection of manufactured goods and confirm readiness for international shipment.",
+        "scope": "Production QC leads and site inspectors.",
+        "images": [
+           "/Sops/qc/manageOrderButton.png",
+           "/Sops/qc/startQCbutton.png",
+           "/Sops/qc/qcForm.png",
+           "/Sops/qc/mertiralDetails1.png",
+           "/Sops/qc/mertiralDetails2.png"
+        ],
+        "steps": [
+          "Click the Order tab in the sidebar and navigate to the manage table.",
+          "Identify the target order row and click the Manage button.",
+          "Within the Management Portal interface, click the Start QC button.",
+          "Form Setup: Add the specific Distributor Code (displayed as a mandatory input).",
+          "For Each Product: Locate each product in the product table below and open the Inspection Checklist.",
+          "Perform Product Inspection: Check all relevant options; the Order Length (2M WIDE ROLL) is autofilled but can be manually changed if necessary.",
+          "Fill Shipping Info: Provide accurate Pallet Dimensions (e.g., 120 x 100 x 150 cm) and Pallet Weight (e.g., 10 kg).",
+          "Upload Photographic Evidence: Attach Micrometer showing thickness spec and the Material picture before wrapping.",
+          "Final Confirmation: After completing logs for all products, navigate to the Final Confirmation section.",
+          "Signature: If the shipment is ready, check Ready for Shipment, verify Order Ready, and upload an authorized signature.",
+          "Click the Submit QC Report button to commit the data and complete the compliance procedure."
+        ]
+      }
+    },
+    {
+      "id": "9",
+      "sopCode": "OSU909",
+      "name": "Order Status Update",
+      "shortDescription": "Step-by-step procedure for modifying the live lifecycle status of an order.",
+      "longDescription": "Maintaining accurate, real-time status visibility is critical for international distributors tracking their shipments. This SOP defines the rigorous method for transitioning an order through its various stages—from Pending and Approved to Shipped and Delivered. Precise status management ensures that automated partner notifications are triggered correctly and helps maintain logistics synchronization.",
+      "relatedSOPs": [
+        { "id": "2", "name": "Orders" },
+        { "id": "8", "name": "QC Form" }
+      ],
+      "department": "Operations & Logistics",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To provide a standardized method for updating order statuses within the dashboard, ensuring high visibility for globally distributed partners.",
+        "scope": "Logistics coordinators and warehouse admins.",
+        "images": [
+           "/Sops/order/statusListinTable.png",
+           "/Sops/order/OrderMange.png"
+        ],
+        "steps": [
+          "Click on the Order tab in the primary sidebar and locate the target order record.",
+          "Locate the current status indicator and click the Status Button to reveal the selection dropdown.",
+          "Review the available status types (typically 3-4 stages) and select the suitable option for the current fulfillment state.",
+          "Selection Action: Click the Check (tick) icon to apply the selection, or the Cross icon to cancel and revert.",
+          "Final Confirmation: Upon selecting a new status, a confirmation modal will appear. Click Status Update to securely commit the change.",
+          "Verification: Ensure the status badge updates style and color in the table view to reflect the new state."
+        ]
+      }
+    },
+    {
+      "id": "10",
+      "sopCode": "PO1010",
+      "name": "PO & Invoice Management",
+      "shortDescription": "Procedure for updating critical logistical identifiers (Purchase Order and Invoice numbers).",
+      "longDescription": "Accurate logging of Purchase Orders (PO) and Invoice numbers is essential for financial synchronization and international customs clearance. This procedure outlines the exact administrative actions required to update these identifiers within the CC Matting portal, ensuring that the digital record matches the physical documentation stored in third-party accounting and logistics platforms.",
+      "relatedSOPs": [
+        { "id": "2", "name": "Orders" },
+        { "id": "11", "name": "Distributor PO Verification" }
+      ],
+      "department": "Operations & Logistics",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To prevent documentation errors and maintain financial records by providing a reliable method for updating order identifiers.",
+        "scope": "Administrative and logistics staff.",
+        "images": [
+           "/Sops/order/POandInvoiceNoUpdate.png"
+        ],
+        "steps": [
+          "Enter the Order management hub and click the Manage button for the target order.",
+          "Within the management portal, navigate to the Document Card section.",
+          "Identify the PO Number and Invoice No indicators; click the small Edit Pen (edit icon) to trigger the input fields.",
+          "Input exactly matching PO Number and Invoice Number from verified documentation.",
+          "Click the Save button to securely commit the identifiers. If data is missing or removed, the field will display Not available.",
+          "Ensure changes are reflected before finalizing the order for dispatch."
+        ]
+      }
+    },
+    {
+      "id": "11",
+      "sopCode": "DPV111",
+      "name": "Distributor PO Verification",
+      "shortDescription": "Guideline for viewing and verifying digital partner-signed Purchase Orders.",
+      "thumbnail": "/Sops/order/POandInvoiceNoUpdate.png",
+      "relatedSOPs": [
+        { "id": "2", "name": "Orders" },
+        { "id": "10", "name": "PO & Invoice Management" }
+      ],
+      "department": "Management",
+      "lastUpdate": "30/03/2026",
+      "updateRequired": false,
+      "content": {
+        "purpose": "To allow administrators to verify that a distributor has uploaded the correct signed documentation before finalizing a shipment.",
+        "scope": "Fulfillment managers and senior logistics staff.",
+        "images": [
+           "/Sops/order/POandInvoiceNoUpdate.png"
+        ],
+        "steps": [
+          "Navigate to the Order tab in the admin sidebar.",
+          "Select the specific order row and click the Manage button.",
+          "Locate the Document Section (or Document Card) in the order dashboard.",
+          "Identify the Signed PO field. If a document has been uploaded by the partner, a See button will be visible.",
+          "Click the See button to trigger the PDF viewer. The signed document will display in a full-screen overlay or new tab.",
+          "Verify the physical signatures and document accuracy against the portal's digital record."
+        ]
+      }
+    }
+  ]
+}

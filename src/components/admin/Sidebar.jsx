@@ -42,6 +42,7 @@ const navigation = [
         ]
     },
     { name: 'Tagline', href: '/admin/tagline', icon: Cog6ToothIcon },
+    { name: 'SOPs', href: '/admin/sops', icon: DocumentTextIcon },
     // { name: 'Notifications', href: '/admin/notifications', icon: BellIcon },
     // { name: 'Settings', href: '/admin/settings', icon: Cog6ToothIcon },
 ]

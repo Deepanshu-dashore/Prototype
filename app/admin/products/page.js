@@ -428,7 +428,7 @@ export default function ProductsPage() {
               Add <span className="hidden sm:inline">Product</span>
             </span>
           }
-          buttonLink="#"
+          onClick={openAddModal}
           addOn={
             <div className="bg-white border border-indigo-100 rounded-lg sm:px-4 px-2 py-2.5 flex items-center gap-2">
               <ArchiveBoxIcon className="w-5 h-5 hidden sm:inline text-indigo-600" />
@@ -744,7 +744,7 @@ export default function ProductsPage() {
         <ProductModal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
-          onSaved={() => {}}
+          onSaved={() => api.invalidate(["products", pagination.currentPage, searchQuery])}
           editProduct={editProduct}
         />
 
