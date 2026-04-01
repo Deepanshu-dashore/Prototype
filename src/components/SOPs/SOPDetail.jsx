@@ -3,7 +3,7 @@
 import Image from "next/image";
 import ImageZoom from "@/src/components/ui/ImageZoom";
 
-const SOPDetail = ({ sop, onBack, onSelect, sops }) => {
+const SOPDetail = ({ sop, onBack, onSelect, sops, activeFilter }) => {
    return (
       <div className="min-h-screen bg-white">
          {/* Top Nav Bar */}
