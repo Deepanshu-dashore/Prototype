@@ -5,6 +5,7 @@ import { verifyWarehouseJWT } from "@/app/lib/middlewares/verifyWarehouseJwt";
 import { CloudneryService } from "@/app/lib/services/cloudnery.service";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
+import { mail } from "@/app/lib/utils/mail";
 import mongoose from "mongoose";
 
 export async function GET(request) {
@@ -175,6 +176,11 @@ export async function POST(request) {
     if (!order) {
       return ApiResponse(404, null, "Order not created");
     }
+    await mail(
+      ["brendan@ccmatting.ie"],
+      "Order Created",
+      `Order created successfully with ID: ${order._id}`,
+    );
     return ApiResponse(200, order, "Order created successfully");
   } catch (error) {
     console.error("Error creating order:", error);

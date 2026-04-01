@@ -6,9 +6,6 @@ import axios from "axios";
 // Standard axios instance for all calls
 const api = axios.create({
   baseURL: "/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 export class ApiClient {

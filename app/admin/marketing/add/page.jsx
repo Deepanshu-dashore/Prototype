@@ -141,7 +141,13 @@ export default function AddMarketingPage() {
                                 <button
                                     key={opt.value}
                                     type="button"
-                                    onClick={() => setForm(f => ({ ...f, type: opt.value }))}
+                                    onClick={() => {
+                                        if (form.type !== opt.value) {
+                                            setForm({ title: "", type: opt.value, url: "", description: "", tags: "", attachmentType: "image" });
+                                            setFile(null);
+                                            setError("");
+                                        }
+                                    }}
                                     className={`flex items-center gap-2 p-1.5 rounded-2xl border transition-all text-center
                                         ${isActive
                                             ? `${opt.border} ${opt.bg} shadow-sm ${opt.border}`

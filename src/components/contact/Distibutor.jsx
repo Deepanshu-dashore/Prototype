@@ -74,7 +74,7 @@ export default function DistributorSection() {
                                 <strong className="text-neutral-dark font-semibold">Enterprise Ireland</strong>.
                             </p>
 
-                            {/* <div className="flex flex-wrap gap-4 pt-2">
+                            <div className="flex flex-wrap gap-4 pt-2">
                                 <Link
                                     href="/contact#become-distributor"
                                     className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg group"
@@ -88,7 +88,7 @@ export default function DistributorSection() {
                                 >
                                     Distributor Login
                                 </Link>
-                            </div> */}
+                            </div>
                         </motion.div>
 
                         {/* RIGHT — 30% Enterprise Ireland logo panel */}
