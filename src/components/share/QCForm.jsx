@@ -368,16 +368,16 @@ export default function QCForm({ orderId, role = "admin" }) {
                         const theme = colors[index % colors.length];
 
                         return (
-                            <div key={index} className="relative flex flex-col md:flex-row gap-0 md:gap-8 items-start">
+                            <div key={index} className="relative flex flex-col md:flex-row gap-0 md:gap-3 items-start">
                                 {/* Sticky Side Header (Vertical) */}
                                 <div className="md:sticky md:top-8 flex flex-col items-center w-full md:w-16 shrink-0 z-0 self-stretch">
-                                    <div className="w-px flex-1 bg-gray-300/80"></div>
+                                    <div className="w-px flex-1 bg-primary/30"></div>
                                     <div className={`my-4 flex items-center justify-center p-1.5 px-3 rounded shadow-md border border-gray-100 ${theme.bg} transition-all duration-300`}>
-                                        <h3 className="text-white font-bold text-[10px] whitespace-nowrap [writing-mode:vertical-lr] rotate-180 tracking-[0.2em] uppercase py-3 leading-none">
+                                        <h3 className="text-white font-bold text-[10px] whitespace-nowrap [writing-mode:vertical-lr] rotate-180 tracking-[0.2em] uppercase px-2 leading-none">
                                             Product {index + 1} : {product.materialCode}
                                         </h3>
                                     </div>
-                                    <div className="w-px flex-1 bg-gray-300/80"></div>
+                                    <div className="w-px flex-1 bg-primary/30"></div>
                                 </div>
 
                                 <div className="flex-1 w-full space-y-6 pb-12">
