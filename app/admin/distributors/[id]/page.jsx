@@ -329,10 +329,10 @@ export default function DistributorDetailsPage({ params }) {
                             <div className="space-y-2.5">
                                 <div className="flex items-center gap-5">
                                     <div className="text-sm text-gray-600 flex items-center gap-2"> <div className="h-2.5 w-2.5 rounded-full bg-primary/20 flex justify-center items-center"><div className="h-1 w-1 rounded-full bg-primary" /></div> Is your company currently active in the cleanroom and/or contamination control industry?</div>
-                                    <div className="bg-gray-200 p-1 rounded-md text-sm font-semibold italic w-fit px-3">Answer: {distributor.question1 ? 'Yes' : 'No'}</div>
+                                    <div className="bg-gray-200 p-1 rounded-md text-sm font-semibold italic w-fit px-3">Response: {distributor.question1 ? 'Yes' : 'No'}</div>
                                 </div>
                                 <div className="text-sm text-gray-600 flex items-center gap-2"> <div className="h-2.5 w-2.5 rounded-full bg-primary/20 flex justify-center items-center"><div className="h-1 w-1 rounded-full bg-primary" /></div> Please provide a brief overview of your company, including your experience in the industry, target markets, and how you see CCMatting products adding value to your business.</div>
-                                <div className="bg-gray-200 p-1 rounded-md text-sm font-semibold italic w-fit px-3 ml-3">Answer: {distributor.question2 ? distributor.question2 : 'Not Given'}</div>
+                                <div className="bg-gray-200 p-1 rounded-md text-sm font-semibold italic w-fit px-3 ml-3">Response: {distributor.question2 ? distributor.question2 : 'Not Given'}</div>
                             </div>
                         </motion.div>
 

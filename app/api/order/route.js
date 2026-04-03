@@ -176,11 +176,46 @@ export async function POST(request) {
     if (!order) {
       return ApiResponse(404, null, "Order not created");
     }
-    await mail(
-      ["brendan@ccmatting.ie"],
-      "Order Created",
-      `Order created successfully with ID: ${order._id}`,
-    );
+
+    // Fetch distributor and product details for the email
+    const DistributorModel = mongoose.models.Distributor || mongoose.model("Distributor");
+    const ProductModel = mongoose.models.Product || mongoose.model("Product");
+    
+    const [distributor, ...products] = await Promise.all([
+      DistributorModel.findById(user.id),
+      ...orderItems.map(item => ProductModel.findById(item.product))
+    ]);
+
+    const distributorEmail = distributor?.companyEmail || distributor?.contactPersonEmail;
+    const productListHtml = orderItems.map((item, idx) => {
+      const p = products[idx];
+      return `<li><strong>${p?.code || "Unknown"}</strong>: ${p?.description || ""} (Qty: ${item.quantity}, Length: ${item.length}m)</li>`;
+    }).join("");
+
+    const mailRecipients = ["brendan@ccmatting.ie"];
+    if (distributorEmail) mailRecipients.push(distributorEmail);
+
+    await mail({
+      to: mailRecipients,
+      subject: `New Order Created - ${order._id}`,
+      body: `
+        <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
+          <h2 style="color: #1a56db;">Order Confirmation</h2>
+          <p>A new order has been created successfully.</p>
+          <div style="background: #f9fafb; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p style="margin: 0;"><strong>Order ID:</strong> ${order._id}</p>
+            <p style="margin: 0;"><strong>Distributor:</strong> ${distributor?.companyName || "Unknown"}</p>
+            ${instructions ? `<p style="margin: 0;"><strong>Instructions:</strong> ${instructions}</p>` : ""}
+          </div>
+          <h3 style="border-bottom: 2px solid #eee; padding-bottom: 8px;">Order Items:</h3>
+          <ul style="padding-left: 20px;">
+            ${productListHtml}
+          </ul>
+          <p style="margin-top: 20px; font-size: 0.9em; color: #666;">This is an automated notification from the CC Matting Portal.</p>
+        </div>
+      `
+    });
+
     return ApiResponse(200, order, "Order created successfully");
   } catch (error) {
     console.error("Error creating order:", error);
