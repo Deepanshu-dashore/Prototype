@@ -10,6 +10,7 @@ import {
     XCircleIcon,
     EyeIcon,
     TrashIcon,
+    KeyIcon,
 } from "@heroicons/react/24/outline";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
@@ -26,6 +27,7 @@ export default function DistributorsPage() {
     });
 
     const [deleteModal, setDeleteModal] = useState({ isOpen: false, distId: null });
+    const [resetModal, setResetModal] = useState({ isOpen: false, dist: null });
 
     const params = new URLSearchParams();
     if (searchQuery) params.append("search", searchQuery);
@@ -67,6 +69,15 @@ export default function DistributorsPage() {
     const verifyingId = verifyMutation.isPending ? verifyMutation.variables?.id : null;
     const isDeleting = deleteMutation.isPending;
 
+    const resetMutation = api.usePost(queryKey, "/distributor/forget/password-reset", {
+        onSuccess: () => {
+            setResetModal({ isOpen: false, dist: null });
+        },
+        onError: (err) => alert(err.response?.data?.message || err.message || "Something went wrong during reset")
+    });
+
+    const isResetting = resetMutation.isPending;
+
     const handleSearch = () => {
         setPagination(prev => ({ ...prev, currentPage: 1 }));
     };
@@ -82,6 +93,11 @@ export default function DistributorsPage() {
     const confirmDelete = () => {
         if (!deleteModal.distId) return;
         deleteMutation.mutate(deleteModal.distId);
+    };
+
+    const confirmReset = (newPassword) => {
+        if (!resetModal.dist?._id) return;
+        resetMutation.mutate({ id: resetModal.dist._id, data: { password: newPassword } });
     };
 
     const formatDate = (date) =>
@@ -225,6 +241,14 @@ export default function DistributorsPage() {
                                                         <EyeIcon className="w-3.5 h-3.5" />
                                                     </Link>
                                                     <button
+                                                        onClick={() => setResetModal({ isOpen: true, dist })}
+                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-amber-500 text-white hover:bg-amber-600 transition-colors"
+                                                        title="Update Password"
+                                                    >
+                                                        Password
+                                                        <KeyIcon className="w-3.5 h-3.5" />
+                                                    </button>
+                                                    <button
                                                         onClick={() => handleDelete(dist._id)}
                                                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
                                                         title="Delete Distributor"
@@ -310,6 +334,101 @@ export default function DistributorsPage() {
                     confirmText="Delete Distributor"
                     isLoading={isDeleting}
                 />
+
+                <ResetPasswordModal
+                    isOpen={resetModal.isOpen}
+                    onClose={() => setResetModal({ isOpen: false, dist: null })}
+                    onConfirm={confirmReset}
+                    dist={resetModal.dist}
+                    isLoading={isResetting}
+                />
+            </div>
+        </div>
+    );
+}
+
+function ResetPasswordModal({ isOpen, onClose, onConfirm, dist, isLoading }) {
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    if (!isOpen) return null;
+
+    const handleConfirm = () => {
+        if (newPassword !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+        if (newPassword.length < 6) {
+            alert("Password must be at least 6 characters");
+            return;
+        }
+        onConfirm(newPassword);
+        setNewPassword("");
+        setConfirmPassword("");
+    };
+
+    return (
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4 transition-all duration-300">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden border border-gray-100 flex flex-col animate-in fade-in zoom-in duration-300">
+                {/* Header */}
+                <div className="px-6 py-4 bg-gray-50/80 border-b border-gray-100 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-amber-600">
+                        <KeyIcon className="w-5 h-5" />
+                        <h3 className="text-base font-bold text-gray-900">
+                            Update Password
+                        </h3>
+                    </div>
+                </div>
+
+                {/* Body */}
+                <div className="p-6 space-y-5">
+                    <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
+                        <p className="text-[13px] text-blue-700 leading-relaxed font-medium">
+                            Setting a new password for <span className="font-bold">{dist?.companyName}</span>. 
+                            <span className="block mt-1 font-normal opacity-80 text-xs">The distributor will be notified of this change by email.</span>
+                        </p>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider">New Password</label>
+                            <input
+                                type="password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all placeholder:text-gray-400"
+                                placeholder="Enter new password"
+                            />
+                        </div>
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider">Confirm New Password</label>
+                            <input
+                                type="password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all placeholder:text-gray-400"
+                                placeholder="Repeat new password"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer */}
+                <div className="px-6 py-4 bg-gray-50/80 border-t border-gray-100 flex justify-end gap-3">
+                    <button
+                        onClick={onClose}
+                        className="px-4 py-2 text-sm font-bold text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        onClick={handleConfirm}
+                        disabled={isLoading || !newPassword}
+                        className="px-6 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold hover:bg-indigo-700 active:scale-95 transition-all shadow-md shadow-indigo-200 disabled:opacity-50 disabled:active:scale-100"
+                    >
+                        {isLoading ? "Updating..." : "Update Password"}
+                    </button>
+                </div>
             </div>
         </div>
     );

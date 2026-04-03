@@ -154,7 +154,8 @@ export default function QCReportView({ orderId }) {
             startY: currentY,
             head: [[{ content: "1. GENERAL INFORMATION", colSpan: 4 }]],
             body: [
-                ["DISTRIBUTOR CODE", qc.distributorCode || "N/A", "DISTRIBUTOR ACCOUNT", qc.distributorAccountName || "N/A"]
+                ["DISTRIBUTOR CODE", qc.distributorCode || "N/A", "DISTRIBUTOR ACCOUNT", qc.distributorAccountName || "N/A"],
+                ["PALLET DIMENSIONS", qc.palletDimensions || "N/A", "PALLET WEIGHT", qc.palletWeight ? `${qc.palletWeight} kg` : "N/A"]
             ],
             theme: "grid",
             headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
@@ -190,8 +191,6 @@ export default function QCReportView({ orderId }) {
                         ["Thickness within Spec (2.75MM – 0.05MM)", booleanToText(product.thicknessWithinSpec)],
                         ["Material Free from Surface Defects", booleanToText(product.materialFreeFromSurfaceDefects)],
                         ["Product Clean & Fit for Purpose", booleanToText(product.cleanAndFitForPurpose)],
-                        ["Pallet Dimensions", product.palletDimensions || "N/A"],
-                        ["Pallet Weight", product.palletWeight || "N/A"]
                     ],
                     theme: "grid",
                     headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
@@ -379,6 +378,16 @@ export default function QCReportView({ orderId }) {
                                                 {qc.distributorAccountName || "N/A"}
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">Pallet Dimensions</td>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">
+                                                {qc.palletDimensions || "N/A"}
+                                            </td>
+                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">Pallet Weight</td>
+                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">
+                                                {qc.palletWeight ? `${qc.palletWeight} kg` : "N/A"}
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -418,14 +427,6 @@ export default function QCReportView({ orderId }) {
                                                 <tr>
                                                     <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Product Clean & Fit for Purpose</td>
                                                     <td className="border border-gray-300 px-4 py-2"><BooleanDisplay value={product.cleanAndFitForPurpose} /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Pallet Dimensions</td>
-                                                    <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 bg-gray-50/10">{product.palletDimensions || "N/A"}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-800">Pallet Weight</td>
-                                                    <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 bg-gray-50/10">{product.palletWeight || "N/A"}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

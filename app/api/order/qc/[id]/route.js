@@ -24,6 +24,8 @@ export async function POST(request, { params }) {
 
     const distributorCode = formData.get("distributorCode");
     const distributorAccountName = formData.get("distributorAccountName");
+    const palletDimensions = formData.get("palletDimensions");
+    const palletWeight = formData.get("palletWeight");
     const orderReadyForShipment =
       formData.get("orderReadyForShipment") === "true";
     const processedByFile = formData.get("processedBy"); // This is the signature/processedBy image
@@ -126,14 +128,14 @@ export async function POST(request, { params }) {
         cleanAndFitForPurpose: product.cleanAndFitForPurpose,
         micrometerImage: micrometerResult.url,
         materialImage: materialResult.url,
-        palletDimensions: product.palletDimensions,
-        palletWeight: product.palletWeight,
       });
     }
 
     const order = await OrderService.updateQc(id, {
       distributorCode,
       distributorAccountName,
+      palletDimensions,
+      palletWeight,
       products: processedProducts,
       orderReadyForShipment,
       processedBy: processedByResult.url,
