@@ -331,10 +331,10 @@ export default function OrderDetailsView({
                             <button
                                 onClick={handleDownloadPDF}
                                 disabled={isDownloading}
-                                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm flex items-center gap-2 hover:bg-indigo-700 transition-colors shadow-sm disabled:opacity-50"
+                                className="px-4 py-2 bg-gray-800 text-white rounded-lg text-sm flex items-center gap-2 hover:bg-gray-700 transition-colors shadow-sm disabled:opacity-50"
                             >
                                 <PrinterIcon className="w-4 h-4" />
-                                {isDownloading ? "Generating..." : "Download QC"}
+                                {isDownloading ? "Generating..." : "Download"}
                             </button>
                         )}
                         <button
