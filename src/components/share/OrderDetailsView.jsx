@@ -16,6 +16,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import axios from "@/app/lib/utils/axiosConfig";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 
 export default function OrderDetailsView({
@@ -30,6 +33,229 @@ export default function OrderDetailsView({
 }) {
     const router = useRouter();
     const [isCleanModalOpen, setIsCleanModalOpen] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
+
+    const generatePDF = async (qc) => {
+        const orderId = order?._id;
+        const doc = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4"
+        });
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const margin = 15;
+        let currentY = 20;
+
+        const addText = (text, x, y, size = 10, style = "normal", color = [0, 0, 0], align = "left") => {
+            doc.setFontSize(size);
+            doc.setFont("helvetica", style);
+            doc.setTextColor(color[0], color[1], color[2]);
+            doc.text(text || "", x, y, { align });
+        };
+
+        const loadImage = (url) => {
+            return new Promise((resolve) => {
+                const img = new window.Image();
+                img.crossOrigin = "anonymous";
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0);
+                    resolve(canvas.toDataURL("image/jpeg"));
+                };
+                img.onerror = () => resolve(null);
+                img.src = url;
+            });
+        };
+
+        const checkPageBreak = (neededHeight) => {
+            if (currentY + neededHeight > pageHeight - 20) {
+                doc.addPage();
+                currentY = 20;
+                return true;
+            }
+            return false;
+        };
+
+        // 1. Header with Logo
+        const logoData = await loadImage("/CCMate-Logo.jpg");
+        if (logoData) {
+            doc.addImage(logoData, "JPEG", margin, currentY - 5, 45, 15);
+        }
+
+        addText("OUTBOUND INSPECTION REPORT", margin + 50, currentY, 14, "bold", [31, 41, 55]);
+        addText("CERTIFICATE OF QUALITY ASSURANCE", margin + 50, currentY + 6, 9, "bold", [75, 85, 99]);
+
+        addText("REPORT DETAILS", pageWidth - margin, currentY - 2, 8, "bold", [156, 163, 175], "right");
+        addText(`Order #${orderId?.slice(-6).toUpperCase()}`, pageWidth - margin, currentY + 4, 11, "bold", [55, 65, 81], "right");
+        addText(formatDate(qc.processDate), pageWidth - margin, currentY + 9, 9, "normal", [75, 85, 99], "right");
+
+        currentY += 25;
+
+        // 2. Section 1: General Information
+        autoTable(doc, {
+            startY: currentY,
+            head: [[{ content: "1. GENERAL INFORMATION", colSpan: 4 }]],
+            body: [
+                ["DISTRIBUTOR CODE", qc.distributorCode || "N/A", "DISTRIBUTOR ACCOUNT", qc.distributorAccountName || "N/A"],
+                ["PALLET DIMENSIONS", qc.palletDimensions || "N/A", "PALLET WEIGHT", qc.palletWeight ? `${qc.palletWeight} kg` : "N/A"]
+            ],
+            theme: "grid",
+            headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
+            columnStyles: {
+                0: { fillColor: [249, 250, 251], textColor: [75, 85, 99], fontStyle: "bold", fontSize: 8, cellWidth: 40 },
+                1: { textColor: [17, 24, 39], fontSize: 9, cellWidth: 50 },
+                2: { fillColor: [249, 250, 251], textColor: [75, 85, 99], fontStyle: "bold", fontSize: 8, cellWidth: 40 },
+                3: { textColor: [17, 24, 39], fontSize: 9, cellWidth: 50 }
+            },
+            styles: { cellPadding: 4, lineColor: [209, 213, 219], lineWidth: 0.1 },
+            margin: { left: margin, right: margin }
+        });
+
+        currentY = doc.lastAutoTable.finalY + 10;
+
+        // 3. Section 2: Products
+        const booleanToText = (val) => val ? "APPROVED" : "NOT APPROVED";
+
+        if (qc.products) {
+            for (let i = 0; i < qc.products.length; i++) {
+                const product = qc.products[i];
+
+                checkPageBreak(30);
+                addText(`PRODUCT ${i + 1}: ${product.materialCode}`, margin, currentY, 10, "bold", [17, 24, 39]);
+                currentY += 5;
+
+                // Inspection Table (including Pallet info)
+                autoTable(doc, {
+                    startY: currentY,
+                    head: [["INSPECTION ITEM / DETAIL", "RESULT / VALUE"]],
+                    body: [
+                        ["Order Length", product.length ? `${product.length} m (2M WIDE ROLL)` : "N/A"],
+                        ["Thickness within Spec (2.75MM – 0.05MM)", booleanToText(product.thicknessWithinSpec)],
+                        ["Material Free from Surface Defects", booleanToText(product.materialFreeFromSurfaceDefects)],
+                        ["Product Clean & Fit for Purpose", booleanToText(product.cleanAndFitForPurpose)],
+                    ],
+                    theme: "grid",
+                    headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
+                    columnStyles: {
+                        0: { textColor: [31, 41, 55], fontSize: 8.5 },
+                        1: { fontStyle: "bold", fontSize: 8.5, cellWidth: 40, halign: "center" }
+                    },
+                    styles: { cellPadding: 3, lineColor: [209, 213, 219], lineWidth: 0.1 },
+                    didDrawCell: (data) => {
+                        if (data.section === 'body' && data.column.index === 1 && (data.cell.raw === "APPROVED" || data.cell.raw === "NOT APPROVED")) {
+                            const val = data.cell.raw === "APPROVED";
+                            doc.setTextColor(val ? 16 : 220, val ? 185 : 38, val ? 129 : 38);
+                        }
+                    },
+                    margin: { left: margin, right: margin }
+                });
+
+                currentY = doc.lastAutoTable.finalY + 5;
+
+                // Product Images
+                const imgWidth = (pageWidth - 2 * margin - 5) / 2;
+                const imgHeight = (imgWidth * 3) / 4;
+
+                checkPageBreak(imgHeight + 10);
+
+                const micrometerImg = product.micrometerImage ? await loadImage(product.micrometerImage) : null;
+                const materialImg = product.materialImage ? await loadImage(product.materialImage) : null;
+
+                // Micrometer Image
+                doc.setDrawColor(209, 213, 219);
+                doc.rect(margin, currentY, imgWidth, imgHeight);
+                if (micrometerImg) {
+                    doc.addImage(micrometerImg, "JPEG", margin + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
+                } else {
+                    addText("Micrometer Spec N/A", margin + imgWidth / 2, currentY + imgHeight / 2, 8, "italic", [156, 163, 175], "center");
+                }
+
+                // Material Image
+                doc.rect(margin + imgWidth + 5, currentY, imgWidth, imgHeight);
+                if (materialImg) {
+                    doc.addImage(materialImg, "JPEG", margin + imgWidth + 5 + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
+                } else {
+                    addText("Material Image N/A", margin + imgWidth + 5 + imgWidth / 2, currentY + imgHeight / 2, 8, "italic", [156, 163, 175], "center");
+                }
+
+                currentY += imgHeight + 15;
+            }
+        }
+
+        // 4. Section 3: Final Status
+        checkPageBreak(30);
+        autoTable(doc, {
+            startY: currentY,
+            head: [[{ content: "3. FINAL CONFIRMATION", colSpan: 2 }]],
+            body: [
+                ["GLOBAL ORDER STATUS", "READY FOR SHIPMENT"],
+                ["RESULT / STATUS", booleanToText(qc.orderReadyForShipment)]
+            ],
+            theme: "grid",
+            headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
+            columnStyles: {
+                0: { fillColor: [249, 250, 251], textColor: [31, 41, 55], fontStyle: "bold", fontSize: 8.5, cellWidth: "50%" },
+                1: { fontStyle: "bold", fontSize: 8.5, halign: "center" }
+            },
+            styles: { cellPadding: 4, lineColor: [209, 213, 219], lineWidth: 0.1 },
+            didDrawCell: (data) => {
+                if (data.section === 'body' && data.column.index === 1 && (data.cell.raw === "APPROVED" || data.cell.raw === "NOT APPROVED")) {
+                    const val = data.cell.raw === "APPROVED";
+                    doc.setTextColor(val ? 16 : 220, val ? 185 : 38, val ? 129 : 38);
+                }
+            },
+            margin: { left: pageWidth / 4, right: pageWidth / 4 }
+        });
+
+        currentY = doc.lastAutoTable.finalY + 15;
+
+        // 5. Footer Signature
+        checkPageBreak(40);
+        doc.setDrawColor(229, 231, 235);
+        doc.setLineWidth(0.5);
+        doc.line(margin, currentY, pageWidth - margin, currentY);
+        currentY += 10;
+
+        addText("COMPANY CERTIFICATION", margin, currentY, 9, "bold", [17, 24, 39]);
+        const certText = "This report confirms that the referenced order has been inspected and meets all certified quality assurance standards.";
+        const splitCertText = doc.splitTextToSize(certText, 100);
+        doc.text(splitCertText, margin, currentY + 5);
+
+        const sigWidth = 60;
+        const sigX = pageWidth - margin - sigWidth;
+        const sigImg = qc.processedBy ? await loadImage(qc.processedBy) : null;
+
+        if (sigImg) {
+            doc.addImage(sigImg, "JPEG", sigX, currentY - 5, sigWidth, 20);
+        } else {
+            addText("Signature Missing", sigX + sigWidth / 2, currentY + 5, 8, "italic", [156, 163, 175], "center");
+        }
+        doc.line(sigX, currentY + 16, sigX + sigWidth, currentY + 16);
+        addText("PROCESSED BY / AUTHORIZED SIGNATURE", sigX + sigWidth / 2, currentY + 21, 7, "bold", [55, 65, 81], "center");
+
+        doc.save(`QC_Report_${orderId?.slice(-6).toUpperCase()}.pdf`);
+    };
+
+    const handleDownloadPDF = async () => {
+        try {
+            setIsDownloading(true);
+            const res = await axios.get(`/api/order/qc/${order?._id}`);
+            if (res.data?.success) {
+                await generatePDF(res.data.data);
+            } else {
+                alert("Failed to fetch QC report details");
+            }
+        } catch (err) {
+            alert(err.response?.data?.message || err.message || "An error occurred");
+        } finally {
+            setIsDownloading(false);
+        }
+    };
 
     const getStatusStyle = (status) => {
         switch (status) {
@@ -101,6 +327,16 @@ export default function OrderDetailsView({
                     </div>
 
                     <div className="flex items-center gap-3">
+                        {order?.qc && (
+                            <button
+                                onClick={handleDownloadPDF}
+                                disabled={isDownloading}
+                                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm flex items-center gap-2 hover:bg-indigo-700 transition-colors shadow-sm disabled:opacity-50"
+                            >
+                                <PrinterIcon className="w-4 h-4" />
+                                {isDownloading ? "Generating..." : "Download QC"}
+                            </button>
+                        )}
                         <button
                             onClick={() => router.push(`/${role}/orders/${order?._id}/qc`)}
                             className="px-4 py-2 bg-primary text-white rounded-lg text-sm flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm"
