@@ -75,18 +75,20 @@ export default function DistributorSection() {
                             </p>
 
                             <div className="flex flex-wrap gap-4 pt-2">
+                             
                                 <Link
+                                    href="/distributor/login"
+                                    className="inline-flex items-center gap-2 bg-white text-primary border-2 border-primary px-7 py-3 rounded-xl font-extrabold text-lg shadow-lg shadow-primary/20 hover:bg-primary hover:text-white hover:scale-105 hover:shadow-2xl hover:shadow-primary/40 focus:ring-4 focus:ring-primary/30 transition-all duration-300 animate-pulse-slow"
+                                    style={{ boxShadow: '0 4px 24px 0 rgba(83, 96, 255, 0.10)' }}
+                                >
+                                    Distributor Login
+                                </Link>
+                                   <Link
                                     href="/contact#become-distributor"
                                     className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg group"
                                 >
                                     Become a Distributor
                                     <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </Link>
-                                <Link
-                                    href="/distributor/login"
-                                    className="inline-flex items-center gap-2 border border-gray-200 text-neutral-dark px-6 py-3 rounded-lg font-semibold hover:border-primary/40 hover:text-primary transition-all duration-300"
-                                >
-                                    Distributor Login
                                 </Link>
                             </div>
                         </motion.div>
@@ -241,6 +243,10 @@ export default function DistributorSection() {
                         Register as a Distributor
                         <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
+                    <div className="mt-4 text-base text-white/90">
+                        Already have an account?{' '}
+                        <Link href="/distributor/login" className="text-white font-bold underline hover:text-blue-200 transition-colors duration-200">Login</Link>
+                    </div>
                 </motion.div>
             </section>
 
