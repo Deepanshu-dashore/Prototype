@@ -6,6 +6,7 @@ import { CloudneryService } from "@/app/lib/services/cloudnery.service";
 import { OrderService } from "@/app/lib/services/order.service";
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { mail } from "@/app/lib/utils/mail";
+import { orderConfirmationTemplate } from "@/app/lib/utils/mailFormtes";
 import mongoose from "mongoose";
 
 export async function GET(request) {
@@ -187,33 +188,27 @@ export async function POST(request) {
     ]);
 
     const distributorEmail = distributor?.companyEmail || distributor?.contactPersonEmail;
-    const productListHtml = orderItems.map((item, idx) => {
-      const p = products[idx];
-      return `<li><strong>${p?.code || "Unknown"}</strong>: ${p?.description || ""} (Qty: ${item.quantity}, Length: ${item.length}m)</li>`;
-    }).join("");
+    const orderItemsWithProducts = orderItems.map((item, idx) => ({
+      ...item,
+      product: products[idx]
+    }));
 
-    const mailRecipients = ["brendan@ccmatting.ie"];
-    if (distributorEmail) mailRecipients.push(distributorEmail);
+    const emailHtml = orderConfirmationTemplate({
+      order,
+      distributor,
+      orderItems: orderItemsWithProducts,
+    });
+
+    const adminEmail = process.env.ADMIN_EMAIL || "brendan@ccmatting.ie";
+    const mailRecipients = [adminEmail];
+    if (distributorEmail && distributorEmail !== adminEmail) {
+      mailRecipients.push(distributorEmail);
+    }
 
     await mail({
       to: mailRecipients,
-      subject: `New Order Created - ${order._id}`,
-      body: `
-        <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
-          <h2 style="color: #1a56db;">Order Confirmation</h2>
-          <p>A new order has been created successfully.</p>
-          <div style="background: #f9fafb; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 0;"><strong>Order ID:</strong> ${order._id}</p>
-            <p style="margin: 0;"><strong>Distributor:</strong> ${distributor?.companyName || "Unknown"}</p>
-            ${instructions ? `<p style="margin: 0;"><strong>Instructions:</strong> ${instructions}</p>` : ""}
-          </div>
-          <h3 style="border-bottom: 2px solid #eee; padding-bottom: 8px;">Order Items:</h3>
-          <ul style="padding-left: 20px;">
-            ${productListHtml}
-          </ul>
-          <p style="margin-top: 20px; font-size: 0.9em; color: #666;">This is an automated notification from the CC Matting Portal.</p>
-        </div>
-      `
+      subject: `ORD-${String(order._id).slice(-6).toUpperCase()} - New Order Created`,
+      body: emailHtml
     });
 
     return ApiResponse(200, order, "Order created successfully");

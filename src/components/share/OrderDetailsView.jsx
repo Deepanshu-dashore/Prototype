@@ -91,7 +91,7 @@ export default function OrderDetailsView({
         addText("CERTIFICATE OF QUALITY ASSURANCE", margin + 50, currentY + 6, 9, "bold", [75, 85, 99]);
 
         addText("REPORT DETAILS", pageWidth - margin, currentY - 2, 8, "bold", [156, 163, 175], "right");
-        addText(`Order #${orderId?.slice(-6).toUpperCase()}`, pageWidth - margin, currentY + 4, 11, "bold", [55, 65, 81], "right");
+        addText(`Order ORD-${orderId?.slice(-6).toUpperCase()}`, pageWidth - margin, currentY + 4, 11, "bold", [55, 65, 81], "right");
         addText(formatDate(qc.processDate), pageWidth - margin, currentY + 9, 9, "normal", [75, 85, 99], "right");
 
         currentY += 25;
@@ -238,7 +238,7 @@ export default function OrderDetailsView({
         doc.line(sigX, currentY + 16, sigX + sigWidth, currentY + 16);
         addText("PROCESSED BY / AUTHORIZED SIGNATURE", sigX + sigWidth / 2, currentY + 21, 7, "bold", [55, 65, 81], "center");
 
-        doc.save(`QC_Report_${orderId?.slice(-6).toUpperCase()}.pdf`);
+        doc.save(`QC_Report_ORD_${orderId?.slice(-6).toUpperCase()}.pdf`);
     };
 
     const handleDownloadPDF = async () => {
@@ -314,7 +314,7 @@ export default function OrderDetailsView({
                         <div>
                             <div className="flex items-center gap-3 flex-wrap">
                                 <h1 className="text-xl font-bold text-gray-900 tracking-tight">
-                                    Order #{order?._id?.slice(-6).toUpperCase()}
+                                    Order ORD-{order?._id?.slice(-6).toUpperCase()}
                                 </h1>
                                 <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-bold ${getStatusStyle(order?.status)}`}>
                                     {order?.status || "UNKNOWN"}

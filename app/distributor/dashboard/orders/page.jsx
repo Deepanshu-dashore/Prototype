@@ -150,7 +150,7 @@ export default function DistributorOrdersPage() {
                                                 </svg>
                                             </div>
                                             <Link href={`/distributor/dashboard/orders/${order._id}`} className="hover:underline text-sm underline-offset-2 font-semibold">
-                                                #{order._id.slice(-6).toUpperCase()}
+                                                ORD-{order._id.slice(-6).toUpperCase()}
                                             </Link>
                                         </td>
                                         <td className="px-6 py-4">
