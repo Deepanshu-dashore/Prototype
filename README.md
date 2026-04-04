@@ -1,4 +1,4 @@
-![CC-Matting Banner](https://prototype-alpha-six.vercel.app/RedmeBanner.png)
+![CC-Matting Banner](https://ccmatting.ie/RedmeBanner.png)
 
 # 🛡️ CC-Matting: Contamination Control
 

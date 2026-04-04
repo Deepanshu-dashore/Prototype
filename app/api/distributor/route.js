@@ -21,6 +21,8 @@ export async function POST(request) {
       shippingAddress,
       registeredAddress,
       billingAddress,
+      question1,
+      question2,
     } = await request.json();
 
     // company details
@@ -59,6 +61,8 @@ export async function POST(request) {
       shippingAddress: shippingAddress || registeredAddress,
       registeredAddress,
       billingAddress: billingAddress || registeredAddress,
+      question1,
+      question2,
     });
     await mail({
       from: process.env.EMAIL_FROM,
@@ -69,7 +73,7 @@ export async function POST(request) {
         distributorCompany: distributor.companyName,
         distributorEmail: distributor.companyEmail,
         distributorPhone: distributor.companyNumber,
-        verificationUrl: "https://prototype-alpha-six.vercel.app/login",
+        verificationUrl: "https://ccmatting.ie/login",
       }),
     });
     return ApiResponse(

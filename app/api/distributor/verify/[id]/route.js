@@ -48,7 +48,7 @@ export async function PATCH(request, { params }) {
         companyName: "CC Matting",
         loginEmail: distributor.companyEmail,
         password: plainPassword,
-        loginUrl: "https://prototype-alpha-six.vercel.app/distributor/login",
+        loginUrl: "https://ccmatting.ie/distributor/login",
       }),
     });
 
