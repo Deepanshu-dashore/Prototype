@@ -133,6 +133,7 @@ export default function EditMarketingPage() {
                 dropped.name.endsWith(".webm");
             const isPDF = dropped.type === "application/pdf";
             const isImage = dropped.type.startsWith("image/");
+            const isPDF = dropped.type === "application/pdf";
 
             if (isImage || isVideo || isPDF) {
                 setFile(dropped);

@@ -106,6 +106,7 @@ export default function AddMarketingPage() {
                 dropped.name.endsWith(".webm");
             const isPDF = dropped.type === "application/pdf" || dropped.name.toLowerCase().endsWith(".pdf");
             const isImage = dropped.type.startsWith("image/");
+            const isPDF = dropped.type === "application/pdf";
 
             if (isImage || isVideo || isPDF) {
                 setFile(dropped);
