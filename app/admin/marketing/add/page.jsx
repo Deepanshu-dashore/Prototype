@@ -22,7 +22,7 @@ import {
 // ─── Type Options ──────────────────────────────────────────────────────────────
 const TYPE_OPTIONS = [
     { value: "youtube", label: "YouTube Video", icon: VideoCameraIcon, color: "text-red-500", bg: "bg-red-50", iconBg: "bg-red-500", border: "border-red-200", activeBg: "bg-red-500", activeText: "text-white", desc: "Embed a YouTube video link" },
-    { value: "social_post", label: "Social Post", icon: MegaphoneIcon, color: "text-blue-500", bg: "bg-blue-50", iconBg: "bg-blue-500", border: "border-blue-200", activeBg: "bg-blue-500", activeText: "text-white", desc: "Upload image/video for social post" },
+    { value: "social_post", label: "Social Post", icon: MegaphoneIcon, color: "text-blue-500", bg: "bg-blue-50", iconBg: "bg-blue-500", border: "border-blue-200", activeBg: "bg-blue-500", activeText: "text-white", desc: "Upload image/video/pdf for social post" },
     { value: "case_study", label: "Case Study", icon: DocumentTextIcon, color: "text-emerald-500", bg: "bg-emerald-50", iconBg: "bg-emerald-500", border: "border-emerald-200", activeBg: "bg-emerald-500", activeText: "text-white", desc: "Upload a case study PDF" },
     { value: "playbook", label: "Playbook", icon: BookOpenIcon, color: "text-purple-500", bg: "bg-purple-50", iconBg: "bg-purple-500", border: "border-purple-200", activeBg: "bg-purple-500", activeText: "text-white", desc: "Upload a playbook PDF" },
 ];
@@ -94,10 +94,11 @@ export default function AddMarketingPage() {
                 dropped.name.endsWith(".wmv") ||
                 dropped.name.endsWith(".webm");
             const isImage = dropped.type.startsWith("image/");
+            const isPDF = dropped.type === "application/pdf";
 
-            if (isImage || isVideo) {
+            if (isImage || isVideo || isPDF) {
                 setFile(dropped);
-                setForm(f => ({ ...f, attachmentType: isImage ? "image" : "video" }));
+                setForm(f => ({ ...f, attachmentType: isImage ? "image" : isVideo ? "video" : "pdf" }));
             }
         } else if (target === "pdf" && isPDFType) {
             if (dropped.type === "application/pdf") {
@@ -226,20 +227,20 @@ export default function AddMarketingPage() {
                                 <div className="mt-4">
                                     <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Attachment Type</label>
                                     <div className="flex bg-gray-100 p-1.5 rounded-2xl w-fit gap-1 border border-gray-200 shadow-inner">
-                                        {["image", "video"].map(t => (
+                                        {["image", "video", "pdf"].map(t => (
                                             <button
                                                 key={t}
                                                 type="button"
                                                 onClick={() => setForm(f => ({ ...f, attachmentType: t }))}
                                                 className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-bold transition-all ${form.attachmentType === t ? "bg-white text-blue-600 shadow-xs ring-1 ring-black/5" : "text-gray-500 hover:bg-white/50"}`}
                                             >
-                                                {t === "image" ? <PlusIcon className="w-3.5 h-3.5" /> : <VideoCameraIcon className="w-3.5 h-3.5" />}
+                                                {t === "image" ? <PlusIcon className="w-3.5 h-3.5" /> : t === "video" ? <VideoCameraIcon className="w-3.5 h-3.5" /> : <DocumentTextIcon className="w-3.5 h-3.5" />}
                                                 <span className="capitalize">{t}</span>
                                             </button>
                                         ))}
                                     </div>
                                     <p className="text-[10px] text-gray-400 mt-2 px-2 italic font-medium">
-                                        {form.attachmentType === "image" ? "Upload a high-quality JPG, PNG or WebP image." : "Upload a video file (MP4, WebM up to 50MB)."}
+                                        {form.attachmentType === "image" ? "Upload a high-quality JPG, PNG or WebP image." : form.attachmentType === "video" ? "Upload a video file (MP4, WebM up to 50MB)." : "Upload a PDF document."}
                                     </p>
                                 </div>
                             )}
@@ -266,7 +267,7 @@ export default function AddMarketingPage() {
                                     }`}
                             >
                                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${file ? "bg-emerald-100" : "bg-gray-100"}`}>
-                                    {form.attachmentType === "image" ? <PlusIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} /> : <VideoCameraIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} />}
+                                    {form.attachmentType === "image" ? <PlusIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} /> : form.attachmentType === "video" ? <VideoCameraIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} /> : <DocumentTextIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} />}
                                 </div>
                                 {file ? (
                                     <>
@@ -282,7 +283,7 @@ export default function AddMarketingPage() {
                                 <input
                                     ref={mediaFileRef}
                                     type="file"
-                                    accept={form.attachmentType === "image" ? "image/*" : ".mp4,.avi,.mov,.wmv,.webm,video/*"}
+                                    accept={form.attachmentType === "image" ? "image/*" : form.attachmentType === "video" ? ".mp4,.avi,.mov,.wmv,.webm,video/*" : "application/pdf"}
                                     className="hidden"
                                     onChange={e => {
                                         const f = e.target.files[0];
@@ -294,7 +295,8 @@ export default function AddMarketingPage() {
                                                 f.name.endsWith(".mov") ||
                                                 f.name.endsWith(".wmv") ||
                                                 f.name.endsWith(".webm");
-                                            setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : "image" }));
+                                            const isPDF = f.type === "application/pdf";
+                                            setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : isPDF ? "pdf" : "image" }));
                                         }
                                     }}
                                 />
@@ -416,7 +418,7 @@ export default function AddMarketingPage() {
                                     return;
                                 }
                                 if (isSocialPost && !file) {
-                                    setError("Please upload an image or video for the post.");
+                                    setError("Please upload an image, video, or PDF for the post.");
                                     return;
                                 }
                                 if (form.type === "youtube" && !form.url) {
