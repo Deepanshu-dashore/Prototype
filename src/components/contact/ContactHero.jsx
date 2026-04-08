@@ -373,7 +373,7 @@ export default function ContactHero() {
                     Direct Line
                   </p>
                   <span className="text-xl font-bold text-neutral-dark">
-                    021 4701669
+                    07549 739754
                   </span>
                 </div>
                 <a

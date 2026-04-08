@@ -15,10 +15,10 @@ export default function UtilityBar() {
             href="tel:+447704211817"
             onClick={handlePhoneClick}
             className="flex items-center gap-2 hover:text-gray-300 transition-colors"
-            aria-label="Call us at +44 7704 211817"
+            aria-label="Call us at +07549 739754"
           >
             <PhoneIcon className="w-4 h-4" aria-hidden="true" />
-            <span className="hidden sm:inline">+44 7704 211817</span>
+            <span className="hidden sm:inline">+07549 739754</span>
             <span className="sm:hidden">Call</span>
           </a>
           <a

@@ -210,7 +210,7 @@ export default function Footer() {
                   <li>
                     <a href="tel:+447704211817" className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors duration-200 group">
                       <PhoneIcon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                      <span>+44 7704 211817</span>
+                      <span>+07549 739754</span>
                     </a>
                   </li>
                   <li>
