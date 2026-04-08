@@ -334,7 +334,7 @@ export default function OrderDetailsView({
                                 className="px-4 py-2 bg-gray-800 text-white rounded-lg text-sm flex items-center gap-2 hover:bg-gray-700 transition-colors shadow-sm disabled:opacity-50"
                             >
                                 <PrinterIcon className="w-4 h-4" />
-                                {isDownloading ? "Generating..." : "Download"}
+                                {isDownloading ? "Generating..." : "Download QC"}
                             </button>
                         )}
                         <button
@@ -342,7 +342,7 @@ export default function OrderDetailsView({
                             className="px-4 py-2 bg-primary text-white rounded-lg text-sm flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm"
                         >
                             <ClipboardDocumentCheckIcon className="w-4 h-4" />
-                            {order?.qc ? "Update QC Report" : "Start QC"}
+                            {order?.qc ? "Update QC" : "Start QC"}
                         </button>
                         {order?.qc && (role === "admin" || role === "warehouse") && (
                             <button
