@@ -491,7 +491,7 @@ export default function PrivacyPolicy() {
                 >
                   sales@ccmatting.co.uk
                 </a>{" "}
-                or by phone at +44 7704 211817.[4][5][1]
+                or by phone at +07549 739754.[4][5][1]
               </p>
             </section>
 
