@@ -178,25 +178,30 @@ export async function POST(request) {
     }
 
     // Fetch distributor and product details for the email
-    const DistributorModel = mongoose.models.Distributor || mongoose.model("Distributor");
+    const DistributorModel =
+      mongoose.models.Distributor || mongoose.model("Distributor");
     const ProductModel = mongoose.models.Product || mongoose.model("Product");
-    
+
     const [distributor, ...products] = await Promise.all([
       DistributorModel.findById(user.id),
-      ...orderItems.map(item => ProductModel.findById(item.product))
+      ...orderItems.map((item) => ProductModel.findById(item.product)),
     ]);
 
-    const distributorEmail = distributor?.companyEmail || distributor?.contactPersonEmail;
-    const productListHtml = orderItems.map((item, idx) => {
-      const p = products[idx];
-      return `<li><strong>${p?.code || "Unknown"}</strong>: ${p?.description || ""} (Qty: ${item.quantity}, Length: ${item.length}m)</li>`;
-    }).join("");
+    const distributorEmail =
+      distributor?.companyEmail || distributor?.contactPersonEmail;
+    const productListHtml = orderItems
+      .map((item, idx) => {
+        const p = products[idx];
+        return `<li><strong>${p?.code || "Unknown"}</strong>: ${p?.description || ""} (Qty: ${item.quantity}, Length: ${item.length}m)</li>`;
+      })
+      .join("");
 
-    const mailRecipients = ["brendan@ccmatting.ie"];
+    const mailRecipients = ["deepanshudashore48@gmail.com"];
     if (distributorEmail) mailRecipients.push(distributorEmail);
 
-    await mail({
+    const res = await mail({
       to: mailRecipients,
+      from: process.env.EMAIL_FROM,
       subject: `New Order Created - ${order._id}`,
       body: `
         <div style="font-family: sans-serif; line-height: 1.5; color: #333;">
@@ -213,8 +218,9 @@ export async function POST(request) {
           </ul>
           <p style="margin-top: 20px; font-size: 0.9em; color: #666;">This is an automated notification from the CC Matting Portal.</p>
         </div>
-      `
+      `,
     });
+    console.log("Mail sent successfully: ", res);
 
     return ApiResponse(200, order, "Order created successfully");
   } catch (error) {

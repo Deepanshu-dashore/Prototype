@@ -336,7 +336,7 @@ export default function ContactHero() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl lg:text-5xl font-bold text-gray-700 mb-5 leading-[1.15] flex items-center gap-3">
-                  Partner With{" "}
+                  Contact Us{" "}
                   <span className="hidden sm:block text-primary">
                     {" "}
                     CCMatting

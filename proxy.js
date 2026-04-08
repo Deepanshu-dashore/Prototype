@@ -4,7 +4,7 @@ export function proxy(request) {
   const path = request.nextUrl.pathname;
 
   // --- Distributor Protection ---
-  if (path.startsWith("/distributor")) {
+  if (path.startsWith("/distributor/")) {
     const isPublicPath =
       path === "/distributor/login" ||
       path === "/distributor/register" ||

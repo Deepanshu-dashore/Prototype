@@ -116,7 +116,8 @@ export default function Header({ onContactClick }) {
     // { name: 'Technical', href: '/technical', isLink: false, hasDropdown: true },
     { name: 'Compliance', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Industries', href: '/industries', isLink: false, hasDropdown: true },
-    { name: 'Blogs', href: '/blog', isLink: true },
+    // { name: 'Blogs', href: '/blog', isLink: true },
+    { name: 'Contact', href: '/contact', isLink: true },
   ]
 
   return (
@@ -258,7 +259,7 @@ export default function Header({ onContactClick }) {
           {/* CTA Buttons */}
           <div className="hidden lg:flex lg:items-center lg:gap-4">
             <Link
-              href="/contact"
+              href="/distributor"
               className="px-5 py-2.5 rounded-lg bg-cta text-white xl:text-sm text-xs font-medium hover:scale-[1.03] transform transition shadow-sm"
             >
               Distributor
