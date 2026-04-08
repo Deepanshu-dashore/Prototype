@@ -376,7 +376,7 @@ export default function AdminDashboard() {
                                     const companyName = order.orderBy?.companyName || "Unknown";
                                     const initials = companyName
                                         .split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
-                                    const orderId = "ORD-" + String(order._id).slice(-4).toUpperCase();
+                                    const orderId = "ORD-" + String(order._id).slice(-6).toUpperCase();
                                     const itemCount = Array.isArray(order.orderItems)
                                         ? order.orderItems.length
                                         : "—";

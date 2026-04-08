@@ -1,8 +1,10 @@
+import { getUrls } from "./geturl";
+
 export const otpVerificationTemplate = ({
   otp,
   expire,
   name,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
 }) => {
@@ -44,11 +46,11 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
               Verify your email address
             </h1>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 14px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 14px 0;">
               Hello <strong>${name || "User"}</strong>,
             </p>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 20px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 20px 0;">
               We received a request to verify your email address for your
               <strong>${companyName}</strong> account.
               Please enter the verification code below to continue.
@@ -133,7 +135,7 @@ export const forgotPasswordOtpTemplate = ({
   otp,
   expire = "10 minutes",
   name,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
 }) => {
@@ -172,15 +174,15 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="padding:40px 40px 30px 40px;">
 
-            <h1 style="font-size:22px;font-weight:700;margin:0 0 18px 0;color:#111;">
+            <h1 style="font-size:20px;font-weight:700;margin:0 0 18px 0;color:#111;">
               Reset Your Password
             </h1>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 16px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 16px 0;">
               Hello <strong>${name || "User"}</strong>,
             </p>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 20px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 20px 0;">
               We received a request to reset the password for your 
               <strong>${companyName}</strong> account.
               Use the One-Time Password (OTP) below to continue.
@@ -263,10 +265,10 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
 
 export const passwordSecurityAlertTemplate = ({
   name,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
-  resetLink = "https://prototype-alpha-six.vercel.app/distributor/forget-password",
+  resetLink = "https://ccmatting.ie/distributor/forget-password",
 }) => {
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -301,20 +303,20 @@ style="display:block;margin:auto;border:none;" />
 <tr>
 <td style="padding:40px 48px;">
 
-<h1 style="font-size:22px;font-weight:600;margin:0 0 20px;color:#202124;">
+<h1 style="font-size:20px;font-weight:600;margin:0 0 20px;color:#202124;">
 Password changed in your account
 </h1>
 
-<p style="font-size:14px;line-height:22px;margin:0 0 16px;">
+<p style="font-size:13px;line-height:22px;margin:0 0 16px;">
 Hello <strong>${name || "User"}</strong>,
 </p>
 
-<p style="font-size:14px;line-height:22px;margin:0 0 20px;">
+<p style="font-size:13px;line-height:22px;margin:0 0 20px;">
 This is a confirmation that the password for your 
 <strong>${companyName}</strong> account was recently updated.
 </p>
 
-<p style="font-size:14px;line-height:22px;margin:0 0 30px;">
+<p style="font-size:13px;line-height:22px;margin:0 0 30px;">
 If you made this change, no further action is required.
 </p>
 
@@ -396,7 +398,7 @@ export const distributorVerificationTemplate = ({
   loginEmail,
   password,
   loginUrl,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   supportEmail = "support@ccmatting.com",
 }) => {
   return `
@@ -433,20 +435,20 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="padding:32px 36px;">
 
-            <h1 style="font-size:20px;font-weight:700;margin:0 0 16px 0;color:#333;">
+            <h1 style="font-size:18px;font-weight:700;margin:0 0 16px 0;color:#333;">
               Distributor Account Approved
             </h1>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 14px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 14px 0;">
               Hello <strong>${distributorName}</strong>,
             </p>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 18px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 18px 0;">
               We are pleased to inform you that your distributor account with
               <strong>${companyName}</strong> has been successfully verified and approved by our team.
             </p>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 22px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 22px 0;">
               You can now log in to the distributor portal using the credentials below.
             </p>
 
@@ -533,7 +535,7 @@ export const newDistributorApplicationTemplate = ({
   distributorEmail,
   distributorPhone,
   verificationUrl,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
 }) => {
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -569,11 +571,11 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="padding:30px 36px;">
 
-            <h1 style="font-size:20px;font-weight:700;margin:0 0 16px;color:#333;">
+            <h1 style="font-size:18px;font-weight:700;margin:0 0 16px;color:#333;">
               New Distributor Application Received
             </h1>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 18px;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 18px;">
               A new distributor application has been submitted and requires verification.
             </p>
 
@@ -643,7 +645,7 @@ export const orderCreatedTemplate = ({
   orderDate,
   distributorName,
   totalItems,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
 }) => {
@@ -681,15 +683,15 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="padding:32px 36px;">
 
-            <h1 style="font-size:20px;margin:0 0 16px 0;color:#111827;">
+            <h1 style="font-size:18px;margin:0 0 16px 0;color:#111827;">
               Order Successfully Created
             </h1>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 14px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 14px 0;">
               Hello <strong>${distributorName || "Distributor"}</strong>,
             </p>
 
-            <p style="font-size:14px;line-height:22px;margin:0 0 20px 0;">
+            <p style="font-size:13px;line-height:22px;margin:0 0 20px 0;">
               Your order has been successfully created in our system.
               Below are the order details for your reference.
             </p>
@@ -700,15 +702,15 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
               <tr>
                 <td style="padding:18px;">
 
-                  <p style="margin:0 0 10px 0;font-size:14px;">
-                    <strong>Order ID:</strong> ${orderId}
+                  <p style="margin:0 0 10px 0;font-size:13px;">
+                    <strong>Order ID:</strong> ORD-${String(orderId).slice(-6).toUpperCase()}
                   </p>
 
-                  <p style="margin:0 0 10px 0;font-size:14px;">
+                  <p style="margin:0 0 10px 0;font-size:13px;">
                     <strong>Order Date:</strong> ${orderDate}
                   </p>
 
-                  <p style="margin:0 0 10px 0;font-size:14px;">
+                  <p style="margin:0 0 10px 0;font-size:13px;">
                     <strong>Total Items:</strong> ${totalItems}
                   </p>
 
@@ -764,7 +766,7 @@ export const distributorOrderStatusTemplate = ({
   orderDate,
   totalItems,
   status,
-  logoUrl = "https://prototype-alpha-six.vercel.app/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail = "support@ccmatting.com",
   brandColor = "#0b3aa4",
@@ -815,15 +817,15 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
 <tr>
 <td style="padding:40px 42px;">
 
-  <h1 style="font-size:22px;margin:0 0 20px 0;color:#111827;">
+  <h1 style="font-size:20px;margin:0 0 20px 0;color:#111827;">
     Order Status Notification
   </h1>
 
-  <p style="font-size:14px;line-height:22px;margin:0 0 14px 0;">
+  <p style="font-size:13px;line-height:22px;margin:0 0 14px 0;">
     Dear <strong>${distributorName || "Distributor"}</strong>,
   </p>
 
-  <p style="font-size:14px;line-height:22px;margin:0 0 24px 0;color:#374151;">
+  <p style="font-size:13px;line-height:22px;margin:0 0 24px 0;color:#374151;">
     This is to inform you that the status of your order has been updated in our system.
     Please review the summary below.
   </p>
@@ -837,25 +839,25 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
         <table width="100%" cellpadding="0" cellspacing="0">
 
           <tr>
-            <td style="padding-bottom:12px;font-size:12.25px;">
-              <strong>Order ID:</strong> ${orderId}
+            <td style="padding-bottom:12px;font-size:12px;">
+              <strong>Order ID:</strong> ORD-${String(orderId).slice(-6).toUpperCase()}
             </td>
           </tr>
 
           <tr>
-            <td style="padding-bottom:12px;font-size:12.25px;">
+            <td style="padding-bottom:12px;font-size:12px;">
               <strong>Order Date:</strong> ${orderDate}
             </td>
           </tr>
 
           <tr>
-            <td style="padding-bottom:12px;font-size:12.25px;">
+            <td style="padding-bottom:12px;font-size:12px;">
               <strong>Total Items:</strong> ${totalItems}
             </td>
           </tr>
 
           <tr>
-            <td style="padding-top:6px;font-size:12.25px;">
+            <td style="padding-top:6px;font-size:12px;">
               <strong>Status:</strong>
               <span style="
                 display:inline-block;
@@ -891,7 +893,7 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
   <table width="100%" cellpadding="0" cellspacing="0">
     <tr>
       <td align="center" style="padding:28px 0 10px 0;">
-        <a href="https://prototype-alpha-six.vercel.app/distributor/dashboard/orders"
+        <a href="https://ccmatting.ie/distributor/dashboard/orders"
            style="
             background:${brandColor};
             color:#ffffff;
@@ -939,4 +941,167 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
 </body>
 </html>
 `;
+};
+
+export const orderConfirmationTemplate = ({
+  order,
+  distributor,
+  orderItems,
+  logoUrl = "https://www.ccmatting.ie/CCMate-Logo.jpg",
+  companyName = "CC Matting",
+  supportEmail = "brendan@ccmatting.ie",
+}) => {
+  const formattedDate = new Date(order.createdAt).toLocaleDateString("en-IE", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const formattedOrderId = `ORD-${String(order._id).slice(-6).toUpperCase()}`;
+
+  const shippingAddress = distributor?.shippingAddress || distributor?.registeredAddress;
+  const addressHtml = shippingAddress
+    ? `
+    <div style="color: #4b5563; font-size: 13px; line-height: 1.5;">
+      <div style="font-weight: 600; color: #111827; margin-bottom: 4px;">${distributor.contactPersonName || "Customer"}</div>
+      <div>${shippingAddress.street || ""}</div>
+      <div>${shippingAddress.city || ""}${shippingAddress.state ? ", " + shippingAddress.state : ""} ${shippingAddress.pinCode || ""}</div>
+      <div>${shippingAddress.country || ""}</div>
+    </div>
+  `
+    : '<div style="color: #9ca3af; font-size: 13px;">Not Provided</div>';
+
+  const tableRowsHtml = orderItems
+    .map(
+      (item) => `
+    <tr style="border-bottom: 1px solid #f3f4f6;">
+      <td style="padding: 14px 12px; vertical-align: top;">
+        <div style="font-weight: 600; color: #111827; font-size: 13px;">${item.product?.code || "N/A"}</div>
+        <div style="color: #6b7280; font-size: 11px; margin-top: 2px;">${item.product?.description || ""}</div>
+      </td>
+      <td style="padding: 14px 12px; text-align: center; color: #374151; font-size: 13px; vertical-align: top;">
+        ${item.quantity || 0}
+      </td>
+      <td style="padding: 14px 12px; text-align: center; color: #374151; font-size: 13px; vertical-align: top;">
+        ${item.length || 0}m
+      </td>
+    </tr>
+  `
+    )
+    .join("");
+
+  return `
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Order Confirmation</title>
+  <style type="text/css">
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
+  </style>
+</head>
+<body style="background-color: #f8fafc; margin: 0; padding: 0;">
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; padding: 20px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" border="0" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
+          <!-- Logo Header -->
+          <tr>
+            <td align="center" style="padding: 40px 0 30px 0; border-bottom: 1px solid #f1f5f9;">
+              <img src="${logoUrl}" alt="${companyName}" width="150" style="display: block; margin: 0 auto; outline: none; border: none; text-decoration: none;" />
+            </td>
+          </tr>
+          
+          <!-- Title Section -->
+          <tr>
+            <td style="padding: 40px 40px 20px 40px;">
+              <h1 style="color: #0f172a; font-size: 20px; font-weight: 700; margin: 0 0 10px 0; text-align: center;">Order Confirmation</h1>
+              <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin: 0; text-align: center;">A new order has been received and is being processed.</p>
+            </td>
+          </tr>
+
+          <!-- Summary Grid -->
+          <tr>
+            <td style="padding: 0 40px 30px 40px;">
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; border-radius: 8px; border: 1px solid #f1f5f9;">
+                <tr>
+                  <!-- Order Details -->
+                  <td style="padding: 20px; border-bottom: 1px solid #f1f5f9;">
+                    <div style="color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Order Details</div>
+                    <div style="font-size: 13px; color: #1e293b; line-height: 1.6;">
+                      <div style="margin-bottom: 4px;"><strong>Order ID:</strong> ${formattedOrderId}</div>
+                      <div style="margin-bottom: 4px;"><strong>Date:</strong> ${formattedDate}</div>
+                      <div><strong>Client:</strong> ${distributor?.companyName || "N/A"}</div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <!-- Shipping Address -->
+                  <td style="padding: 20px; ${order.instructions ? "border-bottom: 1px solid #f1f5f9;" : ""}">
+                    <div style="color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Shipping Address</div>
+                    ${addressHtml}
+                  </td>
+                </tr>
+                ${
+                  order.instructions
+                    ? `
+                <tr>
+                  <td style="padding: 20px;">
+                    <div style="color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Special Instructions</div>
+                    <div style="color: #4b5563; font-size: 12px; font-style: italic;">"${order.instructions}"</div>
+                  </td>
+                </tr>
+                `
+                    : ""
+                }
+              </table>
+            </td>
+          </tr>
+
+          <!-- Items Table -->
+          <tr>
+            <td style="padding: 0 40px 40px 40px;">
+              <div style="color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Order Items</div>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
+                <thead>
+                  <tr style="background-color: #f8fafc; border-bottom: 2px solid #f1f5f9;">
+                    <th align="left" style="padding: 12px; color: #475569; font-size: 12px; font-weight: 600;">Product</th>
+                    <th align="center" style="padding: 12px; color: #475569; font-size: 12px; font-weight: 600;">Qty</th>
+                    <th align="center" style="padding: 12px; color: #475569; font-size: 12px; font-weight: 600;">Length</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${tableRowsHtml}
+                </tbody>
+              </table>
+              
+              <!-- Documents Link -->
+              ${
+                order.documents?.length > 0
+                  ? `
+              <div style="margin-top: 30px; text-align: center;">
+                <a href="${getUrls.getUrl(order.documents[0].url,order.documents[0].resource_type)}" style="background-color: #2563eb; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600; display: inline-block;">View PO Document</a>
+              </div>
+              `
+                  : ""
+              }
+            </td>
+          </tr>
+
+          <!-- Footer Area -->
+          <tr>
+            <td align="center" style="background-color: #f8fafc; padding: 30px 40px; border-top: 1px solid #f1f5f9;">
+              <p style="color: #64748b; font-size: 12px; margin: 0 0 10px 0;">If you have any questions, please contact <a href="mailto:${supportEmail}" style="color: #2563eb; text-decoration: none;">${supportEmail}</a></p>
+              <p style="color: #94a3b8; font-size: 11px; margin: 0;">© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p>
+              <p style="color: #cbd5e1; font-size: 10px; margin-top: 15px;">Automated notification from CC Matting Partner Portal.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
 };

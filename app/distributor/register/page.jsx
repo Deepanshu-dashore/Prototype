@@ -519,11 +519,11 @@ export default function DistributorRegister() {
                                         Is your company currently active in the cleanroom and/or contamination control industry?</p>
                                     <div className="flex gap-10">
                                         <label className="flex gap-2">
-                                            <input onChange={handleChange} id="question1-yes" type="radio" name="question1" value={true} />
+                                            <input onChange={() => setFormData(prev => ({ ...prev, question1: true }))} checked={formData.question1 === true} id="question1-yes" type="radio" name="question1" />
                                             <label htmlFor="question1-yes" className="cursor-pointer">Yes</label>
                                         </label>
                                         <label className="flex gap-2">
-                                            <input onChange={handleChange} id="question1-no" type="radio" name="question1" value={false} />
+                                            <input onChange={() => setFormData(prev => ({ ...prev, question1: false }))} checked={formData.question1 === false} id="question1-no" type="radio" name="question1" />
                                             <label htmlFor="question1-no" className="cursor-pointer">No</label>
                                         </label>
                                     </div>

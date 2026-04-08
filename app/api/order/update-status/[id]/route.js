@@ -35,10 +35,10 @@ export async function PATCH(request, { params }) {
       const send = await mail({
         from: process.env.ORDER_EMAIL_FROM,
         to: getOrder.orderBy.companyEmail,
-        subject: "Order Status Update",
+        subject: `Order Status Update - ORD-${String(getOrder._id).slice(-6).toUpperCase()}`,
         body: distributorOrderStatusTemplate({
           distributorName: getOrder.orderBy.companyName || "Distributor",
-          orderId: `#${String(getOrder._id).slice(-6).toUpperCase()}`,
+          orderId: `ORD-${String(getOrder._id).slice(-6).toUpperCase()}`,
           orderDate: new Date(getOrder.createdAt).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",

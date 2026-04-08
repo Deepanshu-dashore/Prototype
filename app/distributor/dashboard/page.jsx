@@ -595,7 +595,7 @@ export default function DistributorDashboard() {
                                             />
                                         ) : (
                                             data.recentOrders.map((order) => {
-                                                const orderId = "ORD-" + String(order._id).slice(-5).toUpperCase();
+                                                const orderId = "ORD-" + String(order._id).slice(-6).toUpperCase();
                                                 const dateStr = order.createdAt
                                                     ? new Date(order.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
                                                     : "—";

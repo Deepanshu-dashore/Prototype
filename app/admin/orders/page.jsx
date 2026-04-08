@@ -316,7 +316,7 @@ export default function AdminOrdersPage() {
                                                         </svg>
                                                     </div>
                                                     <Link href={`/admin/orders/${order._id}`} className="font-semibold text-gray-600 underline-offset-2 hover:text-primary hover:underline">
-                                                        #{order._id.slice(-6).toUpperCase()}
+                                                        ORD-{order._id.slice(-6).toUpperCase()}
                                                     </Link>
                                                     {order.instructions && (
                                                         <span title={order.instructions} className="text-[9px] cursor-pointer text-orange-600 animate-pulse font-bold bg-orange-100 px-1.5 py-0.5 rounded border border-orange-300 w-fit flex items-center gap-1">
