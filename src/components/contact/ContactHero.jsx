@@ -392,8 +392,8 @@ export default function ContactHero() {
                     <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Primary Support</span>
                   </div>
-                  <a href="mailto:info@ccmatting.ie" className="text-base font-bold text-neutral-dark hover:text-primary transition-colors">
-                    info@ccmatting.ie
+                  <a href="mailto:sales@ccmatting.ie" className="text-base font-bold text-neutral-dark hover:text-primary transition-colors">
+                    sales@ccmatting.ie
                   </a>
                 </div>
                 <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-blue-100 shadow-sm flex flex-col gap-2 group hover:border-primary/30 transition-all">
