@@ -33,13 +33,7 @@ export async function GET(req) {
           attachment: asset.attachment
             ? getUrls.getUrl(
                 asset.attachment,
-                asset.attachment.includes(".mp4") ||
-                  asset.attachment.includes(".avi") ||
-                  asset.attachment.includes(".mov") ||
-                  asset.attachment.includes(".wmv") ||
-                  asset.attachment.includes(".webm")
-                  ? "video"
-                  : "image",
+                asset.attachmentType === "video" ? "video" : (asset.attachmentType === "pdf" ? "raw" : "image")
               )
             : undefined,
         };

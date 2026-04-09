@@ -52,8 +52,8 @@ function YouTubeCard({ asset }) {
     const embed = getYouTubeEmbed(asset.url);
 
     return (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all duration-200">
-            <div className="relative w-full aspect-video bg-gray-900">
+        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden flex flex-col group hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-500 hover:-translate-y-1">
+            <div className="relative w-full aspect-video bg-slate-900">
                 {playing && embed ? (
                     <iframe
                         src={`${embed}?autoplay=1`}
@@ -65,41 +65,41 @@ function YouTubeCard({ asset }) {
                 ) : (
                     <>
                         {thumb ? (
-                            <img src={thumb} alt={asset.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+                            <img src={thumb} alt={asset.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110" />
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-red-900/30 to-gray-900">
+                            <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-red-900/30 to-slate-900">
                                 <VideoCameraIcon className="w-12 h-12 text-white/30" />
                             </div>
                         )}
-                        <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-slate-900/80 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
                         <button
                             onClick={() => setPlaying(true)}
                             className="absolute inset-0 flex items-center justify-center group/play"
                         >
-                            <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/50 flex items-center justify-center group-hover/play:scale-110 group-hover/play:bg-white/30 transition-all duration-200 shadow-lg">
-                                <PlayIcon className="w-7 h-7 text-white fill-white translate-x-0.5" />
+                            <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border-2 border-white/40 flex items-center justify-center group-hover/play:scale-110 group-hover/play:bg-white/20 transition-all duration-300 shadow-2xl">
+                                <PlayIcon className="w-8 h-8 text-white fill-white translate-x-0.5" />
                             </div>
                         </button>
                     </>
                 )}
             </div>
-            <div className="p-4 flex-1 flex flex-col gap-2">
-                <h3 className="text-sm font-semibold text-gray-800 leading-snug line-clamp-2">{asset.title}</h3>
-                {asset.description && <p className="text-xs text-gray-500 line-clamp-2">{asset.description}</p>}
+            <div className="p-6 flex-1 flex flex-col gap-3">
+                <h3 className="text-sm font-black text-slate-800 leading-snug line-clamp-2 h-10 group-hover:text-red-600 transition-colors uppercase tracking-tight">{asset.title}</h3>
+                {asset.description && <p className="text-xs font-medium text-slate-400 line-clamp-2 leading-relaxed">{asset.description}</p>}
             </div>
-            <div className="px-4 py-2.5 border-t border-gray-50 bg-gray-50/50 flex items-center justify-between">
-                <span className="text-[10px] text-gray-400">{formatDate(asset.createdAt)}</span>
+            <div className="px-6 py-4 border-t border-slate-50 bg-slate-50/30 flex items-center justify-between">
+                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{formatDate(asset.createdAt)}</span>
                 <button
                     onClick={(e) => {
                         e.stopPropagation();
                         navigator.clipboard.writeText(asset.url);
                         alert("Link copied to clipboard!");
                     }}
-                    className="flex items-center gap-1.5 text-[11px] font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg border border-blue-100 transition-all active:scale-95"
+                    className="flex items-center gap-2 text-[10px] font-black text-blue-600 uppercase tracking-widest hover:text-blue-700 transition-all active:scale-90"
                     title="Copy Video Link"
                 >
                     <ShareIcon className="w-3.5 h-3.5" />
-                    Share
+                    Share Link
                 </button>
             </div>
         </div>
@@ -185,13 +185,18 @@ function SocialPostTable({ assets, loading }) {
                                         {a.attachment ? (
                                             <button
                                                 onClick={() => setPreviewMedia({ url: a.attachment, type: a.attachmentType })}
-                                                className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:underline group"
+                                                className="flex items-center gap-2 group cursor-pointer"
                                             >
-                                                <PlayIcon className="w-4 h-4 text-blue-500 fill-blue-50 group-hover:fill-blue-100 transition-colors" />
-                                                View Media
+                                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all group-hover:scale-110
+                                                    ${a.attachmentType === "pdf" ? "bg-amber-100 text-amber-600" : (a.attachmentType === "video") ? "bg-red-100 text-red-600" : "bg-blue-100 text-blue-600"}`}>
+                                                    {a.attachmentType === "pdf" ? <DocumentTextIcon className="w-4 h-4" /> : (a.attachmentType === "video") ? <VideoCameraIcon className="w-4 h-4" /> : <PlayIcon className="w-4 h-4 fill-current" />}
+                                                </div>
+                                                <span className="text-xs font-black uppercase tracking-widest text-slate-500 group-hover:text-slate-900 transition-colors">
+                                                    {a.attachmentType === "pdf" ? "View Document" : "Play Media"}
+                                                </span>
                                             </button>
                                         ) : (
-                                            <span className="text-xs text-gray-300">Not given</span>
+                                            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">Not provided</span>
                                         )}
                                     </td>
                                     <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
@@ -325,6 +330,11 @@ function MediaPreviewModal({ media, attachmentType, onClose }) {
         media.toLowerCase().endsWith(".mov") ||
         media.toLowerCase().endsWith(".wmv") ||
         media.toLowerCase().endsWith(".webm");
+    
+    const isPDF = attachmentType === "pdf" ||
+        media.toLowerCase().endsWith(".pdf") ||
+        media.includes("application/pdf") ||
+        media.includes("raw/upload");
 
     return (
         <div
@@ -352,6 +362,12 @@ function MediaPreviewModal({ media, attachmentType, onClose }) {
                             controls
                             autoPlay
                             playsInline
+                        />
+                    ) : isPDF ? (
+                        <iframe
+                            src={media}
+                            className="w-full h-[80vh] rounded-xl border-0"
+                            title="PDF Preview"
                         />
                     ) : (
                         <img
@@ -410,15 +426,18 @@ export default function DistributorMarketingPage() {
                 {loading ? (
                     <HeaderSkeleton />
                 ) : (
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-5 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/40">
                         {activeCat && (
-                            <div className={`w-8 h-8 rounded-xl ${activeCat.bg} flex items-center justify-center shrink-0`}>
-                                <activeCat.icon className={`w-10 h-10 ${activeCat.color}`} />
+                            <div className={`w-14 h-14 rounded-[1.25rem] ${activeCat.bg} border ${activeCat.border} flex items-center justify-center shrink-0 shadow-inner`}>
+                                <activeCat.icon className={`w-8 h-8 ${activeCat.color}`} />
                             </div>
                         )}
                         <div>
-                            <h2 className="text-lg font-bold text-gray-800">{activeCat?.label || "Marketing Resources"}</h2>
-                            <p className="text-xs text-gray-500">{filteredAssets.length} resource{filteredAssets.length !== 1 ? "s" : ""} available</p>
+                            <h2 className="text-2xl font-black text-slate-800 tracking-tight">{activeCat?.label || "Marketing Resources"}</h2>
+                            <p className="text-sm font-bold text-slate-400 mt-1 uppercase tracking-widest flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                {filteredAssets.length} PREMIUM ASSETS LOADED
+                            </p>
                         </div>
                     </div>
                 )}

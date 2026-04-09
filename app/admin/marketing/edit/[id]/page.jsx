@@ -5,6 +5,7 @@ import { useApiClient } from "@/src/config/axios";
 import { useRouter, useParams } from "next/navigation";
 import {
     ArrowLeftIcon,
+    PlusIcon,
     PencilSquareIcon,
     CheckIcon,
     LinkIcon,
@@ -15,12 +16,13 @@ import {
     DocumentTextIcon,
     BookOpenIcon,
     XMarkIcon,
+    ChartBarIcon,
 } from "@heroicons/react/24/outline";
 
 // ─── Type Options ──────────────────────────────────────────────────────────────
 const TYPE_OPTIONS = [
     { value: "youtube", label: "YouTube Video", icon: VideoCameraIcon, color: "text-red-500", bg: "bg-red-50", iconBg: "bg-red-500", border: "border-red-200", activeBg: "bg-red-500", activeText: "text-white", desc: "Embed a YouTube video link" },
-    { value: "social_post", label: "Social Post", icon: MegaphoneIcon, color: "text-blue-500", bg: "bg-blue-50", iconBg: "bg-blue-500", border: "border-blue-200", activeBg: "bg-blue-500", activeText: "text-white", desc: "Upload image/video for social post" },
+    { value: "social_post", label: "Social Post", icon: MegaphoneIcon, color: "text-blue-500", bg: "bg-blue-50", iconBg: "bg-blue-500", border: "border-blue-200", activeBg: "bg-blue-500", activeText: "text-white", desc: "Upload image, video, or PDF for social post" },
     { value: "case_study", label: "Case Study", icon: DocumentTextIcon, color: "text-emerald-500", bg: "bg-emerald-50", iconBg: "bg-emerald-500", border: "border-emerald-200", activeBg: "bg-emerald-500", activeText: "text-white", desc: "Upload a case study PDF" },
     { value: "playbook", label: "Playbook", icon: BookOpenIcon, color: "text-purple-500", bg: "bg-purple-50", iconBg: "bg-purple-500", border: "border-purple-200", activeBg: "bg-purple-500", activeText: "text-white", desc: "Upload a playbook PDF" },
 ];
@@ -40,10 +42,21 @@ export default function EditMarketingPage() {
 
     const [form, setForm] = useState({ title: "", type: "youtube", url: "", description: "", tags: "", attachmentType: "image" });
     const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState(null);
     const [existingUrl, setExistingUrl] = useState("");
     const [existingAttachment, setExistingAttachment] = useState("");
     const [error, setError] = useState("");
     const [dragOver, setDragOver] = useState(false);
+
+    useEffect(() => {
+        if (!file) {
+            setPreview(null);
+            return;
+        }
+        const url = URL.createObjectURL(file);
+        setPreview(url);
+        return () => URL.revokeObjectURL(url);
+    }, [file]);
 
     const queryKey = ["marketing", id];
     const { data: assetData, isLoading: loadingAsset, error: fetchError } = api.useGet(
@@ -67,6 +80,7 @@ export default function EditMarketingPage() {
     const isPDFType = form.type === "case_study" || form.type === "playbook";
     const isSocialPost = form.type === "social_post";
     const needsFile = isPDFType || isSocialPost;
+    const isPDF = form.attachmentType === "pdf";
     const youtubeThumb = form.type === "youtube" && form.url ? (() => { const vid = getYouTubeId(form.url); return vid ? `https://img.youtube.com/vi/${vid}/hqdefault.jpg` : null; })() : null;
 
     useEffect(() => {
@@ -78,6 +92,7 @@ export default function EditMarketingPage() {
                 url: a.url || "",
                 description: a.description || "",
                 tags: Array.isArray(a.tags) ? a.tags.join(", ") : a.tags || "",
+                attachmentType: a.attachmentType || "image",
             });
             setExistingUrl(a.url || "");
             setExistingAttachment(a.attachment || "");
@@ -116,11 +131,12 @@ export default function EditMarketingPage() {
                 dropped.name.endsWith(".mov") ||
                 dropped.name.endsWith(".wmv") ||
                 dropped.name.endsWith(".webm");
+            const isPDF = dropped.type === "application/pdf";
             const isImage = dropped.type.startsWith("image/");
 
-            if (isImage || isVideo) {
+            if (isImage || isVideo || isPDF) {
                 setFile(dropped);
-                setForm(f => ({ ...f, attachmentType: isImage ? "image" : "video" }));
+                setForm(f => ({ ...f, attachmentType: isImage ? "image" : isVideo ? "video" : "pdf" }));
             }
         } else if (target === "pdf" && isPDFType) {
             if (dropped.type === "application/pdf") {
@@ -133,10 +149,15 @@ export default function EditMarketingPage() {
 
     if (loadingAsset) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="flex flex-col items-center gap-3">
-                    <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-                    <p className="text-sm text-gray-500">Loading material...</p>
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-6">
+                    <div className="relative">
+                        <div className="w-16 h-16 border-4 border-slate-200 border-t-slate-900 rounded-full animate-spin" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-8 h-8 bg-white rounded-full shadow-sm" />
+                        </div>
+                    </div>
+                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest animate-pulse">Initializing Assets...</p>
                 </div>
             </div>
         );
@@ -145,30 +166,40 @@ export default function EditMarketingPage() {
     return (
         <div className="min-h-screen bg-gray-50/50 font-sans">
             {/* ── Top Bar ── */}
-            <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100 sticky top-0 z-10">
-                <div className="flex items-center gap-3">
-                    <button onClick={() => router.push("/admin/marketing")} className="p-2 rounded-xl hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
-                        <ArrowLeftIcon className="w-4 h-4" />
-                    </button>
-                    <div>
-                        <h1 className="text-base font-bold text-gray-900 tracking-tight">Edit Marketing Material</h1>
-                        <p className="text-xs text-gray-400 mt-0.5">Modify the details of this material</p>
+            <div className="sticky top-0 z-50 bg-white border-b border-gray-100 transition-all">
+                <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => router.push("/admin/marketing")}
+                            className="group p-2.5 rounded-2xl bg-slate-50 hover:bg-slate-900 text-slate-500 hover:text-white transition-all duration-300 shadow-xs active:scale-95"
+                        >
+                            <ArrowLeftIcon className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
+                        </button>
+                        <div>
+                            <h1 className="text-lg font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                                Edit Marketing Material
+                                <span className="text-[10px] bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Modifying</span>
+                            </h1>
+                            <p className="text-xs text-slate-400 font-medium mt-0.5">Refine and optimize your existing resource</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6 flex flex-col gap-6">
+            <div className="max-w-4xl mx-auto p-6 flex flex-col gap-8 mt-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {error && (
-                    <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-medium flex items-center gap-2">
-                        <XMarkIcon className="w-4 h-4 shrink-0" />
+                    <div className="p-4 rounded-2xl bg-red-50/80 backdrop-blur-sm border border-red-100 shadow-sm text-sm text-red-700 font-semibold flex items-center gap-3 animate-bounce">
+                        <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white shrink-0 shadow-lg">
+                            <XMarkIcon className="w-5 h-5" />
+                        </div>
                         {error}
                     </div>
                 )}
 
                 {/* ── Type Selector ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                    <h2 className="text-sm font-bold text-gray-800 mb-4">Material Type</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
+                    <h2 className="text-sm font-bold text-gray-800 mb-6">Material Type</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         {TYPE_OPTIONS.map(opt => {
                             const isActive = form.type === opt.value;
                             return (
@@ -184,19 +215,21 @@ export default function EditMarketingPage() {
                                             setError("");
                                         }
                                     }}
-                                    className={`flex items-center gap-2 p-1.5 rounded-2xl border transition-all text-center
+                                    className={`relative flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all duration-300
                                         ${isActive
-                                            ? `${opt.border} ${opt.bg} shadow-sm ${opt.border}`
-                                            : "border-gray-200 hover:border-gray-200 bg-gray-50/50"
+                                            ? `${opt.border} ${opt.bg} shadow-md scale-105 z-10`
+                                            : "border-gray-50 bg-white hover:bg-gray-50 hover:border-gray-200"
                                         }`}
                                 >
-                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? opt.iconBg : "bg-white"} border ${isActive ? opt.border : "border-gray-200"}`}>
-                                        <opt.icon className={`w-5 h-5 ${isActive ? "text-white" : "text-gray-400"}`} />
+                                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${isActive ? opt.iconBg : "bg-gray-50"}`}>
+                                        <opt.icon className={`w-7 h-7 ${isActive ? "text-white" : "text-gray-400"}`} />
                                     </div>
-                                    <div className="text-left">
-                                        <p className={`text-xs font-semibold ${isActive ? opt.color : "text-gray-700"}`}>{opt.label}</p>
-                                        <p className="text-[10px] text-gray-400 mt-0.5 leading-tight">{opt.desc}</p>
-                                    </div>
+                                    <p className={`text-sm font-bold ${isActive ? opt.color : "text-gray-700"}`}>{opt.label}</p>
+                                    {isActive && (
+                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center">
+                                            <CheckIcon className="w-3 h-3 text-white stroke-[3px]" />
+                                        </div>
+                                    )}
                                 </button>
                             );
                         })}
@@ -204,111 +237,133 @@ export default function EditMarketingPage() {
                 </div>
 
                 {/* ── Details Form ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4">
-                    <div className="flex items-center gap-2 mb-1">
-                        <div className={`w-7 h-7 rounded-lg ${selectedType?.bg} flex items-center justify-center`}>
-                            {selectedType && <selectedType.icon className={`w-4 h-4 ${selectedType.color}`} />}
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col gap-8">
+                    <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-2xl ${selectedType?.bg} border ${selectedType?.border} flex items-center justify-center shadow-inner`}>
+                            {selectedType && <selectedType.icon className={`w-6 h-6 ${selectedType.color}`} />}
                         </div>
-                        <h2 className="text-sm font-bold text-gray-800">{selectedType?.label} Details</h2>
-                        <span className="ml-auto text-[10px] bg-amber-50 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-full font-semibold flex items-center gap-1">
-                            <PencilSquareIcon className="w-3 h-3" /> Editing
-                        </span>
-                    </div>
-
-                    {/* Title */}
-                    <div>
-                        <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Title <span className="text-red-500">*</span></label>
-                        <input
-                            type="text"
-                            value={form.title}
-                            onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-                            placeholder="Enter a clear, descriptive title..."
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all"
-                        />
-                    </div>
-
-                    {/* URL */}
-                    {(form.type === "youtube" || form.type === "social_post") && (
-                        <div>
-                            <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">
-                                {form.type === "youtube" ? "YouTube URL" : "Post Link / URL"} {form.type !== "social_post" && <span className="text-red-500">*</span>}
-                            </label>
-                            <div className="relative">
-                                <LinkIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                <input
-                                    type="url"
-                                    value={form.url}
-                                    onChange={e => setForm(f => ({ ...f, url: e.target.value }))}
-                                    placeholder={form.type === "youtube" ? "https://youtube.com/watch?v=..." : "https://"}
-                                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all"
-                                />
+                        <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-xl font-black text-slate-800 tracking-tight">{selectedType?.label} Details</h2>
+                                <span className="text-[10px] bg-amber-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-widest shadow-lg shadow-amber-200 flex items-center gap-2">
+                                    <PencilSquareIcon className="w-3.5 h-3.5" /> RE-VAMPING
+                                </span>
                             </div>
-                            {/* YouTube Thumbnail Preview */}
-                            {form.type === "youtube" && youtubeThumb && (
-                                <div className="mt-3 rounded-xl overflow-hidden border border-gray-200 h-36 relative">
-                                    <img src={youtubeThumb} alt="Thumbnail preview" className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                                        <div className="w-10 h-10 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center">
-                                            <VideoCameraIcon className="w-5 h-5 text-white" />
+                            <p className="text-xs text-slate-400 font-medium mt-1">Update the core attributes of this resource</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-8">
+                        {/* Title */}
+                        <div className="group">
+                            <label className="block text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
+                                Title <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                required
+                                value={form.title}
+                                onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+                                placeholder="Enter a premium title..."
+                                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
+                            />
+                        </div>
+
+                        {/* URL */}
+                        {(form.type === "youtube" || form.type === "social_post") && (
+                            <div className="animate-in slide-in-from-top-2 duration-300">
+                                <label className="block text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
+                                    {form.type === "youtube" ? "YouTube Connection" : "Digital Destination URL"}
+                                    {form.type !== "social_post" && <span className="text-red-500">*</span>}
+                                </label>
+                                <div className="relative group/input">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-slate-200/50 flex items-center justify-center group-focus-within/input:bg-blue-100 transition-colors">
+                                        <LinkIcon className="w-5 h-5 text-slate-500 group-focus-within/input:text-blue-600 transition-colors" />
+                                    </div>
+                                    <input
+                                        type="url"
+                                        value={form.url}
+                                        onChange={e => setForm(f => ({ ...f, url: e.target.value }))}
+                                        placeholder={form.type === "youtube" ? "Paste your link here..." : "https://app.example.com"}
+                                        className="w-full pl-16 pr-6 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
+                                    />
+                                </div>
+
+                                {/* YouTube Thumbnail Preview */}
+                                {form.type === "youtube" && youtubeThumb && (
+                                    <div className="mt-5 rounded-[2rem] overflow-hidden border-4 border-white shadow-2xl h-48 relative group/thumb">
+                                        <img src={youtubeThumb} alt="Thumbnail preview" className="w-full h-full object-cover transition-transform duration-700 group-hover/thumb:scale-110" />
+                                        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center">
+                                            <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border-2 border-white/60 flex items-center justify-center shadow-white/20 shadow-2xl group-hover/thumb:scale-125 transition-all duration-500">
+                                                <VideoCameraIcon className="w-8 h-8 text-white" />
+                                            </div>
+                                        </div>
+                                        <div className="absolute top-4 right-4">
+                                            <span className="text-[10px] bg-emerald-500 text-white px-3 py-1 rounded-full font-bold uppercase tracking-widest shadow-lg">Link Active</span>
                                         </div>
                                     </div>
-                                    <div className="absolute bottom-2 left-2">
-                                        <span className="text-[10px] bg-black/60 text-white px-2 py-0.5 rounded-full font-medium">Thumbnail Preview</span>
-                                    </div>
-                                </div>
-                            )}
+                                )}
 
-                            {/* Social Post Attachment Type Toggle */}
-                            {form.type === "social_post" && (
-                                <div className="mt-4">
-                                    <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Attachment Type</label>
-                                    <div className="flex bg-gray-100 p-1.5 rounded-2xl w-fit gap-1 border border-gray-200 shadow-inner">
-                                        {["image", "video"].map(t => (
-                                            <button
-                                                key={t}
-                                                type="button"
-                                                onClick={() => setForm(f => ({ ...f, attachmentType: t }))}
-                                                className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-bold transition-all ${form.attachmentType === t ? "bg-white text-blue-600 shadow-xs ring-1 ring-black/5" : "text-gray-500 hover:bg-white/50"}`}
-                                            >
-                                                {t === "image" ? <PlusIcon className="w-3.5 h-3.5" /> : <VideoCameraIcon className="w-3.5 h-3.5" />}
-                                                <span className="capitalize">{t}</span>
-                                            </button>
-                                        ))}
+                                {/* Social Post Attachment Type Toggle */}
+                                {form.type === "social_post" && (
+                                    <div className="mt-8 p-6 bg-slate-50 rounded-[2rem] border border-slate-200/50">
+                                        <label className="block text-xs font-black text-slate-500 mb-4 uppercase tracking-widest ml-1">Attachment Specs</label>
+                                        <div className="flex bg-white p-2 rounded-[1.5rem] w-full sm:w-fit gap-2 shadow-inner border border-slate-100">
+                                            {["image", "video", "pdf"].map(t => (
+                                                <button
+                                                    key={t}
+                                                    type="button"
+                                                    onClick={() => setForm(f => ({ ...f, attachmentType: t }))}
+                                                    className={`flex-1 sm:flex-none flex items-center justify-center gap-3 px-8 py-3 rounded-2xl text-xs font-black transition-all duration-300
+                                                        ${form.attachmentType === t
+                                                            ? "bg-slate-900 text-white shadow-xl scale-105"
+                                                            : "text-slate-400 hover:bg-slate-50 hover:text-slate-600"
+                                                        }`}
+                                                >
+                                                    {t === "image" ? <PlusIcon className="w-4 h-4" /> : t === "video" ? <VideoCameraIcon className="w-4 h-4" /> : <DocumentTextIcon className="w-4 h-4" />}
+                                                    <span className="capitalize">{t}</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <div className="text-[11px] text-slate-400 mt-4 px-2 italic font-semibold flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                                            {form.attachmentType === "image" ? "High-res formats: PNG, JPG, WebP (Max 10MB)" : form.attachmentType === "video" ? "Optimized formats: MP4, MOV (Max 50MB)" : "Standard: Portable Document Format (PDF)"}
+                                        </div>
                                     </div>
-                                    <p className="text-[10px] text-gray-400 mt-2 px-2 italic font-medium">
-                                        {form.attachmentType === "image" ? "Upload a high-quality JPG, PNG or WebP image." : "Upload a video file (MP4, WebM up to 50MB)."}
-                                    </p>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                                )}
+                            </div>
+                        )}
+                    </div>
 
                     {/* Social Post Media Upload */}
                     {isSocialPost && (
-                        <div>
-                            <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">
-                                Social Post Media <span className="text-gray-400 font-normal">(Leave empty to keep existing)</span>
-                            </label>
+                        <div className="animate-in zoom-in duration-500">
+                            <div className="flex items-center justify-between mb-3 ml-1">
+                                <label className="text-sm font-bold text-slate-700 tracking-tight">
+                                    Visual Asset <span className="text-slate-400 font-medium">(Optional update)</span>
+                                </label>
+                            </div>
 
                             {existingAttachment && !file && (
-                                <div className="mb-3 flex flex-col gap-2 p-3 rounded-xl bg-blue-50 border border-blue-200">
-                                    <div className="flex items-center gap-2">
-                                        <MegaphoneIcon className="w-4 h-4 text-blue-500 shrink-0" />
-                                        <p className="text-xs font-semibold text-blue-700">Current Attachment</p>
-                                    </div>
-                                    <div className="rounded-lg overflow-hidden border border-blue-100 max-h-40 relative group/preview">
-                                        {existingAttachment.includes("video") ||
-                                            existingAttachment.endsWith(".mp4") ||
-                                            existingAttachment.endsWith(".avi") ||
-                                            existingAttachment.endsWith(".mov") ||
-                                            existingAttachment.endsWith(".wmv") ||
-                                            existingAttachment.endsWith(".webm") ? (
-                                            <iframe src={existingAttachment} className="w-full aspect-video rounded-lg" />
-                                        ) : (
-                                            <img src={existingAttachment} alt="Existing attachment" className="w-full h-auto object-cover" />
-                                        )}
-                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center">
-                                            <p className="text-white text-[10px] font-bold">CURRENTLY SAVED</p>
+                                <div className="mb-6 group/item relative">
+                                    <div className="absolute -inset-1 bg-linear-to-r from-blue-100 to-indigo-100 rounded-[2rem] blur-md opacity-25 group-hover/item:opacity-50 transition duration-500"></div>
+                                    <div className="relative p-2 bg-white rounded-[2rem] border border-blue-100 shadow-xl shadow-blue-900/5">
+                                        <div className="rounded-[1.5rem] overflow-hidden border border-slate-100 h-64 relative">
+                                            {existingAttachment.includes("video") ||
+                                                existingAttachment.endsWith(".mp4") ||
+                                                existingAttachment.endsWith(".avi") ||
+                                                existingAttachment.endsWith(".mov") ||
+                                                existingAttachment.endsWith(".wmv") ||
+                                                existingAttachment.endsWith(".webm") ? (
+                                                <iframe src={existingAttachment} className="w-full h-full rounded-[1.5rem]" />
+                                            ) : (existingAttachment.endsWith(".pdf") || existingAttachment.includes("application/pdf")) ? (
+                                                <iframe src={existingAttachment} className="w-full h-full rounded-[1.5rem]" title="PDF Preview" />
+                                            ) : (
+                                                <img src={existingAttachment} alt="Existing attachment" className="w-full h-full object-cover" />
+                                            )}
+                                            <div className="absolute top-4 left-4 flex items-center gap-2">
+                                                <span className="text-[10px] bg-blue-600 text-white px-3 py-1 rounded-full font-black uppercase tracking-widest shadow-lg">Current Asset</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -319,32 +374,50 @@ export default function EditMarketingPage() {
                                 onDragOver={e => { e.preventDefault(); setDragOver(true); }}
                                 onDragLeave={() => setDragOver(false)}
                                 onDrop={e => handleDrop(e, "media")}
-                                className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center gap-3 cursor-pointer transition-all
+                                className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
                                     ${dragOver
-                                        ? "border-blue-400 bg-blue-50/50"
+                                        ? "border-blue-400 bg-blue-50/50 scale-[0.98]"
                                         : file
                                             ? "border-emerald-400 bg-emerald-50/30"
-                                            : "border-gray-200 hover:border-blue-300 hover:bg-blue-50/20"
+                                            : "border-slate-200 hover:border-blue-400 hover:bg-slate-50 shadow-inner"
                                     }`}
                             >
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${file ? "bg-emerald-100" : "bg-gray-100"}`}>
-                                    {form.attachmentType === "image" ? <PlusIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} /> : <VideoCameraIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} />}
+                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+                                    {form.attachmentType === "image" ? <PlusIcon className="w-10 h-10" /> : form.attachmentType === "video" ? <VideoCameraIcon className="w-10 h-10" /> : <DocumentTextIcon className="w-10 h-10" />}
                                 </div>
-                                {file ? (
-                                    <>
-                                        <p className="text-sm font-semibold text-emerald-700">{file.name}</p>
-                                        <p className="text-xs text-emerald-500">{(file.size / 1024 / 1024).toFixed(2)} MB • Click to change</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <p className="text-sm font-semibold text-gray-600">Drop new {form.attachmentType} or click to browse</p>
-                                        <p className="text-xs text-gray-400">Replaces the existing media</p>
-                                    </>
-                                )}
+
+                                <div className="text-center">
+                                    {file ? (
+                                        <div className="animate-in slide-in-from-bottom-2">
+                                            {preview && (
+                                                <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white">
+                                                    {form.attachmentType === "image" ? (
+                                                        <img src={preview} alt="Preview" className="w-full h-auto" />
+                                                    ) : form.attachmentType === "video" ? (
+                                                        <video src={preview} className="w-full h-auto" />
+                                                    ) : (
+                                                        <div className="p-4 flex flex-col items-center gap-2">
+                                                            <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
+                                                            <span className="text-[10px] font-bold text-emerald-600">PDF READY</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                            <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
+                                            <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY TO RE-UPLOAD</p>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <p className="text-base font-bold text-slate-600">Re-upload new {form.attachmentType} here</p>
+                                            <p className="text-xs text-slate-400 mt-1 font-medium italic">or click to browse local files</p>
+                                        </>
+                                    )}
+                                </div>
+
                                 <input
                                     ref={mediaFileRef}
                                     type="file"
-                                    accept={form.attachmentType === "image" ? "image/*" : ".mp4,.avi,.mov,.wmv,.webm,video/*"}
+                                    accept={form.attachmentType === "image" ? "image/*" : form.attachmentType === "video" ? ".mp4,.avi,.mov,.wmv,.webm,video/*" : "application/pdf"}
                                     className="hidden"
                                     onChange={e => {
                                         const f = e.target.files[0];
@@ -356,7 +429,8 @@ export default function EditMarketingPage() {
                                                 f.name.endsWith(".mov") ||
                                                 f.name.endsWith(".wmv") ||
                                                 f.name.endsWith(".webm");
-                                            setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : "image" }));
+                                            const isPDF = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
+                                            setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : isPDF ? "pdf" : "image" }));
                                         }
                                     }}
                                 />
@@ -366,17 +440,19 @@ export default function EditMarketingPage() {
 
                     {/* PDF File Upload */}
                     {isPDFType && (
-                        <div>
-                            <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">
-                                PDF File <span className="text-gray-400 font-normal">(Leave empty to keep existing)</span>
+                        <div className="animate-in zoom-in duration-500">
+                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1 tracking-tight">
+                                Document Source <span className="text-slate-400 font-medium">(Optional update)</span>
                             </label>
 
                             {existingUrl && !file && (
-                                <div className="mb-3 flex items-center gap-2 p-3 rounded-xl bg-indigo-50 border border-indigo-200">
-                                    <DocumentTextIcon className="w-4 h-4 text-indigo-500 shrink-0" />
+                                <div className="mb-6 p-4 rounded-[1.5rem] bg-indigo-50 border border-indigo-100 shadow-inner flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-indigo-500 flex items-center justify-center text-white shadow-lg">
+                                        <DocumentTextIcon className="w-6 h-6" />
+                                    </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-xs font-semibold text-indigo-700">Current file</p>
-                                        <a href={existingUrl} target="_blank" rel="noreferrer" className="text-[10px] text-indigo-500 hover:underline truncate block">{existingUrl}</a>
+                                        <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest leading-none">Stored File</p>
+                                        <a href={existingUrl} target="_blank" rel="noreferrer" className="text-sm font-bold text-indigo-700 hover:text-indigo-900 transition-colors truncate block mt-1">{existingUrl}</a>
                                     </div>
                                 </div>
                             )}
@@ -386,28 +462,36 @@ export default function EditMarketingPage() {
                                 onDragOver={e => { e.preventDefault(); setDragOver(true); }}
                                 onDragLeave={() => setDragOver(false)}
                                 onDrop={e => handleDrop(e, "pdf")}
-                                className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center gap-3 cursor-pointer transition-all
+                                className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
                                     ${dragOver
-                                        ? "border-indigo-400 bg-indigo-50/50"
+                                        ? "border-indigo-400 bg-indigo-50/50 scale-[0.98]"
                                         : file
                                             ? "border-emerald-400 bg-emerald-50/30"
-                                            : "border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/20"
+                                            : "border-slate-200 hover:border-indigo-400 hover:bg-slate-50 shadow-inner"
                                     }`}
                             >
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${file ? "bg-emerald-100" : "bg-gray-100"}`}>
-                                    <ArrowUpTrayIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} />
+                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+                                    <ArrowUpTrayIcon className="w-10 h-10" />
                                 </div>
-                                {file ? (
-                                    <>
-                                        <p className="text-sm font-semibold text-emerald-700">{file.name}</p>
-                                        <p className="text-xs text-emerald-500">{(file.size / 1024 / 1024).toFixed(2)} MB • Click to change</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <p className="text-sm font-semibold text-gray-600">Drop new PDF or click to browse</p>
-                                        <p className="text-xs text-gray-400">Replaces the existing file</p>
-                                    </>
-                                )}
+                                <div className="text-center">
+                                    {file ? (
+                                        <div className="animate-in slide-in-from-bottom-2">
+                                            {preview && (
+                                                <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white p-4 flex flex-col items-center gap-2">
+                                                    <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
+                                                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Document Ready</span>
+                                                </div>
+                                            )}
+                                            <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
+                                            <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY FOR ANALYSIS</p>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <p className="text-base font-bold text-slate-600">Re-upload new PDF here</p>
+                                            <p className="text-xs text-slate-400 mt-1 font-medium italic">High-fidelity PDF document required</p>
+                                        </>
+                                    )}
+                                </div>
                                 <input
                                     ref={pdfFileRef}
                                     type="file"
@@ -424,41 +508,45 @@ export default function EditMarketingPage() {
 
                     {/* Description */}
                     <div>
-                        <div className="flex items-center justify-between mb-1.5">
-                            <label className="bg-white font-semibold px-2 inline-block text-sm text-gray-700 tracking-tight">Description <span className="text-gray-400 font-normal">(optional)</span></label>
-                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${overLimit ? "bg-red-100 text-red-600" : "bg-gray-100 text-gray-500"}`}>
-                                {wordCount} / 500 words
+                        <div className="flex items-center justify-between mb-2 px-1">
+                            <label className="text-sm font-bold text-slate-700 tracking-tight">Narrative <span className="text-slate-400 font-medium">(Optional)</span></label>
+                            <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
+                                {wordCount} / 100 Words
                             </span>
                         </div>
                         <textarea
-                            rows={4}
+                            rows={5}
                             value={form.description}
                             onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-                            placeholder="A brief description of this material..."
-                            className={`w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border ${overLimit ? "border-red-400 ring-1 ring-red-400" : "border-gray-200"} text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all resize-none`}
+                            placeholder="Tell the story of this material..."
+                            className={`w-full px-5 py-4 rounded-[2rem] bg-slate-50 border transition-all duration-300 shadow-inner resize-none focus:outline-none focus:ring-4 focus:bg-white text-sm font-medium leading-relaxed
+                                ${overLimit
+                                    ? "border-red-400 focus:ring-red-100 placeholder-red-300"
+                                    : "border-slate-200/80 focus:ring-blue-100 focus:border-blue-400 placeholder-slate-400"}`}
                         />
                         {overLimit && (
-                            <p className="text-[10px] text-red-500 mt-1 font-medium ml-2">Description is too long. Please reduce it to 500 words or less.</p>
+                            <p className="text-[10px] text-red-500 mt-2 font-bold ml-4 animate-pulse">NARRATIVE LIMIT REACHED. PLEASE CONDENSE YOUR CONTENT.</p>
                         )}
                     </div>
 
-                    {/* Tags */}
+                    {/* Keywords */}
                     <div>
-                        <label className="flex items-center gap-1 font-semibold bg-white px-2 mb-1.5 text-sm text-gray-700 tracking-tight">
-                            <TagIcon className="w-3.5 h-3.5" /> Tags <span className="text-gray-400 font-normal">(comma-separated, optional)</span>
+                        <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
+                            <TagIcon className="w-4 h-4 text-blue-500" /> Keywords <span className="text-slate-400 font-medium">(Metadata)</span>
                         </label>
                         <input
                             type="text"
                             value={form.tags}
                             onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
-                            placeholder="e.g. marketing, product, launch"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all"
+                            placeholder="marketing, growth, campaign"
+                            className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
                         />
                         {form.tags && (
-                            <div className="flex flex-wrap gap-1.5 mt-2">
+                            <div className="flex flex-wrap gap-2 mt-4 px-1">
                                 {form.tags.split(",").filter(t => t.trim()).map((t, i) => (
-                                    <span key={i} className={`text-[11px] px-2.5 py-1 rounded-full font-medium border ${selectedType?.bg} ${selectedType?.color} ${selectedType?.border}`}>
-                                        #{t.trim()}
+                                    <span key={i} className={`text-[11px] px-4 py-1.5 rounded-full font-bold border animate-in zoom-in duration-300 shadow-xs
+                                        ${selectedType?.bg} ${selectedType?.color} ${selectedType?.border}`}>
+                                        #{t.trim().toUpperCase()}
                                     </span>
                                 ))}
                             </div>
@@ -467,12 +555,12 @@ export default function EditMarketingPage() {
                 </div>
 
                 {/* ── Action Buttons ── */}
-                <div className="flex flex-col sm:flex-row items-center justify-end gap-6 mt-4">
-                    <div className="flex items-center gap-4 w-full sm:w-auto">
+                <div className="flex flex-col sm:flex-row items-center justify-end gap-4 mt-8">
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
                         <button
                             type="button"
                             onClick={() => router.back()}
-                            className="flex-1 sm:flex-none px-8 py-4 rounded-md border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 transition-all text-sm bg-white"
+                            className="flex-1 sm:flex-none px-8 py-4 rounded-xl border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 text-sm"
                         >
                             Cancel
                         </button>
@@ -489,21 +577,24 @@ export default function EditMarketingPage() {
                                     return;
                                 }
                                 if (overLimit) {
-                                    setError("Description cannot exceed 500 words.");
+                                    setError("Narrative limit reached. Please condense your content.");
                                     return;
                                 }
                                 setError("");
                                 handleSubmit();
                             }}
-                            className="flex-1 sm:flex-none px-10 py-4 rounded-md bg-gray-900 text-white font-bold hover:bg-black transition-all shadow-xl shadow-gray-200 flex items-center justify-center gap-3 disabled:opacity-30 disabled:cursor-not-allowed text-sm tracking-tight"
+                            className="flex-1 sm:flex-none px-10 py-4 rounded-xl bg-gray-900 text-white font-bold hover:bg-black transition-all duration-200 shadow-sm flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed text-sm"
                         >
                             {submitting ? (
                                 <>
-                                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                                    Processing...
+                                    <div className="w-5 h-5 border-3 border-white/20 border-t-white rounded-full animate-spin" />
+                                    Synchronizing...
                                 </>
                             ) : (
-                                "Save Changes"
+                                <>
+                                    Save Changes
+                                    <CheckIcon className="w-4 h-4 transition-transform group-hover:scale-110 stroke-[3px]" />
+                                </>
                             )}
                         </button>
                     </div>

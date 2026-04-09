@@ -140,6 +140,7 @@ function MediaPreviewModal({ media, onClose }) {
         media.endsWith(".mov") ||
         media.endsWith(".wmv") ||
         media.endsWith(".webm");
+    const isPDF = media.endsWith(".pdf") || media.includes("application/pdf") || media.includes("raw/upload");
 
     return (
         <div
@@ -167,6 +168,12 @@ function MediaPreviewModal({ media, onClose }) {
                             controls
                             autoPlay
                             playsInline
+                        />
+                    ) : isPDF ? (
+                        <iframe
+                            src={media}
+                            className="w-full h-[80vh] rounded-xl border-0"
+                            title="PDF Preview"
                         />
                     ) : (
                         <img
@@ -411,6 +418,11 @@ function SocialPostTable({ assets, loading, onEdit, onDelete, onToggleVisibility
                                                         a.attachment.endsWith(".webm")) ? (
                                                         <div className="w-full h-full flex items-center justify-center bg-gray-900">
                                                             <PlayIcon className="w-4 h-4 text-white" />
+                                                        </div>
+                                                    ) : a.attachmentType === "pdf" ? (
+                                                        <div className="w-full h-full flex flex-col items-center justify-center bg-blue-50/50">
+                                                            <DocumentTextIcon className="w-6 h-6 text-blue-500" />
+                                                            <span className="text-[8px] font-bold text-blue-600 uppercase">PDF</span>
                                                         </div>
                                                     ) : (
                                                         <img src={a.attachment} alt="Attachment" className="w-full h-full object-cover" />

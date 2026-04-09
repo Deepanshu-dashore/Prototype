@@ -23,13 +23,7 @@ export async function GET(request, { params }) {
       result.attachment = result.attachment
         ? getUrls.getUrl(
             result.attachment,
-            result.attachment.includes(".mp4") ||
-              result.attachment.includes(".avi") ||
-              result.attachment.includes(".mov") ||
-              result.attachment.includes(".wmv") ||
-              result.attachment.includes(".webm")
-              ? "video"
-              : "image",
+            result.attachmentType === "video" ? "video" : (result.attachmentType === "pdf" ? "raw" : "image")
           )
         : undefined;
     }
@@ -87,13 +81,14 @@ export async function PUT(request, { params }) {
       if (existingCheck.attachment) {
         await CloudneryService.delete(
           existingCheck.attachment,
-          attachmentType || "image",
+          existingCheck.attachmentType === "pdf" ? "raw" : (existingCheck.attachmentType || "image"),
         );
       }
       socialAttachmentUrl = await CloudneryService.upload(
         attachment,
         "marketing-assets",
-        attachmentType || "image",
+        attachmentType === "pdf" ? "raw" : (attachmentType || "image"),
+        attachmentType === "pdf" ? "pdf" : "",
       );
       if (!socialAttachmentUrl) {
         return ApiResponse(400, null, "Attachment upload failed, try again");
@@ -111,6 +106,7 @@ export async function PUT(request, { params }) {
             ? url
             : uploadUrl?.url || url || existingCheck.url,
         attachment: socialAttachmentUrl?.url || existingCheck.attachment,
+        attachmentType: attachmentType || existingCheck.attachmentType,
         description,
         tags: uniqueTags,
       },
@@ -144,7 +140,8 @@ export async function DELETE(request, { params }) {
       await CloudneryService.delete(existingCheck.url, "raw");
     }
     if (existingCheck.attachment && existingCheck.type === "social_post") {
-      await CloudneryService.delete(existingCheck.attachment, "image");
+      const deleteType = existingCheck.attachmentType === "pdf" ? "raw" : (existingCheck.attachmentType || "image");
+      await CloudneryService.delete(existingCheck.attachment, deleteType);
     }
     const marketingAsset = await MarketingAssetService.deleteMarketingAsset(id);
     return ApiResponse(

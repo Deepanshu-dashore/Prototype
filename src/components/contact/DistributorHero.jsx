@@ -276,7 +276,7 @@ export default function DistributorHero() {
               </Link>
               <Link
                 href="/distributor/login"
-                className="inline-flex items-center gap-2 border border-gray-400 text-neutral-dark px-6 py-3 rounded-lg font-semibold hover:border-primary/40 hover:text-primary transition-all duration-300"
+                className="inline-flex items-center gap-2 border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:border-primary/40 hover:text-primary transition-all duration-300"
               >
                 Distributor Login
               </Link>
@@ -295,7 +295,7 @@ export default function DistributorHero() {
 
             {/* Form Container */}
             <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_30px_rgba(0,0,0,0.04)] border border-gray-100 max-h-[450px] flex flex-col justify-center overflow-hidden">
-              <Image src="/assets/products Page/HavyDuty-custSpace/1.jpeg" height={500} width={400} className='w-full h-full' alt="distributor image" />
+              <Image src="/assets/products%20Page/havydutyGray.jpeg" height={500} width={400} className='w-full h-full' alt="distributor image" />
             </div>
           </motion.div>
         </div>

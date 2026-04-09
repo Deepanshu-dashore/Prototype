@@ -41,7 +41,7 @@ export async function POST(req) {
         "Attachment type is required for social post",
       );
     }
-    if (attachmentType && !["image", "video"].includes(attachmentType)) {
+    if (attachmentType && !["image", "video", "pdf"].includes(attachmentType)) {
       return ApiResponse(400, null, "Invalid attachment type");
     }
     if (type === "youtube") {
@@ -56,7 +56,8 @@ export async function POST(req) {
       const attachmentUrl = await CloudneryService.upload(
         attachment,
         "marketing-assets",
-        attachmentType,
+        attachmentType === "pdf" ? "raw" : attachmentType,
+        attachmentType === "pdf" ? "pdf" : "",
       );
       if (!attachmentUrl) {
         return ApiResponse(400, null, "File upload failed, try again");
@@ -67,6 +68,7 @@ export async function POST(req) {
         url,
         description,
         attachment: attachmentUrl?.url,
+        attachmentType: attachmentType,
         tags: uniqueTags,
       });
     } else if (type === "case_study" || type === "playbook") {
@@ -122,13 +124,7 @@ export async function GET() {
           attachment: asset.attachment
             ? getUrls.getUrl(
                 asset.attachment,
-                asset.attachment.includes(".mp4") ||
-                  asset.attachment.includes(".avi") ||
-                  asset.attachment.includes(".mov") ||
-                  asset.attachment.includes(".wmv") ||
-                  asset.attachment.includes(".webm")
-                  ? "video"
-                  : "image",
+                asset.attachmentType === "video" ? "video" : (asset.attachmentType === "pdf" ? "raw" : "image")
               )
             : undefined,
         };
