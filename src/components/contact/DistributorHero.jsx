@@ -268,7 +268,7 @@ export default function DistributorHero() {
             </div>
             <div className="flex flex-wrap gap-4 pt-2 mt-10">
               <Link
-                href="/contact#become-distributor"
+                href="/distributor#become-distributor"
                 className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-lg group"
               >
                 Become a Distributor
