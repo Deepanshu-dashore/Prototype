@@ -135,7 +135,7 @@ export default function AddMarketingPage() {
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6 flex flex-col gap-6">
+            <div className="max-w-4xl mx-auto p-6 px-0 flex flex-col gap-6">
                 {error && (
                     <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-medium flex items-center gap-2">
                         <XMarkIcon className="w-4 h-4 shrink-0" />
@@ -160,14 +160,14 @@ export default function AddMarketingPage() {
                                             setError("");
                                         }
                                     }}
-                                    className={`flex items-center gap-2 p-1.5 rounded-2xl border transition-all text-center
+                                    className={`flex items-center gap-2 p-1.5 rounded-xl border transition-all text-center
                                             ${isActive
                                             ? `${opt.border} ${opt.bg} shadow-md z-10`
-                                            : "border-slate-100 bg-white/50 hover:bg-slate-50 hover:border-slate-200"
+                                            : "border-slate-200 bg-white/50 hover:bg-slate-50 hover:border-slate-200"
                                         }`}
                                 >
-                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${isActive ? opt.iconBg : "bg-slate-100"} shadow-lg transition-transform group-hover:rotate-6`}>
-                                        <opt.icon className={`w-7 h-7 ${isActive ? "text-white" : "text-slate-400"}`} />
+                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${isActive ? opt.iconBg : "bg-slate-100"} shadow-lg transition-transform group-hover:rotate-6`}>
+                                        <opt.icon className={`w-5 h-5 ${isActive ? "text-white" : "text-slate-400"}`} />
                                     </div>
                                     <div className="text-center">
                                         <p className={`text-sm font-bold tracking-tight ${isActive ? opt.color : "text-slate-700"}`}>{opt.label}</p>
