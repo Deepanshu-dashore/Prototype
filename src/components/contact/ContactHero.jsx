@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PhoneIcon, CheckCircleIcon } from '@heroicons/react/24/solid'
-import { PaperAirplaneIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { PaperAirplaneIcon, ChevronDownIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import { trackPhoneClick, trackFormOpen } from '../../utils/analytics'
 import { getAllProducts } from '@/src/utils/productsData'
 import { useContactForm } from '../share/ContactFormContext'
@@ -223,6 +223,23 @@ export default function ContactHero() {
   const countryDropdownRef = useRef(null);
   const productDropdownRef = useRef(null);
 
+  const [captcha, setCaptcha] = useState("");
+  const [captchaInput, setCaptchaInput] = useState("");
+
+  const generateCaptcha = () => {
+    const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setCaptcha(result);
+    setCaptchaInput("");
+  };
+
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
+
   const allProducts = getAllProducts();
   const baseProducts = allProducts.map((product) => product.title);
   const productOptions = [
@@ -282,6 +299,7 @@ export default function ContactHero() {
     if (!formData.phone) newErrors.phone = true;
     if (!formData.product) newErrors.product = true;
     if (!formData.message) newErrors.message = true;
+    if (captchaInput !== captcha) newErrors.captcha = true;
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -306,6 +324,7 @@ export default function ContactHero() {
 
       setIsSubmitted(true);
       setFormData({ name: "", email: "", phone: "", product: "", message: "" });
+      generateCaptcha();
       // console.log("Form submitted successfully to Google Sheets");
     } catch (error) {
       // console.error("Error submitting form:", error);
@@ -650,6 +669,135 @@ export default function ContactHero() {
                     className={`w-full min-h-[100px] px-4 py-3 bg-[#F9FAFB] border ${errors.message ? "border-red-500" : "border-gray-200"} rounded-lg focus:bg-white focus:rounded-xl focus:shadow-[0_0_0_4px_rgba(0,34,204,0.1)] focus:border-primary outline-none transition-all resize-none text-sm`}
                     placeholder="Your message"
                   />
+                </motion.div>
+
+                {/* Captcha Section */}
+                <motion.div
+                  animate={errors.captcha ? "shake" : ""}
+                  variants={shakeAnimation}
+                  className="space-y-4"
+                >
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1 flex items-center justify-between px-4 h-[52px] bg-gray-100 rounded-lg border border-gray-200 select-none overflow-hidden relative group">
+                      {/* Advanced Noise Layers */}
+                      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+                        {/* Wavy Strike-throughs */}
+                        <svg className="absolute inset-0 w-full h-full">
+                          <path 
+                            d="M 0 26 Q 50 10 100 26 T 200 26 T 300 26" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            className="text-primary/30" 
+                            strokeWidth="2"
+                          />
+                          <path 
+                            d="M 0 30 Q 70 45 140 30 T 280 30" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            className="text-primary/20" 
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                        
+                        {/* More noise elements */}
+                        <div className="absolute inset-0 flex justify-around items-center">
+                          {Array.from({ length: 12 }).map((_, i) => (
+                            <div 
+                              key={i} 
+                              className="w-[1.5px] h-full bg-primary/10" 
+                              style={{ 
+                                transform: `rotate(${((i * 37) % 60) - 30}deg) translateX(${((i * 13) % 20) - 10}px)`,
+                                opacity: 0.1 + (i % 2) * 0.1
+                              }} 
+                            />
+                          ))}
+                        </div>
+
+                        {/* Random "dust" pixels */}
+                        {Array.from({ length: 15 }).map((_, i) => (
+                          <div 
+                            key={`dust-${i}`}
+                            className="absolute w-1 h-1 bg-primary/40 rounded-full"
+                            style={{
+                              left: `${(i * 17) % 100}%`,
+                              top: `${(i * 23) % 100}%`,
+                              opacity: 0.3
+                            }}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Decorative background for captcha */}
+                      <div className="absolute inset-0 opacity-[0.08] pointer-events-none flex flex-wrap gap-1">
+                        {Array.from({ length: 60 }).map((_, idx) => (
+                          <div 
+                            key={idx} 
+                            className="w-3 h-3 rounded-full bg-primary" 
+                            style={{ 
+                              transform: `rotate(${Math.sin(idx) * 360}deg) scale(${0.3 + Math.cos(idx) * 0.7})`,
+                              opacity: 0.1 + Math.abs(Math.sin(idx)) * 0.4
+                            }}
+                          />
+                        ))}
+                      </div>
+                      
+                      <div className="flex items-center relative z-10 select-none px-2">
+                        {captcha.split("").map((char, index) => {
+                          const colors = ["text-primary", "text-blue-600", "text-blue-800", "text-indigo-700"];
+                          const colorClass = colors[index % colors.length];
+                          
+                          return (
+                            <span
+                              key={index}
+                              className={`font-mono text-3xl font-black ${colorClass} inline-block`}
+                              style={{
+                                transform: `
+                                  rotate(${((index * 17) % 50) - 25}deg) 
+                                  translateY(${Math.sin(index) * 8}px) 
+                                  skew(${((index * 13) % 24) - 12}deg)
+                                  scale(${0.9 + (index % 3) * 0.1})
+                                `,
+                                filter: `blur(0.3px)`,
+                                letterSpacing: `-2px`,
+                                textShadow: `
+                                  ${index % 2 ? '1px' : '-1px'} 1px 2px rgba(0,0,0,0.1),
+                                  0 0 5px rgba(0,34,204,0.1)
+                                `,
+                                margin: "0 -2px"
+                              }}
+                            >
+                              {char}
+                            </span>
+                          );
+                        })}
+                      </div>
+                      
+                      <button
+                        type="button"
+                        onClick={generateCaptcha}
+                        className="p-1.5 hover:bg-white/90 rounded-full transition-all duration-300 relative z-10 shadow-md border border-gray-200 bg-white/50"
+                        title="Refresh Captcha"
+                      >
+                        <ArrowPathIcon className="w-5 h-5 text-primary" />
+                      </button>
+                    </div>
+
+                    <input
+                      type="text"
+                      placeholder="Type the code"
+                      value={captchaInput}
+                      onChange={(e) => {
+                        setCaptchaInput(e.target.value);
+                        if (errors.captcha) setErrors({ ...errors, captcha: false });
+                      }}
+                      className={`flex-1 h-[52px] px-4 bg-[#F9FAFB] border ${errors.captcha ? "border-red-500 shadow-[0_0_0_4px_rgba(239,68,68,0.1)]" : "border-gray-200"} rounded-lg focus:bg-white focus:rounded-xl focus:shadow-[0_0_0_4px_rgba(0,34,204,0.1)] focus:border-primary outline-none transition-all text-sm font-mono tracking-widest`}
+                    />
+                  </div>
+                  {errors.captcha && (
+                    <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider">
+                      Incorrect security code. Please try again.
+                    </p>
+                  )}
                 </motion.div>
 
                 <div className="pt-4">
