@@ -355,11 +355,7 @@ export default function ContactHero() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl lg:text-5xl font-bold text-gray-700 mb-5 leading-[1.15] flex items-center gap-3">
-                  Contact {" "}
-                  <span className="hidden sm:block text-primary">
-                    {" "}
-                    Us
-                  </span>
+                  Contact Us
                 </h1>
                 <p className="text-lg lg:text-2xl font-semibold text-blue-900 mb-4 leading-snug  ">
                   A trusted global manufacturer of advanced contamination
@@ -385,15 +381,7 @@ export default function ContactHero() {
               </div> */}
             </div>
             <div className="mt-8 lg:mt-4 pt-4 space-y-6">
-              {/* <div className="flex flex-wrap items-center gap-6">
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-neutral-dark/40 font-bold mb-1">
-                    Direct Line
-                  </p>
-                  <span className="text-xl font-bold text-neutral-dark">
-                    021 4701669
-                  </span>
-                </div>
+              <div className="flex flex-wrap items-center gap-6">
                 <a
                   href="tel:+353214701669"
                   onClick={handlePhoneClick}
@@ -402,7 +390,7 @@ export default function ContactHero() {
                   <PhoneIcon className="w-5 h-5" />
                   Call Now
                 </a>
-              </div> */}
+              </div>
 
               {/* Contact Info Boxes */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
@@ -683,39 +671,39 @@ export default function ContactHero() {
                       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
                         {/* Wavy Strike-throughs */}
                         <svg className="absolute inset-0 w-full h-full">
-                          <path 
-                            d="M 0 26 Q 50 10 100 26 T 200 26 T 300 26" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            className="text-primary/30" 
+                          <path
+                            d="M 0 26 Q 50 10 100 26 T 200 26 T 300 26"
+                            fill="none"
+                            stroke="currentColor"
+                            className="text-primary/30"
                             strokeWidth="2"
                           />
-                          <path 
-                            d="M 0 30 Q 70 45 140 30 T 280 30" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            className="text-primary/20" 
+                          <path
+                            d="M 0 30 Q 70 45 140 30 T 280 30"
+                            fill="none"
+                            stroke="currentColor"
+                            className="text-primary/20"
                             strokeWidth="1.5"
                           />
                         </svg>
-                        
+
                         {/* More noise elements */}
                         <div className="absolute inset-0 flex justify-around items-center">
                           {Array.from({ length: 12 }).map((_, i) => (
-                            <div 
-                              key={i} 
-                              className="w-[1.5px] h-full bg-primary/10" 
-                              style={{ 
+                            <div
+                              key={i}
+                              className="w-[1.5px] h-full bg-primary/10"
+                              style={{
                                 transform: `rotate(${((i * 37) % 60) - 30}deg) translateX(${((i * 13) % 20) - 10}px)`,
                                 opacity: 0.1 + (i % 2) * 0.1
-                              }} 
+                              }}
                             />
                           ))}
                         </div>
 
                         {/* Random "dust" pixels */}
                         {Array.from({ length: 15 }).map((_, i) => (
-                          <div 
+                          <div
                             key={`dust-${i}`}
                             className="absolute w-1 h-1 bg-primary/40 rounded-full"
                             style={{
@@ -730,22 +718,22 @@ export default function ContactHero() {
                       {/* Decorative background for captcha */}
                       <div className="absolute inset-0 opacity-[0.08] pointer-events-none flex flex-wrap gap-1">
                         {Array.from({ length: 60 }).map((_, idx) => (
-                          <div 
-                            key={idx} 
-                            className="w-3 h-3 rounded-full bg-primary" 
-                            style={{ 
+                          <div
+                            key={idx}
+                            className="w-3 h-3 rounded-full bg-primary"
+                            style={{
                               transform: `rotate(${Math.sin(idx) * 360}deg) scale(${0.3 + Math.cos(idx) * 0.7})`,
                               opacity: 0.1 + Math.abs(Math.sin(idx)) * 0.4
                             }}
                           />
                         ))}
                       </div>
-                      
+
                       <div className="flex items-center relative z-10 select-none px-2">
                         {captcha.split("").map((char, index) => {
                           const colors = ["text-primary", "text-blue-600", "text-blue-800", "text-indigo-700"];
                           const colorClass = colors[index % colors.length];
-                          
+
                           return (
                             <span
                               key={index}
@@ -771,7 +759,7 @@ export default function ContactHero() {
                           );
                         })}
                       </div>
-                      
+
                       <button
                         type="button"
                         onClick={generateCaptcha}
