@@ -382,17 +382,6 @@ export default function ContactHero() {
             </div>
             <div className="mt-8 lg:mt-4 pt-4 space-y-6">
               <div className="flex flex-wrap items-center gap-6">
-<<<<<<< HEAD
-=======
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-neutral-dark/40 font-bold mb-1">
-                    Direct Line
-                  </p>
-                  <span className="text-xl font-bold text-neutral-dark">
-                    07549 739754
-                  </span>
-                </div>
->>>>>>> af3eb13 (feat: add UtilityBar component, privacy policy page, ContactHero, and site footer)
                 <a
                   href="tel:+447704211817"
                   onClick={handlePhoneClick}
