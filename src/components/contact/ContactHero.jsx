@@ -824,11 +824,7 @@ export default function ContactHero() {
                       </h3>
                       <p className="text-sm text-neutral-dark/60 leading-relaxed mb-6">
                         Thank you for your interest. Our team will
-                        reach out to you{" "}
-                        <span className="text-primary font-semibold">
-                          as soon as possible
-                        </span>
-                        .
+                        reach out to you as soon as possible.
                       </p>
                       <button
                         onClick={() => setIsSubmitted(false)}

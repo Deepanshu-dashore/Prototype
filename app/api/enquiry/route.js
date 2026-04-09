@@ -25,13 +25,19 @@ export async function POST(request) {
         process.env.SALE_MAIL
       ].map(email => email?.trim()).filter(Boolean);
 
-      await mail({
-        to: recipients.join(", "),
+      console.log("Attempting to send enquiry email to:", recipients);
+
+      const emailResponse = await mail({
+        to: recipients,
         subject: `New Contact Inquiry - ${body.fullName}`,
         body: emailContent,
       });
+
+      if (!emailResponse) {
+        console.error("Email sending returned false (failed)");
+      }
     } catch (emailError) {
-      console.error("Email notification failed:", emailError);
+      console.error("Internal Error in email notification flow:", emailError);
     }
 
     return ApiResponse(200, enquiry, "Enquiry created successfully");

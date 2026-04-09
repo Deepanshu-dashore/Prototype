@@ -4,11 +4,13 @@ export const mail = async ({
   to,
   subject,
   body,
-  from = `${process.env.EMAIL_FROM}`,
+  from = process.env.EMAIL_FROM,
 }) => {
   try {
+    const sender = from?.trim();
+    
     await transporter.sendMail({
-      from,
+      from: sender,
       to,
       subject,
       html: body,
