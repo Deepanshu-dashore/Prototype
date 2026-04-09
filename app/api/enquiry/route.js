@@ -1,11 +1,39 @@
 import { ApiResponse } from "@/app/lib/utils/apiResponse";
 import { EnquiryService } from "@/app/lib/services/enquiry.service";
 import { verifyJWT } from "@/app/lib/middlewares/verifyJWT";
+import { contactFormSubmissionTemplate } from "@/app/lib/utils/mailFormtes";
+import { mail } from "@/app/lib/utils/mail";
 
 export async function POST(request) {
   try {
     const body = await request.json();
     const enquiry = await EnquiryService.createEnquiry(body);
+
+    // Send email notification to Admin
+    try {
+      const emailContent = contactFormSubmissionTemplate({
+        fullName: body.fullName,
+        email: body.email,
+        phone: body.phone,
+        productOfInterest: body.productOfInterest,
+        message: body.message,
+      });
+
+      const recipients = [
+        "harshrajrathore.dev@gmail.com",
+        process.env.ADMIN_EMAIL,
+        process.env.SALE_MAIL
+      ].map(email => email?.trim()).filter(Boolean);
+
+      await mail({
+        to: recipients.join(", "),
+        subject: `New Contact Inquiry - ${body.fullName}`,
+        body: emailContent,
+      });
+    } catch (emailError) {
+      console.error("Email notification failed:", emailError);
+    }
+
     return ApiResponse(200, enquiry, "Enquiry created successfully");
   } catch (error) {
     return ApiResponse(400, error, "Error while creating enquiry");

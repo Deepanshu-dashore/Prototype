@@ -125,13 +125,13 @@ export async function GET() {
           ...asset,
           attachment: asset.attachment
             ? getUrls.getUrl(
-                asset.attachment,
-                asset.attachmentType === "video"
-                  ? "video"
-                  : asset.attachmentType === "pdf"
-                    ? "raw"
-                    : "image",
-              )
+              asset.attachment,
+              asset.attachment.toLowerCase().match(/\.(mp4|mov|avi|mkv|webm)$/)
+                ? "video"
+                : asset.attachment.toLowerCase().includes(".pdf")
+                  ? "raw"
+                  : "image",
+            )
             : undefined,
         };
       } else {

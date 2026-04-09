@@ -1105,3 +1105,95 @@ export const orderConfirmationTemplate = ({
 </html>
   `;
 };
+
+export const contactFormSubmissionTemplate = ({
+  fullName,
+  email,
+  phone,
+  productOfInterest,
+  message,
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
+  companyName = "CC Matting",
+}) => {
+  return `
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <title>New Contact Form Submission</title>
+</head>
+
+<body style="margin:0;padding:0;background-color:#eeeeee;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#212121;">
+
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" align="center">
+  <tr>
+    <td align="center" style="padding:24px 12px;">
+
+      <!-- Container -->
+      <table width="600" cellpadding="0" cellspacing="0" role="presentation"
+        style="background:#ffffff;border-radius:6px;overflow:hidden;">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:#0b3aa4;padding:18px;text-align:center;">
+            <img src="${logoUrl}" alt="${companyName}"
+              width="150"
+              style="display:block;border:none;margin:auto;" />
+          </td>
+        </tr>
+
+        <!-- Content -->
+        <tr>
+          <td style="padding:30px 36px;">
+
+            <h1 style="font-size:18px;font-weight:700;margin:0 0 16px;color:#333;">
+              New Contact Inquiry Received
+            </h1>
+
+            <p style="font-size:13px;line-height:22px;margin:0 0 18px;">
+              You have received a new message through the website contact form.
+            </p>
+
+            <!-- Details -->
+            <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+              style="background:#f6f8fb;border-radius:6px;">
+              <tr>
+                <td style="padding:16px 20px;font-size:13px;">
+                  <p style="margin:0 0 8px;"><strong>Full Name:</strong> ${fullName}</p>
+                  <p style="margin:0 0 8px;"><strong>Email:</strong> ${email}</p>
+                  <p style="margin:0 0 8px;"><strong>Phone:</strong> ${phone}</p>
+                  <p style="margin:0 0 8px;"><strong>Product of Interest:</strong> ${productOfInterest}</p>
+                  <p style="margin:12px 0 0;"><strong>Message:</strong></p>
+                  <p style="margin:4px 0 0; line-height:1.5; color:#555;">${message}</p>
+                </td>
+              </tr>
+            </table>
+
+            <p style="font-size:13px;line-height:20px;margin:25px 0 0;">
+              Please respond to this inquiry as soon as possible.
+            </p>
+
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background:#f8f9fb;padding:14px;text-align:center;">
+            <p style="font-size:11px;color:#777;margin:0;">
+              This is an automated notification from ${companyName} Website.
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
+`;
+};
