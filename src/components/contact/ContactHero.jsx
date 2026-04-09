@@ -366,7 +366,7 @@ export default function ContactHero() {
               </div> */}
             </div>
             <div className="mt-8 lg:mt-4 pt-4 space-y-6">
-              <div className="flex flex-wrap items-center gap-6">
+              {/* <div className="flex flex-wrap items-center gap-6">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-neutral-dark/40 font-bold mb-1">
                     Direct Line
@@ -383,7 +383,7 @@ export default function ContactHero() {
                   <PhoneIcon className="w-5 h-5" />
                   Call Now
                 </a>
-              </div>
+              </div> */}
 
               {/* Contact Info Boxes */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
@@ -687,7 +687,7 @@ export default function ContactHero() {
                         Message Received!
                       </h3>
                       <p className="text-sm text-neutral-dark/60 leading-relaxed mb-6">
-                        Thank you for your interest. Our specialist team will
+                        Thank you for your interest. Our team will
                         reach out to you{" "}
                         <span className="text-primary font-semibold">
                           as soon as possible

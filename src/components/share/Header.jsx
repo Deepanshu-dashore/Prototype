@@ -392,7 +392,7 @@ export default function Header({ onContactClick }) {
 
                   {/* Distributor Tab Type Link */}
                   <Link
-                    href="/contact"
+                    href="/distributor"
                     onClick={() => setMobileMenuOpen(false)}
                     className={`py-3 text-base font-medium border-b border-neutral-dark/5 transition-colors ${isActiveRoute('/contact') ? 'text-primary' : 'text-neutral-dark hover:text-primary'}`}
                   >

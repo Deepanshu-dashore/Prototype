@@ -885,8 +885,7 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
   </table>
 
   <p style="font-size:13px;line-height:20px;margin:24px 0 10px 0;color:#4b5563;">
-    You may log in to your distributor dashboard to view full order details,
-    invoices, and tracking information.
+    You may log in to your distributor dashboard to view full order details.
   </p>
 
   <!-- CTA BUTTON -->
@@ -911,7 +910,7 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
   </table>
 
   <p style="font-size:12px;color:#6b7280;margin-top:22px;">
-    For any clarification regarding this order update, please contact our support team.
+    For any clarification regarding this order update, please contact our team.
   </p>
 
 </td>
@@ -1095,7 +1094,7 @@ export const orderConfirmationTemplate = ({
             <td align="center" style="background-color: #f8fafc; padding: 30px 40px; border-top: 1px solid #f1f5f9;">
               <p style="color: #64748b; font-size: 12px; margin: 0 0 10px 0;">If you have any questions, please contact <a href="mailto:${supportEmail}" style="color: #2563eb; text-decoration: none;">${supportEmail}</a></p>
               <p style="color: #94a3b8; font-size: 11px; margin: 0;">© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p>
-              <p style="color: #cbd5e1; font-size: 10px; margin-top: 15px;">Automated notification from CC Matting Partner Portal.</p>
+              <p style="color: #64748b; font-size: 10px; margin-top: 15px;">Automated notification from CC Matting Partner Portal.</p>
             </td>
           </tr>
         </table>
