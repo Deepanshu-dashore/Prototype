@@ -202,7 +202,12 @@ export async function POST(request) {
     });
 
     const adminEmail = process.env.ADMIN_EMAIL || "brendan@ccmatting.ie";
-    const mailRecipients = [adminEmail];
+    const salesMail = process.env.SALE_MAIL_UK || "sales@ccmatting.uk";
+    const mailRecipients = [
+      adminEmail,
+      salesMail,
+      "deepanshudashore48@gmail.com",
+    ];
     if (distributorEmail && distributorEmail !== adminEmail) {
       mailRecipients.push(distributorEmail);
     }
