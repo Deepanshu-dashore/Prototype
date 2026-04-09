@@ -198,6 +198,7 @@ export async function POST(request) {
     const emailHtml = orderConfirmationTemplate({
       order,
       distributor,
+      supportEmail: process.env.SALE_MAIL || "sales@ccmatting.ie",
       orderItems: orderItemsWithProducts,
     });
 

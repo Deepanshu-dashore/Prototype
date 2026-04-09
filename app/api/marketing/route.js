@@ -118,20 +118,26 @@ export async function GET() {
       totalPlaybook,
     } = result;
     const buildUrl = data.map((asset) => {
-      if (asset.type === "youtube" || asset.type === "social_post") {
+      if (asset.type === "youtube") {
+        return asset;
+      } else if (asset.type === "social_post") {
         return {
           ...asset,
           attachment: asset.attachment
             ? getUrls.getUrl(
                 asset.attachment,
-                asset.attachmentType === "video" ? "video" : (asset.attachmentType === "pdf" ? "raw" : "image")
+                asset.attachmentType === "video"
+                  ? "video"
+                  : asset.attachmentType === "pdf"
+                    ? "raw"
+                    : "image",
               )
             : undefined,
         };
       } else {
         return {
           ...asset,
-          url: getUrls.getUrl(asset.url, "raw"),
+          url: asset.url ? getUrls.getUrl(asset.url, "raw") : undefined,
         };
       }
     });

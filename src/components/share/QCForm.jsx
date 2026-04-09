@@ -444,7 +444,7 @@ export default function QCForm({ orderId, role = "admin" }) {
                                         <h4 className="text-md font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">Photographic Evidence</h4>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <FileUploadComponent
-                                                label="Micrometer showing thickness spec"
+                                                label="Micrometer showing thickness"
                                                 name="micrometerImage"
                                                 index={index}
                                                 IconDoc={({ className }) => (

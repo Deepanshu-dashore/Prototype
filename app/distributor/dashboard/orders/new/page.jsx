@@ -319,7 +319,7 @@ function NewOrderContent() {
                                         </div>
 
                                         <div className="md:col-span-3 relative">
-                                            <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Length</label>
+                                            <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Length (Meters)</label>
                                             <div className="relative">
                                                 <input
                                                     type="text"
@@ -408,7 +408,7 @@ function NewOrderContent() {
                                     Processing...
                                 </>
                             ) : (
-                                "Complete Purchase Order"
+                                "Complete Order"
                             )}
                         </button>
                     </div>

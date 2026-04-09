@@ -336,10 +336,10 @@ export default function ContactHero() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl lg:text-5xl font-bold text-gray-700 mb-5 leading-[1.15] flex items-center gap-3">
-                  Contact Us{" "}
+                  Contact {" "}
                   <span className="hidden sm:block text-primary">
                     {" "}
-                    CCMatting
+                    Us
                   </span>
                 </h1>
                 <p className="text-lg lg:text-2xl font-semibold text-blue-900 mb-4 leading-snug  ">
@@ -690,7 +690,7 @@ export default function ContactHero() {
                         Thank you for your interest. Our specialist team will
                         reach out to you{" "}
                         <span className="text-primary font-semibold">
-                          within 7 working days
+                          as soon as possible
                         </span>
                         .
                       </p>

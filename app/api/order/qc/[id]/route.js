@@ -154,10 +154,17 @@ export async function POST(request, { params }) {
 export async function GET(request, { params }) {
   const user = await verifyJWT();
   const distributor = await verifyDistributorJWT();
-  if (!user?.id && !distributor?.id) {
+  const warehouse = await verifyWarehouseJWT();
+
+  if (!user?.id && !distributor?.id && !warehouse?.id) {
     return ApiResponse(401, null, "Unauthorized request");
   }
-  if (!roleVerify(["admin", "distributor", "warehouse"], user || distributor)) {
+  if (
+    !roleVerify(
+      ["admin", "distributor", "warehouse"],
+      user || distributor || warehouse,
+    )
+  ) {
     return ApiResponse(403, null, "Forbidden: insufficient permissions");
   }
   await connect();

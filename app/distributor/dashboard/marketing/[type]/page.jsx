@@ -13,6 +13,7 @@ import {
     XMarkIcon,
     EyeIcon,
     ShareIcon,
+    ArrowDownTrayIcon,
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
@@ -155,14 +156,15 @@ function SocialPostTable({ assets, loading }) {
                             <th className="px-5 py-3 text-left min-w-[120px]">Media View</th>
                             <th className="px-5 py-3 text-left min-w-[250px]">Description</th>
                             <th className="px-5 py-3 text-left min-w-[150px]">Link</th>
+                            <th className="px-5 py-3 text-center w-24">Action</th>
                             <th className="px-5 py-3 text-left min-w-[100px]">Date</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
                         {loading ? (
-                            <TableLoadingSkeleton columns={6} rows={5} />
+                            <TableLoadingSkeleton columns={7} rows={5} />
                         ) : assets.length === 0 ? (
-                            <TableEmptyState colSpan={6} title="No Social Posts" message="No social post materials available yet." />
+                            <TableEmptyState colSpan={7} title="No Social Posts" message="No social post materials available yet." />
                         ) : (
                             assets.map((a, i) => (
                                 <tr key={a._id} className="hover:bg-gray-50/60 transition-colors">
@@ -185,15 +187,10 @@ function SocialPostTable({ assets, loading }) {
                                         {a.attachment ? (
                                             <button
                                                 onClick={() => setPreviewMedia({ url: a.attachment, type: a.attachmentType })}
-                                                className="flex items-center gap-2 group cursor-pointer"
+                                                className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:underline"
                                             >
-                                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all group-hover:scale-110
-                                                    ${a.attachmentType === "pdf" ? "bg-amber-100 text-amber-600" : (a.attachmentType === "video") ? "bg-red-100 text-red-600" : "bg-blue-100 text-blue-600"}`}>
-                                                    {a.attachmentType === "pdf" ? <DocumentTextIcon className="w-4 h-4" /> : (a.attachmentType === "video") ? <VideoCameraIcon className="w-4 h-4" /> : <PlayIcon className="w-4 h-4 fill-current" />}
-                                                </div>
-                                                <span className="text-xs font-black uppercase tracking-widest text-slate-500 group-hover:text-slate-900 transition-colors">
-                                                    {a.attachmentType === "pdf" ? "View Document" : "Play Media"}
-                                                </span>
+                                                <EyeIcon className="w-3.5 h-3.5" />
+                                                View Media
                                             </button>
                                         ) : (
                                             <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">Not provided</span>
@@ -210,6 +207,21 @@ function SocialPostTable({ assets, loading }) {
                                             </a>
                                         ) : (
                                             <span className="text-xs text-gray-400">—</span>
+                                        )}
+                                    </td>
+                                    <td className="px-5 py-3.5 text-center">
+                                        {a.attachment ? (
+                                            <a
+                                                href={a.attachment}
+                                                target="_blank"
+                                                download={a.title}
+                                                className="inline-flex items-center justify-center p-1.5 rounded-md bg-gray-50 text-gray-500 hover:bg-blue-50 hover:text-blue-600 transition-all shadow-xs"
+                                                title="Download"
+                                            >
+                                                <ArrowDownTrayIcon className="w-4 h-4" />
+                                            </a>
+                                        ) : (
+                                            "—"
                                         )}
                                     </td>
                                     <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">{formatDate(a.createdAt)}</td>
@@ -250,14 +262,15 @@ function PDFTable({ assets, loading, accentColor = "emerald" }) {
                             <th className="px-5 py-3 text-left min-w-[200px]">Title</th>
                             <th className="px-5 py-3 text-left min-w-[120px]">PDF View</th>
                             <th className="px-5 py-3 text-left min-w-[250px]">Description</th>
+                            <th className="px-5 py-3 text-center w-24">Action</th>
                             <th className="px-5 py-3 text-left min-w-[100px]">Date</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
                         {loading ? (
-                            <TableLoadingSkeleton columns={5} rows={5} />
+                            <TableLoadingSkeleton columns={6} rows={5} />
                         ) : assets.length === 0 ? (
-                            <TableEmptyState colSpan={5} title="No Files Available" message="No documents have been added yet." />
+                            <TableEmptyState colSpan={6} title="No Files Available" message="No documents have been added yet." />
                         ) : (
                             assets.map((a, i) => (
                                 <tr key={a._id} className="hover:bg-gray-50/60 transition-colors">
@@ -291,6 +304,21 @@ function PDFTable({ assets, loading, accentColor = "emerald" }) {
                                     </td>
                                     <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
                                         <p className="truncate">{a.description || "—"}</p>
+                                    </td>
+                                    <td className="px-5 py-3.5 text-center">
+                                        {a.url ? (
+                                            <a
+                                                href={a.url}
+                                                target="_blank"
+                                                download={a.title}
+                                                className={`inline-flex items-center justify-center p-1.5 rounded-md bg-gray-50 text-gray-500 hover:${c.bg} hover:${c.text} transition-all shadow-xs`}
+                                                title="Download"
+                                            >
+                                                <ArrowDownTrayIcon className="w-4 h-4" />
+                                            </a>
+                                        ) : (
+                                            "—"
+                                        )}
                                     </td>
                                     <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">{formatDate(a.createdAt)}</td>
                                 </tr>
@@ -330,7 +358,7 @@ function MediaPreviewModal({ media, attachmentType, onClose }) {
         media.toLowerCase().endsWith(".mov") ||
         media.toLowerCase().endsWith(".wmv") ||
         media.toLowerCase().endsWith(".webm");
-    
+
     const isPDF = attachmentType === "pdf" ||
         media.toLowerCase().endsWith(".pdf") ||
         media.includes("application/pdf") ||
@@ -414,11 +442,8 @@ export default function DistributorMarketingPage() {
     return (
         <div className="min-h-screen font-sans -mt-8">
             {/* ── Top Bar ── */}
-            <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100 sticky top-0 z-10">
-                <div>
-                    <h1 className="md:text-lg text-sm font-bold text-gray-900 tracking-tight">Marketing Materials</h1>
-                    <p className="text-xs text-gray-400 mt-0.5 hidden md:block">Browse specialized marketing resources for your account</p>
-                </div>
+            <div className="flex items-center justify-between px-6 py-2.5 bg-white border-b border-gray-100 sticky top-0 z-10">
+                <h1 className="text-sm font-semibold text-gray-800 tracking-tight uppercase">Marketing Materials</h1>
             </div>
 
             <div className="p-6 flex flex-col gap-6">
@@ -426,17 +451,17 @@ export default function DistributorMarketingPage() {
                 {loading ? (
                     <HeaderSkeleton />
                 ) : (
-                    <div className="flex items-center gap-5 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/40">
+                    <div className="flex items-center gap-4 bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
                         {activeCat && (
-                            <div className={`w-14 h-14 rounded-[1.25rem] ${activeCat.bg} border ${activeCat.border} flex items-center justify-center shrink-0 shadow-inner`}>
-                                <activeCat.icon className={`w-8 h-8 ${activeCat.color}`} />
+                            <div className={`w-10 h-10 rounded-lg ${activeCat.bg} border ${activeCat.border} flex items-center justify-center shrink-0`}>
+                                <activeCat.icon className={`w-5 h-5 ${activeCat.color}`} />
                             </div>
                         )}
                         <div>
-                            <h2 className="text-2xl font-black text-slate-800 tracking-tight">{activeCat?.label || "Marketing Resources"}</h2>
-                            <p className="text-sm font-bold text-slate-400 mt-1 uppercase tracking-widest flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                {filteredAssets.length} PREMIUM ASSETS LOADED
+                            <h2 className="text-lg font-bold text-gray-800 tracking-tight">{activeCat?.label || "Marketing Resources"}</h2>
+                            <p className="text-[10px] font-bold text-gray-400 mt-0.5 uppercase tracking-widest flex items-center gap-1.5">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                {filteredAssets.length} Assets
                             </p>
                         </div>
                     </div>
