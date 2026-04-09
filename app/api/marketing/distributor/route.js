@@ -35,9 +35,9 @@ export async function GET(req) {
           attachment: asset.attachment
             ? getUrls.getUrl(
                 asset.attachment,
-                asset.attachment.toLowerCase().match(/\.(mp4|mov|avi|mkv|webm)$/)
+                asset.attachment.includes("mp4", "webm")
                   ? "video"
-                  : asset.attachment.toLowerCase().includes(".pdf")
+                  : asset.attachment.includes("pdf")
                     ? "raw"
                     : "image",
               )

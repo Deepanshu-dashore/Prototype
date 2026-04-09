@@ -195,27 +195,47 @@ export async function POST(request) {
       product: products[idx],
     }));
 
-    const emailHtml = orderConfirmationTemplate({
-      order,
-      distributor,
-      supportEmail: process.env.SALE_MAIL || "sales@ccmatting.ie",
-      orderItems: orderItemsWithProducts,
-    });
-
     const adminEmail = process.env.ADMIN_EMAIL || "brendan@ccmatting.ie";
     const saleEmail = process.env.SALE_MAIL || "sales@ccmatting.ie";
-    const mailRecipients = [adminEmail, saleEmail];
-    if (distributorEmail && distributorEmail !== adminEmail) {
-      mailRecipients.push(distributorEmail);
-    }
-    mailRecipients.push("deepanshudashore48@gmail.com");
 
-    const res = await mail({
-      to: mailRecipients,
-      subject: `ORD-${String(order._id).slice(-6).toUpperCase()} - New Order Created`,
-      body: emailHtml,
+    // Email to Admin/Sales
+    const adminEmailHtml = orderConfirmationTemplate({
+      order,
+      distributor,
+      supportEmail: saleEmail,
+      orderItems: orderItemsWithProducts,
+      title: "New order Received Take action",
+      message:
+        "A new order has been received from a distributor and requires your attention.",
     });
-    console.log("Mail sent successfully: ", res);
+
+    await mail({
+      from: process.env.EMAIL_FROM,
+      to: [adminEmail, saleEmail, "deepanshudashore48@gmail.com"],
+      subject: `ORD-${String(order._id).slice(-6).toUpperCase()} - New Order Received`,
+      body: adminEmailHtml,
+    });
+
+    // Email to Distributor
+    if (distributorEmail) {
+      const distributorEmailHtml = orderConfirmationTemplate({
+        order,
+        distributor,
+        supportEmail: saleEmail,
+        orderItems: orderItemsWithProducts,
+        title: "your order has been received successfully",
+        message:
+          "Thank you for your order. We have received it and it is now being processed.",
+      });
+
+      await mail({
+        from: process.env.ORDER_EMAIL_FROM || process.env.EMAIL_FROM,
+        to: distributorEmail,
+        subject: `ORD-${String(order._id).slice(-6).toUpperCase()} - Order Received Successfully`,
+        body: distributorEmailHtml,
+      });
+    }
+    // console.log("Mail sent successfully: ", res);
 
     return ApiResponse(200, order, "Order created successfully");
   } catch (error) {

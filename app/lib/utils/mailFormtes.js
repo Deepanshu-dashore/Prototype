@@ -949,6 +949,8 @@ export const orderConfirmationTemplate = ({
   logoUrl = "https://www.ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail,
+  title = "Order Confirmation",
+  message = "A new order has been received and is being processed.",
 }) => {
   const formattedDate = new Date(order.createdAt).toLocaleDateString("en-IE", {
     day: "numeric",
@@ -996,7 +998,7 @@ export const orderConfirmationTemplate = ({
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Order Confirmation</title>
+  <title>${title}</title>
   <style type="text/css">
     body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
   </style>
@@ -1016,8 +1018,8 @@ export const orderConfirmationTemplate = ({
           <!-- Title Section -->
           <tr>
             <td style="padding: 40px 40px 20px 40px;">
-              <h1 style="color: #0f172a; font-size: 20px; font-weight: 700; margin: 0 0 10px 0; text-align: center;">Order Confirmation</h1>
-              <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin: 0; text-align: center;">A new order has been received and is being processed.</p>
+              <h1 style="color: #0f172a; font-size: 20px; font-weight: 700; margin: 0 0 10px 0; text-align: center;">${title}</h1>
+              <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin: 0; text-align: center;">${message}</p>
             </td>
           </tr>
 
