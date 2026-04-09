@@ -16,7 +16,6 @@ import {
     DocumentTextIcon,
     BookOpenIcon,
     XMarkIcon,
-    ChartBarIcon,
 } from "@heroicons/react/24/outline";
 
 // ─── Type Options ──────────────────────────────────────────────────────────────
@@ -40,7 +39,7 @@ export default function AddMarketingPage() {
     const mediaFileRef = useRef();
 
     const [form, setForm] = useState({ title: "", type: "youtube", url: "", description: "", tags: "", attachmentType: "image" });
-    const [file, setFile] = useState(null); // Used for PDF or Media depending on type
+    const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [error, setError] = useState("");
     const [dragOver, setDragOver] = useState(false);
@@ -69,7 +68,6 @@ export default function AddMarketingPage() {
 
     const isPDFType = form.type === "case_study" || form.type === "playbook";
     const isSocialPost = form.type === "social_post";
-    const needsFile = isPDFType || isSocialPost;
     const youtubeThumb = form.type === "youtube" && form.url ? (() => { const id = getYouTubeId(form.url); return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null; })() : null;
 
     const handleSubmit = async () => {
@@ -125,26 +123,26 @@ export default function AddMarketingPage() {
             {/* ── Top Bar ── */}
             <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100 sticky top-0 z-10">
                 <div className="flex items-center gap-3">
-                    <button onClick={() => router.push("/admin/marketing")} className="p-2 rounded-xl hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
+                    <button onClick={() => router.push("/admin/marketing")} className="p-2 rounded-xl hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors transition-all duration-300">
                         <ArrowLeftIcon className="w-4 h-4" />
                     </button>
                     <div>
                         <h1 className="text-base font-bold text-gray-900 tracking-tight">Add Marketing Material</h1>
-                        <p className="text-xs text-gray-400 mt-0.5">Fill in the details below to add a new material</p>
+                        <p className="text-xs text-gray-400 mt-0.5 font-medium">Create a new premium marketing resource</p>
                     </div>
                 </div>
             </div>
 
             <div className="max-w-4xl mx-auto p-6 px-0 flex flex-col gap-6">
                 {error && (
-                    <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-medium flex items-center gap-2">
-                        <XMarkIcon className="w-4 h-4 shrink-0" />
+                    <div className="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-700 font-semibold flex items-center gap-3">
+                        <XMarkIcon className="w-5 h-5 shrink-0" />
                         {error}
                     </div>
                 )}
 
                 {/* ── Type Selector ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mx-6 md:mx-0">
                     <h2 className="text-sm font-bold text-gray-800 mb-4">Material Type</h2>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {TYPE_OPTIONS.map(opt => {
@@ -160,21 +158,21 @@ export default function AddMarketingPage() {
                                             setError("");
                                         }
                                     }}
-                                    className={`flex items-center gap-2 p-2 rounded-xl border transition-all text-center
-                                            ${isActive
+                                    className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-300
+                                        ${isActive
                                             ? `${opt.border} ${opt.bg} shadow-md z-10`
-                                            : "border-slate-200 bg-white/50 hover:bg-slate-50 hover:border-slate-200"
+                                            : "border-slate-100 bg-white/50 hover:bg-slate-50 hover:border-slate-200"
                                         }`}
                                 >
-                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${isActive ? opt.iconBg : "bg-slate-100"} shadow-lg transition-transform group-hover:rotate-6`}>
+                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${isActive ? opt.iconBg : "bg-slate-100 shadow-inner"}`}>
                                         <opt.icon className={`w-5 h-5 ${isActive ? "text-white" : "text-slate-400"}`} />
                                     </div>
                                     <div className="text-center">
-                                        <p className={`text-sm font-bold tracking-tight ${isActive ? opt.color : "text-slate-700"}`}>{opt.label}</p>
+                                        <p className={`text-xs font-bold tracking-tight ${isActive ? opt.color : "text-slate-700"}`}>{opt.label}</p>
                                     </div>
                                     {isActive && (
-                                        <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-lg animate-in zoom-in duration-300">
-                                            <CheckIcon className="w-3.5 h-3.5 text-white stroke-[3px]" />
+                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-lg">
+                                            <CheckIcon className="w-3 h-3 text-white stroke-[3px]" />
                                         </div>
                                     )}
                                 </button>
@@ -186,7 +184,7 @@ export default function AddMarketingPage() {
 
             <div className="max-w-4xl mx-auto flex flex-col gap-6 pb-12">
                 {/* ── Details Form ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col gap-8">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col gap-8 mx-6 md:mx-0 shadow-xl shadow-gray-200/50">
                     <div className="flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-2xl ${selectedType?.bg} border ${selectedType?.border} flex items-center justify-center shadow-inner`}>
                             {selectedType && <selectedType.icon className={`w-6 h-6 ${selectedType.color}`} />}
@@ -298,7 +296,7 @@ export default function AddMarketingPage() {
                                             : "border-slate-200 hover:border-blue-400 hover:bg-slate-50 shadow-inner"
                                     }`}
                             >
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${file ? "bg-emerald-100" : "bg-gray-100"}`}>
+                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${file ? "bg-emerald-100 shadow-lg" : "bg-gray-100 shadow-inner"}`}>
                                     {form.attachmentType === "image" ? <PlusIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} /> : form.attachmentType === "video" ? <VideoCameraIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} /> : <DocumentTextIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} />}
                                 </div>
 
@@ -345,72 +343,69 @@ export default function AddMarketingPage() {
                                                 f.name.endsWith(".mov") ||
                                                 f.name.endsWith(".wmv") ||
                                                 f.name.endsWith(".webm");
-                                            const isPDF = f.type === "application/pdf";
+                                            const isPDF = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
                                             setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : isPDF ? "pdf" : "image" }));
                                         }
                                     }}
                                 />
                             </div>
-                        </div >
-                    )
-                    }
+                        </div>
+                    )}
 
                     {/* PDF File Upload */}
-                    {
-                        isPDFType && (
-                            <div className="animate-in zoom-in duration-500">
-                                <label className="block text-sm font-bold text-slate-700 mb-3 ml-1 tracking-tight">
-                                    Document Source <span className="text-red-500">*</span>
-                                </label>
-                                <div
-                                    onClick={() => pdfFileRef.current?.click()}
-                                    onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-                                    onDragLeave={() => setDragOver(false)}
-                                    onDrop={e => handleDrop(e, "pdf")}
-                                    className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
-                                    ${dragOver
-                                            ? "border-indigo-400 bg-indigo-50/50 scale-[0.98]"
-                                            : file
-                                                ? "border-emerald-400 bg-emerald-50/30"
-                                                : "border-slate-200 hover:border-indigo-400 hover:bg-slate-50 shadow-inner"
-                                        }`}
-                                >
-                                    <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
-                                        <ArrowUpTrayIcon className="w-10 h-10" />
-                                    </div>
-                                    <div className="text-center">
-                                        {file ? (
-                                            <div className="animate-in slide-in-from-bottom-2">
-                                                {preview && (
-                                                    <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white p-4 flex flex-col items-center gap-2">
-                                                        <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
-                                                        <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Document Ready</span>
-                                                    </div>
-                                                )}
-                                                <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
-                                                <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY FOR ANALYSIS</p>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <p className="text-base font-bold text-slate-600">Drop your PDF here</p>
-                                                <p className="text-xs text-slate-400 mt-1 font-medium italic">High-fidelity PDF document required</p>
-                                            </>
-                                        )}
-                                    </div>
-                                    <input
-                                        ref={pdfFileRef}
-                                        type="file"
-                                        accept="application/pdf"
-                                        className="hidden"
-                                        onChange={e => {
-                                            const f = e.target.files[0];
-                                            if (f) setFile(f);
-                                        }}
-                                    />
+                    {isPDFType && (
+                        <div className="animate-in zoom-in duration-500">
+                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1 tracking-tight">
+                                Document Source <span className="text-red-500">*</span>
+                            </label>
+                            <div
+                                onClick={() => pdfFileRef.current?.click()}
+                                onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                                onDragLeave={() => setDragOver(false)}
+                                onDrop={e => handleDrop(e, "pdf")}
+                                className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
+                                ${dragOver
+                                        ? "border-indigo-400 bg-indigo-50/50 scale-[0.98]"
+                                        : file
+                                            ? "border-emerald-400 bg-emerald-50/30"
+                                            : "border-slate-200 hover:border-indigo-400 hover:bg-slate-50 shadow-inner"
+                                    }`}
+                            >
+                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200 shadow-inner"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+                                    <ArrowUpTrayIcon className="w-10 h-10" />
                                 </div>
+                                <div className="text-center">
+                                    {file ? (
+                                        <div className="animate-in slide-in-from-bottom-2">
+                                            {preview && (
+                                                <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white p-4 flex flex-col items-center gap-2">
+                                                    <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
+                                                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Document Ready</span>
+                                                </div>
+                                            )}
+                                            <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
+                                            <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY FOR ANALYSIS</p>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <p className="text-base font-bold text-slate-600">Drop your PDF here</p>
+                                            <p className="text-xs text-slate-400 mt-1 font-medium italic">High-fidelity PDF document required</p>
+                                        </>
+                                    )}
+                                </div>
+                                <input
+                                    ref={pdfFileRef}
+                                    type="file"
+                                    accept="application/pdf"
+                                    className="hidden"
+                                    onChange={e => {
+                                        const f = e.target.files[0];
+                                        if (f) setFile(f);
+                                    }}
+                                />
                             </div>
-                        )
-                    }
+                        </div>
+                    )}
 
                     {/* Description */}
                     <div>
@@ -458,10 +453,10 @@ export default function AddMarketingPage() {
                             </div>
                         )}
                     </div>
-                </div >
+                </div>
 
                 {/* ── Action Buttons ── */}
-                < div className="flex flex-col sm:flex-row items-center justify-end gap-4 mt-8" >
+                <div className="flex flex-col sm:flex-row items-center justify-end gap-4 mt-8 px-6 md:px-0">
                     <div className="flex items-center gap-3 w-full sm:w-auto">
                         <button
                             type="button"
@@ -497,7 +492,7 @@ export default function AddMarketingPage() {
                                 setError("");
                                 handleSubmit();
                             }}
-                            className="flex-1 sm:flex-none px-10 py-4 rounded-xl bg-gray-900 text-white font-bold hover:bg-black transition-all duration-200 shadow-sm flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed text-sm"
+                            className="flex-1 sm:flex-none px-10 py-4 rounded-xl bg-gray-900 text-white font-bold hover:bg-black transition-all duration-200 shadow-sm flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed text-sm group"
                         >
                             {submitting ? (
                                 <>
@@ -512,8 +507,8 @@ export default function AddMarketingPage() {
                             )}
                         </button>
                     </div>
-                </div >
-            </div >
-        </div >
+                </div>
+            </div>
+        </div>
     );
 }
