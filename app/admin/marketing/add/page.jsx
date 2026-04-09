@@ -160,7 +160,7 @@ export default function AddMarketingPage() {
                                             setError("");
                                         }
                                     }}
-                                    className={`flex items-center gap-2 p-1.5 rounded-xl border transition-all text-center
+                                    className={`flex items-center gap-2 p-2 rounded-xl border transition-all text-center
                                             ${isActive
                                             ? `${opt.border} ${opt.bg} shadow-md z-10`
                                             : "border-slate-200 bg-white/50 hover:bg-slate-50 hover:border-slate-200"

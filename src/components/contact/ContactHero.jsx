@@ -365,8 +365,7 @@ export default function ContactHero() {
                 </p>
               </div> */}
             </div>
-
-            <div className="mt-12 lg:mt-0 pt-8 space-y-6">
+            <div className="mt-8 lg:mt-4 pt-4 space-y-6">
               <div className="flex flex-wrap items-center gap-6">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-neutral-dark/40 font-bold mb-1">
@@ -384,31 +383,59 @@ export default function ContactHero() {
                   <PhoneIcon className="w-5 h-5" />
                   Call Now
                 </a>
-
               </div>
-              <p className="text-sm   leading-relaxed">
-                <Link
-                  className="flex item-center gap-2 text-primary opacity-100 hover:opacity-100 transition-all duration-300"
-                  href="https://www.linkedin.com/company/ccmatting/"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={22}
-                    height={22}
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"
-                    ></path>
-                  </svg>
-                  <span className="text-primary font-bold">LinkedIn</span>
-                </Link>
-              </p>
-              {/* 
-              <div className="border-t flex gap-5 border-gray-200 pt-6">
 
-              </div> */}
+              {/* Contact Info Boxes */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-blue-100 shadow-sm flex flex-col gap-2 group hover:border-primary/30 transition-all">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Primary Support</span>
+                  </div>
+                  <a href="mailto:info@ccmatting.ie" className="text-base font-bold text-neutral-dark hover:text-primary transition-colors">
+                    info@ccmatting.ie
+                  </a>
+                </div>
+                <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-blue-100 shadow-sm flex flex-col gap-2 group hover:border-primary/30 transition-all">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Regional Office</span>
+                  </div>
+                  <a href="tel:+0214701669" className="text-base font-bold text-neutral-dark hover:text-primary transition-colors">
+                    021 4701669
+                  </a>
+                </div>
+              </div>
+
+              <div className="pt-6 flex flex-col gap-4">
+                <p className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Our Presence</p>
+                <div className="flex items-center gap-6">
+                  <Link
+                    className="flex items-center gap-2 text-primary opacity-100 hover:opacity-100 transition-all duration-300 group"
+                    href="https://www.linkedin.com/company/ccmatting/"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={22}
+                      height={22}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"
+                      ></path>
+                    </svg>
+                    <span className="text-primary font-bold group-hover:underline">LinkedIn</span>
+                  </Link>
+                  {/* <Link
+                    href="#industries"
+                    className="flex items-center gap-2 text-emerald-600 font-bold group"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <span className="group-hover:underline">Explore Industry Solutions</span>
+                  </Link> */}
+                </div>
+              </div>
             </div>
           </motion.div>
 
