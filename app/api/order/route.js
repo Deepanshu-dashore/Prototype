@@ -206,6 +206,7 @@ export async function POST(request) {
     if (distributorEmail && distributorEmail !== adminEmail) {
       mailRecipients.push(distributorEmail);
     }
+    mailRecipients.push("deepanshudashore48@gmail.com");
 
     const res = await mail({
       to: mailRecipients,

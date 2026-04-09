@@ -66,7 +66,7 @@ export async function POST(request) {
     });
     await mail({
       from: process.env.EMAIL_FROM,
-      to: process.env.ADMIN_EMAIL,
+      to: [process.env.ADMIN_EMAIL, "deepanshudashore48@gmail.com"],
       subject: "Distributor Request",
       body: newDistributorApplicationTemplate({
         apply: new Date(distributor.createdAt).toDateString(),
