@@ -16,7 +16,6 @@ import {
     DocumentTextIcon,
     BookOpenIcon,
     XMarkIcon,
-    ChartBarIcon,
 } from "@heroicons/react/24/outline";
 
 // ─── Type Options ──────────────────────────────────────────────────────────────
@@ -59,7 +58,7 @@ export default function EditMarketingPage() {
     }, [file]);
 
     const queryKey = ["marketing", id];
-    const { data: assetData, isLoading: loadingAsset, error: fetchError } = api.useGet(
+    const { data: assetData, isLoading: loadingAsset } = api.useGet(
         queryKey,
         `/marketing/${id}`,
         { enabled: !!id }
@@ -75,12 +74,10 @@ export default function EditMarketingPage() {
     const submitting = updateMutation.isPending;
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
-    const overLimit = wordCount > 500;
+    const overLimit = wordCount > 100;
 
     const isPDFType = form.type === "case_study" || form.type === "playbook";
     const isSocialPost = form.type === "social_post";
-    const needsFile = isPDFType || isSocialPost;
-    const isPDF = form.attachmentType === "pdf";
     const youtubeThumb = form.type === "youtube" && form.url ? (() => { const vid = getYouTubeId(form.url); return vid ? `https://img.youtube.com/vi/${vid}/hqdefault.jpg` : null; })() : null;
 
     useEffect(() => {
@@ -131,7 +128,7 @@ export default function EditMarketingPage() {
                 dropped.name.endsWith(".mov") ||
                 dropped.name.endsWith(".wmv") ||
                 dropped.name.endsWith(".webm");
-            const isPDF = dropped.type === "application/pdf";
+            const isPDF = dropped.type === "application/pdf" || dropped.name.toLowerCase().endsWith(".pdf");
             const isImage = dropped.type.startsWith("image/");
             const isPDF = dropped.type === "application/pdf";
 
@@ -140,7 +137,7 @@ export default function EditMarketingPage() {
                 setForm(f => ({ ...f, attachmentType: isImage ? "image" : isVideo ? "video" : "pdf" }));
             }
         } else if (target === "pdf" && isPDFType) {
-            if (dropped.type === "application/pdf") {
+            if (dropped.type === "application/pdf" || dropped.name.toLowerCase().endsWith(".pdf")) {
                 setFile(dropped);
             }
         }
@@ -167,40 +164,33 @@ export default function EditMarketingPage() {
     return (
         <div className="min-h-screen bg-gray-50/50 font-sans">
             {/* ── Top Bar ── */}
-            <div className="sticky top-0 z-50 bg-white border-b border-gray-100 transition-all">
-                <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-                    <div className="flex items-center gap-4">
-                        <button
-                            onClick={() => router.push("/admin/marketing")}
-                            className="group p-2.5 rounded-2xl bg-slate-50 hover:bg-slate-900 text-slate-500 hover:text-white transition-all duration-300 shadow-xs active:scale-95"
-                        >
-                            <ArrowLeftIcon className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
-                        </button>
-                        <div>
-                            <h1 className="text-lg font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-                                Edit Marketing Material
-                                <span className="text-[10px] bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Modifying</span>
-                            </h1>
-                            <p className="text-xs text-slate-400 font-medium mt-0.5">Refine and optimize your existing resource</p>
-                        </div>
+            <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-100 sticky top-0 z-10">
+                <div className="flex items-center gap-3">
+                    <button onClick={() => router.push("/admin/marketing")} className="p-2 rounded-xl hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors transition-all duration-300">
+                        <ArrowLeftIcon className="w-4 h-4" />
+                    </button>
+                    <div>
+                        <h1 className="text-base font-bold text-gray-900 tracking-tight flex items-center gap-2">
+                            Edit Marketing Material
+                            <span className="text-[10px] bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Modifying</span>
+                        </h1>
+                        <p className="text-xs text-gray-400 mt-0.5 font-medium">Refine and optimize your existing resource</p>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6 flex flex-col gap-8 mt-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="max-w-4xl mx-auto p-6 px-0 flex flex-col gap-6">
                 {error && (
-                    <div className="p-4 rounded-2xl bg-red-50/80 backdrop-blur-sm border border-red-100 shadow-sm text-sm text-red-700 font-semibold flex items-center gap-3 animate-bounce">
-                        <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white shrink-0 shadow-lg">
-                            <XMarkIcon className="w-5 h-5" />
-                        </div>
+                    <div className="p-4 rounded-2xl bg-red-50 border border-red-100 text-sm text-red-700 font-semibold flex items-center gap-3">
+                        <XMarkIcon className="w-5 h-5 shrink-0" />
                         {error}
                     </div>
                 )}
 
                 {/* ── Type Selector ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
-                    <h2 className="text-sm font-bold text-gray-800 mb-6">Material Type</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mx-6 md:mx-0">
+                    <h2 className="text-sm font-bold text-gray-800 mb-4">Material Type</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {TYPE_OPTIONS.map(opt => {
                             const isActive = form.type === opt.value;
                             return (
@@ -216,18 +206,20 @@ export default function EditMarketingPage() {
                                             setError("");
                                         }
                                     }}
-                                    className={`relative flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all duration-300
+                                    className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-300
                                         ${isActive
-                                            ? `${opt.border} ${opt.bg} shadow-md scale-105 z-10`
-                                            : "border-gray-50 bg-white hover:bg-gray-50 hover:border-gray-200"
+                                            ? `${opt.border} ${opt.bg} shadow-md z-10`
+                                            : "border-slate-100 bg-white/50 hover:bg-slate-50 hover:border-slate-200"
                                         }`}
                                 >
-                                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${isActive ? opt.iconBg : "bg-gray-50"}`}>
-                                        <opt.icon className={`w-7 h-7 ${isActive ? "text-white" : "text-gray-400"}`} />
+                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${isActive ? opt.iconBg : "bg-slate-100 shadow-inner"}`}>
+                                        <opt.icon className={`w-5 h-5 ${isActive ? "text-white" : "text-slate-400"}`} />
                                     </div>
-                                    <p className={`text-sm font-bold ${isActive ? opt.color : "text-gray-700"}`}>{opt.label}</p>
+                                    <div className="text-center">
+                                        <p className={`text-xs font-bold tracking-tight ${isActive ? opt.color : "text-slate-700"}`}>{opt.label}</p>
+                                    </div>
                                     {isActive && (
-                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center">
+                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-lg">
                                             <CheckIcon className="w-3 h-3 text-white stroke-[3px]" />
                                         </div>
                                     )}
@@ -236,17 +228,19 @@ export default function EditMarketingPage() {
                         })}
                     </div>
                 </div>
+            </div>
 
+            <div className="max-w-4xl mx-auto flex flex-col gap-6 pb-12">
                 {/* ── Details Form ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col gap-8">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col gap-8 mx-6 md:mx-0 shadow-xl shadow-gray-200/50">
                     <div className="flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-2xl ${selectedType?.bg} border ${selectedType?.border} flex items-center justify-center shadow-inner`}>
                             {selectedType && <selectedType.icon className={`w-6 h-6 ${selectedType.color}`} />}
                         </div>
-                        <div className="flex-1">
-                            <div className="flex items-center justify-between">
+                        <div>
+                            <div className="flex items-center gap-2">
                                 <h2 className="text-xl font-black text-slate-800 tracking-tight">{selectedType?.label} Details</h2>
-                                <span className="text-[10px] bg-amber-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-widest shadow-lg shadow-amber-200 flex items-center gap-2">
+                                <span className="text-[10px] bg-amber-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-widest shadow-lg flex items-center gap-2">
                                     <PencilSquareIcon className="w-3.5 h-3.5" /> RE-VAMPING
                                 </span>
                             </div>
@@ -270,7 +264,7 @@ export default function EditMarketingPage() {
                             />
                         </div>
 
-                        {/* URL */}
+                        {/* URL for YouTube & Social */}
                         {(form.type === "youtube" || form.type === "social_post") && (
                             <div className="animate-in slide-in-from-top-2 duration-300">
                                 <label className="block text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
@@ -367,6 +361,11 @@ export default function EditMarketingPage() {
                                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center">
                                                 <p className="text-white text-[10px] font-bold">CURRENTLY SAVED</p>
                                             </div>
+                                        ) : (
+                                            <img src={existingAttachment} alt="Existing attachment" className="w-full h-auto object-cover" />
+                                        )}
+                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center">
+                                            <p className="text-white text-[10px] font-bold uppercase tracking-widest">Currently Saved</p>
                                         </div>
                                     </div>
                                 )}
