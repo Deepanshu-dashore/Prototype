@@ -352,29 +352,27 @@ export default function ProductsPage() {
     }
   }, [productsData]);
 
-  const visibilityMutation = api.usePatch(
-    ["products", pagination.currentPage, searchQuery],
-    "/product/status",
-    {
-      onSuccess: () => setVisibilityModal({ isOpen: false, productId: null }),
-      onError: (err) =>
-        alert(
-          err.response?.data?.message || err.message || "Something went wrong",
-        ),
+  const visibilityMutation = api.usePatch(["products"], "/product/status", {
+    onSuccess: () => {
+      setVisibilityModal({ isOpen: false, productId: null });
+      api.invalidate(["products"]);
     },
-  );
+    onError: (err) =>
+      alert(
+        err.response?.data?.message || err.message || "Something went wrong",
+      ),
+  });
 
-  const deleteMutation = api.useDelete(
-    ["products", pagination.currentPage, searchQuery],
-    "/product",
-    {
-      onSuccess: () => setDeleteModal({ isOpen: false, productId: null }),
-      onError: (err) =>
-        alert(
-          err.response?.data?.message || err.message || "Something went wrong",
-        ),
+  const deleteMutation = api.useDelete(["products"], "/product", {
+    onSuccess: () => {
+      setDeleteModal({ isOpen: false, productId: null });
+      api.invalidate(["products"]);
     },
-  );
+    onError: (err) =>
+      alert(
+        err.response?.data?.message || err.message || "Something went wrong",
+      ),
+  });
 
   const isUpdating = visibilityMutation.isPending;
   const isDeleting = deleteMutation.isPending;
