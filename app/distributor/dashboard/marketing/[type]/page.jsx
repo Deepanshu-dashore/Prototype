@@ -154,9 +154,9 @@ function SocialPostTable({ assets, loading }) {
                             <th className="px-5 py-3 text-left w-12">#</th>
                             <th className="px-5 py-3 text-left min-w-[200px]">Title</th>
                             <th className="px-5 py-3 text-left min-w-[120px]">Media View</th>
+                            <th className="px-5 py-3 text-center w-24">Download</th>
                             <th className="px-5 py-3 text-left min-w-[250px]">Description</th>
                             <th className="px-5 py-3 text-left min-w-[150px]">Link</th>
-                            <th className="px-5 py-3 text-center w-24">Action</th>
                             <th className="px-5 py-3 text-left min-w-[100px]">Date</th>
                         </tr>
                     </thead>
@@ -196,19 +196,6 @@ function SocialPostTable({ assets, loading }) {
                                             <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">Not provided</span>
                                         )}
                                     </td>
-                                    <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
-                                        <p className="truncate">{a.description || "—"}</p>
-                                    </td>
-                                    <td className="px-5 py-3.5">
-                                        {a.url ? (
-                                            <a href={a.url} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-blue-600 hover:underline text-xs font-medium truncate max-w-[180px]">
-                                                <LinkIcon className="w-3.5 h-3.5 shrink-0" />
-                                                {a.url.length > 35 ? a.url.slice(0, 35) + "…" : a.url}
-                                            </a>
-                                        ) : (
-                                            <span className="text-xs text-gray-400">—</span>
-                                        )}
-                                    </td>
                                     <td className="px-5 py-3.5 text-center">
                                         {a.attachment ? (
                                             <a
@@ -222,6 +209,19 @@ function SocialPostTable({ assets, loading }) {
                                             </a>
                                         ) : (
                                             "—"
+                                        )}
+                                    </td>
+                                    <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
+                                        <p className="truncate">{a.description || "—"}</p>
+                                    </td>
+                                    <td className="px-5 py-3.5">
+                                        {a.url ? (
+                                            <a href={a.url} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-blue-600 hover:underline text-xs font-medium truncate max-w-[180px]">
+                                                <LinkIcon className="w-3.5 h-3.5 shrink-0" />
+                                                {a.url.length > 35 ? a.url.slice(0, 35) + "…" : a.url}
+                                            </a>
+                                        ) : (
+                                            <span className="text-xs text-gray-400">—</span>
                                         )}
                                     </td>
                                     <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">{formatDate(a.createdAt)}</td>
@@ -261,8 +261,8 @@ function PDFTable({ assets, loading, accentColor = "emerald" }) {
                             <th className="px-5 py-3 text-left w-12">#</th>
                             <th className="px-5 py-3 text-left min-w-[200px]">Title</th>
                             <th className="px-5 py-3 text-left min-w-[120px]">PDF View</th>
+                            <th className="px-5 py-3 text-center w-24">Download</th>
                             <th className="px-5 py-3 text-left min-w-[250px]">Description</th>
-                            <th className="px-5 py-3 text-center w-24">Action</th>
                             <th className="px-5 py-3 text-left min-w-[100px]">Date</th>
                         </tr>
                     </thead>
@@ -302,9 +302,6 @@ function PDFTable({ assets, loading, accentColor = "emerald" }) {
                                             <span className="text-xs text-gray-300">Not available</span>
                                         )}
                                     </td>
-                                    <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
-                                        <p className="truncate">{a.description || "—"}</p>
-                                    </td>
                                     <td className="px-5 py-3.5 text-center">
                                         {a.url ? (
                                             <a
@@ -319,6 +316,9 @@ function PDFTable({ assets, loading, accentColor = "emerald" }) {
                                         ) : (
                                             "—"
                                         )}
+                                    </td>
+                                    <td className="px-5 py-3.5 text-xs text-gray-500 max-w-[200px]">
+                                        <p className="truncate">{a.description || "—"}</p>
                                     </td>
                                     <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">{formatDate(a.createdAt)}</td>
                                 </tr>
@@ -459,10 +459,10 @@ export default function DistributorMarketingPage() {
                         )}
                         <div>
                             <h2 className="text-lg font-bold text-gray-800 tracking-tight">{activeCat?.label || "Marketing Resources"}</h2>
-                            <p className="text-[10px] font-bold text-gray-400 mt-0.5 uppercase tracking-widest flex items-center gap-1.5">
+                            <div className="text-[10px] font-bold text-gray-400 mt-0.5 uppercase tracking-widest flex items-center gap-1.5">
                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                                 {filteredAssets.length} Assets
-                            </p>
+                            </div>
                         </div>
                     </div>
                 )}
