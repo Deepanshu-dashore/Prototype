@@ -356,7 +356,10 @@ export default function ProductsPage() {
     ["products", pagination.currentPage, searchQuery],
     "/product/status",
     {
-      onSuccess: () => setVisibilityModal({ isOpen: false, productId: null }),
+      onSuccess: () => {
+        setVisibilityModal({ isOpen: false, productId: null });
+        api.invalidate(["products", pagination.currentPage, searchQuery]);
+      },
       onError: (err) =>
         alert(
           err.response?.data?.message || err.message || "Something went wrong",
@@ -368,7 +371,10 @@ export default function ProductsPage() {
     ["products", pagination.currentPage, searchQuery],
     "/product",
     {
-      onSuccess: () => setDeleteModal({ isOpen: false, productId: null }),
+      onSuccess: () => {
+        setDeleteModal({ isOpen: false, productId: null });
+        api.invalidate(["products", pagination.currentPage, searchQuery]);
+      },
       onError: (err) =>
         alert(
           err.response?.data?.message || err.message || "Something went wrong",

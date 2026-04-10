@@ -574,12 +574,18 @@ export default function AdminMarketingPage() {
     };
 
     const deleteMutation = api.useDelete(queryKey, "/marketing", {
-        onSuccess: () => setDeleteTarget(null),
+        onSuccess: () => {
+            setDeleteTarget(null);
+            api.invalidate(queryKey);
+        },
         onError: (err) => alert(err.response?.data?.message || err.message || "Delete error")
     });
 
     const statusMutation = api.usePut(queryKey, "/marketing/status", {
-        onSuccess: () => setVisibilityTarget(null),
+        onSuccess: () => {
+            setVisibilityTarget(null);
+            api.invalidate(queryKey);
+        },
         onError: (err) => alert(err.response?.data?.message || err.message || "Toggle error")
     });
 
