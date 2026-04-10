@@ -110,7 +110,7 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="background:#f8f9fb;padding:16px;text-align:center;">
             <p style="font-size:12px;color:#777;margin:0;">
-              Need help? Contact us at
+              Need help? Contact our team at
               <a href="mailto:${supportEmail}" style="color:#0b3aa4;text-decoration:underline;">
                 ${supportEmail}
               </a>
@@ -240,7 +240,7 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="background:#f9fafc;padding:18px;text-align:center;">
             <p style="font-size:12px;color:#666;margin:0;">
-              Need assistance? Contact us at 
+              Need assistance? Contact our team at 
               <a href="mailto:${supportEmail}" 
                  style="color:#0b3aa4;text-decoration:none;font-weight:600;">
                 ${supportEmail}
@@ -370,7 +370,7 @@ Reset Password Now
 <tr>
 <td style="padding:20px;text-align:center;background:#fafafa;">
 <p style="font-size:12px;color:#5f6368;margin:0;">
-Need help? Contact 
+Need help? Contact our team at 
 <a href="mailto:${supportEmail}"
 style="color:#1a73e8;text-decoration:none;font-weight:500;">
 ${supportEmail}
@@ -507,7 +507,7 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="background:#f8f9fb;padding:16px;text-align:center;">
             <p style="font-size:12px;color:#777;margin:0;">
-              If you have any questions, contact us at
+              If you have any questions, contact our team at
               <a href="mailto:${supportEmail}" style="color:#0b3aa4;text-decoration:underline;">
                 ${supportEmail}
               </a>
@@ -737,7 +737,7 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="background:#f9fafb;padding:18px 36px;text-align:center;">
             <p style="font-size:12px;color:#555;margin:0;">
-              If you have any questions regarding this order, please contact
+              If you have any questions regarding this order, please contact our team at
               <a href="mailto:${supportEmail}"
                  style="color:#111827;text-decoration:underline;">
                 ${supportEmail}
@@ -923,7 +923,7 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
     Support:
     <a href="mailto:${supportEmail}"
        style="color:${brandColor};text-decoration:underline;">
-      ${supportEmail}
+      our team at ${supportEmail}
     </a>
   </p>
   <p style="font-size:11px;color:#9ca3af;margin:8px 0 0 0;">
@@ -1094,7 +1094,7 @@ export const orderConfirmationTemplate = ({
           <!-- Footer Area -->
           <tr>
             <td align="center" style="background-color: #f8fafc; padding: 30px 40px; border-top: 1px solid #f1f5f9;">
-              <p style="color: #64748b; font-size: 12px; margin: 0 0 10px 0;">If you have any questions, please contact <a href="mailto:${supportEmail}" style="color: #2563eb; text-decoration: none;">${supportEmail}</a></p>
+              <p style="color: #64748b; font-size: 12px; margin: 0 0 10px 0;">If you have any questions, please contact our team at <a href="mailto:${supportEmail}" style="color: #2563eb; text-decoration: none;">${supportEmail}</a></p>
               <p style="color: #94a3b8; font-size: 11px; margin: 0;">© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p>
               <p style="color: #64748b; font-size: 10px; margin-top: 15px;">Automated notification from CC Matting Partner Portal.</p>
             </td>

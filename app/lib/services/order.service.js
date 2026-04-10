@@ -29,7 +29,7 @@ export class OrderService {
   static async getAllOrders(filter = {}, options = {}, select = "") {
     await connect();
     const { skip, limit } = options;
-    const [orders, total] = await Promise.all([
+    const [rawOrders, total] = await Promise.all([
       Order.find(filter)
         .sort({ createdAt: -1 })
         .skip(skip || 0)
@@ -38,6 +38,13 @@ export class OrderService {
         .populate("orderItems.product", "code description"),
       Order.countDocuments(filter),
     ]);
+
+    const orders = rawOrders.map((order) => {
+      const obj = order.toObject();
+      const hasQc = !!(obj.qc && Object.keys(obj.qc).length > 0);
+      return { ...obj, qc: hasQc };
+    });
+
     return { orders, total };
   }
   static async getOrderById(id) {

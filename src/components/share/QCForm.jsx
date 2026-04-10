@@ -79,12 +79,28 @@ export default function QCForm({ orderId, role = "admin" }) {
                 })
             });
 
-            const initialFiles = order.orderItems.map(() => ({
+            const initialProductsFiles = order.orderItems.map(() => ({
                 micrometerImage: null,
                 materialImage: null
             }));
-            setFiles(prev => ({ ...prev, products: initialFiles }));
-            setPreviews(prev => ({ ...prev, products: initialFiles }));
+
+            const initialProductsPreviews = order.orderItems.map((_, idx) => {
+                const existingProduct = order.qc?.products?.[idx];
+                return {
+                    micrometerImage: existingProduct?.micrometerImage || null,
+                    materialImage: existingProduct?.materialImage || null
+                };
+            });
+
+            setFiles({
+                processedBy: null,
+                products: initialProductsFiles
+            });
+
+            setPreviews({
+                processedBy: order.qc?.processedBy || null,
+                products: initialProductsPreviews
+            });
         }
     }, [orderData]);
 
@@ -160,7 +176,9 @@ export default function QCForm({ orderId, role = "admin" }) {
     const handleRemoveFile = (name, index = null) => {
         if (index === null) {
             setFiles(prev => ({ ...prev, [name]: null }));
-            if (previews[name]) URL.revokeObjectURL(previews[name]);
+            if (previews[name] && previews[name].startsWith("blob:")) {
+                URL.revokeObjectURL(previews[name]);
+            }
             setPreviews(prev => ({ ...prev, [name]: null }));
         } else {
             setFiles(prev => {
@@ -170,7 +188,7 @@ export default function QCForm({ orderId, role = "admin" }) {
             });
             setPreviews(prev => {
                 const updatedProductPreviews = [...prev.products];
-                if (updatedProductPreviews[index][name]) {
+                if (updatedProductPreviews[index][name] && updatedProductPreviews[index][name].startsWith("blob:")) {
                     URL.revokeObjectURL(updatedProductPreviews[index][name]);
                 }
                 updatedProductPreviews[index] = { ...updatedProductPreviews[index], [name]: null };
@@ -183,12 +201,12 @@ export default function QCForm({ orderId, role = "admin" }) {
         e.preventDefault();
         setError("");
 
-        if (!files.processedBy) {
+        if (!files.processedBy && !previews.processedBy) {
             setError("Signature (Processed By) is required.");
             return;
         }
 
-        const missingImages = files.products.some((p, i) => !p.micrometerImage || !p.materialImage);
+        const missingImages = previews.products.some((p, i) => !p.micrometerImage || !p.materialImage);
         if (missingImages) {
             setError("All product images (Micrometer & Material) are required for each item.");
             return;
@@ -200,11 +218,17 @@ export default function QCForm({ orderId, role = "admin" }) {
         data.append("palletDimensions", formData.palletDimensions);
         data.append("palletWeight", formData.palletWeight);
         data.append("orderReadyForShipment", formData.orderReadyForShipment);
-        data.append("processedBy", files.processedBy);
+        if (files.processedBy) {
+            data.append("processedBy", files.processedBy);
+        }
         data.append("productsMetadata", JSON.stringify(formData.products));
         files.products.forEach((productFile, index) => {
-            data.append(`micrometerImage_${index}`, productFile.micrometerImage);
-            data.append(`materialImage_${index}`, productFile.materialImage);
+            if (productFile.micrometerImage) {
+                data.append(`micrometerImage_${index}`, productFile.micrometerImage);
+            }
+            if (productFile.materialImage) {
+                data.append(`materialImage_${index}`, productFile.materialImage);
+            }
         });
 
         submitMutation.mutate(data);
@@ -220,18 +244,18 @@ export default function QCForm({ orderId, role = "admin" }) {
                 {!reverse && <label className="block text-sm font-semibold text-gray-700 min-h-[40px]">
                     {label} {required && <span className="text-red-500">*</span>}
                 </label>}
-                <div className={`relative flex justify-center border border-dashed rounded-2xl transition-all duration-200 overflow-hidden ${file ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary/40 hover:bg-gray-50'}`}>
-                    {file ? (
+                <div className={`relative flex justify-center border border-dashed rounded-2xl transition-all duration-200 overflow-hidden ${preview ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary/40 hover:bg-gray-50'}`}>
+                    {preview ? (
                         <div className="relative w-full aspect-4/3 group bg-gray-50">
                             <img
                                 src={preview}
-                                alt={file.name}
+                                alt={file?.name || "Previous upload"}
                                 className="w-full h-full object-cover rounded-xl"
                             />
                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
                                 <DocumentCheckIcon className="h-8 w-8 text-white mb-2" />
                                 <p className="text-xs text-white font-medium truncate w-full text-center px-2">
-                                    {file.name}
+                                    {file?.name || "Existing Image"}
                                 </p>
                                 <button
                                     type="button"
