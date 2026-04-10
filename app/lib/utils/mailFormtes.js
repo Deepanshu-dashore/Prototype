@@ -1026,7 +1026,7 @@ export const orderConfirmationTemplate = ({
           <!-- Summary Grid -->
           <tr>
             <td style="padding: 0 40px 30px 40px;">
-              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #f8fafc; border-radius: 8px; border: 1px solid #f1f5f9;">
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; border: 1px solid #f1f5f9;">
                 <tr>
                   <!-- Order Details -->
                   <td style="padding: 20px; border-bottom: 1px solid #f1f5f9;">
@@ -1067,7 +1067,7 @@ export const orderConfirmationTemplate = ({
               <div style="color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Order Items</div>
               <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
                 <thead>
-                  <tr style="background-color: #f8fafc; border-bottom: 2px solid #f1f5f9;">
+                  <tr style="background-color: #f1f5f9; border-bottom: 2px solid #e2e8f0;">
                     <th align="left" style="padding: 12px; color: #475569; font-size: 12px; font-weight: 600;">Product</th>
                     <th align="center" style="padding: 12px; color: #475569; font-size: 12px; font-weight: 600;">Qty</th>
                     <th align="center" style="padding: 12px; color: #475569; font-size: 12px; font-weight: 600;">Length (m)</th>
