@@ -19,11 +19,11 @@ import {
 } from "@heroicons/react/24/outline";
 
 export const metadata = {
-  title: "Site Map | CC Matting Ireland",
+  title: "Site Map | CC Matting UK",
   description:
-    "Explore all pages and sections of the CC Matting Ireland website for easy navigation and information access.",
+    "Explore all pages and sections of the CC Matting UK website for easy navigation and information access.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/site-map",
+    canonical: "https://www.ccmatting.co.uk/site-map",
   },
 };
 

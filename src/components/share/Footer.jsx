@@ -208,15 +208,15 @@ export default function Footer() {
                 <h3 className="font-semibold text-white text-sm mb-3 tracking-tight">Contact</h3>
                 <ul className="space-y-2.5">
                   <li>
-                    <a href="tel:+353214701669" className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors duration-200 group">
+                    <a href="tel:+447549739754" className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors duration-200 group">
                       <PhoneIcon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                      <span>+353 21 470 1669</span>
+                      <span>07549 739754</span>
                     </a>
                   </li>
                   <li>
-                    <a href="mailto:sales@ccmatting.ie" className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors duration-200 group">
+                    <a href="mailto:sales@ccmatting.co.uk" className="flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors duration-200 group">
                       <EnvelopeIcon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                      <span className="break-all">sales@ccmatting.ie</span>
+                      <span className="break-all">sales@ccmatting.co.uk</span>
                     </a>
                   </li>
                 </ul>

@@ -2,18 +2,18 @@ import { ContactFormProvider } from "../src/components/share/ContactFormContext"
 import "./globals.css";
 
 export const metadata = {
-  metadataBase: new URL("https://www.ccmatting.ie"),
+  metadataBase: new URL("https://www.ccmatting.co.uk"),
   title: {
-    default: "CC Matting - Contamination Control Solutions Ireland",
+    default: "CC Matting - Contamination Control Solutions UK",
     template: "%s | CC Matting",
   },
   description:
-    "Ireland's leading provider of high-performance polymeric contamination control matting. Capture up to 99.9% of particles for cleanrooms, pharma, and medical facilities.",
+    "UK's leading provider of high-performance polymeric contamination control matting. Capture up to 99.9% of particles for cleanrooms, pharma, and medical facilities.",
   keywords: [
     "cleanroom mats",
     "contamination control",
     "polymeric matting",
-    "Ireland",
+    "UK",
     "antimicrobial mats",
     "static dissipative mats",
     "pharmaceutical solutions",
@@ -24,8 +24,8 @@ export const metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_IE",
-    url: "https://www.ccmatting.ie",
+    locale: "en_GB",
+    url: "https://www.ccmatting.co.uk",
     siteName: "CC Matting",
     title: "CC Matting - Contamination Control Solutions",
     description:

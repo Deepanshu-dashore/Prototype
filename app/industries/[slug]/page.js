@@ -14,21 +14,21 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://www.ccmatting.co.uk";
   const url = `${baseUrl}/industries/${slug}`;
 
   return {
-    title: `${industry.title} | Contamination Control | CC Matting Ireland`,
+    title: `${industry.title} | Contamination Control | CC Matting UK`,
     description: industry.description,
     alternates: {
       canonical: url,
     },
     openGraph: {
-      title: `${industry.title} | CC Matting Ireland`,
+      title: `${industry.title} | CC Matting UK`,
       description: industry.description,
       url: url,
       siteName: "CC Matting",
-      locale: "en_IE",
+      locale: "en_GB",
       type: "website",
       images: [
         {
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${industry.title} | CC Matting Ireland`,
+      title: `${industry.title} | CC Matting UK`,
       description: industry.description,
       images: ["/CCMate-Logo.jpg"],
     },

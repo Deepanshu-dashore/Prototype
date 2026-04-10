@@ -5,11 +5,11 @@ import BlogGrid from "../../src/components/blog/BlogGrid";
 
 export async function generateMetadata({ searchParams }) {
   const { category, search } = await searchParams;
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://www.ccmatting.co.uk";
 
   let title = "Blogs - Contamination Control Insights | CC Matting";
   let description =
-    "Latest articles, tutorials, and insights on contamination control and cleanroom technology from Ireland's experts.";
+    "Latest articles, tutorials, and insights on contamination control and cleanroom technology from UK's experts.";
 
   if (category && category !== "All") {
     title = `${category} - Cleanroom Insights | CC Matting`;
@@ -44,7 +44,7 @@ export async function generateMetadata({ searchParams }) {
       description,
       url: canonical,
       siteName: "CC Matting",
-      locale: "en_IE",
+      locale: "en_GB",
       type: "website",
       images: [
         {

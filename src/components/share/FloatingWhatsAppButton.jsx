@@ -19,8 +19,8 @@ export default function FloatingWhatsAppButton() {
   }, [])
 
   const handleClick = () => {
-    // WhatsApp link with phone number (Ireland: +353214701669)
-    const phoneNumber = '+353873884412'
+    // WhatsApp link with phone number (UK: +447549739754)
+    const phoneNumber = '+447549739754'
     const message = encodeURIComponent('Hello, I would like to know more about CC Matting products.')
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank')
   }

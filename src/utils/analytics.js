@@ -69,7 +69,7 @@ export const trackEvent = (eventName, eventData = {}) => {
 export const trackPhoneClick = (source = "unknown") => {
   trackEvent("phone_cta_click", {
     source, // 'header', 'hero', 'sticky', 'contact_page', etc.
-    phone_number: "+353214701669",
+    phone_number: "+447549739754",
   });
 };
 
