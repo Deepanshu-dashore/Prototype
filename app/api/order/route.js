@@ -223,7 +223,7 @@ export async function POST(request) {
         distributor,
         supportEmail: saleEmail,
         orderItems: orderItemsWithProducts,
-        title: "your order has been received successfully",
+        title: "Your order has been received successfully",
         message:
           "Thank you for your order. We have received it and it is now being processed.",
       });
