@@ -569,13 +569,14 @@ export default function ProductsPage() {
                               {/* Visibility */}
                               <td className="px-6 py-4">
                                 <button
+                                  disabled={isUpdating && visibilityMutation.variables?.id === product._id}
                                   onClick={() =>
                                     setVisibilityModal({
                                       isOpen: true,
                                       productId: product._id,
                                     })
                                   }
-                                  className={`relative inline-flex sm:h-6 sm:w-11 h-4.5 w-8 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 ${
+                                  className={`relative inline-flex sm:h-6 sm:w-11 h-4.5 w-8 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 disabled:opacity-50 ${
                                     product.visibility !== false
                                       ? "bg-indigo-500"
                                       : "bg-gray-300"
@@ -584,13 +585,19 @@ export default function ProductsPage() {
                                   aria-checked={product.visibility !== false}
                                   title="Toggle Visibility"
                                 >
-                                  <span
-                                    className={`pointer-events-none  sm:translate-y-0.5 inline-block sm:h-4 sm:w-4 h-3.5 w-3.5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                      product.visibility !== false
-                                        ? "sm:translate-x-5.5 translate-x-3.5"
-                                        : "sm:translate-x-0.5 -translate-x-0.5"
-                                    }`}
-                                  />
+                                  {isUpdating && visibilityMutation.variables?.id === product._id ? (
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                      <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    </div>
+                                  ) : (
+                                    <span
+                                      className={`pointer-events-none sm:translate-y-0.5 inline-block sm:h-4 sm:w-4 h-3.5 w-3.5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                        product.visibility !== false
+                                          ? "sm:translate-x-5.5 translate-x-3.5"
+                                          : "sm:translate-x-0.5 -translate-x-0.5"
+                                      }`}
+                                    />
+                                  )}
                                 </button>
                               </td>
 
@@ -803,10 +810,9 @@ export default function ProductsPage() {
           onClose={() => setVisibilityModal({ isOpen: false, productId: null })}
           onConfirm={() => {
             toggleVisibility(visibilityModal.productId);
-            setVisibilityModal({ isOpen: false, productId: null });
           }}
-          title="Visbility Update"
-          message="Are you sure you want to update visbility of this product?"
+          title="Visibility Update"
+          message="Are you sure you want to update visibility of this product?"
           type="edit"
           confirmText="Update Visibility"
           isLoading={isUpdating}

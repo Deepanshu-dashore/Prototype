@@ -105,7 +105,14 @@ export default function AddMarketingPage() {
                 dropped.name.toLowerCase().endsWith(".wmv") ||
                 dropped.name.toLowerCase().endsWith(".webm");
             const isPDF = dropped.type === "application/pdf" || dropped.name.toLowerCase().endsWith(".pdf");
-            const isImage = dropped.type.startsWith("image/");
+            const isImage = dropped.type.startsWith("image/") ||
+                dropped.name.toLowerCase().endsWith(".jpg") ||
+                dropped.name.toLowerCase().endsWith(".jpeg") ||
+                dropped.name.toLowerCase().endsWith(".png") ||
+                dropped.name.toLowerCase().endsWith(".webp") ||
+                dropped.name.toLowerCase().endsWith(".gif") ||
+                dropped.name.toLowerCase().endsWith(".svg") ||
+                dropped.name.toLowerCase().endsWith(".bmp");
 
             if (isImage || isVideo || isPDF) {
                 setFile(dropped);
@@ -346,7 +353,14 @@ export default function AddMarketingPage() {
                                                 f.name.toLowerCase().endsWith(".wmv") ||
                                                 f.name.toLowerCase().endsWith(".webm");
                                             const isPDF = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
-                                            const isImage = f.type.startsWith("image/");
+                                            const isImage = f.type.startsWith("image/") ||
+                                                f.name.toLowerCase().endsWith(".jpg") ||
+                                                f.name.toLowerCase().endsWith(".jpeg") ||
+                                                f.name.toLowerCase().endsWith(".png") ||
+                                                f.name.toLowerCase().endsWith(".webp") ||
+                                                f.name.toLowerCase().endsWith(".gif") ||
+                                                f.name.toLowerCase().endsWith(".svg") ||
+                                                f.name.toLowerCase().endsWith(".bmp");
                                             setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : isPDF ? "pdf" : "image" }));
                                         }
                                     }}
