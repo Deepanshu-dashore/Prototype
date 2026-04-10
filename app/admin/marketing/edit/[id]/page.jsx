@@ -75,7 +75,7 @@ export default function EditMarketingPage() {
     const submitting = updateMutation.isPending;
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
-    const overLimit = wordCount > 500;
+    const overLimit = wordCount > 100;
 
     const isPDFType = form.type === "case_study" || form.type === "playbook";
     const isSocialPost = form.type === "social_post";
@@ -126,12 +126,12 @@ export default function EditMarketingPage() {
 
         if (target === "media" && isSocialPost) {
             const isVideo = dropped.type.startsWith("video/") ||
-                dropped.name.endsWith(".mp4") ||
-                dropped.name.endsWith(".avi") ||
-                dropped.name.endsWith(".mov") ||
-                dropped.name.endsWith(".wmv") ||
-                dropped.name.endsWith(".webm");
-            const isPDF = dropped.type === "application/pdf";
+                dropped.name.toLowerCase().endsWith(".mp4") ||
+                dropped.name.toLowerCase().endsWith(".avi") ||
+                dropped.name.toLowerCase().endsWith(".mov") ||
+                dropped.name.toLowerCase().endsWith(".wmv") ||
+                dropped.name.toLowerCase().endsWith(".webm");
+            const isPDF = dropped.type === "application/pdf" || dropped.name.toLowerCase().endsWith(".pdf");
             const isImage = dropped.type.startsWith("image/");
 
             if (isImage || isVideo || isPDF) {
@@ -139,7 +139,7 @@ export default function EditMarketingPage() {
                 setForm(f => ({ ...f, attachmentType: isImage ? "image" : isVideo ? "video" : "pdf" }));
             }
         } else if (target === "pdf" && isPDFType) {
-            if (dropped.type === "application/pdf") {
+            if (dropped.type === "application/pdf" || dropped.name.toLowerCase().endsWith(".pdf")) {
                 setFile(dropped);
             }
         }
@@ -197,9 +197,9 @@ export default function EditMarketingPage() {
                 )}
 
                 {/* ── Type Selector ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
-                    <h2 className="text-sm font-bold text-gray-800 mb-6">Material Type</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                    <h2 className="text-sm font-bold text-gray-800 mb-4">Material Type</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {TYPE_OPTIONS.map(opt => {
                             const isActive = form.type === opt.value;
                             return (
@@ -208,26 +208,28 @@ export default function EditMarketingPage() {
                                     type="button"
                                     onClick={() => {
                                         if (form.type !== opt.value) {
-                                            setForm({ title: "", type: opt.value, url: "", description: "", tags: "", attachmentType: "image" });
+                                            setForm({ ...form, type: opt.value, attachmentType: "image" });
                                             setFile(null);
                                             setExistingUrl("");
                                             setExistingAttachment("");
                                             setError("");
                                         }
                                     }}
-                                    className={`relative flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all duration-300
-                                        ${isActive
-                                            ? `${opt.border} ${opt.bg} shadow-md scale-105 z-10`
-                                            : "border-gray-50 bg-white hover:bg-gray-50 hover:border-gray-200"
+                                    className={`relative flex items-center gap-2 p-2 rounded-xl border transition-all text-center
+                                            ${isActive
+                                            ? `${opt.border} ${opt.bg} shadow-md z-10`
+                                            : "border-slate-200 bg-white/50 hover:bg-slate-50 hover:border-slate-200"
                                         }`}
                                 >
-                                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${isActive ? opt.iconBg : "bg-gray-50"}`}>
-                                        <opt.icon className={`w-7 h-7 ${isActive ? "text-white" : "text-gray-400"}`} />
+                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${isActive ? opt.iconBg : "bg-slate-100"} shadow-lg transition-transform group-hover:rotate-6`}>
+                                        <opt.icon className={`w-5 h-5 ${isActive ? "text-white" : "text-slate-400"}`} />
                                     </div>
-                                    <p className={`text-sm font-bold ${isActive ? opt.color : "text-gray-700"}`}>{opt.label}</p>
+                                    <div className="text-center">
+                                        <p className={`text-sm font-bold tracking-tight ${isActive ? opt.color : "text-slate-700"}`}>{opt.label}</p>
+                                    </div>
                                     {isActive && (
-                                        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center">
-                                            <CheckIcon className="w-3 h-3 text-white stroke-[3px]" />
+                                        <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-lg animate-in zoom-in duration-300">
+                                            <CheckIcon className="w-3.5 h-3.5 text-white stroke-[3px]" />
                                         </div>
                                     )}
                                 </button>
@@ -424,12 +426,13 @@ export default function EditMarketingPage() {
                                         if (f) {
                                             setFile(f);
                                             const isVideo = f.type.startsWith("video/") ||
-                                                f.name.endsWith(".mp4") ||
-                                                f.name.endsWith(".avi") ||
-                                                f.name.endsWith(".mov") ||
-                                                f.name.endsWith(".wmv") ||
-                                                f.name.endsWith(".webm");
+                                                f.name.toLowerCase().endsWith(".mp4") ||
+                                                f.name.toLowerCase().endsWith(".avi") ||
+                                                f.name.toLowerCase().endsWith(".mov") ||
+                                                f.name.toLowerCase().endsWith(".wmv") ||
+                                                f.name.toLowerCase().endsWith(".webm");
                                             const isPDF = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
+                                            const isImage = f.type.startsWith("image/");
                                             setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : isPDF ? "pdf" : "image" }));
                                         }
                                     }}

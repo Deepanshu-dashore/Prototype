@@ -99,11 +99,11 @@ export default function AddMarketingPage() {
 
         if (target === "media" && isSocialPost) {
             const isVideo = dropped.type.startsWith("video/") ||
-                dropped.name.endsWith(".mp4") ||
-                dropped.name.endsWith(".avi") ||
-                dropped.name.endsWith(".mov") ||
-                dropped.name.endsWith(".wmv") ||
-                dropped.name.endsWith(".webm");
+                dropped.name.toLowerCase().endsWith(".mp4") ||
+                dropped.name.toLowerCase().endsWith(".avi") ||
+                dropped.name.toLowerCase().endsWith(".mov") ||
+                dropped.name.toLowerCase().endsWith(".wmv") ||
+                dropped.name.toLowerCase().endsWith(".webm");
             const isPDF = dropped.type === "application/pdf" || dropped.name.toLowerCase().endsWith(".pdf");
             const isImage = dropped.type.startsWith("image/");
 
@@ -155,7 +155,7 @@ export default function AddMarketingPage() {
                                     type="button"
                                     onClick={() => {
                                         if (form.type !== opt.value) {
-                                            setForm({ title: "", type: opt.value, url: "", description: "", tags: "", attachmentType: "image" });
+                                            setForm({ ...form, type: opt.value, attachmentType: "image" });
                                             setFile(null);
                                             setError("");
                                         }
@@ -340,11 +340,11 @@ export default function AddMarketingPage() {
                                         if (f) {
                                             setFile(f);
                                             const isVideo = f.type.startsWith("video/") ||
-                                                f.name.endsWith(".mp4") ||
-                                                f.name.endsWith(".avi") ||
-                                                f.name.endsWith(".mov") ||
-                                                f.name.endsWith(".wmv") ||
-                                                f.name.endsWith(".webm");
+                                                f.name.toLowerCase().endsWith(".mp4") ||
+                                                f.name.toLowerCase().endsWith(".avi") ||
+                                                f.name.toLowerCase().endsWith(".mov") ||
+                                                f.name.toLowerCase().endsWith(".wmv") ||
+                                                f.name.toLowerCase().endsWith(".webm");
                                             const isPDF = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
                                             const isImage = f.type.startsWith("image/");
                                             setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : isPDF ? "pdf" : "image" }));
