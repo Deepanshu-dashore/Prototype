@@ -109,6 +109,13 @@ export class ApiClient {
     });
   }
 
+  // Manually invalidate queries
+  invalidate(key) {
+    return this.queryClient.invalidateQueries({
+      queryKey: Array.isArray(key) ? key : [key],
+    });
+  }
+
   // Access to raw axios for one-off calls
   static api = api;
 }
