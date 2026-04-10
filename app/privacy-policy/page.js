@@ -1,27 +1,27 @@
 import PublicLayout from "../../src/components/share/PublicLayout";
 
 export const metadata = {
-  title: "Privacy Policy | CC Matting Ireland",
+  title: "Privacy Policy | CC Matting UK",
   description:
     "Read our privacy notice to understand how CC Matting collects, uses, and protects your personal information.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/privacy-policy",
+    canonical: "https://www.ccmatting.co.uk/privacy-policy",
   },
   robots: {
     index: false,
     follow: true,
   },
   openGraph: {
-    title: "Privacy Policy | CC Matting Ireland",
+    title: "Privacy Policy | CC Matting UK",
     description: "Our commitment to protecting your personal information.",
-    url: "https://www.ccmatting.ie/privacy-policy",
+    url: "https://www.ccmatting.co.uk/privacy-policy",
     siteName: "CC Matting",
     images: ["/CCMate-Logo.jpg"],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Privacy Policy | CC Matting Ireland",
+    title: "Privacy Policy | CC Matting UK",
     images: ["/CCMate-Logo.jpg"],
   },
 };
@@ -47,10 +47,10 @@ export default function PrivacyPolicy() {
               privacy notice, or our practices with regards to your personal
               information, please contact us at{" "}
               <a
-                href="mailto:sales@ccmatting.ie"
+                href="mailto:sales@ccmatting.co.uk"
                 className="text-primary hover:underline"
               >
-                sales@ccmatting.ie
+                sales@ccmatting.co.uk
               </a>
               .[1][2]
             </p>
@@ -58,12 +58,12 @@ export default function PrivacyPolicy() {
             <p>
               When you visit our website{" "}
               <a
-                href="https://www.ccmatting.ie"
+                href="https://www.ccmatting.co.uk"
                 className="text-primary hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                https://www.ccmatting.ie
+                https://www.ccmatting.co.uk
               </a>{" "}
               (the "Website"), and more generally, use any of our services (the
               "Services", which include the Website), you are trusting us with
@@ -417,10 +417,10 @@ export default function PrivacyPolicy() {
                 If you have questions or comments about your privacy rights, you
                 may email us at{" "}
                 <a
-                  href="mailto:sales@ccmatting.ie"
+                  href="mailto:sales@ccmatting.co.uk"
                   className="text-primary hover:underline"
                 >
-                  sales@ccmatting.ie
+                  sales@ccmatting.co.uk
                 </a>
                 .[2][1]
               </p>
@@ -486,12 +486,12 @@ export default function PrivacyPolicy() {
                 If you have questions or comments about this notice, you may
                 contact us by email at{" "}
                 <a
-                  href="mailto:sales@ccmatting.ie"
+                  href="mailto:sales@ccmatting.co.uk"
                   className="text-primary hover:underline"
                 >
-                  sales@ccmatting.ie
+                  sales@ccmatting.co.uk
                 </a>{" "}
-                or by phone at +353 21 470 1669.[4][5][1]
+                or by phone at 07549 739754.[4][5][1]
               </p>
             </section>
 
@@ -507,10 +507,10 @@ export default function PrivacyPolicy() {
                 request to review, update, or delete your personal information,
                 please contact us at{" "}
                 <a
-                  href="mailto:sales@ccmatting.ie"
+                  href="mailto:sales@ccmatting.co.uk"
                   className="text-primary hover:underline"
                 >
-                  sales@ccmatting.ie
+                  sales@ccmatting.co.uk
                 </a>
                 .[1][2]
               </p>

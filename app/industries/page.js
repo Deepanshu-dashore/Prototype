@@ -5,17 +5,17 @@ import { getIndustriesForServer } from "../../src/utils/industriesData";
 export const metadata = {
   title: "Industry Solutions | Contamination Control for Every Sector",
   description:
-    "Explore our specialized contamination control solutions for pharmaceutical, semiconductor, medical device, and food industries in Ireland.",
+    "Explore our specialized contamination control solutions for pharmaceutical, semiconductor, medical device, and food industries in UK.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/industries",
+    canonical: "https://www.ccmatting.co.uk/industries",
   },
   openGraph: {
-    title: "Industry Solutions | CC Matting Ireland",
+    title: "Industry Solutions | CC Matting UK",
     description:
       "Specialized contamination control and polymeric mats for high-tech, medical, and industrial sectors.",
-    url: "https://www.ccmatting.ie/industries",
+    url: "https://www.ccmatting.co.uk/industries",
     siteName: "CC Matting",
-    locale: "en_IE",
+    locale: "en_GB",
     type: "website",
     images: [
       {
@@ -28,7 +28,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Industry Solutions | CC Matting Ireland",
+    title: "Industry Solutions | CC Matting UK",
     description:
       "Specialized contamination control mats for medical and industrial sectors.",
     images: ["/CCMate-Logo.jpg"],

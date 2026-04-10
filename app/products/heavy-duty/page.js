@@ -8,15 +8,15 @@ export const metadata = {
   description:
     "CCM Heavy Duty mats are designed for high-traffic industrial environments. Superior durability and performance for heavy machinery and forklift areas.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/products/heavy-duty",
+    canonical: "https://www.ccmatting.co.uk/products/heavy-duty",
   },
   openGraph: {
     title: "Heavy Duty Contamination Control | Industrial Strength",
     description:
       "Industrial strength polymeric mats for heavy traffic and forklift areas. High-performance contamination control for factories and warehouses.",
-    url: "https://www.ccmatting.ie/products/heavy-duty",
+    url: "https://www.ccmatting.co.uk/products/heavy-duty",
     siteName: "CC Matting",
-    locale: "en_IE",
+    locale: "en_GB",
     type: "website",
     images: [
       {

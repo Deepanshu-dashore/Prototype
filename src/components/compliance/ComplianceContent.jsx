@@ -31,7 +31,7 @@ export default function ComplianceContent() {
         { name: "Static Dissipative Testing", description: "ESD performance and resistance testing", icon: BoltIcon, image: "/compliances/CardImage/StaticDissipativeTesting.png", href: "/compliances/doc/CCM STATIC DISSIPATIVE TEST RESULTS 2026.pdf" },
         { name: "CCMatting Efficacy Data", description: "Internal performance and validation data", icon: ChartBarIcon, image: "/compliances/CardImage/CCMatting Efficacy Data.png", href: "#" },
         { name: "SDS Safety Data Sheet", description: "Safety data and material specifications", icon: ExclamationCircleIcon, image: "/compliances/CardImage/SDS Safety Data Sheet.png", href: "/compliances/doc/CCM MSDS.pdf" },
-        { name: "CCM NPI Brochure 2026", description: "New Product Introduction Brochure 2026", icon: DocumentTextIcon, image: "/compliances/CardImage/brocher2026.png", href: "/compliances/doc/CCM NPI BROCH IE 2026.pdf" }
+        { name: "CCM NPI Brochure 2026", description: "New Product Introduction Brochure 2026", icon: DocumentTextIcon, image: "/compliances/CardImage/brocher2026.png", href: "/compliances/doc/CCM NPI BROCHURE 2026 UK 1.2MB.pdf" }
     ];
 
     const logos = [

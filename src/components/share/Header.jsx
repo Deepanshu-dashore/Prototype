@@ -122,7 +122,7 @@ export default function Header({ onContactClick }) {
       { name: 'BPR/EPA', href: '/compliance5', icon: GlobeAmericasIcon },
       { name: 'Static Dissipative Testing 2026', href: '/compliances/doc/CCM STATIC DISSIPATIVE TEST RESULTS 2026.pdf', icon: BoltIcon },
       { name: 'CCMatting Efficacy Data', href: '/compliance7', icon: ChartBarIcon },
-      { name: 'CCM NPI Brochure 2026', href: '/compliances/doc/CCM NPI BROCH IE 2026.pdf', icon: DocumentTextIcon },
+      { name: 'CCM NPI Brochure 2026', href: '/compliances/doc/CCM NPI BROCHURE 2026 UK 1.2MB.pdf', icon: DocumentTextIcon },
     ],
     Industries: industriesData.map(ind => ({
       name: ind.title.replace('Contamination Control Mats for ', '').replace(' Industry', ''), // Simplified naming logic

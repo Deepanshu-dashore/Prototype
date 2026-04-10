@@ -2,19 +2,19 @@ import PublicLayout from "../../src/components/share/PublicLayout";
 import VideosContent from "../../src/components/videos/VideosContent";
 
 export const metadata = {
-  title: "Informative Videos | CC Matting Ireland",
+  title: "Informative Videos | CC Matting UK",
   description:
     "See CC Matting solutions in action. Learn about installation, maintenance, and the science behind polymeric contamination control.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/videos",
+    canonical: "https://www.ccmatting.co.uk/videos",
   },
   openGraph: {
-    title: "Informative Videos | CC Matting Ireland",
+    title: "Informative Videos | CC Matting UK",
     description:
       "Watch how our polymeric contamination control mats protect critical environments.",
-    url: "https://www.ccmatting.ie/videos",
+    url: "https://www.ccmatting.co.uk/videos",
     siteName: "CC Matting",
-    locale: "en_IE",
+    locale: "en_GB",
     type: "website",
     images: [
       {
@@ -27,7 +27,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Informative Videos | CC Matting Ireland",
+    title: "Informative Videos | CC Matting UK",
     description: "Contamination control mats in action.",
     images: ["/CCMate-Logo.jpg"],
   },

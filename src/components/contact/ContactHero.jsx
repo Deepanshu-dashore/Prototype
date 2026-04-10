@@ -383,7 +383,7 @@ export default function ContactHero() {
             <div className="mt-8 lg:mt-4 pt-4 space-y-6">
               <div className="flex flex-wrap items-center gap-6">
                 <a
-                  href="tel:+353214701669"
+                  href="tel:+447549739754"
                   onClick={handlePhoneClick}
                   className="inline-flex items-center gap-2 bg-primary text-white px-8 py-3.5 rounded-lg font-bold hover:bg-primary/90 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
                 >
@@ -399,8 +399,8 @@ export default function ContactHero() {
                     <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Primary Support</span>
                   </div>
-                  <a href="mailto:sales@ccmatting.ie" className="text-base font-bold text-neutral-dark hover:text-primary transition-colors">
-                    sales@ccmatting.ie
+                  <a href="mailto:sales@ccmatting.co.uk" className="text-base font-bold text-neutral-dark hover:text-primary transition-colors">
+                    sales@ccmatting.co.uk
                   </a>
                 </div>
                 <div className="bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-blue-100 shadow-sm flex flex-col gap-2 group hover:border-primary/30 transition-all">
@@ -408,8 +408,8 @@ export default function ContactHero() {
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Regional Office</span>
                   </div>
-                  <a href="tel:+0214701669" className="text-base font-bold text-neutral-dark hover:text-primary transition-colors">
-                    021 4701669
+                  <a href="tel:+447549739754" className="text-base font-bold text-neutral-dark hover:text-primary transition-colors">
+                    07549 739754
                   </a>
                 </div>
               </div>

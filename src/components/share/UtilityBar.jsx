@@ -12,22 +12,22 @@ export default function UtilityBar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-4 lg:gap-6">
           <a
-            href="tel:+353214701669"
+            href="tel:+447549739754"
             onClick={handlePhoneClick}
             className="flex items-center gap-2 hover:text-gray-300 transition-colors"
-            aria-label="Call us at 021 4701669"
+            aria-label="Call us at 07549 739754"
           >
             <PhoneIcon className="w-4 h-4" aria-hidden="true" />
-            <span className="hidden sm:inline">021 4701669</span>
+            <span className="hidden sm:inline">07549 739754</span>
             <span className="sm:hidden">Call</span>
           </a>
           <a
-            href="mailto:sales@ccmatting.ie"
+            href="mailto:sales@ccmatting.co.uk"
             className="flex items-center gap-2 hover:text-gray-300 transition-colors"
-            aria-label="Email us at sales@ccmatting.ie"
+            aria-label="Email us at sales@ccmatting.co.uk"
           >
             <EnvelopeIcon className="w-4 h-4" aria-hidden="true" />
-            <span className="hidden sm:inline">sales@ccmatting.ie</span>
+            <span className="hidden sm:inline">sales@ccmatting.co.uk</span>
             <span className="sm:hidden">Email</span>
           </a>
           <div className="ml-auto flex items-center gap-2">

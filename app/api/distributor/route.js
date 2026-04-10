@@ -73,7 +73,7 @@ export async function POST(request) {
         distributorCompany: distributor.companyName,
         distributorEmail: distributor.companyEmail,
         distributorPhone: distributor.companyNumber,
-        verificationUrl: "https://ccmatting.ie/login",
+        verificationUrl: "https://ccmatting.co.uk/login",
       }),
     });
     return ApiResponse(

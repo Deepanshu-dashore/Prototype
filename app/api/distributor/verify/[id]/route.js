@@ -48,7 +48,7 @@ export async function PATCH(request, { params }) {
         companyName: "CC Matting",
         loginEmail: distributor.companyEmail,
         password: plainPassword,
-        loginUrl: "https://ccmatting.ie/distributor/login",
+        loginUrl: "https://ccmatting.co.uk/distributor/login",
       }),
     });
 
