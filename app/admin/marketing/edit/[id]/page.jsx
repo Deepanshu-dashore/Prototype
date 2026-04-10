@@ -22,7 +22,7 @@ import {
 // ─── Type Options ──────────────────────────────────────────────────────────────
 const TYPE_OPTIONS = [
     { value: "youtube", label: "YouTube Video", icon: VideoCameraIcon, color: "text-red-500", bg: "bg-red-50", iconBg: "bg-red-500", border: "border-red-200", activeBg: "bg-red-500", activeText: "text-white", desc: "Embed a YouTube video link" },
-    { value: "social_post", label: "Social Post", icon: MegaphoneIcon, color: "text-blue-500", bg: "bg-blue-50", iconBg: "bg-blue-500", border: "border-blue-200", activeBg: "bg-blue-500", activeText: "text-white", desc: "Upload image, video, or PDF for social post" },
+    { value: "social_post", label: "Social Post", icon: MegaphoneIcon, color: "text-blue-500", bg: "bg-blue-50", iconBg: "bg-blue-500", border: "border-blue-200", activeBg: "bg-blue-500", activeText: "text-white", desc: "Upload image/video/pdf for social post" },
     { value: "case_study", label: "Case Study", icon: DocumentTextIcon, color: "text-emerald-500", bg: "bg-emerald-50", iconBg: "bg-emerald-500", border: "border-emerald-200", activeBg: "bg-emerald-500", activeText: "text-white", desc: "Upload a case study PDF" },
     { value: "playbook", label: "Playbook", icon: BookOpenIcon, color: "text-purple-500", bg: "bg-purple-50", iconBg: "bg-purple-500", border: "border-purple-200", activeBg: "bg-purple-500", activeText: "text-white", desc: "Upload a playbook PDF" },
 ];
@@ -79,7 +79,6 @@ export default function EditMarketingPage() {
 
     const isPDFType = form.type === "case_study" || form.type === "playbook";
     const isSocialPost = form.type === "social_post";
-    const needsFile = isPDFType || isSocialPost;
     const isPDF = form.attachmentType === "pdf";
     const youtubeThumb = form.type === "youtube" && form.url ? (() => { const vid = getYouTubeId(form.url); return vid ? `https://img.youtube.com/vi/${vid}/hqdefault.jpg` : null; })() : null;
 
@@ -315,305 +314,307 @@ export default function EditMarketingPage() {
 
                                 {/* Social Post Attachment Type Toggle */}
                                 {form.type === "social_post" && (
-                                    <div className="mt-8 p-6 bg-slate-50 rounded-[2rem] border border-slate-200/50">
-                                        <label className="block text-xs font-black text-slate-500 mb-4 uppercase tracking-widest ml-1">Attachment Specs</label>
-                                        <div className="flex bg-white p-2 rounded-[1.5rem] w-full sm:w-fit gap-2 shadow-inner border border-slate-100">
+                                    <div className="mt-4">
+                                        <label className="bg-white font-semibold px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Attachment Type</label>
+                                        <div className="flex bg-gray-100 p-1.5 rounded-2xl w-fit gap-1 border border-gray-200 shadow-inner">
                                             {["image", "video", "pdf"].map(t => (
                                                 <button
                                                     key={t}
                                                     type="button"
                                                     onClick={() => setForm(f => ({ ...f, attachmentType: t }))}
-                                                    className={`flex-1 sm:flex-none flex items-center justify-center gap-3 px-8 py-3 rounded-2xl text-xs font-black transition-all duration-300
-                                                        ${form.attachmentType === t
-                                                            ? "bg-slate-900 text-white shadow-xl scale-105"
-                                                            : "text-slate-400 hover:bg-slate-50 hover:text-slate-600"
-                                                        }`}
+                                                    className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-bold transition-all ${form.attachmentType === t ? "bg-white text-blue-600 shadow-xs ring-1 ring-black/5" : "text-gray-500 hover:bg-white/50"}`}
                                                 >
-                                                    {t === "image" ? <PlusIcon className="w-4 h-4" /> : t === "video" ? <VideoCameraIcon className="w-4 h-4" /> : <DocumentTextIcon className="w-4 h-4" />}
+                                                    {t === "image" ? <PlusIcon className="w-3.5 h-3.5" /> : t === "video" ? <VideoCameraIcon className="w-3.5 h-3.5" /> : <DocumentTextIcon className="w-3.5 h-3.5" />}
                                                     <span className="capitalize">{t}</span>
                                                 </button>
                                             ))}
                                         </div>
-                                        <div className="text-[11px] text-slate-400 mt-4 px-2 italic font-semibold flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                                            {form.attachmentType === "image" ? "High-res formats: PNG, JPG, WebP (Max 10MB)" : form.attachmentType === "video" ? "Optimized formats: MP4, MOV (Max 50MB)" : "Standard: Portable Document Format (PDF)"}
-                                        </div>
+                                        <p className="text-[10px] text-gray-400 mt-2 px-2 italic font-medium">
+                                            {form.attachmentType === "image" ? "Upload a high-quality JPG, PNG or WebP image." : form.attachmentType === "video" ? "Upload a video file (MP4, WebM up to 50MB)." : "Upload a PDF document."}
+                                        </p>
                                     </div>
                                 )}
                             </div>
                         )}
-                    </div>
 
-                    {/* Social Post Media Upload */}
-                    {isSocialPost && (
-                        <div className="animate-in zoom-in duration-500">
-                            <div className="flex items-center justify-between mb-3 ml-1">
-                                <label className="text-sm font-bold text-slate-700 tracking-tight">
-                                    Visual Asset <span className="text-slate-400 font-medium">(Optional update)</span>
-                                </label>
-                            </div>
+                        {/* Social Post Media Upload */}
+                        {isSocialPost && (
+                            <div className="animate-in zoom-in duration-500">
+                                <div className="flex items-center justify-between mb-3 ml-1">
+                                    <label className="text-sm font-bold text-slate-700 tracking-tight">
+                                        Visual Asset <span className="text-slate-400 font-medium">(Optional update)</span>
+                                    </label>
+                                </div>
 
-                            {existingAttachment && !file && (
-                                <div className="mb-6 group/item relative">
-                                    <div className="absolute -inset-1 bg-linear-to-r from-blue-100 to-indigo-100 rounded-[2rem] blur-md opacity-25 group-hover/item:opacity-50 transition duration-500"></div>
-                                    <div className="relative p-2 bg-white rounded-[2rem] border border-blue-100 shadow-xl shadow-blue-900/5">
-                                        <div className="rounded-[1.5rem] overflow-hidden border border-slate-100 h-64 relative">
+                                {existingAttachment && !file && (
+                                    <div className="mb-3 flex flex-col gap-2 p-3 rounded-xl bg-blue-50 border border-blue-200">
+                                        <div className="flex items-center gap-2">
+                                            <MegaphoneIcon className="w-4 h-4 text-blue-500 shrink-0" />
+                                            <p className="text-xs font-semibold text-blue-700">Current Attachment</p>
+                                        </div>
+                                        <div className="rounded-lg overflow-hidden border border-blue-100 max-h-40 relative group/preview">
                                             {existingAttachment.includes("video") ||
                                                 existingAttachment.endsWith(".mp4") ||
                                                 existingAttachment.endsWith(".avi") ||
                                                 existingAttachment.endsWith(".mov") ||
                                                 existingAttachment.endsWith(".wmv") ||
                                                 existingAttachment.endsWith(".webm") ? (
-                                                <iframe src={existingAttachment} className="w-full h-full rounded-[1.5rem]" />
-                                            ) : (existingAttachment.endsWith(".pdf") || existingAttachment.includes("application/pdf")) ? (
-                                                <iframe src={existingAttachment} className="w-full h-full rounded-[1.5rem]" title="PDF Preview" />
+                                                <iframe src={existingAttachment} className="w-full aspect-video rounded-lg" />
+                                            ) : existingAttachment.endsWith(".pdf") ? (
+                                                <div className="flex items-center gap-2 p-4 bg-white rounded-lg border border-blue-100">
+                                                    <DocumentTextIcon className="w-8 h-8 text-blue-500" />
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">PDF Document</p>
+                                                        <a href={existingAttachment} target="_blank" rel="noreferrer" className="text-xs text-blue-600 font-semibold hover:underline truncate block">View Current PDF</a>
+                                                    </div>
+                                                </div>
                                             ) : (
-                                                <img src={existingAttachment} alt="Existing attachment" className="w-full h-full object-cover" />
+                                                <img src={existingAttachment} alt="Existing attachment" className="w-full h-auto object-cover" />
                                             )}
-                                            <div className="absolute top-4 left-4 flex items-center gap-2">
-                                                <span className="text-[10px] bg-blue-600 text-white px-3 py-1 rounded-full font-black uppercase tracking-widest shadow-lg">Current Asset</span>
+                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center">
+                                                <p className="text-white text-[10px] font-bold">CURRENTLY SAVED</p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
 
-                            <div
-                                onClick={() => mediaFileRef.current?.click()}
-                                onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-                                onDragLeave={() => setDragOver(false)}
-                                onDrop={e => handleDrop(e, "media")}
-                                className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
+                                <div
+                                    onClick={() => mediaFileRef.current?.click()}
+                                    onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                                    onDragLeave={() => setDragOver(false)}
+                                    onDrop={e => handleDrop(e, "media")}
+                                    className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
                                     ${dragOver
-                                        ? "border-blue-400 bg-blue-50/50 scale-[0.98]"
-                                        : file
-                                            ? "border-emerald-400 bg-emerald-50/30"
-                                            : "border-slate-200 hover:border-blue-400 hover:bg-slate-50 shadow-inner"
-                                    }`}
-                            >
-                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
-                                    {form.attachmentType === "image" ? <PlusIcon className="w-10 h-10" /> : form.attachmentType === "video" ? <VideoCameraIcon className="w-10 h-10" /> : <DocumentTextIcon className="w-10 h-10" />}
-                                </div>
+                                            ? "border-blue-400 bg-blue-50/50 scale-[0.98]"
+                                            : file
+                                                ? "border-emerald-400 bg-emerald-50/30"
+                                                : "border-slate-200 hover:border-blue-400 hover:bg-slate-50 shadow-inner"
+                                        }`}
+                                >
+                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${file ? "bg-emerald-100" : "bg-gray-100"}`}>
+                                        {form.attachmentType === "image" ? <PlusIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} /> : form.attachmentType === "video" ? <VideoCameraIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} /> : <DocumentTextIcon className={`w-6 h-6 ${file ? "text-emerald-600" : "text-gray-400"}`} />}
+                                    </div>
 
-                                <div className="text-center">
-                                    {file ? (
-                                        <div className="animate-in slide-in-from-bottom-2">
-                                            {preview && (
-                                                <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white">
-                                                    {form.attachmentType === "image" ? (
-                                                        <img src={preview} alt="Preview" className="w-full h-auto" />
-                                                    ) : form.attachmentType === "video" ? (
-                                                        <video src={preview} className="w-full h-auto" />
-                                                    ) : (
-                                                        <div className="p-4 flex flex-col items-center gap-2">
-                                                            <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
-                                                            <span className="text-[10px] font-bold text-emerald-600">PDF READY</span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-                                            <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
-                                            <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY TO RE-UPLOAD</p>
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <p className="text-base font-bold text-slate-600">Re-upload new {form.attachmentType} here</p>
-                                            <p className="text-xs text-slate-400 mt-1 font-medium italic">or click to browse local files</p>
-                                        </>
-                                    )}
-                                </div>
+                                    <div className="text-center">
+                                        {file ? (
+                                            <div className="animate-in slide-in-from-bottom-2">
+                                                {preview && (
+                                                    <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white">
+                                                        {form.attachmentType === "image" ? (
+                                                            <img src={preview} alt="Preview" className="w-full h-auto" />
+                                                        ) : form.attachmentType === "video" ? (
+                                                            <video src={preview} className="w-full h-auto" />
+                                                        ) : (
+                                                            <div className="p-4 flex flex-col items-center gap-2">
+                                                                <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
+                                                                <span className="text-[10px] font-bold text-emerald-600">PDF READY</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
+                                                <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY TO RE-UPLOAD</p>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <p className="text-base font-bold text-slate-600">Re-upload new {form.attachmentType} here</p>
+                                                <p className="text-xs text-slate-400 mt-1 font-medium italic">or click to browse local files</p>
+                                            </>
+                                        )}
+                                    </div>
 
-                                <input
-                                    ref={mediaFileRef}
-                                    type="file"
-                                    accept={form.attachmentType === "image" ? "image/*" : form.attachmentType === "video" ? ".mp4,.avi,.mov,.wmv,.webm,video/*" : "application/pdf"}
-                                    className="hidden"
-                                    onChange={e => {
-                                        const f = e.target.files[0];
-                                        if (f) {
-                                            setFile(f);
-                                            const isVideo = f.type.startsWith("video/") ||
-                                                f.name.toLowerCase().endsWith(".mp4") ||
-                                                f.name.toLowerCase().endsWith(".avi") ||
-                                                f.name.toLowerCase().endsWith(".mov") ||
-                                                f.name.toLowerCase().endsWith(".wmv") ||
-                                                f.name.toLowerCase().endsWith(".webm");
-                                            const isPDF = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
-                                            const isImage = f.type.startsWith("image/") ||
-                                                f.name.toLowerCase().endsWith(".jpg") ||
-                                                f.name.toLowerCase().endsWith(".jpeg") ||
-                                                f.name.toLowerCase().endsWith(".png") ||
-                                                f.name.toLowerCase().endsWith(".webp") ||
-                                                f.name.toLowerCase().endsWith(".gif") ||
-                                                f.name.toLowerCase().endsWith(".svg") ||
-                                                f.name.toLowerCase().endsWith(".bmp");
-                                            setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : isPDF ? "pdf" : "image" }));
-                                        }
-                                    }}
-                                />
+                                    <input
+                                        ref={mediaFileRef}
+                                        type="file"
+                                        accept={form.attachmentType === "image" ? "image/*" : form.attachmentType === "video" ? ".mp4,.avi,.mov,.wmv,.webm,video/*" : "application/pdf"}
+                                        className="hidden"
+                                        onChange={e => {
+                                            const f = e.target.files[0];
+                                            if (f) {
+                                                setFile(f);
+                                                const isVideo = f.type.startsWith("video/") ||
+                                                    f.name.toLowerCase().endsWith(".mp4") ||
+                                                    f.name.toLowerCase().endsWith(".avi") ||
+                                                    f.name.toLowerCase().endsWith(".mov") ||
+                                                    f.name.toLowerCase().endsWith(".wmv") ||
+                                                    f.name.toLowerCase().endsWith(".webm");
+                                                const isPDF = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
+                                                const isImage = f.type.startsWith("image/") ||
+                                                    f.name.toLowerCase().endsWith(".jpg") ||
+                                                    f.name.toLowerCase().endsWith(".jpeg") ||
+                                                    f.name.toLowerCase().endsWith(".png") ||
+                                                    f.name.toLowerCase().endsWith(".webp") ||
+                                                    f.name.toLowerCase().endsWith(".gif") ||
+                                                    f.name.toLowerCase().endsWith(".svg") ||
+                                                    f.name.toLowerCase().endsWith(".bmp");
+                                                setForm(prev => ({ ...prev, attachmentType: isVideo ? "video" : isPDF ? "pdf" : "image" }));
+                                            }
+                                        }}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* PDF File Upload */}
-                    {isPDFType && (
-                        <div className="animate-in zoom-in duration-500">
-                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1 tracking-tight">
-                                Document Source <span className="text-slate-400 font-medium">(Optional update)</span>
+                        {/* PDF File Upload */}
+                        {isPDFType && (
+                            <div className="animate-in zoom-in duration-500">
+                                <label className="block text-sm font-bold text-slate-700 mb-3 ml-1 tracking-tight">
+                                    Document Source <span className="text-slate-400 font-medium">(Optional update)</span>
+                                </label>
+
+                                {existingUrl && !file && (
+                                    <div className="mb-6 p-4 rounded-[1.5rem] bg-indigo-50 border border-indigo-100 shadow-inner flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-xl bg-indigo-500 flex items-center justify-center text-white shadow-lg">
+                                            <DocumentTextIcon className="w-6 h-6" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest leading-none">Stored File</p>
+                                            <a href={existingUrl} target="_blank" rel="noreferrer" className="text-sm font-bold text-indigo-700 hover:text-indigo-900 transition-colors truncate block mt-1">{existingUrl}</a>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div
+                                    onClick={() => pdfFileRef.current?.click()}
+                                    onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                                    onDragLeave={() => setDragOver(false)}
+                                    onDrop={e => handleDrop(e, "pdf")}
+                                    className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
+                            ${dragOver
+                                            ? "border-indigo-400 bg-indigo-50/50 scale-[0.98]"
+                                            : file
+                                                ? "border-emerald-400 bg-emerald-50/30"
+                                                : "border-slate-200 hover:border-indigo-400 hover:bg-slate-50 shadow-inner"
+                                        }`}
+                                >
+                                    <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+                                        <ArrowUpTrayIcon className="w-10 h-10" />
+                                    </div>
+                                    <div className="text-center">
+                                        {file ? (
+                                            <div className="animate-in slide-in-from-bottom-2">
+                                                {preview && (
+                                                    <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white p-4 flex flex-col items-center gap-2">
+                                                        <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
+                                                        <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Document Ready</span>
+                                                    </div>
+                                                )}
+                                                <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
+                                                <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY FOR ANALYSIS</p>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <p className="text-base font-bold text-slate-600">Re-upload new PDF here</p>
+                                                <p className="text-xs text-slate-400 mt-1 font-medium italic">High-fidelity PDF document required</p>
+                                            </>
+                                        )}
+                                    </div>
+                                    <input
+                                        ref={pdfFileRef}
+                                        type="file"
+                                        accept="application/pdf"
+                                        className="hidden"
+                                        onChange={e => {
+                                            const f = e.target.files[0];
+                                            if (f) setFile(f);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Description */}
+                        <div>
+                            <div className="flex items-center justify-between mb-2 px-1">
+                                <label className="text-sm font-bold text-slate-700 tracking-tight">Narrative <span className="text-slate-400 font-medium">(Optional)</span></label>
+                                <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
+                                    {wordCount} / 100 Words
+                                </span>
+                            </div>
+                            <textarea
+                                rows={5}
+                                value={form.description}
+                                onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+                                placeholder="Tell the story of this material..."
+                                className={`w-full px-5 py-4 rounded-[2rem] bg-slate-50 border transition-all duration-300 shadow-inner resize-none focus:outline-none focus:ring-4 focus:bg-white text-sm font-medium leading-relaxed
+                        ${overLimit
+                                        ? "border-red-400 focus:ring-red-100 placeholder-red-300"
+                                        : "border-slate-200/80 focus:ring-blue-100 focus:border-blue-400 placeholder-slate-400"}`}
+                            />
+                            {overLimit && (
+                                <p className="text-[10px] text-red-500 mt-2 font-bold ml-4 animate-pulse">NARRATIVE LIMIT REACHED. PLEASE CONDENSE YOUR CONTENT.</p>
+                            )}
+                        </div>
+
+                        {/* Keywords */}
+                        <div>
+                            <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
+                                <TagIcon className="w-4 h-4 text-blue-500" /> Keywords <span className="text-slate-400 font-medium">(Metadata)</span>
                             </label>
-
-                            {existingUrl && !file && (
-                                <div className="mb-6 p-4 rounded-[1.5rem] bg-indigo-50 border border-indigo-100 shadow-inner flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-xl bg-indigo-500 flex items-center justify-center text-white shadow-lg">
-                                        <DocumentTextIcon className="w-6 h-6" />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest leading-none">Stored File</p>
-                                        <a href={existingUrl} target="_blank" rel="noreferrer" className="text-sm font-bold text-indigo-700 hover:text-indigo-900 transition-colors truncate block mt-1">{existingUrl}</a>
-                                    </div>
+                            <input
+                                type="text"
+                                value={form.tags}
+                                onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
+                                placeholder="marketing, growth, campaign"
+                                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
+                            />
+                            {form.tags && (
+                                <div className="flex flex-wrap gap-2 mt-4 px-1">
+                                    {form.tags.split(",").filter(t => t.trim()).map((t, i) => (
+                                        <span key={i} className={`text-[11px] px-4 py-1.5 rounded-full font-bold border animate-in zoom-in duration-300 shadow-xs
+                                ${selectedType?.bg} ${selectedType?.color} ${selectedType?.border}`}>
+                                            #{t.trim().toUpperCase()}
+                                        </span>
+                                    ))}
                                 </div>
                             )}
+                        </div>
+                    </div>
 
-                            <div
-                                onClick={() => pdfFileRef.current?.click()}
-                                onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-                                onDragLeave={() => setDragOver(false)}
-                                onDrop={e => handleDrop(e, "pdf")}
-                                className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
-                                    ${dragOver
-                                        ? "border-indigo-400 bg-indigo-50/50 scale-[0.98]"
-                                        : file
-                                            ? "border-emerald-400 bg-emerald-50/30"
-                                            : "border-slate-200 hover:border-indigo-400 hover:bg-slate-50 shadow-inner"
-                                    }`}
+                    {/* ── Action Buttons ── */}
+                    <div className="flex flex-col sm:flex-row items-center justify-end gap-4 mt-8">
+                        <div className="flex items-center gap-3 w-full sm:w-auto">
+                            <button
+                                type="button"
+                                onClick={() => router.back()}
+                                className="flex-1 sm:flex-none px-8 py-4 rounded-xl border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 text-sm"
                             >
-                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
-                                    <ArrowUpTrayIcon className="w-10 h-10" />
-                                </div>
-                                <div className="text-center">
-                                    {file ? (
-                                        <div className="animate-in slide-in-from-bottom-2">
-                                            {preview && (
-                                                <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white p-4 flex flex-col items-center gap-2">
-                                                    <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
-                                                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Document Ready</span>
-                                                </div>
-                                            )}
-                                            <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
-                                            <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY FOR ANALYSIS</p>
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <p className="text-base font-bold text-slate-600">Re-upload new PDF here</p>
-                                            <p className="text-xs text-slate-400 mt-1 font-medium italic">High-fidelity PDF document required</p>
-                                        </>
-                                    )}
-                                </div>
-                                <input
-                                    ref={pdfFileRef}
-                                    type="file"
-                                    accept="application/pdf"
-                                    className="hidden"
-                                    onChange={e => {
-                                        const f = e.target.files[0];
-                                        if (f) setFile(f);
-                                    }}
-                                />
-                            </div>
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                disabled={submitting}
+                                onClick={() => {
+                                    if (!form.title) {
+                                        setError("Title is required.");
+                                        return;
+                                    }
+                                    if (form.type === "youtube" && !form.url) {
+                                        setError("URL is required for YouTube videos.");
+                                        return;
+                                    }
+                                    if (overLimit) {
+                                        setError("Narrative limit reached. Please condense your content.");
+                                        return;
+                                    }
+                                    setError("");
+                                    handleSubmit();
+                                }}
+                                className="flex-1 sm:flex-none px-10 py-4 rounded-xl bg-gray-900 text-white font-bold hover:bg-black transition-all duration-200 shadow-sm flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed text-sm"
+                            >
+                                {submitting ? (
+                                    <>
+                                        <div className="w-5 h-5 border-3 border-white/20 border-t-white rounded-full animate-spin" />
+                                        Synchronizing...
+                                    </>
+                                ) : (
+                                    <>
+                                        Save Changes
+                                        <CheckIcon className="w-4 h-4 transition-transform group-hover:scale-110 stroke-[3px]" />
+                                    </>
+                                )}
+                            </button>
                         </div>
-                    )}
-
-                    {/* Description */}
-                    <div>
-                        <div className="flex items-center justify-between mb-2 px-1">
-                            <label className="text-sm font-bold text-slate-700 tracking-tight">Narrative <span className="text-slate-400 font-medium">(Optional)</span></label>
-                            <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
-                                {wordCount} / 100 Words
-                            </span>
-                        </div>
-                        <textarea
-                            rows={5}
-                            value={form.description}
-                            onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-                            placeholder="Tell the story of this material..."
-                            className={`w-full px-5 py-4 rounded-[2rem] bg-slate-50 border transition-all duration-300 shadow-inner resize-none focus:outline-none focus:ring-4 focus:bg-white text-sm font-medium leading-relaxed
-                                ${overLimit
-                                    ? "border-red-400 focus:ring-red-100 placeholder-red-300"
-                                    : "border-slate-200/80 focus:ring-blue-100 focus:border-blue-400 placeholder-slate-400"}`}
-                        />
-                        {overLimit && (
-                            <p className="text-[10px] text-red-500 mt-2 font-bold ml-4 animate-pulse">NARRATIVE LIMIT REACHED. PLEASE CONDENSE YOUR CONTENT.</p>
-                        )}
-                    </div>
-
-                    {/* Keywords */}
-                    <div>
-                        <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
-                            <TagIcon className="w-4 h-4 text-blue-500" /> Keywords <span className="text-slate-400 font-medium">(Metadata)</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={form.tags}
-                            onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
-                            placeholder="marketing, growth, campaign"
-                            className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
-                        />
-                        {form.tags && (
-                            <div className="flex flex-wrap gap-2 mt-4 px-1">
-                                {form.tags.split(",").filter(t => t.trim()).map((t, i) => (
-                                    <span key={i} className={`text-[11px] px-4 py-1.5 rounded-full font-bold border animate-in zoom-in duration-300 shadow-xs
-                                        ${selectedType?.bg} ${selectedType?.color} ${selectedType?.border}`}>
-                                        #{t.trim().toUpperCase()}
-                                    </span>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* ── Action Buttons ── */}
-                <div className="flex flex-col sm:flex-row items-center justify-end gap-4 mt-8">
-                    <div className="flex items-center gap-3 w-full sm:w-auto">
-                        <button
-                            type="button"
-                            onClick={() => router.back()}
-                            className="flex-1 sm:flex-none px-8 py-4 rounded-xl border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 text-sm"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="button"
-                            disabled={submitting}
-                            onClick={() => {
-                                if (!form.title) {
-                                    setError("Title is required.");
-                                    return;
-                                }
-                                if (form.type === "youtube" && !form.url) {
-                                    setError("URL is required for YouTube videos.");
-                                    return;
-                                }
-                                if (overLimit) {
-                                    setError("Narrative limit reached. Please condense your content.");
-                                    return;
-                                }
-                                setError("");
-                                handleSubmit();
-                            }}
-                            className="flex-1 sm:flex-none px-10 py-4 rounded-xl bg-gray-900 text-white font-bold hover:bg-black transition-all duration-200 shadow-sm flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed text-sm"
-                        >
-                            {submitting ? (
-                                <>
-                                    <div className="w-5 h-5 border-3 border-white/20 border-t-white rounded-full animate-spin" />
-                                    Synchronizing...
-                                </>
-                            ) : (
-                                <>
-                                    Save Changes
-                                    <CheckIcon className="w-4 h-4 transition-transform group-hover:scale-110 stroke-[3px]" />
-                                </>
-                            )}
-                        </button>
                     </div>
                 </div>
             </div>

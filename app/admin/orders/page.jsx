@@ -27,9 +27,9 @@ import AdminHeader from "@/src/components/admin/AdminHeader";
 
 const STATUS_OPTIONS = [
     "PENDING",
+    "RECEIVED",
     "IN PROCESS",
     "READY-TO-SHIP",
-    "RECEIVED",
 ];
 
 export default function AdminOrdersPage() {
