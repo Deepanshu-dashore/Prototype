@@ -382,18 +382,20 @@ export default function AdminOrdersPage() {
                                                             <span className={`inline-flex text-nowrap justify-center min-w-22 text-center items-center px-2 py-0.5 rounded-sm text-[10px] font-bold ${getStatusColor(order.status)} border shadow-xs`}>
                                                                 {order.status}
                                                             </span>
-                                                            <button
-                                                                onClick={() => {
-                                                                    const currentIndex = STATUS_OPTIONS.indexOf(order.status);
-                                                                    const nextStatus = currentIndex < STATUS_OPTIONS.length - 1 ? STATUS_OPTIONS[currentIndex + 1] : order.status;
-                                                                    setTempStatus(nextStatus);
-                                                                    setEditingStatusOrderId(order._id);
-                                                                }}
-                                                                className="p-1 text-gray-400 hover:text-primary transition-colors hover:bg-gray-100 rounded-md"
-                                                                title={STATUS_OPTIONS.indexOf(order.status) < STATUS_OPTIONS.length - 1 ? `Move to ${STATUS_OPTIONS[STATUS_OPTIONS.indexOf(order.status) + 1]}` : "Update Status"}
-                                                            >
-                                                                <PencilSquareIcon className="w-3.5 h-3.5" />
-                                                            </button>
+                                                            {order.status !== "READY-TO-SHIP" && (
+                                                                <button
+                                                                    onClick={() => {
+                                                                        const currentIndex = STATUS_OPTIONS.indexOf(order.status);
+                                                                        const nextStatus = currentIndex < STATUS_OPTIONS.length - 1 ? STATUS_OPTIONS[currentIndex + 1] : order.status;
+                                                                        setTempStatus(nextStatus);
+                                                                        setEditingStatusOrderId(order._id);
+                                                                    }}
+                                                                    className="p-1 text-gray-400 hover:text-primary transition-colors hover:bg-gray-100 rounded-md"
+                                                                    title={STATUS_OPTIONS.indexOf(order.status) < STATUS_OPTIONS.length - 1 ? `Move to ${STATUS_OPTIONS[STATUS_OPTIONS.indexOf(order.status) + 1]}` : "Update Status"}
+                                                                >
+                                                                    <PencilSquareIcon className="w-3.5 h-3.5" />
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     )}
                                                 </td>
