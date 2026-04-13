@@ -84,7 +84,10 @@ export default function DistributorDetailsPage({ params }) {
 
         uploadMutation.mutate({
             url: `/distributor/upload-compliance/${id}?documentId=${selectedDocId}`,
-            data: formData
+            data: formData,
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
         });
 
         if (fileInputRef.current) fileInputRef.current.value = "";

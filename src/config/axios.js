@@ -46,19 +46,33 @@ export class ApiClient {
       mutationFn: async (input) => {
         let finalUrl = url;
         let data = input;
+        let config = undefined;
 
-        if (input && typeof input === "object" && !Array.isArray(input)) {
+        if (input && typeof input === "object" && !Array.isArray(input) && typeof input.append !== "function") {
           if (input.url) {
             finalUrl = input.url;
-            const { url: _, ...rest } = input;
-            data = rest;
-          } else if (input.id && input.hasOwnProperty("data")) {
+            if (input.data !== undefined) {
+              data = input.data;
+            } else {
+              const { url: _, headers: __, ...rest } = input;
+              data = rest;
+            }
+            if (input.headers) {
+              config = { headers: input.headers };
+            }
+          } else if (input.id && input.data !== undefined) {
             finalUrl = input.id && url ? `${url}/${input.id}` : input.id || url;
             data = input.data;
+            if (input.headers) {
+              config = { headers: input.headers };
+            }
+          } else if (input.headers && input.data !== undefined) {
+            data = input.data;
+            config = { headers: input.headers };
           }
         }
 
-        const res = await api[method](finalUrl, data);
+        const res = config ? await api[method](finalUrl, data, config) : await api[method](finalUrl, data);
         return res.data;
       },
       onSuccess: (...args) => {

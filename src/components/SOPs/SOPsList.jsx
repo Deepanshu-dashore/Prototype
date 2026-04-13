@@ -11,7 +11,7 @@ const SOPsList = ({ sops: sopsData, onSelect, initialFilter = "All", hideFilter 
   const filteredSOPs = sops.filter(sop => {
     const matchesSearch = sop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       sop.sopCode.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     if (activeFilter === "All") return matchesSearch;
     if (activeFilter === "Warehouse") {
       return matchesSearch && sop.department?.toLowerCase().includes("warehouse");
@@ -83,21 +83,19 @@ const SOPsList = ({ sops: sopsData, onSelect, initialFilter = "All", hideFilter 
               <div className="flex bg-[#f7f6f3] p-1 rounded-lg border border-[#eee]">
                 <button
                   onClick={() => setActiveFilter("All")}
-                  className={`px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all ${
-                    activeFilter === "All"
-                      ? "bg-white shadow-sm text-blue-600 scale-100"
-                      : "text-gray-500 hover:text-black hover:bg-gray-200"
-                  }`}
+                  className={`px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all ${activeFilter === "All"
+                    ? "bg-white shadow-sm text-blue-600 scale-100"
+                    : "text-gray-500 hover:text-black hover:bg-gray-200"
+                    }`}
                 >
                   All SOPs
                 </button>
                 <button
                   onClick={() => setActiveFilter("Warehouse")}
-                  className={`px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all ${
-                    activeFilter === "Warehouse"
-                      ? "bg-white shadow-sm text-blue-600 scale-100"
-                      : "text-gray-500 hover:text-black hover:bg-gray-200"
-                  }`}
+                  className={`px-4 py-1.5 rounded-md text-[13px] font-semibold transition-all ${activeFilter === "Warehouse"
+                    ? "bg-white shadow-sm text-blue-600 scale-100"
+                    : "text-gray-500 hover:text-black hover:bg-gray-200"
+                    }`}
                 >
                   Warehouse
                 </button>
@@ -111,7 +109,7 @@ const SOPsList = ({ sops: sopsData, onSelect, initialFilter = "All", hideFilter 
           <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
               <tr className="text-[12px] text-gray-400 font-semibold border-b border-[#eee]">
-                <th className="py-4 px-2 w-[40px]">Icon</th>
+                {/* <th className="py-4 px-2 w-[40px]">Icon</th> */}
                 <th className="py-4 px-2">
                   <span className="flex items-center gap-1.5 uppercase tracking-wider">
                     <span className="text-[10px] opacity-60">Aa</span> SOP Name
@@ -136,7 +134,7 @@ const SOPsList = ({ sops: sopsData, onSelect, initialFilter = "All", hideFilter 
                   key={sop.id}
                   className="group hover:bg-[#f7f6f3]/50 transition-colors"
                 >
-                  <td className="py-5 px-2">
+                  {/* <td className="py-5 px-2">
                     {sop.thumbnail && (
                       <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-[#eee] shadow-sm">
                         <Image
@@ -148,12 +146,12 @@ const SOPsList = ({ sops: sopsData, onSelect, initialFilter = "All", hideFilter 
                         />
                       </div>
                     )}
-                  </td>
+                  </td> */}
                   <td className="py-5 px-2">
                     <span className="text-[14px] font-semibold text-[#37352f] truncate block max-w-[250px]">
                       {sop.name}
                     </span>
-                    <span className="text-[11px] text-blue-500 font-medium">{sop.sopCode}</span>
+                    {/* <span className="text-[11px] text-blue-500 font-medium">{sop.sopCode}</span> */}
                   </td>
                   <td className="py-5 px-2">
                     <p className="text-[13px] text-[#37352f] opacity-70 leading-relaxed max-w-[350px]">

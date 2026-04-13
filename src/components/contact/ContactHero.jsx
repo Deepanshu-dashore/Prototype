@@ -418,6 +418,7 @@ export default function ContactHero() {
                 <p className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Our Presence</p>
                 <div className="flex items-center gap-6">
                   <Link
+                    target="_blank"
                     className="flex items-center gap-2 text-primary opacity-100 hover:opacity-100 transition-all duration-300 group"
                     href="https://www.linkedin.com/company/ccmatting/"
                   >

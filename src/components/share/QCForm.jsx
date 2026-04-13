@@ -331,22 +331,6 @@ export default function QCForm({ orderId, role = "admin" }) {
                     </div>
                 </div>
 
-                {success && (
-                    <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3">
-                        <DocumentCheckIcon className="w-6 h-6 text-emerald-600" />
-                        <div>
-                            <h3 className="text-emerald-800 font-bold">QC Submitted Successfully</h3>
-                            <p className="text-emerald-600 text-sm">Redirecting back to order details...</p>
-                        </div>
-                    </div>
-                )}
-
-                {error && (
-                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl shadow-sm">
-                        <p className="text-red-600 text-sm font-medium">{error}</p>
-                    </div>
-                )}
-
                 <form onSubmit={handleSubmit} className="space-y-12">
 
                     {/* General Information Card */}
@@ -569,6 +553,23 @@ export default function QCForm({ orderId, role = "admin" }) {
                             />
                         </div>
                     </div>
+
+                    {success && (
+                        <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3">
+                            <DocumentCheckIcon className="w-6 h-6 text-emerald-600" />
+                            <div>
+                                <h3 className="text-emerald-800 font-bold">QC Submitted Successfully</h3>
+                                <p className="text-emerald-600 text-sm">Redirecting back to order details...</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {error && (
+                        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl shadow-sm">
+                            <p className="text-red-600 text-sm font-medium">{error}</p>
+                        </div>
+                    )}
+
 
                     {/* Action Buttons */}
                     <div className="flex justify-end gap-4 pt-4">

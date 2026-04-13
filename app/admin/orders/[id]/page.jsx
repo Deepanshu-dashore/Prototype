@@ -31,7 +31,11 @@ export default function AdminOrderDetailsPage() {
     const error = fetchError?.message || "";
 
     const updateDetailsMutation = api.usePatch(queryKey, `/order/${id}`, {
-        onSuccess: () => {
+        onSuccess: (res) => {
+            api.queryClient.setQueryData(queryKey, (old) => {
+                if (!old) return old;
+                return { ...old, data: { ...old.data, po: updateModal.po, invoice: updateModal.invoice } };
+            });
             setUpdateModal(prev => ({ ...prev, isOpen: false }));
         },
         onError: (err) => alert(err.response?.data?.message || err.message || "Error updating details")

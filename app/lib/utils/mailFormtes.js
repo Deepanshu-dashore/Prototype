@@ -6,7 +6,7 @@ export const otpVerificationTemplate = ({
   name,
   logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
-  supportEmail = "support@ccmatting.com",
+  supportEmail = "sales@ccmatting.ie",
 }) => {
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -137,7 +137,7 @@ export const forgotPasswordOtpTemplate = ({
   name,
   logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
-  supportEmail = "support@ccmatting.com",
+  supportEmail = "sales@ccmatting.ie",
 }) => {
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -267,7 +267,7 @@ export const passwordSecurityAlertTemplate = ({
   name,
   logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
-  supportEmail = "support@ccmatting.com",
+  supportEmail = "sales@ccmatting.ie",
   resetLink = "https://ccmatting.ie/distributor/forget-password",
 }) => {
   return `
@@ -399,7 +399,7 @@ export const distributorVerificationTemplate = ({
   password,
   loginUrl,
   logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
-  supportEmail = "support@ccmatting.com",
+  supportEmail = "sales@ccmatting.ie",
 }) => {
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -647,7 +647,7 @@ export const orderCreatedTemplate = ({
   totalItems,
   logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
-  supportEmail = "support@ccmatting.com",
+  supportEmail = "sales@ccmatting.ie",
 }) => {
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
@@ -737,7 +737,7 @@ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,s
         <tr>
           <td style="background:#f9fafb;padding:18px 36px;text-align:center;">
             <p style="font-size:12px;color:#555;margin:0;">
-              If you have any questions regarding this order, please contact our team at
+              If you have any questions, please contact our team at
               <a href="mailto:${supportEmail}"
                  style="color:#111827;text-decoration:underline;">
                 ${supportEmail}
@@ -768,7 +768,7 @@ export const distributorOrderStatusTemplate = ({
   status,
   logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
-  supportEmail = "support@ccmatting.com",
+  supportEmail = "sales@ccmatting.ie",
   brandColor = "#0b3aa4",
 }) => {
   const statusStyleMap = {
@@ -920,10 +920,10 @@ style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 8px 28
 <tr>
 <td style="background:#f9fafb;padding:20px 36px;text-align:center;border-top:1px solid #e5e7eb;">
   <p style="font-size:12px;color:#555;margin:0;">
-    Support:
-    <a href="mailto:${supportEmail}"
+    If you have any questions, please contact our team at 
+    <a href="mailto:sales@ccmatting.ie"
        style="color:${brandColor};text-decoration:underline;">
-      our team at ${supportEmail}
+      sales@ccmatting.ie
     </a>
   </p>
   <p style="font-size:11px;color:#9ca3af;margin:8px 0 0 0;">
