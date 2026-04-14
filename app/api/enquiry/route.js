@@ -22,13 +22,16 @@ export async function POST(request) {
       const recipients = [
         "harshrajrathore.dev@gmail.com",
         process.env.ADMIN_EMAIL,
-        process.env.SALE_MAIL
-      ].map(email => email?.trim()).filter(Boolean);
+        process.env.SALE_MAIL,
+      ]
+        .map((email) => email?.trim())
+        .filter(Boolean);
 
       console.log("Attempting to send enquiry email to:", recipients);
 
       const emailResponse = await mail({
         to: recipients,
+        from: process.env.EMAIL_FROM,
         subject: `New Contact Inquiry - ${body.fullName}`,
         body: emailContent,
       });

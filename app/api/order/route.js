@@ -196,7 +196,10 @@ export async function POST(request) {
     }));
 
     const adminEmail = process.env.ADMIN_EMAIL || "brendan@ccmatting.ie";
-    const saleEmail = process.env.SALE_MAIL || "sales@ccmatting.ie";
+    const saleEmail =
+      process.env.ORDER_EMAIL_FROM ||
+      process.env.ORDER_EMAIL ||
+      "orders@ccmatting.ie";
 
     // Email to Admin/Sales
     const adminEmailHtml = orderConfirmationTemplate({
