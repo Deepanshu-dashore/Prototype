@@ -39,7 +39,7 @@ export default async function SiteMapPage() {
         { name: "Home", href: "/" },
         { name: "Features & Benefits", href: "/features-benefits" },
         { name: "Compliance & Quality Overview", href: "/compliance" },
-        { name: "Technical Documentation", href: "/technical" },
+        { name: "Technical Documentation", href: "/compliance" },
         { name: "Video Gallery", href: "/videos" },
         { name: "Contact & Distribution", href: "/contact" },
         { name: "Biomaster Technology", href: "/biomaster" },

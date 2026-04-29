@@ -217,7 +217,7 @@ export default function HeavyDutyContent({ product }) {
                             transition={{ duration: 0.6, delay: 0.6 }}
                         >
                             <Link
-                                href="/technical"
+                                href="/compliance"
                                 className="inline-flex items-center gap-2 bg-white text-neutral-dark px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold text-sm sm:text-base hover:bg-gray-50 transition-all duration-300 shadow-md hover:shadow-lg group"
                             >
                                 <DocumentTextIcon className="w-5 h-5" />
