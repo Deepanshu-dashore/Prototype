@@ -44,7 +44,7 @@ export default async function sitemap() {
     { url: "/blog", priority: 0.8 },
     { url: "/contact", priority: 0.8 },
     { url: "/videos", priority: 0.8 },
-    { url: "/technical", priority: 0.8 },
+    { url: "/compliance", priority: 0.8 },
     { url: "/products/heavy-duty", priority: 0.8 },
     { url: "/products/portable-cleanroom-mats", priority: 0.8 },
     { url: "/biomaster", priority: 0.64 },

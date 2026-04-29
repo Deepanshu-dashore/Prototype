@@ -84,7 +84,7 @@ export default function Header({ onContactClick }) {
       { name: 'Logo Mats Ireland', href: 'https://logomatsireland.ie/', icon: BuildingOfficeIcon },
     ],
     Technical: [
-      { name: 'View All Technical Documents', href: '/technical', icon: FolderIcon },
+      { name: 'View All Technical Documents', href: '/compliance', icon: FolderIcon },
       { name: 'CC Matting vs Peel-Off Mat Comparison', href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf', icon: ArrowsRightLeftIcon },
       { name: 'CC Heavy Duty Technical Data Sheet', href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf', icon: DocumentTextIcon },
       { name: 'CC Matting Cleaning Procedure', href: 'https://www.ccmatting.co.uk/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf', icon: BeakerIcon },
@@ -113,7 +113,7 @@ export default function Header({ onContactClick }) {
     { name: 'Home', href: '/', isLink: true },
     { name: 'Features & Benefits', href: '/features-benefits', isLink: true },
     { name: 'Products', href: '#products', isLink: false, hasDropdown: true },
-    // { name: 'Technical', href: '/technical', isLink: false, hasDropdown: true },
+    // { name: 'Technical', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Compliance', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Industries', href: '/industries', isLink: false, hasDropdown: true },
     // { name: 'Blogs', href: '/blog', isLink: true },
