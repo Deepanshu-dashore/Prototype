@@ -1,5 +1,7 @@
 import { ContactFormProvider } from "../src/components/share/ContactFormContext";
 import "./globals.css";
+import Script from "next/script";
+
 
 export const metadata = {
   metadataBase: new URL("https://www.ccmatting.co.uk"),
@@ -58,6 +60,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="antialiased">
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-PSGVCTF40C"
+        />
+        <Script id="google-analytics">
+          {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-PSGVCTF40C');
+            `}
+        </Script>
+
         <TanstackProvider>
           <ContactFormProvider>{children}</ContactFormProvider>
           <Toaster position="top-right" />
