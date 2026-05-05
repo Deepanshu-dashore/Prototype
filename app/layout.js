@@ -53,11 +53,25 @@ export const metadata = {
 
 import { Toaster } from "react-hot-toast";
 import TanstackProvider from "../src/providers/TanstackProvider";
+import Script from "next/script";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="antialiased">
+         <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-PSGVCTF40C"
+        />
+        <Script id="google-analytics">
+          {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-PSGVCTF40C');
+            `}
+        </Script>
         <TanstackProvider>
           <ContactFormProvider>{children}</ContactFormProvider>
           <Toaster position="top-right" />
