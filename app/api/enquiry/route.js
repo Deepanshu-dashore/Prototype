@@ -19,11 +19,7 @@ export async function POST(request) {
         message: body.message,
       });
 
-      const recipients = [
-        "harshrajrathore.dev@gmail.com",
-        process.env.ADMIN_EMAIL,
-        process.env.SALE_MAIL,
-      ]
+      const recipients = [process.env.ADMIN_EMAIL, process.env.SALE_MAIL]
         .map((email) => email?.trim())
         .filter(Boolean);
 

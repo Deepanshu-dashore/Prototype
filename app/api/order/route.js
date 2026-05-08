@@ -214,7 +214,7 @@ export async function POST(request) {
 
     await mail({
       from: process.env.EMAIL_FROM,
-      to: [adminEmail, saleEmail, "deepanshudashore48@gmail.com"],
+      to: [adminEmail, saleEmail],
       subject: `ORD-${String(order._id).slice(-6).toUpperCase()} - New Order Received`,
       body: adminEmailHtml,
     });
