@@ -49,6 +49,9 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  verification: {
+    google: "k1rYuKdHXujyRPtYPyeyaVDhigQNQkKEql9FVdZsizo",
+  },
 };
 
 import { Toaster } from "react-hot-toast";
