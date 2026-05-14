@@ -1,4 +1,4 @@
-![CC-Matting Banner](https://ccmatting.ie/RedmeBanner.png)
+![CC-Matting Banner](https://ccmatting.uk/RedmeBanner.png)
 
 # 🛡️ CC-Matting: Contamination Control
 

@@ -68,7 +68,7 @@ Make sure these are set in your Vercel dashboard:
 
 ```bash
 # Test the login endpoint
-curl -X POST https://ccmatting.ie/api/auth/login \
+curl -X POST https://ccmatting.uk/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"your@email.com","password":"yourpassword"}'
 ```
