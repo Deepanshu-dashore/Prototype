@@ -116,6 +116,7 @@ export const products = [
     slug: "classic-ergonomic-mat",
     title: "CCM Classic Ergonomic Mats",
     subtitle: "Original Ergonomic Bubble Profile Mat",
+    technicalDoc: "",
     description: (
       <span>
         The CCM Classic Ergonomic Mat is the original ergonomic bubble profile
@@ -202,6 +203,7 @@ export const products = [
       customSizes:
         "Custom lengths are also available to meet your specific requirements.",
     },
+    pdfUrl: "/assets/products Page/doc/CCM_Classic_Mat_Spec_Sheet.pdf.pdf",
     warranty: {
       title: "8 Years of Longlasting Warranty",
       description:
@@ -297,6 +299,7 @@ export const products = [
       customSizes:
         "Custom lengths are also available to meet your specific requirements.",
     },
+    pdfUrl: "/assets/products Page/doc/CCM Infinity Ergonomic Mat.pdf",
     warranty: {
       title: "6 Years of Warranty",
       description:
@@ -404,6 +407,7 @@ export const products = [
       customSizes:
         "Custom lengths are also available to meet your specific requirements.",
     },
+    pdfUrl: "/assets/products Page/doc/CCM Complete Mat.pdf",
     warranty: {
       title: "5 Years of Warranty",
       description:

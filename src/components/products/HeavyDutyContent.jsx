@@ -278,7 +278,7 @@ export default function HeavyDutyContent({ product }) {
                                 <h2 className="text-3xl sm:text-4xl font-bold text-neutral-dark">Colour Options Available</h2>
                             </div>
                             <p className="text-base text-neutral-dark/70 leading-relaxed mb-4">
-                                Choose from Solid Grey, Grey Speckled, and Cobalt Blue. <br /> Blue Speckled scheduled for release soon.<br/> All colour variants are produced to identical performance specifications, ensuring uniform durability and suitability for cleanroom and controlled environments.
+                                Choose from Solid Grey, Grey Speckled, and Cobalt Blue. <br /> Blue Speckled scheduled for release soon.<br /> All colour variants are produced to identical performance specifications, ensuring uniform durability and suitability for cleanroom and controlled environments.
                             </p>
                         </motion.div>
                     </div>
