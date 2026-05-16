@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,6 +51,24 @@ export default function ProductContent({ product, slug }) {
 
     const imageFolder = getImageFolder();
     const benefitImages = product.benefitImages || [1, 2, 3, 4];
+
+    useEffect(() => {
+        if (product.pdfUrl) {
+            // Prefetch the PDF file to browser cache for faster loading on click
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = product.pdfUrl;
+            link.as = 'document';
+            document.head.appendChild(link);
+            return () => {
+                try {
+                    document.head.removeChild(link);
+                } catch (e) {
+                    // Silently fail if link was already removed
+                }
+            };
+        }
+    }, [product.pdfUrl]);
 
     return (
         <main className="grow">
@@ -102,6 +121,7 @@ export default function ProductContent({ product, slug }) {
                     >
                         <Link
                             target="_blank"
+                            rel="prefetch noopener noreferrer"
                             href={product.pdfUrl}
                             className="inline-flex items-center gap-2 bg-white text-neutral-dark px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-all shadow-md group"
                         >
