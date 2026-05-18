@@ -13,7 +13,7 @@ export async function GET(request) {
     // Project only _id, companyName, and companyEmail
     const distributors = await DistributorService.getAllDistributors(
       {},
-      { companyName: 1, companyEmail: 1 }
+      { companyName: 1, companyEmail: 1, verification: 1 }
     );
 
     return ApiResponse(

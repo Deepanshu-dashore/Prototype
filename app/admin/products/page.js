@@ -165,30 +165,19 @@ function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
         className="fixed z-50 bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-              <CubeIcon className="w-5 h-5 text-indigo-600" />
-            </div>
-            <div>
-              <h2 className="text-base font-bold text-gray-900">
-                {isEdit ? "Edit Product" : "Add New Product"}
-              </h2>
-              <p className="text-xs text-gray-500">
-                {isEdit
-                  ? "Update product details"
-                  : "Fill in the product details below"}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            disabled={saving}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
-          >
-            <XMarkIcon className="w-5 h-5" />
-          </button>
-        </div>
+        <AdminHeader
+          title={isEdit ? "Edit Product" : "Add New Product"}
+          subtitle={isEdit ? "Update product details" : "Fill in the product details below"}
+          addOn={
+            <button
+              onClick={onClose}
+              disabled={saving}
+              className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            >
+              <XMarkIcon className="w-5 h-5" />
+            </button>
+          }
+        />
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">

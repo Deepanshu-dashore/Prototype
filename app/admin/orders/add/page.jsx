@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useApiClient } from "@/src/config/axios";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "react-hot-toast";
 import {
     ArrowLeftIcon,
     ShoppingCartIcon,
@@ -10,7 +12,9 @@ import {
     TrashIcon,
     DocumentTextIcon,
     UserGroupIcon,
-    ClipboardDocumentCheckIcon
+    ClipboardDocumentCheckIcon,
+    ChevronDownIcon,
+    CheckBadgeIcon
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
@@ -23,12 +27,37 @@ export default function AddOrderPage() {
 
     // Form states
     const [selectedDistributorId, setSelectedDistributorId] = useState("");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
     const [poNumber, setPoNumber] = useState("");
+    const [isNewDistributorFormVisible, setIsNewDistributorFormVisible] = useState(false);
+    const [newDistributor, setNewDistributor] = useState({
+        companyName: "",
+        companyEmail: "",
+        companyNumber: "",
+        registeredAddress: {
+            street: "",
+            city: "",
+            state: "",
+            country: "Ireland",
+            pinCode: ""
+        }
+    });
     const [poFile, setPoFile] = useState(null);
     const [instructions, setInstructions] = useState("");
     const [items, setItems] = useState([
         { productId: "", quantity: 1, length: "" }
     ]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     // Fetch distributors & products
     const { data: distributorsData, isLoading: loadingDistributors } = api.useGet(
@@ -63,12 +92,15 @@ export default function AddOrderPage() {
     const addOrderMutation = api.usePost(null, "/order", {
         onSuccess: () => {
             setSuccess(true);
+            toast.success("Order created successfully!");
             setTimeout(() => {
                 router.push("/admin/orders");
             }, 1500);
         },
         onError: (err) => {
-            setError(err.response?.data?.message || err.message || "Failed to place order");
+            const errorMsg = err.response?.data?.message || err.message || "Failed to place order";
+            setError(errorMsg);
+            toast.error(errorMsg);
             setLoading(false);
         }
     });
@@ -77,9 +109,20 @@ export default function AddOrderPage() {
         e.preventDefault();
         setError("");
 
-        if (!selectedDistributorId) {
-            setError("Please select a distributor");
+        if (!isNewDistributorFormVisible && !selectedDistributorId) {
+            setError("Please select a distributor or create a new one");
             return;
+        }
+
+        if (isNewDistributorFormVisible) {
+            if (!newDistributor.companyName || !newDistributor.companyEmail || !newDistributor.companyNumber) {
+                setError("Please fill in all required new distributor fields");
+                return;
+            }
+            if (!newDistributor.registeredAddress.street || !newDistributor.registeredAddress.city) {
+                setError("Please fill in the registered address for the new distributor");
+                return;
+            }
         }
 
         // Validate items
@@ -95,7 +138,14 @@ export default function AddOrderPage() {
         if (poFile) {
             formDataToSend.append("purchaseOrder", poFile);
         }
-        formDataToSend.append("distributorId", selectedDistributorId);
+
+        if (isNewDistributorFormVisible) {
+            formDataToSend.append("isNewDistributor", "true");
+            formDataToSend.append("newDistributor", JSON.stringify(newDistributor));
+        } else {
+            formDataToSend.append("distributorId", selectedDistributorId);
+        }
+
         formDataToSend.append("po", poNumber);
         formDataToSend.append("instructions", instructions);
         formDataToSend.append("orderItems", JSON.stringify(
@@ -111,9 +161,9 @@ export default function AddOrderPage() {
 
     return (
         <div className="min-h-screen pb-12 font-sans bg-gray-50/50">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header Section */}
-                <div className="flex items-center gap-4 pt-8">
+            {/* Header Section */}
+            <div className="bg-white border-b border-gray-100 mb-6">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center gap-4">
                     <Link
                         href="/admin/orders"
                         className="inline-flex items-center justify-center p-2 rounded-lg bg-white border border-gray-200 text-gray-500 hover:text-gray-700 hover:shadow-sm transition-all"
@@ -121,10 +171,13 @@ export default function AddOrderPage() {
                         <ArrowLeftIcon className="w-5 h-5" />
                     </Link>
                     <div>
-                        <span className="text-xs font-bold text-primary/60 uppercase tracking-widest">Administration</span>
-                        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">Create Order</h1>
+                        <span className="text-xs font-bold text-primary/60 uppercase tracking-widest block">Administration</span>
+                        <h1 className="text-base sm:text-lg sm:text-nowrap font-bold text-gray-900 tracking-tight">Create Order</h1>
                     </div>
                 </div>
+            </div>
+
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {success && (
                     <div className="mt-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
@@ -149,7 +202,7 @@ export default function AddOrderPage() {
 
                 <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                     {/* Section 1: Distributor & PO Details */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-xs border border-gray-200">
                         <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
                             <UserGroupIcon className="w-5 h-5 text-indigo-600" />
                             <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider">Order & Distributor Details</h2>
@@ -157,23 +210,159 @@ export default function AddOrderPage() {
                         <div className="p-6 space-y-4">
                             <div>
                                 <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Select Distributor *</label>
-                                <select
-                                    required
-                                    value={selectedDistributorId}
-                                    onChange={(e) => setSelectedDistributorId(e.target.value)}
-                                    className="w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm cursor-pointer"
-                                >
-                                    <option value="">-- Choose Distributor --</option>
-                                    {loadingDistributors ? (
-                                        <option disabled>Loading distributors...</option>
-                                    ) : (
-                                        distributors.map(dist => (
-                                            <option key={dist._id} value={dist._id}>
-                                                {dist.companyName} ({dist.companyEmail})
-                                            </option>
-                                        ))
-                                    )}
-                                </select>
+                                <div className="flex gap-2">
+                                    <div className="relative flex-1" ref={dropdownRef}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                            className="w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm cursor-pointer flex items-center justify-between"
+                                            disabled={isNewDistributorFormVisible}
+                                        >
+                                            <span className="truncate">
+                                                {isNewDistributorFormVisible
+                                                    ? "-- Creating New Distributor --"
+                                                    : selectedDistributorId
+                                                        ? `${distributors.find(d => d._id === selectedDistributorId)?.companyName} (${distributors.find(d => d._id === selectedDistributorId)?.companyEmail})`
+                                                        : "-- Choose Distributor --"}
+                                            </span>
+                                            <ChevronDownIcon className={`w-4 h-4 text-gray-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                                        </button>
+
+                                        <AnimatePresence>
+                                            {isDropdownOpen && !isNewDistributorFormVisible && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, y: -10 }}
+                                                    transition={{ duration: 0.15, ease: "easeInOut" }}
+                                                    className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-sm max-h-[280px] overflow-y-auto"
+                                                >
+                                                    {loadingDistributors ? (
+                                                        <div className="px-4 py-3 text-sm text-gray-500 flex items-center gap-2">
+                                                            <svg className="animate-spin h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                            </svg>
+                                                            Loading distributors...
+                                                        </div>
+                                                    ) : distributors.length === 0 ? (
+                                                        <div className="px-4 py-3 text-sm text-gray-500">No distributors found</div>
+                                                    ) : (
+                                                        distributors.map(dist => (
+                                                            <div
+                                                                key={dist._id}
+                                                                onClick={() => {
+                                                                    setSelectedDistributorId(dist._id);
+                                                                    setIsDropdownOpen(false);
+                                                                }}
+                                                                className={`px-4 py-2.5 text-sm hover:bg-gray-50 cursor-pointer flex items-center justify-between border-b border-gray-50 last:border-0 ${selectedDistributorId === dist._id ? 'bg-indigo-50/50' : ''}`}
+                                                            >
+                                                                <div className="flex flex-col min-w-0">
+                                                                    <span className="font-medium text-gray-900 truncate">{dist.companyName}</span>
+                                                                    <span className="text-xs text-gray-500 truncate">{dist.companyEmail}</span>
+                                                                </div>
+                                                                <div className="ml-2 flex-shrink-0">
+                                                                    {dist.verification?.isVerified ? (
+                                                                        <span className="flex items-center text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
+                                                                            <CheckBadgeIcon className="w-3.5 h-3.5 mr-1" />
+                                                                            Verified
+                                                                        </span>
+                                                                    ) : (
+                                                                        <span className="text-gray-400 text-xs bg-gray-100 px-2 py-0.5 rounded-full font-medium">
+                                                                            Unverified
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        ))
+                                                    )}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsNewDistributorFormVisible(!isNewDistributorFormVisible)}
+                                        className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 text-sm font-medium h-11 ${isNewDistributorFormVisible ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+                                    >
+                                        {isNewDistributorFormVisible ? (
+                                            <>Cancel</>
+                                        ) : (
+                                            <>
+                                                <PlusIcon className="w-4 h-4" />
+                                                New
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+
+                                {isNewDistributorFormVisible && (
+                                    <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-4 animate-in fade-in duration-200">
+                                        <h3 className="text-xs font-bold text-gray-600 uppercase tracking-wider">New Distributor Details</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-600 mb-1">Company Name *</label>
+                                                <input
+                                                    type="text"
+                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm"
+                                                    value={newDistributor.companyName}
+                                                    onChange={(e) => setNewDistributor({ ...newDistributor, companyName: e.target.value })}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-600 mb-1">Company Email *</label>
+                                                <input
+                                                    type="email"
+                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm"
+                                                    value={newDistributor.companyEmail}
+                                                    onChange={(e) => setNewDistributor({ ...newDistributor, companyEmail: e.target.value })}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-600 mb-1">Company Number *</label>
+                                                <input
+                                                    type="text"
+                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm"
+                                                    value={newDistributor.companyNumber}
+                                                    onChange={(e) => setNewDistributor({ ...newDistributor, companyNumber: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-600 mb-1">Registered Address *</label>
+                                            <div className="grid grid-cols-1 md:grid-cols-5 gap-2">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Street"
+                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm md:col-span-2"
+                                                    value={newDistributor.registeredAddress.street}
+                                                    onChange={(e) => setNewDistributor({ ...newDistributor, registeredAddress: { ...newDistributor.registeredAddress, street: e.target.value } })}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    placeholder="City"
+                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm"
+                                                    value={newDistributor.registeredAddress.city}
+                                                    onChange={(e) => setNewDistributor({ ...newDistributor, registeredAddress: { ...newDistributor.registeredAddress, city: e.target.value } })}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    placeholder="State"
+                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm"
+                                                    value={newDistributor.registeredAddress.state}
+                                                    onChange={(e) => setNewDistributor({ ...newDistributor, registeredAddress: { ...newDistributor.registeredAddress, state: e.target.value } })}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Pin Code"
+                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm"
+                                                    value={newDistributor.registeredAddress.pinCode}
+                                                    onChange={(e) => setNewDistributor({ ...newDistributor, registeredAddress: { ...newDistributor.registeredAddress, pinCode: e.target.value } })}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -201,7 +390,7 @@ export default function AddOrderPage() {
                     </div>
 
                     {/* Section 2: Products List */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-xs border border-gray-200 overflow-hidden">
                         <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <ShoppingCartIcon className="w-5 h-5 text-indigo-600" />
@@ -302,7 +491,7 @@ export default function AddOrderPage() {
                     </div>
 
                     {/* Section 3: Special Instructions */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-xs border border-gray-200 overflow-hidden">
                         <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
                             <DocumentTextIcon className="w-5 h-5 text-indigo-600" />
                             <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider">Special Instructions</h2>

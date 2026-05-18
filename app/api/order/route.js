@@ -134,10 +134,32 @@ export async function POST(request) {
     const poNumber = formData.get("po") || "";
 
     let targetDistributorId = user.id;
+    let isNewDistributor = false;
+    let newDistributorData = null;
+    
     if (isAdmin) {
-      targetDistributorId = formData.get("distributorId");
-      if (!targetDistributorId) {
-        return ApiResponse(400, null, "Distributor selection is required");
+      isNewDistributor = formData.get("isNewDistributor") === "true";
+      if (isNewDistributor) {
+        const newDistributorStr = formData.get("newDistributor");
+        if (!newDistributorStr) {
+          return ApiResponse(400, null, "New distributor details are required");
+        }
+        try {
+          newDistributorData = JSON.parse(newDistributorStr);
+        } catch (e) {
+          return ApiResponse(400, null, "Invalid new distributor data format");
+        }
+        
+        // Add fallbacks
+        newDistributorData.contactPersonName = "N/A";
+        newDistributorData.contactPersonEmail = "N/A";
+        newDistributorData.contactPersonDesignation = "N/A";
+        newDistributorData.contactPersonNumber = "N/A";
+      } else {
+        targetDistributorId = formData.get("distributorId");
+        if (!targetDistributorId) {
+          return ApiResponse(400, null, "Distributor selection is required");
+        }
       }
     }
 
@@ -160,6 +182,9 @@ export async function POST(request) {
 
     let documents = [];
     if (poFile && poFile.size > 0) {
+      if (poFile.size > 10485760) {
+        return ApiResponse(400, null, "File size too large. Maximum allowed size is 10MB (10485760 bytes).");
+      }
       const uploadResult = await CloudneryService.upload(
         poFile,
         "po",
@@ -182,13 +207,20 @@ export async function POST(request) {
     }
 
     const MongofyId = new mongoose.Types.ObjectId(targetDistributorId);
-    const order = await OrderService.createOrder({
-      orderBy: MongofyId,
-      documents,
-      orderItems,
-      po: poNumber ? String(poNumber).trim() : "",
-      instructions: instructions ? String(instructions).trim() : "",
-    });
+    
+    const { order, distributorId } = await OrderService.createOrderWithDistributor(
+      {
+        orderBy: MongofyId,
+        documents,
+        orderItems,
+        po: poNumber ? String(poNumber).trim() : "",
+        instructions: instructions ? String(instructions).trim() : "",
+      },
+      newDistributorData,
+      isNewDistributor
+    );
+    
+    targetDistributorId = distributorId;
 
     if (!order) {
       return ApiResponse(404, null, "Order not created");

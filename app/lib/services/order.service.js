@@ -1,4 +1,5 @@
 import connect from "../db/connect";
+import mongoose from "mongoose";
 import Order from "../models/order";
 import Distributor from "../models/distributor";
 import Product from "../models/product";
@@ -25,6 +26,34 @@ export class OrderService {
   }
   static async createOrder(data) {
     return await Order.create(data);
+  }
+
+  static async createOrderWithDistributor(orderData, distributorData, isNewDistributor) {
+    await connect();
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      let targetDistributorId = orderData.orderBy;
+      
+      if (isNewDistributor) {
+        const newDist = await Distributor.create([distributorData], { session });
+        targetDistributorId = newDist[0]._id;
+      }
+      
+      const order = await Order.create([{
+        ...orderData,
+        orderBy: targetDistributorId
+      }], { session });
+      
+      await session.commitTransaction();
+      session.endSession();
+      
+      return { order: order[0], distributorId: targetDistributorId };
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      throw error;
+    }
   }
   static async getAllOrders(filter = {}, options = {}, select = "") {
     await connect();
