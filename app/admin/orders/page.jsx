@@ -163,6 +163,8 @@ export default function AdminOrdersPage() {
                 <AdminHeader
                     title="Order Management"
                     subtitle="Monitor and manage distributor orders, track status and update documents."
+                    buttonText="Create Order"
+                    buttonLink="/admin/orders/add"
                     addOn={
                         <div className="bg-white border border-indigo-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
                             <ClipboardDocumentListIcon className="w-5 h-5 sm:inline-block hidden text-indigo-600" />

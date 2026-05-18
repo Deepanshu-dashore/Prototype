@@ -115,9 +115,15 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const user = await verifyDistributorJWT();
+  let user = await verifyDistributorJWT();
+  let isAdmin = false;
   if (!user?.id) {
-    return ApiResponse(401, null, "Unauthorized request");
+    user = await verifyJWT();
+    if (user?.id) {
+      isAdmin = true;
+    } else {
+      return ApiResponse(401, null, "Unauthorized request");
+    }
   }
   await connect();
   try {
@@ -125,9 +131,14 @@ export async function POST(request) {
     const poFile = formData.get("purchaseOrder");
     const orderItemsStr = formData.get("orderItems");
     const instructions = formData.get("instructions");
+    const poNumber = formData.get("po") || "";
 
-    if (!poFile) {
-      return ApiResponse(400, null, "Purchase Order Document required");
+    let targetDistributorId = user.id;
+    if (isAdmin) {
+      targetDistributorId = formData.get("distributorId");
+      if (!targetDistributorId) {
+        return ApiResponse(400, null, "Distributor selection is required");
+      }
     }
 
     let orderItems = [];
@@ -147,30 +158,35 @@ export async function POST(request) {
       );
     }
 
-    const uploadResult = await CloudneryService.upload(
-      poFile,
-      "po",
-      "raw",
-      "pdf",
-    );
-    if (!uploadResult) {
-      return ApiResponse(500, null, "Failed to upload PO document");
+    let documents = [];
+    if (poFile && poFile.size > 0) {
+      const uploadResult = await CloudneryService.upload(
+        poFile,
+        "po",
+        "raw",
+        "pdf",
+      );
+      if (!uploadResult) {
+        return ApiResponse(500, null, "Failed to upload PO document");
+      }
+      documents = [
+        {
+          url: uploadResult.url,
+          id: uploadResult.id,
+          name: "po",
+          resource_type: "raw",
+        },
+      ];
+    } else if (!isAdmin) {
+      return ApiResponse(400, null, "Purchase Order Document required");
     }
 
-    const documents = [
-      {
-        url: uploadResult.url,
-        id: uploadResult.id,
-        name: "po",
-        resource_type: "raw",
-      },
-    ];
-
-    const MongofyId = new mongoose.Types.ObjectId(user.id);
+    const MongofyId = new mongoose.Types.ObjectId(targetDistributorId);
     const order = await OrderService.createOrder({
       orderBy: MongofyId,
       documents,
       orderItems,
+      po: poNumber ? String(poNumber).trim() : "",
       instructions: instructions ? String(instructions).trim() : "",
     });
 
@@ -184,7 +200,7 @@ export async function POST(request) {
     const ProductModel = mongoose.models.Product || mongoose.model("Product");
 
     const [distributor, ...products] = await Promise.all([
-      DistributorModel.findById(user.id),
+      DistributorModel.findById(targetDistributorId),
       ...orderItems.map((item) => ProductModel.findById(item.product)),
     ]);
 
@@ -238,7 +254,6 @@ export async function POST(request) {
         body: distributorEmailHtml,
       });
     }
-    // console.log("Mail sent successfully: ", res);
 
     return ApiResponse(200, order, "Order created successfully");
   } catch (error) {
