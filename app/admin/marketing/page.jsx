@@ -16,6 +16,8 @@ import {
     EyeSlashIcon,
     LinkIcon,
     ShareIcon,
+    ShieldCheckIcon,
+    ArrowUpTrayIcon,
 } from "@heroicons/react/24/outline";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
@@ -47,6 +49,11 @@ const CATEGORY_TABS = [
         key: "playbook", label: "⁠Strategic Marketing Docs", icon: BookOpenIcon,
         color: "text-purple-500", bg: "bg-purple-50", border: "border-purple-200",
         activeBg: "bg-purple-500", activeText: "text-white",
+    },
+    {
+        key: "compliance", label: "Compliances", icon: ShieldCheckIcon,
+        color: "text-teal-500", bg: "bg-teal-50", border: "border-teal-200",
+        activeBg: "bg-teal-500", activeText: "text-white",
     },
 ];
 
@@ -549,7 +556,61 @@ function PDFTable({ assets, loading, onEdit, onDelete, onToggleVisibility, accen
     );
 }
 
-// ─── Main Page ─────────────────────────────────────────────────────────────────
+function ComplianceTable({ compliances, loading, onEdit, onDelete, onPreviewMedia }) {
+    return (
+        <div className="bg-white rounded-b-2xl border border-gray-100 overflow-hidden  -mt-2">
+            <div className="overflow-x-auto">
+                <table className="w-full">
+                    <thead>
+                        <tr className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-100 bg-gray-50/60 transition-colors whitespace-nowrap">
+                            <th className="px-5 py-3 text-left w-12">#</th>
+                            <th className="px-5 py-3 text-left min-w-[200px]">Title</th>
+                            <th className="px-5 py-3 text-left min-w-[250px]">Subtitle / Description</th>
+                            <th className="px-5 py-3 text-left min-w-[150px]">Document / URL</th>
+                            <th className="px-5 py-3 text-left min-w-[100px]">Date</th>
+                            <th className="px-5 py-3 text-right min-w-[100px] sticky right-0 bg-gray-50/80 backdrop-blur-sm shadow-[-4px_0_4px_-2px_rgba(0,0,0,0.05)]">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-50">
+                        {loading ? <TableLoadingSkeleton columns={6} rows={4} /> :
+                            compliances.length === 0 ? <TableEmptyState colSpan={6} title="No Compliance Documents" message="Add your first compliance document." /> :
+                                compliances.map((c, i) => (
+                                    <tr key={c._id} className="hover:bg-gray-50/60 transition-colors">
+                                        <td className="px-5 py-3.5 text-xs text-gray-400 font-mono">{i + 1}</td>
+                                        <td className="px-5 py-3.5">
+                                            <p className="text-sm font-semibold text-gray-800">{c.title}</p>
+                                        </td>
+                                        <td className="px-5 py-3.5">
+                                            <p className="text-xs text-gray-500 leading-normal">{c.subtitle || "—"}</p>
+                                        </td>
+                                        <td className="px-5 py-3.5">
+                                            {c.url ? (
+                                                <button
+                                                    onClick={() => onPreviewMedia(c.url)}
+                                                    className="flex items-center gap-1.5 text-xs font-semibold text-teal-600 hover:text-teal-700 hover:underline"
+                                                >
+                                                    <DocumentTextIcon className="w-4 h-4 shrink-0" />
+                                                    View PDF
+                                                </button>
+                                            ) : <span className="text-xs text-gray-400 italic">No document</span>}
+                                        </td>
+                                        <td className="px-5 py-3.5 text-xs text-gray-500 whitespace-nowrap">{formatDate(c.createdAt)}</td>
+                                        <td className="px-5 py-3.5 text-right sticky right-0 bg-white/80 group-hover:bg-gray-50/80 backdrop-blur-sm shadow-[-4px_0_4px_-2px_rgba(0,0,0,0.05)] transition-colors">
+                                            <div className="flex items-center justify-end gap-1">
+                                                <button onClick={() => onEdit(c)} className="p-1.5 rounded-lg hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-colors"><PencilSquareIcon className="w-4 h-4" /></button>
+                                                <button onClick={() => onDelete(c)} className="p-1.5 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-600 transition-colors"><TrashIcon className="w-4 h-4" /></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+}
+
 export default function AdminMarketingPage() {
     const api = useApiClient();
     const [categoryTab, setCategoryTab] = useState("youtube");
@@ -559,23 +620,65 @@ export default function AdminMarketingPage() {
     const [visibilityTarget, setVisibilityTarget] = useState(null);
     const [previewMedia, setPreviewMedia] = useState(null);
 
+    // Compliance states
+    const [isComplianceModalOpen, setIsComplianceModalOpen] = useState(false);
+    const [complianceForm, setComplianceForm] = useState({ title: "", subtitle: "", url: "" });
+    const [complianceFile, setComplianceFile] = useState(null);
+    const [editingComplianceId, setEditingComplianceId] = useState(null);
+
+    const resetComplianceForm = () => {
+        setComplianceForm({ title: "", subtitle: "", url: "" });
+        setComplianceFile(null);
+        setEditingComplianceId(null);
+    };
+
     const queryKey = ["marketing"];
     const { data: marketingData, isLoading: loading, error: fetchError } = api.useGet(
         queryKey,
         "/marketing"
     );
 
+    const complianceQueryKey = ["compliances"];
+    const { data: complianceData, isLoading: complianceLoading } = api.useGet(
+        complianceQueryKey,
+        "/compliances"
+    );
+
     const assets = marketingData?.data?.data || [];
+    const compliances = complianceData?.data || [];
+
     const counts = {
         youtube: marketingData?.data?.totalYoutube || 0,
         social_post: marketingData?.data?.totalSocialPost || 0,
         case_study: marketingData?.data?.totalCaseStudy || 0,
         playbook: marketingData?.data?.totalPlaybook || 0,
+        compliance: compliances.length,
     };
 
     const deleteMutation = api.useDelete(queryKey, "/marketing", {
         onSuccess: () => setDeleteTarget(null),
         onError: (err) => alert(err.response?.data?.message || err.message || "Delete error")
+    });
+
+    const deleteComplianceMutation = api.useDelete(complianceQueryKey, "/compliances", {
+        onSuccess: () => setDeleteTarget(null),
+        onError: (err) => alert(err.response?.data?.message || err.message || "Delete error")
+    });
+
+    const createComplianceMutation = api.usePost(complianceQueryKey, "/compliances", {
+        onSuccess: () => {
+            setIsComplianceModalOpen(false);
+            resetComplianceForm();
+        },
+        onError: (err) => alert(err.response?.data?.message || err.message || "Create error")
+    });
+
+    const updateComplianceMutation = api.usePut(complianceQueryKey, "/compliances", {
+        onSuccess: () => {
+            setIsComplianceModalOpen(false);
+            resetComplianceForm();
+        },
+        onError: (err) => alert(err.response?.data?.message || err.message || "Update error")
     });
 
     const statusMutation = api.usePut(queryKey, "/marketing/status", {
@@ -589,7 +692,11 @@ export default function AdminMarketingPage() {
 
     const handleDelete = async () => {
         if (!deleteTarget) return;
-        deleteMutation.mutate(deleteTarget._id);
+        if (deleteTarget.type === "compliance") {
+            deleteComplianceMutation.mutate(deleteTarget._id);
+        } else {
+            deleteMutation.mutate(deleteTarget._id);
+        }
     };
 
     const handleToggleVisibility = async () => {
@@ -597,18 +704,19 @@ export default function AdminMarketingPage() {
         statusMutation.mutate(visibilityTarget._id);
     };
 
-    const deleting = deleteMutation.isPending;
+    const deleting = deleteMutation.isPending || deleteComplianceMutation.isPending;
     const togglingVisibility = statusMutation.isPending;
 
     const filteredAssets = categoryTab === "all" ? assets : assets.filter(a => a.type === categoryTab);
-    const totalAll = counts.youtube + counts.social_post + counts.case_study + counts.playbook;
+    const totalAll = counts.youtube + counts.social_post + counts.case_study + counts.playbook + counts.compliance;
 
     const tabCounts = {
-        all: assets.length,
+        all: assets.length + compliances.length,
         youtube: assets.filter(a => a.type === "youtube").length,
         social_post: assets.filter(a => a.type === "social_post").length,
         case_study: assets.filter(a => a.type === "case_study").length,
         playbook: assets.filter(a => a.type === "playbook").length,
+        compliance: compliances.length,
     };
 
     return (
@@ -617,8 +725,9 @@ export default function AdminMarketingPage() {
             <AdminHeader
                 title="Marketing Materials"
                 subtitle="Manage all your marketing assets in one place"
-                buttonText="Add Material"
-                buttonLink="/admin/marketing/add"
+                buttonText={categoryTab === "compliance" ? "Add Compliance" : "Add Material"}
+                buttonLink={categoryTab === "compliance" ? undefined : "/admin/marketing/add"}
+                onClick={categoryTab === "compliance" ? () => { resetComplianceForm(); setIsComplianceModalOpen(true); } : undefined}
             />
 
             <div className="p-6 flex flex-col pt-0">
@@ -636,6 +745,7 @@ export default function AdminMarketingPage() {
                                     <path fill="currentColor" fillRule="evenodd" d="M14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14v-4c0-3.771 0-5.657 1.172-6.828S6.239 2 10.03 2c.606 0 1.091 0 1.5.017q-.02.12-.02.244l-.01 2.834c0 1.097 0 2.067.105 2.848c.114.847.375 1.694 1.067 2.386c.69.69 1.538.952 2.385 1.066c.781.105 1.751.105 2.848.105h4.052c.043.534.043 1.19.043 2.063V14c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22" clipRule="evenodd" opacity={0.5}></path>
                                     <path fill="currentColor" d="M6 13.75a.75.75 0 0 0 0 1.5h8a.75.75 0 0 0 0-1.5zm0 3.5a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5zm5.51-14.99l-.01 2.835c0 1.097 0 2.066.105 2.848c.114.847.375 1.694 1.067 2.385c.69.691 1.538.953 2.385 1.067c.781.105 1.751.105 2.848.105h4.052q.02.232.028.5H22c0-.268 0-.402-.01-.56a5.3 5.3 0 0 0-.958-2.641c-.094-.128-.158-.204-.285-.357C19.954 7.494 18.91 6.312 18 5.5c-.81-.724-1.921-1.515-2.89-2.161c-.832-.556-1.248-.834-1.819-1.04a6 6 0 0 0-.506-.154c-.384-.095-.758-.128-1.285-.14z"></path>
                                 </svg>}
+
                         />
                         <div>
                             <p className="text-sm font-semibold text-gray-500">Total</p>
@@ -683,7 +793,8 @@ export default function AdminMarketingPage() {
                                             : ct.key === "social_post" ? "bg-blue-100 text-blue-600"
                                                 : ct.key === "case_study" ? "bg-emerald-100 text-emerald-600"
                                                     : ct.key === "playbook" ? "bg-purple-100 text-purple-600"
-                                                        : "bg-gray-100 text-gray-500"
+                                                        : ct.key === "compliance" ? "bg-teal-100 text-teal-600"
+                                                            : "bg-gray-100 text-gray-500"
                                     }`}>
                                     {tabCounts[ct.key]}
                                 </span>
@@ -798,6 +909,34 @@ export default function AdminMarketingPage() {
                         </div>
                     </div>
                 )}
+
+                {(categoryTab === "all" || categoryTab === "compliance") && (
+                    <div className="mt-2">
+                        {categoryTab === "all" && (
+                            <div className="flex items-center gap-2 mt-2">
+                                <div className="w-1 h-4 rounded-full bg-teal-500" />
+                                <h2 className="text-xs font-bold text-gray-600 uppercase tracking-wider">Compliance Documents</h2>
+                            </div>
+                        )}
+                        <ComplianceTable
+                            compliances={compliances}
+                            loading={complianceLoading}
+                            onEdit={(compliance) => {
+                                setEditingComplianceId(compliance._id);
+                                setComplianceForm({
+                                    title: compliance.title,
+                                    subtitle: compliance.subtitle || "",
+                                    url: compliance.url || ""
+                                });
+                                setIsComplianceModalOpen(true);
+                            }}
+                            onDelete={(compliance) => {
+                                setDeleteTarget({ ...compliance, type: "compliance" });
+                            }}
+                            onPreviewMedia={setPreviewMedia}
+                        />
+                    </div>
+                )}
             </div>
 
             {/* ── Delete Confirmation ── */}
@@ -836,6 +975,128 @@ export default function AdminMarketingPage() {
                 media={previewMedia}
                 onClose={() => setPreviewMedia(null)}
             />
+
+            {/* ── Compliance Add/Edit Modal ── */}
+            {isComplianceModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => { setIsComplianceModalOpen(false); resetComplianceForm(); }}>
+                    <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden relative animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+                        <div className="absolute top-4 right-4 z-10">
+                            <button onClick={() => { setIsComplianceModalOpen(false); resetComplianceForm(); }} className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors">
+                                <XMarkIcon className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="p-8">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center shadow-inner">
+                                    <ShieldCheckIcon className="w-6 h-6 text-teal-600" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-black text-slate-800 tracking-tight">{editingComplianceId ? "Edit Compliance" : "Add Compliance"}</h3>
+                                    <p className="text-xs text-slate-400 font-medium">{editingComplianceId ? "Modify compliance certificate details" : "Create a new compliance certificate resource"}</p>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-5">
+                                {/* Title */}
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-700 mb-2 tracking-tight">Title <span className="text-red-500">*</span></label>
+                                    <input
+                                        type="text"
+                                        value={complianceForm.title}
+                                        onChange={e => setComplianceForm({ ...complianceForm, title: e.target.value })}
+                                        placeholder="ISO 9001:2015, REACH Compliance..."
+                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-400 focus:bg-white transition-all duration-200"
+                                    />
+                                </div>
+
+                                {/* Subtitle */}
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-700 mb-2 tracking-tight">Subtitle / Description</label>
+                                    <input
+                                        type="text"
+                                        value={complianceForm.subtitle}
+                                        onChange={e => setComplianceForm({ ...complianceForm, subtitle: e.target.value })}
+                                        placeholder="Quality Management System Certificate..."
+                                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-400 focus:bg-white transition-all duration-200"
+                                    />
+                                </div>
+
+                                {/* PDF Upload */}
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-700 mb-2 tracking-tight">Upload PDF Document</label>
+                                    <div
+                                        onClick={() => document.getElementById("compliance-file-input").click()}
+                                        className={`border-2 border-dashed rounded-2xl p-6 flex flex-col items-center gap-2 cursor-pointer transition-all duration-200
+                                            ${complianceFile ? "border-emerald-400 bg-emerald-50/20" : "border-slate-200 hover:border-teal-400 hover:bg-slate-50"}`}
+                                    >
+                                        <ArrowUpTrayIcon className={`w-8 h-8 ${complianceFile ? "text-emerald-500" : "text-slate-400"}`} />
+                                        <p className="text-xs font-semibold text-slate-600">{complianceFile ? complianceFile.name : "Choose PDF file or drag it here"}</p>
+                                        <p className="text-[10px] text-slate-400 italic">Only PDF documents are supported</p>
+                                        <input
+                                            id="compliance-file-input"
+                                            type="file"
+                                            accept="application/pdf"
+                                            className="hidden"
+                                            onChange={e => {
+                                                const f = e.target.files[0];
+                                                if (f) setComplianceFile(f);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-end gap-3 mt-8">
+                                <button
+                                    type="button"
+                                    onClick={() => { setIsComplianceModalOpen(false); resetComplianceForm(); }}
+                                    className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={createComplianceMutation.isPending || updateComplianceMutation.isPending}
+                                    onClick={async () => {
+                                        if (!complianceForm.title) {
+                                            alert("Title is required");
+                                            return;
+                                        }
+                                        if (!editingComplianceId && !complianceFile) {
+                                            alert("Please upload a PDF document");
+                                            return;
+                                        }
+                                        const fd = new FormData();
+                                        fd.append("title", complianceForm.title);
+                                        fd.append("subtitle", complianceForm.subtitle || "");
+                                        if (complianceFile) {
+                                            fd.append("file", complianceFile);
+                                        }
+
+                                        if (editingComplianceId) {
+                                            updateComplianceMutation.mutate({
+                                                url: `/compliances/${editingComplianceId}`,
+                                                data: fd
+                                            });
+                                        } else {
+                                            createComplianceMutation.mutate(fd);
+                                        }
+                                    }}
+                                    className="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md shadow-teal-100 flex items-center justify-center gap-2 disabled:opacity-50"
+                                >
+                                    {createComplianceMutation.isPending || updateComplianceMutation.isPending ? (
+                                        <>
+                                            <div className="w-3.5 h-3.5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                            Saving...
+                                        </>
+                                    ) : editingComplianceId ? "Update Compliance" : "Add Compliance"}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

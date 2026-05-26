@@ -17,6 +17,7 @@ import {
     BookOpenIcon,
     XMarkIcon,
     ChartBarIcon,
+    ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 
 // ─── Type Options ──────────────────────────────────────────────────────────────
@@ -25,6 +26,7 @@ const TYPE_OPTIONS = [
     { value: "social_post", label: "Social Post", icon: MegaphoneIcon, color: "text-blue-500", bg: "bg-blue-50", iconBg: "bg-blue-500", border: "border-blue-200", activeBg: "bg-blue-500", activeText: "text-white", desc: "Upload image/video/pdf for social post" },
     { value: "case_study", label: "Case Study", icon: DocumentTextIcon, color: "text-emerald-500", bg: "bg-emerald-50", iconBg: "bg-emerald-500", border: "border-emerald-200", activeBg: "bg-emerald-500", activeText: "text-white", desc: "Upload a case study PDF" },
     { value: "playbook", label: "Playbook", icon: BookOpenIcon, color: "text-purple-500", bg: "bg-purple-50", iconBg: "bg-purple-500", border: "border-purple-200", activeBg: "bg-purple-500", activeText: "text-white", desc: "Upload a playbook PDF" },
+    { value: "compliance", label: "Compliance", icon: ShieldCheckIcon, color: "text-teal-500", bg: "bg-teal-50", iconBg: "bg-teal-500", border: "border-teal-200", activeBg: "bg-teal-500", activeText: "text-white", desc: "Upload a compliance PDF" },
 ];
 
 function getYouTubeId(url) {
@@ -75,9 +77,9 @@ export default function EditMarketingPage() {
     const submitting = updateMutation.isPending;
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
-    const overLimit = wordCount > 100;
-
-    const isPDFType = form.type === "case_study" || form.type === "playbook";
+    const overLimit = form.type !== "compliance" && wordCount > 100;
+ 
+    const isPDFType = form.type === "case_study" || form.type === "playbook" || form.type === "compliance";
     const isSocialPost = form.type === "social_post";
     const isPDF = form.attachmentType === "pdf";
     const youtubeThumb = form.type === "youtube" && form.url ? (() => { const vid = getYouTubeId(form.url); return vid ? `https://img.youtube.com/vi/${vid}/hqdefault.jpg` : null; })() : null;
@@ -192,7 +194,7 @@ export default function EditMarketingPage() {
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6 flex flex-col gap-8 mt-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="max-w-5xl mx-auto p-6 flex flex-col gap-8 mt-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {error && (
                     <div className="p-4 rounded-2xl bg-red-50/80 backdrop-blur-sm border border-red-100 shadow-sm text-sm text-red-700 font-semibold flex items-center gap-3 animate-bounce">
                         <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white shrink-0 shadow-lg">
@@ -203,9 +205,9 @@ export default function EditMarketingPage() {
                 )}
 
                 {/* ── Type Selector ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                    <h2 className="text-sm font-bold text-gray-800 mb-4">Material Type</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="bg-white rounded-2xl border border-gray-100/80 shadow-[0_4px_12px_rgba(0,0,0,0.02)] p-4 sm:p-5">
+                    <h2 className="text-[11px] font-black text-slate-400 uppercase tracking-wider mb-3.5 ml-1">Material Type</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                         {TYPE_OPTIONS.map(opt => {
                             const isActive = form.type === opt.value;
                             return (
@@ -221,21 +223,22 @@ export default function EditMarketingPage() {
                                             setError("");
                                         }
                                     }}
-                                    className={`relative flex items-center gap-2 p-2 rounded-xl border transition-all text-center
+                                    className={`group relative flex items-center gap-2 p-1.5 pr-3.5 rounded-xl border transition-all duration-200 cursor-pointer select-none text-left min-w-0
                                             ${isActive
-                                            ? `${opt.border} ${opt.bg} shadow-md z-10`
-                                            : "border-slate-200 bg-white/50 hover:bg-slate-50 hover:border-slate-200"
+                                            ? `${opt.border} ${opt.bg} shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] z-10`
+                                            : "border-slate-100 bg-slate-50/30 hover:bg-slate-50 hover:border-slate-200 text-slate-600"
                                         }`}
                                 >
-                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${isActive ? opt.iconBg : "bg-slate-100"} shadow-lg transition-transform group-hover:rotate-6`}>
-                                        <opt.icon className={`w-5 h-5 ${isActive ? "text-white" : "text-slate-400"}`} />
+                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all duration-200 shrink-0
+                                        ${isActive ? `${opt.iconBg} border-transparent shadow-[0_2px_4px_rgba(0,0,0,0.08)]` : "bg-white border-slate-200/60 shadow-xs"}`}>
+                                        <opt.icon className={`w-4 h-4 ${isActive ? "text-white" : "text-slate-400"}`} />
                                     </div>
-                                    <div className="text-center">
-                                        <p className={`text-sm font-bold tracking-tight ${isActive ? opt.color : "text-slate-700"}`}>{opt.label}</p>
+                                    <div className="min-w-0">
+                                        <p className={`text-xs font-bold tracking-tight truncate ${isActive ? opt.color : "text-slate-600"}`}>{opt.label}</p>
                                     </div>
                                     {isActive && (
-                                        <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-lg animate-in zoom-in duration-300">
-                                            <CheckIcon className="w-3.5 h-3.5 text-white stroke-[3px]" />
+                                        <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center shadow-md animate-in zoom-in duration-300">
+                                            <CheckIcon className="w-2.5 h-2.5 text-white stroke-[3px]" />
                                         </div>
                                     )}
                                 </button>
@@ -526,18 +529,23 @@ export default function EditMarketingPage() {
                         {/* Description */}
                         <div>
                             <div className="flex items-center justify-between mb-2 px-1">
-                                <label className="text-sm font-bold text-slate-700 tracking-tight">Narrative <span className="text-slate-400 font-medium">(Optional)</span></label>
-                                <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
-                                    {wordCount} / 100 Words
-                                </span>
+                                <label className="text-sm font-bold text-slate-700 tracking-tight">
+                                    {form.type === "compliance" ? "Subtitle" : "Narrative"}{" "}
+                                    <span className="text-slate-400 font-medium">(Optional)</span>
+                                </label>
+                                {form.type !== "compliance" && (
+                                    <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
+                                        {wordCount} / 100 Words
+                                    </span>
+                                )}
                             </div>
                             <textarea
-                                rows={5}
+                                rows={form.type === "compliance" ? 3 : 5}
                                 value={form.description}
                                 onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-                                placeholder="Tell the story of this material..."
+                                placeholder={form.type === "compliance" ? "Enter a premium subtitle or description..." : "Tell the story of this material..."}
                                 className={`w-full px-5 py-4 rounded-[2rem] bg-slate-50 border transition-all duration-300 shadow-inner resize-none focus:outline-none focus:ring-4 focus:bg-white text-sm font-medium leading-relaxed
-                        ${overLimit
+                                    ${overLimit
                                         ? "border-red-400 focus:ring-red-100 placeholder-red-300"
                                         : "border-slate-200/80 focus:ring-blue-100 focus:border-blue-400 placeholder-slate-400"}`}
                             />
@@ -547,28 +555,30 @@ export default function EditMarketingPage() {
                         </div>
 
                         {/* Keywords */}
-                        <div>
-                            <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
-                                <TagIcon className="w-4 h-4 text-blue-500" /> Keywords <span className="text-slate-400 font-medium">(Metadata)</span>
-                            </label>
-                            <input
-                                type="text"
-                                value={form.tags}
-                                onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
-                                placeholder="marketing, growth, campaign"
-                                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
-                            />
-                            {form.tags && (
-                                <div className="flex flex-wrap gap-2 mt-4 px-1">
-                                    {form.tags.split(",").filter(t => t.trim()).map((t, i) => (
-                                        <span key={i} className={`text-[11px] px-4 py-1.5 rounded-full font-bold border animate-in zoom-in duration-300 shadow-xs
-                                ${selectedType?.bg} ${selectedType?.color} ${selectedType?.border}`}>
-                                            #{t.trim().toUpperCase()}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+                        {form.type !== "compliance" && (
+                            <div>
+                                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
+                                    <TagIcon className="w-4 h-4 text-blue-500" /> Keywords <span className="text-slate-400 font-medium">(Metadata)</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    value={form.tags}
+                                    onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
+                                    placeholder="marketing, growth, campaign"
+                                    className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
+                                />
+                                {form.tags && (
+                                    <div className="flex flex-wrap gap-2 mt-4 px-1">
+                                        {form.tags.split(",").filter(t => t.trim()).map((t, i) => (
+                                            <span key={i} className={`text-[11px] px-4 py-1.5 rounded-full font-bold border animate-in zoom-in duration-300 shadow-xs
+                                                ${selectedType?.bg} ${selectedType?.color} ${selectedType?.border}`}>
+                                                #{t.trim().toUpperCase()}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     {/* ── Action Buttons ── */}

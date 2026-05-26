@@ -25,6 +25,8 @@ export default function ComplianceDocsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [distributorId, setDistributorId] = useState(null);
+    const [dbCompliances, setDbCompliances] = useState([]);
+    const [dbLoading, setDbLoading] = useState(true);
 
     const complianceDocs = [
         { name: "ISO 9001", description: "Quality Management System Certification", icon: CheckBadgeIcon, category: "Quality", status: "Current", href: "/compliances/doc/CC Matting - ISO 9001-2015 - 2025 - 2026.pdf" },
@@ -45,9 +47,16 @@ export default function ComplianceDocsPage() {
     const fetchDocs = async () => {
         try {
             setLoading(true);
+            setDbLoading(true);
             const res = await axios.get("/api/distributor/upload-compliance");
             if (res.data?.success) {
                 setDocs(res.data.data || []);
+            }
+
+            // Fetch company standard compliances from backend database
+            const compRes = await axios.get("/api/compliances");
+            if (compRes.data?.success) {
+                setDbCompliances(compRes.data.data || []);
             }
 
             // Also need distributor ID for uploads
@@ -60,6 +69,7 @@ export default function ComplianceDocsPage() {
             setError("Failed to load your documents. Please refresh the page.");
         } finally {
             setLoading(false);
+            setDbLoading(false);
         }
     };
 
@@ -118,7 +128,7 @@ export default function ComplianceDocsPage() {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-white group-hover:shadow-xs transition-all ring-1 ring-gray-100 group-hover:ring-gray-200">
-                                                    <doc.icon className="w-5 h-5 text-gray-400 group-hover:text-primary" />
+                                                    <doc.icon className="w-5 h-5 text-gray-400 group-hover:text-primary animate-in fade-in" />
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">{doc.name}</p>
@@ -150,6 +160,78 @@ export default function ComplianceDocsPage() {
                                         </td>
                                     </tr>
                                 ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* Published Compliance Certifications Table (Dynamic DB) */}
+                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
+                        <div className="flex items-center gap-2">
+                            <ShieldCheckIcon className="w-5 h-5 text-teal-600 animate-pulse" />
+                            <h2 className="font-bold text-gray-800 uppercase tracking-wider text-sm">Published Compliance Certifications</h2>
+                        </div>
+                        <span className="text-[10px] font-bold text-teal-600 uppercase tracking-widest bg-teal-50 px-2 py-0.5 rounded-md border border-teal-100">Live Database</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead className="bg-gray-50/50 border-b border-gray-100">
+                                <tr>
+                                    <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Document Name</th>
+                                    <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest hidden md:table-cell">Category</th>
+                                    <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Status</th>
+                                    <th className="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-50">
+                                {dbLoading ? (
+                                    <TableLoadingSkeleton columns={4} rows={3} />
+                                ) : dbCompliances.length === 0 ? (
+                                    <TableEmptyState colSpan={4} title="No Compliance Documents Published" message="Additional compliance certificates will appear here once published by the team." />
+                                ) : (
+                                    dbCompliances.map((doc) => (
+                                        <tr key={doc._id} className="hover:bg-gray-50/50 transition-colors group">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="p-2 bg-slate-50 rounded-lg group-hover:bg-white group-hover:shadow-xs ring-1 ring-slate-100 group-hover:ring-slate-200 transition-all">
+                                                        <ShieldCheckIcon className="w-5 h-5 text-teal-600 group-hover:text-primary" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">{doc.title}</p>
+                                                        {doc.subtitle && <p className="text-[11px] text-gray-400 font-medium">{doc.subtitle}</p>}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 hidden md:table-cell">
+                                                <span className="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+                                                    Official Standards
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-1.5">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                                    <span className="text-xs font-bold text-emerald-600 uppercase tracking-tighter">Current</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                {doc.url ? (
+                                                    <a
+                                                        href={doc.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-xl hover:bg-primary hover:text-white hover:border-primary transition-all shadow-xs"
+                                                    >
+                                                        <EyeIcon className="w-3.5 h-3.5" />
+                                                        View Document
+                                                    </a>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 italic">Unavailable</span>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>

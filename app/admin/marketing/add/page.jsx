@@ -17,6 +17,7 @@ import {
     BookOpenIcon,
     XMarkIcon,
     ChartBarIcon,
+    ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 
 // ─── Type Options ──────────────────────────────────────────────────────────────
@@ -25,6 +26,7 @@ const TYPE_OPTIONS = [
     { value: "social_post", label: "Social Post", icon: MegaphoneIcon, color: "text-blue-500", bg: "bg-blue-50", iconBg: "bg-blue-500", border: "border-blue-200", activeBg: "bg-blue-500", activeText: "text-white", desc: "Upload image, video, or PDF for social post" },
     { value: "case_study", label: "Case Study", icon: DocumentTextIcon, color: "text-emerald-500", bg: "bg-emerald-50", iconBg: "bg-emerald-500", border: "border-emerald-200", activeBg: "bg-emerald-500", activeText: "text-white", desc: "Upload a case study PDF" },
     { value: "playbook", label: "Playbook", icon: BookOpenIcon, color: "text-purple-500", bg: "bg-purple-50", iconBg: "bg-purple-500", border: "border-purple-200", activeBg: "bg-purple-500", activeText: "text-white", desc: "Upload a playbook PDF" },
+    { value: "compliance", label: "Compliance", icon: ShieldCheckIcon, color: "text-teal-500", bg: "bg-teal-50", iconBg: "bg-teal-500", border: "border-teal-200", activeBg: "bg-teal-500", activeText: "text-white", desc: "Upload a compliance PDF" },
 ];
 
 function getYouTubeId(url) {
@@ -62,12 +64,19 @@ export default function AddMarketingPage() {
         }
     });
 
-    const submitting = createMutation.isPending;
+    const createComplianceMutation = api.usePost("compliances", "/compliances", {
+        onSuccess: () => router.push("/admin/marketing"),
+        onError: (err) => {
+            setError(err?.response?.data?.message || err.message || "Something went wrong. Please try again.");
+        }
+    });
+
+    const submitting = createMutation.isPending || createComplianceMutation.isPending;
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
-    const overLimit = wordCount > 100;
+    const overLimit = form.type !== "compliance" && wordCount > 100;
 
-    const isPDFType = form.type === "case_study" || form.type === "playbook";
+    const isPDFType = form.type === "case_study" || form.type === "playbook" || form.type === "compliance";
     const isSocialPost = form.type === "social_post";
     const needsFile = isPDFType || isSocialPost;
     const youtubeThumb = form.type === "youtube" && form.url ? (() => { const id = getYouTubeId(form.url); return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null; })() : null;
@@ -75,20 +84,30 @@ export default function AddMarketingPage() {
     const handleSubmit = async () => {
         setError("");
         const fd = new FormData();
-        fd.append("title", form.title);
-        fd.append("type", form.type);
-        fd.append("url", form.url);
-        fd.append("description", form.description);
-        fd.append("tags", form.tags);
-        if (file) {
-            if (form.type === "social_post") {
-                fd.append("attachment", file);
-                fd.append("attachmentType", form.attachmentType);
-            } else {
+        if (form.type === "compliance") {
+            fd.append("title", form.title);
+            fd.append("subtitle", form.description);
+            fd.append("url", form.url);
+            if (file) {
                 fd.append("file", file);
             }
+            createComplianceMutation.mutate(fd);
+        } else {
+            fd.append("title", form.title);
+            fd.append("type", form.type);
+            fd.append("url", form.url);
+            fd.append("description", form.description);
+            fd.append("tags", form.tags);
+            if (file) {
+                if (form.type === "social_post") {
+                    fd.append("attachment", file);
+                    fd.append("attachmentType", form.attachmentType);
+                } else {
+                    fd.append("file", file);
+                }
+            }
+            createMutation.mutate(fd);
         }
-        createMutation.mutate(fd);
     };
 
     const handleDrop = (e, target) => {
@@ -142,7 +161,7 @@ export default function AddMarketingPage() {
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6 px-0 flex flex-col gap-6">
+            <div className="max-w-5xl mx-auto p-6 px-0 flex flex-col gap-6">
                 {error && (
                     <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-medium flex items-center gap-2">
                         <XMarkIcon className="w-4 h-4 shrink-0" />
@@ -151,9 +170,9 @@ export default function AddMarketingPage() {
                 )}
 
                 {/* ── Type Selector ── */}
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                    <h2 className="text-sm font-bold text-gray-800 mb-4">Material Type</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="bg-white rounded-2xl border border-gray-100/80 shadow-[0_4px_12px_rgba(0,0,0,0.02)] p-4 sm:p-5">
+                    <h2 className="text-[11px] font-black text-slate-400 uppercase tracking-wider mb-3.5 ml-1">Material Type</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                         {TYPE_OPTIONS.map(opt => {
                             const isActive = form.type === opt.value;
                             return (
@@ -167,23 +186,19 @@ export default function AddMarketingPage() {
                                             setError("");
                                         }
                                     }}
-                                    className={`flex items-center gap-2 p-2 rounded-xl border transition-all text-center
+                                    className={`group flex items-center gap-2 p-1.5 pr-3.5 rounded-xl border transition-all duration-200 cursor-pointer select-none text-left min-w-0
                                             ${isActive
-                                            ? `${opt.border} ${opt.bg} shadow-md z-10`
-                                            : "border-slate-200 bg-white/50 hover:bg-slate-50 hover:border-slate-200"
+                                            ? `${opt.border} ${opt.bg} shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] z-10`
+                                            : "border-slate-100 bg-slate-50/30 hover:bg-slate-50 hover:border-slate-200 text-slate-600"
                                         }`}
                                 >
-                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${isActive ? opt.iconBg : "bg-slate-100"} shadow-lg transition-transform group-hover:rotate-6`}>
-                                        <opt.icon className={`w-5 h-5 ${isActive ? "text-white" : "text-slate-400"}`} />
+                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all duration-200 shrink-0
+                                        ${isActive ? `${opt.iconBg} border-transparent shadow-[0_2px_4px_rgba(0,0,0,0.08)]` : "bg-white border-slate-200/60 shadow-xs"}`}>
+                                        <opt.icon className={`w-4 h-4 ${isActive ? "text-white" : "text-slate-400"}`} />
                                     </div>
-                                    <div className="text-center">
-                                        <p className={`text-sm font-bold tracking-tight ${isActive ? opt.color : "text-slate-700"}`}>{opt.label}</p>
+                                    <div className="min-w-0">
+                                        <p className={`text-xs font-bold tracking-tight truncate ${isActive ? opt.color : "text-slate-600"}`}>{opt.label}</p>
                                     </div>
-                                    {isActive && (
-                                        <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-lg animate-in zoom-in duration-300">
-                                            <CheckIcon className="w-3.5 h-3.5 text-white stroke-[3px]" />
-                                        </div>
-                                    )}
                                 </button>
                             );
                         })}
@@ -191,7 +206,7 @@ export default function AddMarketingPage() {
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto flex flex-col gap-6 pb-12">
+            <div className="max-w-5xl mx-auto flex flex-col gap-6 pb-12">
                 {/* ── Details Form ── */}
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col gap-8">
                     <div className="flex items-center gap-4">
@@ -216,7 +231,7 @@ export default function AddMarketingPage() {
                                 value={form.title}
                                 onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
                                 placeholder="Enter a premium title..."
-                                className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
+                                className="w-full px-5 py-4 rounded-lg bg-slate-50 border border-slate-200/80 text-sm text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
                             />
                         </div>
 
@@ -297,46 +312,55 @@ export default function AddMarketingPage() {
                                 onDragOver={e => { e.preventDefault(); setDragOver(true); }}
                                 onDragLeave={() => setDragOver(false)}
                                 onDrop={e => handleDrop(e, "media")}
-                                className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
+                                className={`group relative border-2 border-dashed rounded-3xl p-10 flex flex-col items-center gap-4 cursor-pointer transition-all duration-300
                                     ${dragOver
                                         ? "border-blue-400 bg-blue-50/50 scale-[0.98]"
                                         : file
-                                            ? "border-emerald-400 bg-emerald-50/30"
-                                            : "border-slate-200 hover:border-blue-400 hover:bg-slate-50 shadow-inner"
+                                            ? "border-emerald-400 bg-emerald-50/10"
+                                            : "border-slate-200 hover:border-blue-400 hover:bg-slate-50 shadow-[0_4px_12px_rgba(0,0,0,0.01)]"
                                     }`}
                             >
-                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
-                                    {form.attachmentType === "image" ? <PlusIcon className="w-10 h-10" /> : form.attachmentType === "video" ? <VideoCameraIcon className="w-10 h-10" /> : <DocumentTextIcon className="w-10 h-10" />}
-                                </div>
-
-                                <div className="text-center">
-                                    {file ? (
-                                        <div className="animate-in slide-in-from-bottom-2">
-                                            {preview && (
-                                                <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white">
-                                                    {form.attachmentType === "image" ? (
-                                                        <img src={preview} alt="Preview" className="w-full h-auto" />
-                                                    ) : form.attachmentType === "video" ? (
-                                                        <video src={preview} className="w-full h-auto" />
-                                                    ) : (
-                                                        <div className="p-4 flex flex-col items-center gap-2">
-                                                            <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
-                                                            <span className="text-[10px] font-bold text-emerald-600">PDF READY</span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-                                            <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
-                                            <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY FOR DELIVERY</p>
+                                {file ? (
+                                    <div className="animate-in zoom-in duration-300 flex flex-col items-center p-2 w-full">
+                                        {preview && (
+                                            <div className="mb-4 rounded-2xl overflow-hidden border border-slate-200/80 max-w-[240px] mx-auto shadow-md bg-white p-1.5 transition-transform duration-300 hover:scale-102">
+                                                {form.attachmentType === "image" ? (
+                                                    <img src={preview} alt="Preview" className="w-full h-auto rounded-xl object-cover max-h-40" />
+                                                ) : form.attachmentType === "video" ? (
+                                                    <video src={preview} className="w-full h-auto rounded-xl max-h-40" controls />
+                                                ) : (
+                                                    <div className="p-5 flex flex-col items-center gap-2">
+                                                        <DocumentTextIcon className="w-12 h-12 text-blue-500" />
+                                                        <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">PDF READY</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                        <p className="text-sm font-bold text-slate-800 max-w-md truncate text-center">{file.name}</p>
+                                        <p className="text-[10px] font-bold text-emerald-600 mt-1.5 uppercase tracking-wider bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100">{(file.size / 1024 / 1024).toFixed(2)} MB • READY FOR DELIVERY</p>
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setFile(null);
+                                                if (mediaFileRef.current) mediaFileRef.current.value = "";
+                                            }}
+                                            className="mt-4 px-4 py-1.5 rounded-xl bg-slate-100 hover:bg-red-50 hover:text-red-500 text-slate-500 text-xs font-bold transition-all duration-200 flex items-center gap-1.5 shadow-xs border border-slate-200/40"
+                                        >
+                                            <XMarkIcon className="w-3.5 h-3.5 stroke-[2.5px]" /> Clear File
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center gap-3.5">
+                                        <div className="w-14 h-14 rounded-2xl bg-white border border-slate-100 shadow-md flex items-center justify-center text-slate-400 group-hover:scale-110 group-hover:text-blue-500 transition-all duration-300">
+                                            {form.attachmentType === "image" ? <PlusIcon className="w-6 h-6" /> : form.attachmentType === "video" ? <VideoCameraIcon className="w-6 h-6" /> : <DocumentTextIcon className="w-6 h-6" />}
                                         </div>
-                                    ) : (
-                                        <>
-                                            <p className="text-base font-bold text-slate-600">Drop your {form.attachmentType} here</p>
+                                        <div className="text-center">
+                                            <p className="text-sm font-bold text-slate-600">Drag & drop your {form.attachmentType} here</p>
                                             <p className="text-xs text-slate-400 mt-1 font-medium italic">or click to browse local files</p>
-                                        </>
-                                    )}
-                                </div>
-
+                                        </div>
+                                    </div>
+                                )}
                                 <input
                                     ref={mediaFileRef}
                                     type="file"
@@ -372,7 +396,7 @@ export default function AddMarketingPage() {
                     {/* PDF File Upload */}
                     {isPDFType && (
                         <div className="animate-in zoom-in duration-500">
-                            <label className="block text-sm font-bold text-slate-700 mb-3 ml-1 tracking-tight">
+                            <label className="block text-sm font-bold text-slate-700 mb-2.5 ml-1 tracking-tight">
                                 Document Source <span className="text-red-500">*</span>
                             </label>
                             <div
@@ -380,36 +404,46 @@ export default function AddMarketingPage() {
                                 onDragOver={e => { e.preventDefault(); setDragOver(true); }}
                                 onDragLeave={() => setDragOver(false)}
                                 onDrop={e => handleDrop(e, "pdf")}
-                                className={`group relative border-2 border-dashed rounded-[2.5rem] p-12 flex flex-col items-center gap-4 cursor-pointer transition-all duration-500
+                                className={`group relative border border-dashed rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 min-h-[140px]
                                     ${dragOver
-                                        ? "border-indigo-400 bg-indigo-50/50 scale-[0.98]"
+                                        ? "border-blue-500 bg-blue-50/40"
                                         : file
-                                            ? "border-emerald-400 bg-emerald-50/30"
-                                            : "border-slate-200 hover:border-indigo-400 hover:bg-slate-50 shadow-inner"
+                                            ? "border-emerald-500/80 bg-emerald-50/20"
+                                            : "border-slate-200 bg-slate-50/20 hover:border-slate-300 hover:bg-slate-50/50"
                                     }`}
                             >
-                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center ${file ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-white text-slate-300 shadow-slate-200"} shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
-                                    <ArrowUpTrayIcon className="w-10 h-10" />
-                                </div>
-                                <div className="text-center">
-                                    {file ? (
-                                        <div className="animate-in slide-in-from-bottom-2">
-                                            {preview && (
-                                                <div className="mb-4 rounded-xl overflow-hidden border-2 border-emerald-200 max-w-[200px] mx-auto shadow-lg bg-white p-4 flex flex-col items-center gap-2">
-                                                    <DocumentTextIcon className="w-12 h-12 text-emerald-500" />
-                                                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Document Ready</span>
-                                                </div>
-                                            )}
-                                            <p className="text-lg font-black text-emerald-700 max-w-xs truncate mx-auto">{file.name}</p>
-                                            <p className="text-[11px] font-bold text-emerald-500 tracking-widest mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB • READY FOR ANALYSIS</p>
+                                {file ? (
+                                    <div className="animate-in fade-in duration-200 flex items-center justify-between w-full px-4 gap-4">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+                                                <DocumentTextIcon className="w-5 h-5" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="text-xs font-bold text-slate-800 truncate">{file.name}</p>
+                                                <p className="text-[10px] font-medium text-slate-400">{(file.size / 1024 / 1024).toFixed(2)} MB • PDF Document</p>
+                                            </div>
                                         </div>
-                                    ) : (
-                                        <>
-                                            <p className="text-base font-bold text-slate-600">Drop your PDF here</p>
-                                            <p className="text-xs text-slate-400 mt-1 font-medium italic">High-fidelity PDF document required</p>
-                                        </>
-                                    )}
-                                </div>
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setFile(null);
+                                                if (pdfFileRef.current) pdfFileRef.current.value = "";
+                                            }}
+                                            className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-red-500 text-slate-500 text-[11px] font-bold transition-colors border border-slate-200/40 flex items-center gap-1 shrink-0"
+                                        >
+                                            <XMarkIcon className="w-3.5 h-3.5 stroke-[2.5px]" /> Remove
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center gap-2">
+                                        <ArrowUpTrayIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                                        <div className="text-center">
+                                            <p className="text-xs font-bold text-slate-600">Click to upload or drag and drop PDF file here</p>
+                                            <p className="text-[10px] text-slate-400 mt-0.5 font-medium">Standard PDF format required</p>
+                                        </div>
+                                    </div>
+                                )}
                                 <input
                                     ref={pdfFileRef}
                                     type="file"
@@ -427,17 +461,22 @@ export default function AddMarketingPage() {
                     {/* Description */}
                     <div>
                         <div className="flex items-center justify-between mb-2 px-1">
-                            <label className="text-sm font-bold text-slate-700 tracking-tight">Narrative <span className="text-slate-400 font-medium">(Optional)</span></label>
-                            <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
-                                {wordCount} / 100 Words
-                            </span>
+                            <label className="text-sm font-bold text-slate-700 tracking-tight">
+                                {form.type === "compliance" ? "Subtitle" : "Narrative"}{" "}
+                                <span className="text-slate-400 font-medium">(Optional)</span>
+                            </label>
+                            {form.type !== "compliance" && (
+                                <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
+                                    {wordCount} / 100 Words
+                                </span>
+                            )}
                         </div>
                         <textarea
-                            rows={5}
+                            rows={form.type === "compliance" ? 3 : 5}
                             value={form.description}
                             onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-                            placeholder="Tell the story of this material..."
-                            className={`w-full px-5 py-4 rounded-[2rem] bg-slate-50 border transition-all duration-300 shadow-inner resize-none focus:outline-none focus:ring-4 focus:bg-white text-sm font-medium leading-relaxed
+                            placeholder={form.type === "compliance" ? "Enter a premium subtitle or description..." : "Tell the story of this material..."}
+                            className={`w-full px-5 py-4 rounded-lg bg-slate-50 border transition-all duration-300 shadow-inner resize-none focus:outline-none focus:ring-4 focus:bg-white text-sm font-medium leading-relaxed
                                 ${overLimit
                                     ? "border-red-400 focus:ring-red-100 placeholder-red-300"
                                     : "border-slate-200/80 focus:ring-blue-100 focus:border-blue-400 placeholder-slate-400"}`}
@@ -448,28 +487,30 @@ export default function AddMarketingPage() {
                     </div>
 
                     {/* Tags */}
-                    <div>
-                        <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
-                            <TagIcon className="w-4 h-4 text-blue-500" /> Keywords <span className="text-slate-400 font-medium">(Metadata)</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={form.tags}
-                            onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
-                            placeholder="marketing, growth, campaign"
-                            className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
-                        />
-                        {form.tags && (
-                            <div className="flex flex-wrap gap-2 mt-4 px-1">
-                                {form.tags.split(",").filter(t => t.trim()).map((t, i) => (
-                                    <span key={i} className={`text-[11px] px-4 py-1.5 rounded-full font-bold border animate-in zoom-in duration-300 shadow-xs
-                                        ${selectedType?.bg} ${selectedType?.color} ${selectedType?.border}`}>
-                                        #{t.trim().toUpperCase()}
-                                    </span>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    {form.type !== "compliance" && (
+                        <div>
+                            <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2 ml-1 tracking-tight">
+                                <TagIcon className="w-4 h-4 text-blue-500" /> Keywords <span className="text-slate-400 font-medium">(Metadata)</span>
+                            </label>
+                            <input
+                                type="text"
+                                value={form.tags}
+                                onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
+                                placeholder="marketing, growth, campaign"
+                                className="w-full px-5 py-4 rounded-lg bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
+                            />
+                            {form.tags && (
+                                <div className="flex flex-wrap gap-2 mt-4 px-1">
+                                    {form.tags.split(",").filter(t => t.trim()).map((t, i) => (
+                                        <span key={i} className={`text-[11px] px-4 py-1.5 rounded-full font-bold border animate-in zoom-in duration-300 shadow-xs
+                                            ${selectedType?.bg} ${selectedType?.color} ${selectedType?.border}`}>
+                                            #{t.trim().toUpperCase()}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {/* ── Action Buttons ── */}
