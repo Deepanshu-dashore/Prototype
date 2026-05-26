@@ -104,7 +104,7 @@ export default function ComplianceDocsPage() {
 
             <div className="space-y-10">
                 {/* Global Certifications Table */}
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
                         <div className="flex items-center gap-2">
                             <ShieldCheckIcon className="w-5 h-5 text-emerald-600" />
@@ -128,7 +128,7 @@ export default function ComplianceDocsPage() {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-white group-hover:shadow-xs transition-all ring-1 ring-gray-100 group-hover:ring-gray-200">
-                                                    <doc.icon className="w-5 h-5 text-gray-400 group-hover:text-primary animate-in fade-in" />
+                                                    <doc.icon className="w-5 h-5 text-gray-400 group-hover:text-primary" />
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">{doc.name}</p>
@@ -165,14 +165,14 @@ export default function ComplianceDocsPage() {
                     </div>
                 </div>
 
-                {/* Published Compliance Certifications Table (Dynamic DB) */}
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                {/* Published Compliance Certifications */}
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
                         <div className="flex items-center gap-2">
-                            <ShieldCheckIcon className="w-5 h-5 text-teal-600 animate-pulse" />
+                            <ShieldCheckIcon className="w-5 h-5 text-primary" />
                             <h2 className="font-bold text-gray-800 uppercase tracking-wider text-sm">Published Compliance Certifications</h2>
                         </div>
-                        <span className="text-[10px] font-bold text-teal-600 uppercase tracking-widest bg-teal-50 px-2 py-0.5 rounded-md border border-teal-100">Live Database</span>
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Additional standards</span>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
@@ -188,14 +188,14 @@ export default function ComplianceDocsPage() {
                                 {dbLoading ? (
                                     <TableLoadingSkeleton columns={4} rows={3} />
                                 ) : dbCompliances.length === 0 ? (
-                                    <TableEmptyState colSpan={4} title="No Compliance Documents Published" message="Additional compliance certificates will appear here once published by the team." />
+                                    <TableEmptyState colSpan={4} title="No Compliance Documents" message="CC Matting compliance certificates will appear here once published." />
                                 ) : (
                                     dbCompliances.map((doc) => (
                                         <tr key={doc._id} className="hover:bg-gray-50/50 transition-colors group">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="p-2 bg-slate-50 rounded-lg group-hover:bg-white group-hover:shadow-xs ring-1 ring-slate-100 group-hover:ring-slate-200 transition-all">
-                                                        <ShieldCheckIcon className="w-5 h-5 text-teal-600 group-hover:text-primary" />
+                                                    <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-white group-hover:shadow-xs transition-all ring-1 ring-gray-100 group-hover:ring-gray-200">
+                                                        <ShieldCheckIcon className="w-5 h-5 text-gray-400 group-hover:text-primary animate-in fade-in" />
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">{doc.title}</p>
@@ -209,10 +209,9 @@ export default function ComplianceDocsPage() {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="flex items-center gap-1.5">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                                    <span className="text-xs font-bold text-emerald-600 uppercase tracking-tighter">Current</span>
-                                                </div>
+                                                <span className="inline-flex px-2.5 py-0.5 rounded-full text-[10px] bg-emerald-50 text-emerald-600 border border-emerald-100 font-bold uppercase">
+                                                    CURRENT
+                                                </span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 {doc.url ? (
@@ -223,7 +222,7 @@ export default function ComplianceDocsPage() {
                                                         className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-xl hover:bg-primary hover:text-white hover:border-primary transition-all shadow-xs"
                                                     >
                                                         <EyeIcon className="w-3.5 h-3.5" />
-                                                        View Document
+                                                        View
                                                     </a>
                                                 ) : (
                                                     <span className="text-xs text-gray-400 italic">Unavailable</span>
@@ -239,7 +238,7 @@ export default function ComplianceDocsPage() {
 
                 {/* Partnership Documents Table */}
                 {(loading || docs.length > 0) && (
-                    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div className="p-6 border-b border-gray-50 bg-gray-50/30 flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <DocumentTextIcon className="w-5 h-5 text-indigo-600" />
