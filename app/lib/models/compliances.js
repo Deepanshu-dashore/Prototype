@@ -5,9 +5,27 @@ const complianceSchema = new Schema(
     title: { type: String, required: true },
     url: {
       type: String,
+      required: true,
     },
     subtitle: {
       type: String,
+      required: true,
+    },
+    catgory: {
+      type: String,
+      default: "Official Standards",
+    },
+    status: {
+      type: String,
+      enum: [
+        "Current",
+        "Report",
+        "Regulatory",
+        "Performance",
+        "Safety",
+        "Product",
+      ],
+      required: true,
     },
   },
   { timestamps: true },

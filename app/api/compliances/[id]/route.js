@@ -55,6 +55,8 @@ export async function PUT(request, { params }) {
     const subtitle = formData.get("subtitle");
     const urlString = formData.get("url");
     const file = formData.get("file");
+    const catgory = formData.get("catgory");
+    const status = formData.get("status");
 
     let finalUrl = urlString !== null ? urlString : existingCheck.url;
 
@@ -84,6 +86,8 @@ export async function PUT(request, { params }) {
       title: title !== null ? title : existingCheck.title,
       subtitle: subtitle !== null ? subtitle : existingCheck.subtitle,
       url: finalUrl,
+      catgory: catgory !== null ? catgory : existingCheck.catgory,
+      status: status !== null ? status : existingCheck.status,
     });
 
     return ApiResponse(200, updated, "Compliance document updated successfully");

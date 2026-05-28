@@ -41,7 +41,16 @@ export default function AddMarketingPage() {
     const pdfFileRef = useRef();
     const mediaFileRef = useRef();
 
-    const [form, setForm] = useState({ title: "", type: "youtube", url: "", description: "", tags: "", attachmentType: "image" });
+    const [form, setForm] = useState({
+        title: "",
+        type: "youtube",
+        url: "",
+        description: "",
+        tags: "",
+        attachmentType: "image",
+        catgory: "Official Standards",
+        status: "Current"
+    });
     const [file, setFile] = useState(null); // Used for PDF or Media depending on type
     const [preview, setPreview] = useState(null);
     const [error, setError] = useState("");
@@ -74,7 +83,8 @@ export default function AddMarketingPage() {
     const submitting = createMutation.isPending || createComplianceMutation.isPending;
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
-    const overLimit = form.type !== "compliance" && wordCount > 100;
+    const maxWords = form.type === "compliance" ? 20 : 100;
+    const overLimit = wordCount > maxWords;
 
     const isPDFType = form.type === "case_study" || form.type === "playbook" || form.type === "compliance";
     const isSocialPost = form.type === "social_post";
@@ -88,6 +98,8 @@ export default function AddMarketingPage() {
             fd.append("title", form.title);
             fd.append("subtitle", form.description);
             fd.append("url", form.url);
+            fd.append("catgory", form.catgory);
+            fd.append("status", form.status);
             if (file) {
                 fd.append("file", file);
             }
@@ -458,18 +470,74 @@ export default function AddMarketingPage() {
                         </div>
                     )}
 
+                    {/* Category and Status for Compliance */}
+                    {form.type === "compliance" && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-in slide-in-from-top-2 duration-300">
+                            <div>
+                                <label className="block text-sm font-bold text-slate-700 mb-2.5 ml-1 tracking-tight">
+                                    Category <span className="text-slate-400 font-medium">(Optional)</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    value={form.catgory}
+                                    onChange={e => setForm(f => ({ ...f, catgory: e.target.value }))}
+                                    placeholder="Enter or select a category..."
+                                    className="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
+                                />
+                                <div className="flex flex-wrap gap-1.5 mt-2.5 ml-1">
+                                    {["Official Standards", "Quality", "Health & Safety", "Efficacy", "Regulation", "Performance", "Safety", "Product"].map(cat => (
+                                        <button
+                                            key={cat}
+                                            type="button"
+                                            onClick={() => setForm(f => ({ ...f, catgory: cat }))}
+                                            className={`text-[10px] font-bold px-2.5 py-1 rounded-md border transition-all ${
+                                                form.catgory === cat
+                                                    ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                                                    : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-700"
+                                            }`}
+                                        >
+                                            {cat}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-slate-700 mb-2.5 ml-1 tracking-tight">
+                                    Status <span className="text-red-500">*</span>
+                                </label>
+                                <select
+                                    value={form.status}
+                                    onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
+                                    className="w-full px-5 py-4 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-400 focus:bg-white transition-all duration-300"
+                                >
+                                    <option value="Current">Current</option>
+                                    <option value="Report">Report</option>
+                                    <option value="Regulatory">Regulatory</option>
+                                    <option value="Performance">Performance</option>
+                                    <option value="Safety">Safety</option>
+                                    <option value="Product">Product</option>
+                                </select>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Description */}
                     <div>
                         <div className="flex items-center justify-between mb-2 px-1">
                             <label className="text-sm font-bold text-slate-700 tracking-tight">
-                                {form.type === "compliance" ? "Subtitle" : "Narrative"}{" "}
-                                <span className="text-slate-400 font-medium">(Optional)</span>
+                                {form.type === "compliance" ? (
+                                    <>
+                                        Subtitle <span className="text-red-500">*</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        Narrative <span className="text-slate-400 font-medium">(Optional)</span>
+                                    </>
+                                )}
                             </label>
-                            {form.type !== "compliance" && (
-                                <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
-                                    {wordCount} / 100 Words
-                                </span>
-                            )}
+                            <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest transition-colors ${overLimit ? "bg-red-500 text-white" : "bg-slate-100 text-slate-500"}`}>
+                                {wordCount} / {maxWords} Words
+                            </span>
                         </div>
                         <textarea
                             rows={form.type === "compliance" ? 3 : 5}
@@ -482,7 +550,9 @@ export default function AddMarketingPage() {
                                     : "border-slate-200/80 focus:ring-blue-100 focus:border-blue-400 placeholder-slate-400"}`}
                         />
                         {overLimit && (
-                            <p className="text-[10px] text-red-500 mt-2 font-bold ml-4 animate-pulse">NARRATIVE LIMIT REACHED. PLEASE CONDENSE YOUR CONTENT.</p>
+                            <p className="text-[10px] text-red-500 mt-2 font-bold ml-4 animate-pulse">
+                                {form.type === "compliance" ? "SUBTITLE LIMIT REACHED. PLEASE CONDENSE YOUR CONTENT TO 20 WORDS." : "NARRATIVE LIMIT REACHED. PLEASE CONDENSE YOUR CONTENT."}
+                            </p>
                         )}
                     </div>
 
@@ -543,8 +613,12 @@ export default function AddMarketingPage() {
                                     setError("URL is required for YouTube videos.");
                                     return;
                                 }
+                                if (form.type === "compliance" && !form.description) {
+                                    setError("Subtitle is required.");
+                                    return;
+                                }
                                 if (overLimit) {
-                                    setError("Description cannot exceed 100 words.");
+                                    setError(form.type === "compliance" ? "Subtitle cannot exceed 20 words." : "Description cannot exceed 100 words.");
                                     return;
                                 }
                                 setError("");

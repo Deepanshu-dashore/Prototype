@@ -17,6 +17,8 @@ export async function POST(req) {
     const subtitle = formData.get("subtitle");
     const urlString = formData.get("url");
     const file = formData.get("file");
+    const catgory = formData.get("catgory") || "Official Standards";
+    const status = formData.get("status") || "Current";
 
     if (!title) {
       return ApiResponse(400, null, "Title is required");
@@ -58,6 +60,8 @@ export async function POST(req) {
       title,
       subtitle,
       url: finalUrl,
+      catgory,
+      status,
     });
 
     return ApiResponse(

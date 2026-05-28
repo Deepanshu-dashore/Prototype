@@ -556,6 +556,43 @@ function PDFTable({ assets, loading, onEdit, onDelete, onToggleVisibility, accen
     );
 }
 
+const truncateWords = (str, maxWords = 6) => {
+    if (!str) return "—";
+    const words = str.trim().split(/\s+/);
+    if (words.length > maxWords) {
+        return words.slice(0, maxWords).join(" ") + "...";
+    }
+    return str;
+};
+
+function ComplianceStatusBadge({ status }) {
+    const displayStatus = status || "Current";
+    const statusMap = {
+        "Current": "bg-emerald-50 text-emerald-700 border-emerald-200",
+        "Report": "bg-blue-50 text-blue-700 border-blue-200",
+        "Regulatory": "bg-purple-50 text-purple-700 border-purple-200",
+        "Performance": "bg-amber-50 text-amber-700 border-amber-200",
+        "Safety": "bg-rose-50 text-rose-700 border-rose-200",
+        "Product": "bg-teal-50 text-teal-700 border-teal-200"
+    };
+
+    const colorClass = statusMap[displayStatus] || "bg-gray-50 text-gray-700 border-gray-200";
+
+    return (
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider ${colorClass}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${
+                displayStatus === "Current" ? "bg-emerald-500" :
+                displayStatus === "Report" ? "bg-blue-500" :
+                displayStatus === "Regulatory" ? "bg-purple-500" :
+                displayStatus === "Performance" ? "bg-amber-500" :
+                displayStatus === "Safety" ? "bg-rose-500" :
+                displayStatus === "Product" ? "bg-teal-500" : "bg-gray-400"
+            }`} />
+            {displayStatus}
+        </span>
+    );
+}
+
 function ComplianceTable({ compliances, loading, onEdit, onDelete, onPreviewMedia }) {
     return (
         <div className="bg-white rounded-b-2xl border border-gray-100 overflow-hidden  -mt-2">
@@ -566,14 +603,16 @@ function ComplianceTable({ compliances, loading, onEdit, onDelete, onPreviewMedi
                             <th className="px-5 py-3 text-left w-12">#</th>
                             <th className="px-5 py-3 text-left min-w-[200px]">Title</th>
                             <th className="px-5 py-3 text-left min-w-[250px]">Subtitle / Description</th>
+                            <th className="px-5 py-3 text-left min-w-[120px]">Category</th>
+                            <th className="px-5 py-3 text-left min-w-[120px]">Status</th>
                             <th className="px-5 py-3 text-left min-w-[150px]">Document / URL</th>
                             <th className="px-5 py-3 text-left min-w-[100px]">Date</th>
                             <th className="px-5 py-3 text-right min-w-[100px] sticky right-0 bg-gray-50/80 backdrop-blur-sm shadow-[-4px_0_4px_-2px_rgba(0,0,0,0.05)]">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
-                        {loading ? <TableLoadingSkeleton columns={6} rows={4} /> :
-                            compliances.length === 0 ? <TableEmptyState colSpan={6} title="No Compliance Documents" message="Add your first compliance document." /> :
+                        {loading ? <TableLoadingSkeleton columns={8} rows={4} /> :
+                            compliances.length === 0 ? <TableEmptyState colSpan={8} title="No Compliance Documents" message="Add your first compliance document." /> :
                                 compliances.map((c, i) => (
                                     <tr key={c._id} className="hover:bg-gray-50/60 transition-colors">
                                         <td className="px-5 py-3.5 text-xs text-gray-400 font-mono">{i + 1}</td>
@@ -581,7 +620,15 @@ function ComplianceTable({ compliances, loading, onEdit, onDelete, onPreviewMedi
                                             <p className="text-sm font-semibold text-gray-800">{c.title}</p>
                                         </td>
                                         <td className="px-5 py-3.5">
-                                            <p className="text-xs text-gray-500 leading-normal">{c.subtitle || "—"}</p>
+                                            <p className="text-xs text-gray-500 leading-normal" title={c.subtitle || ""}>{truncateWords(c.subtitle, 6)}</p>
+                                        </td>
+                                        <td className="px-5 py-3.5">
+                                            <span className="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+                                                {c.catgory || c.category || "Official Standards"}
+                                            </span>
+                                        </td>
+                                        <td className="px-5 py-3.5">
+                                            <ComplianceStatusBadge status={c.status} />
                                         </td>
                                         <td className="px-5 py-3.5">
                                             {c.url ? (
@@ -622,12 +669,12 @@ export default function AdminMarketingPage() {
 
     // Compliance states
     const [isComplianceModalOpen, setIsComplianceModalOpen] = useState(false);
-    const [complianceForm, setComplianceForm] = useState({ title: "", subtitle: "", url: "" });
+    const [complianceForm, setComplianceForm] = useState({ title: "", subtitle: "", url: "", catgory: "Official Standards", status: "Current" });
     const [complianceFile, setComplianceFile] = useState(null);
     const [editingComplianceId, setEditingComplianceId] = useState(null);
 
     const resetComplianceForm = () => {
-        setComplianceForm({ title: "", subtitle: "", url: "" });
+        setComplianceForm({ title: "", subtitle: "", url: "", catgory: "Official Standards", status: "Current" });
         setComplianceFile(null);
         setEditingComplianceId(null);
     };
@@ -926,7 +973,9 @@ export default function AdminMarketingPage() {
                                 setComplianceForm({
                                     title: compliance.title,
                                     subtitle: compliance.subtitle || "",
-                                    url: compliance.url || ""
+                                    url: compliance.url || "",
+                                    catgory: compliance.catgory || "Official Standards",
+                                    status: compliance.status || "Current"
                                 });
                                 setIsComplianceModalOpen(true);
                             }}
@@ -1012,7 +1061,7 @@ export default function AdminMarketingPage() {
 
                                 {/* Subtitle */}
                                 <div>
-                                    <label className="block text-xs font-bold text-slate-700 mb-2 tracking-tight">Subtitle / Description</label>
+                                    <label className="block text-xs font-bold text-slate-700 mb-2 tracking-tight">Subtitle / Description <span className="text-red-500">*</span></label>
                                     <input
                                         type="text"
                                         value={complianceForm.subtitle}
@@ -1020,6 +1069,51 @@ export default function AdminMarketingPage() {
                                         placeholder="Quality Management System Certificate..."
                                         className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-400 focus:bg-white transition-all duration-200"
                                     />
+                                </div>
+
+                                {/* Category and Status */}
+                                <div className="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <label className="block text-xs font-bold text-slate-700 mb-2 tracking-tight">Category <span className="text-slate-400 font-medium">(Optional)</span></label>
+                                        <input
+                                            type="text"
+                                            value={complianceForm.catgory}
+                                            onChange={e => setComplianceForm({ ...complianceForm, catgory: e.target.value })}
+                                            placeholder="Enter or select a category..."
+                                            className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-400 focus:bg-white transition-all duration-200"
+                                        />
+                                        <div className="flex flex-wrap gap-1.5 mt-2">
+                                            {["Official Standards", "Quality", "Health & Safety", "Efficacy", "Regulation", "Performance", "Safety", "Product"].map(cat => (
+                                                <button
+                                                    key={cat}
+                                                    type="button"
+                                                    onClick={() => setComplianceForm({ ...complianceForm, catgory: cat })}
+                                                    className={`text-[9px] font-bold px-2 py-0.5 rounded-md border transition-all ${
+                                                        complianceForm.catgory === cat
+                                                            ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                                                            : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-slate-700"
+                                                    }`}
+                                                >
+                                                    {cat}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-slate-700 mb-2 tracking-tight">Status <span className="text-red-500">*</span></label>
+                                        <select
+                                            value={complianceForm.status}
+                                            onChange={e => setComplianceForm({ ...complianceForm, status: e.target.value })}
+                                            className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-4 focus:ring-teal-100 focus:border-teal-400 focus:bg-white transition-all duration-200"
+                                        >
+                                            <option value="Current">Current</option>
+                                            <option value="Report">Report</option>
+                                            <option value="Regulatory">Regulatory</option>
+                                            <option value="Performance">Performance</option>
+                                            <option value="Safety">Safety</option>
+                                            <option value="Product">Product</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 {/* PDF Upload */}
@@ -1063,6 +1157,14 @@ export default function AdminMarketingPage() {
                                             alert("Title is required");
                                             return;
                                         }
+                                        if (!complianceForm.subtitle) {
+                                            alert("Subtitle is required");
+                                            return;
+                                        }
+                                        if (complianceForm.subtitle.trim().split(/\s+/).filter(Boolean).length > 20) {
+                                            alert("Subtitle cannot exceed 20 words.");
+                                            return;
+                                        }
                                         if (!editingComplianceId && !complianceFile) {
                                             alert("Please upload a PDF document");
                                             return;
@@ -1070,6 +1172,8 @@ export default function AdminMarketingPage() {
                                         const fd = new FormData();
                                         fd.append("title", complianceForm.title);
                                         fd.append("subtitle", complianceForm.subtitle || "");
+                                        fd.append("catgory", complianceForm.catgory || "Official Standards");
+                                        fd.append("status", complianceForm.status || "Current");
                                         if (complianceFile) {
                                             fd.append("file", complianceFile);
                                         }

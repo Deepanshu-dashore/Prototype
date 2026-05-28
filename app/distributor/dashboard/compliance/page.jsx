@@ -20,6 +20,37 @@ import {
 import toast from "react-hot-toast";
 import { TableEmptyState, TableLoadingSkeleton } from "@/src/components/ui/TableState";
 
+function ComplianceStatusBadge({ status }) {
+    const displayStatus = status || "Current";
+    const statusMap = {
+        "Current": "bg-emerald-50 text-emerald-700 border-emerald-200",
+        "Report": "bg-blue-50 text-blue-700 border-blue-200",
+        "Regulatory": "bg-purple-50 text-purple-700 border-purple-200",
+        "Performance": "bg-amber-50 text-amber-700 border-amber-200",
+        "Safety": "bg-rose-50 text-rose-700 border-rose-200",
+        "Product": "bg-teal-50 text-teal-700 border-teal-200",
+        "Certified": "bg-emerald-50 text-emerald-700 border-emerald-200",
+        "Internal": "bg-amber-50 text-amber-700 border-amber-200",
+        "Standard": "bg-gray-50 text-gray-700 border-gray-200"
+    };
+
+    const colorClass = statusMap[displayStatus] || "bg-gray-50 text-gray-700 border-gray-200";
+
+    return (
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider ${colorClass}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${
+                displayStatus === "Current" || displayStatus === "Certified" ? "bg-emerald-500" :
+                displayStatus === "Report" ? "bg-blue-500" :
+                displayStatus === "Regulatory" ? "bg-purple-500" :
+                displayStatus === "Performance" || displayStatus === "Internal" ? "bg-amber-500" :
+                displayStatus === "Safety" ? "bg-rose-500" :
+                displayStatus === "Product" ? "bg-teal-500" : "bg-gray-400"
+            }`} />
+            {displayStatus}
+        </span>
+    );
+}
+
 export default function ComplianceDocsPage() {
     const [docs, setDocs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -142,10 +173,7 @@ export default function ComplianceDocsPage() {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className="flex items-center gap-1.5">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                                <span className="text-xs font-bold text-emerald-600 uppercase tracking-tighter">{doc.status}</span>
-                                            </div>
+                                            <ComplianceStatusBadge status={doc.status} />
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <a
@@ -203,16 +231,14 @@ export default function ComplianceDocsPage() {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 hidden md:table-cell">
+                                             <td className="px-6 py-4 hidden md:table-cell">
                                                 <span className="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
-                                                    Official Standards
+                                                    {doc.catgory || doc.category || "Official Standards"}
                                                 </span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className="inline-flex px-2.5 py-0.5 rounded-full text-[10px] bg-emerald-50 text-emerald-600 border border-emerald-100 font-bold uppercase">
-                                                    CURRENT
-                                                </span>
-                                            </td>
+                                             </td>
+                                             <td className="px-6 py-4">
+                                                <ComplianceStatusBadge status={doc.status} />
+                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 {doc.url ? (
                                                     <a
