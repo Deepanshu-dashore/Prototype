@@ -225,3 +225,23 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Premium Sleek Scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(203, 213, 225, 0.6);
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.9);
+}
