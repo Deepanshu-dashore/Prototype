@@ -1,6 +1,7 @@
 import { getAllIndustrySlugs } from "@/src/utils/industriesData";
 import { getPublicBlogs } from "@/src/utils/blogUtils";
 import { products as productData } from "@/src/utils/productsData";
+import { cleanTechProducts } from "@/src/utils/cleanTechData";
 
 export default async function sitemap() {
   const baseUrl = "https://www.ccmatting.ie";
@@ -30,6 +31,14 @@ export default async function sitemap() {
   );
   const antiFatigueUrls = antiFatigueProducts.map((p) => ({
     url: `${baseUrl}/products/anti-fatigue-mats/${p.slug}`,
+    lastModified: lastModDefault,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  // Dynamic CleanTech Products
+  const cleanTechUrls = cleanTechProducts.map((p) => ({
+    url: `${baseUrl}/products/${p.slug}`,
     lastModified: lastModDefault,
     changeFrequency: "monthly",
     priority: 0.8,
@@ -108,6 +117,7 @@ export default async function sitemap() {
     ...staticRoutes,
     ...industryUrls,
     ...antiFatigueUrls,
+    ...cleanTechUrls,
     ...blogUrls,
     ...pdfRoutes,
   ];

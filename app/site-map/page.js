@@ -2,6 +2,7 @@ import PublicLayout from "@/src/components/share/PublicLayout";
 import Link from "next/link";
 import { getAllIndustries } from "@/src/utils/industriesData";
 import { products } from "@/src/utils/productsData";
+import { cleanTechProducts } from "@/src/utils/cleanTechData";
 import { getPublicBlogs } from "@/src/utils/blogUtils";
 import {
   HomeIcon,
@@ -62,6 +63,10 @@ export default async function SiteMapPage() {
             name: p.title,
             href: `/products/anti-fatigue-mats/${p.slug}`,
           })),
+        ...cleanTechProducts.map((p) => ({
+          name: p.title,
+          href: `/products/${p.slug}`,
+        })),
       ],
     },
     {

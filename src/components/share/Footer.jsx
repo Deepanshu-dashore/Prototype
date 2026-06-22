@@ -7,6 +7,8 @@ import { PhoneIcon, EnvelopeIcon, ChevronDownIcon } from '@heroicons/react/24/ou
 
 export default function Footer() {
   const [isErgoOpen, setIsErgoOpen] = useState(false)
+  const [isCleanTechOpen, setIsCleanTechOpen] = useState(false)
+  const [isCleanTechSolutionsOpen, setIsCleanTechSolutionsOpen] = useState(false)
 
   return (
     <footer className="bg-linear-to-b from-[#041bc6] to-[#000151] w-full border-t border-primary">
@@ -168,6 +170,70 @@ export default function Footer() {
                         <li>
                           <Link href="/products/anti-fatigue-mats/complete-ergonomic-mat" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
                             Complete Ergonomic Mat
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+                  <li
+                    className="flex flex-col relative"
+                    onMouseEnter={() => setIsCleanTechOpen(true)}
+                    onMouseLeave={() => setIsCleanTechOpen(false)}
+                  >
+                    <button
+                      onClick={() => setIsCleanTechOpen(!isCleanTechOpen)}
+                      className="text-sm text-white/80 hover:text-white transition-colors duration-200 flex items-center justify-between hover:translate-x-0.5 w-full text-left"
+                    >
+                      <span>CleanTech® Systems</span>
+                      <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform duration-200 ${isCleanTechOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {isCleanTechOpen && (
+                      <ul className="mt-2 ml-3 space-y-2 border-l border-white/10 pl-3">
+                        <li>
+                          <Link href="/products/cleantech-evo-wall" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            EVO Wall System
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/products/cleantech-evo-one" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            EVO One System
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/products/cleantech-evo-in-counter" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            EVO In-Counter System
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/products/cleantech-evo-three" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            EVO Three System
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+                  <li
+                    className="flex flex-col relative"
+                    onMouseEnter={() => setIsCleanTechSolutionsOpen(true)}
+                    onMouseLeave={() => setIsCleanTechSolutionsOpen(false)}
+                  >
+                    <button
+                      onClick={() => setIsCleanTechSolutionsOpen(!isCleanTechSolutionsOpen)}
+                      className="text-sm text-white/80 hover:text-white transition-colors duration-200 flex items-center justify-between hover:translate-x-0.5 w-full text-left"
+                    >
+                      <span>CleanTech® Solutions</span>
+                      <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform duration-200 ${isCleanTechSolutionsOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {isCleanTechSolutionsOpen && (
+                      <ul className="mt-2 ml-3 space-y-2 border-l border-white/10 pl-3">
+                        <li>
+                          <Link href="/products/cleantech-upx" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            UPX Hand Hygiene
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href="/products/selfcleanx" className="text-xs text-white/60 hover:text-white transition-colors duration-200 block">
+                            SelfCleanX System Cleaner
                           </Link>
                         </li>
                       </ul>

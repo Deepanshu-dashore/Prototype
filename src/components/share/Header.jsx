@@ -80,6 +80,28 @@ export default function Header({ onContactClick }) {
           { name: 'CCM Complete Ergonomic Mat', href: '/products/anti-fatigue-mats/complete-ergonomic-mat' },
         ]
       },
+      {
+        name: 'CleanTech® Automated Systems',
+        href: '#cleantech-systems',
+        icon: SparklesIcon,
+        hasSubMenu: true,
+        subItems: [
+          { name: 'CleanTech® EVO Wall', href: '/products/cleantech-evo-wall' },
+          { name: 'CleanTech® EVO One', href: '/products/cleantech-evo-one' },
+          { name: 'CleanTech® EVO In-Counter', href: '/products/cleantech-evo-in-counter' },
+          { name: 'CleanTech® EVO Three', href: '/products/cleantech-evo-three' },
+        ]
+      },
+      {
+        name: 'CleanTech® Solutions',
+        href: '#cleantech-solutions',
+        icon: BeakerIcon,
+        hasSubMenu: true,
+        subItems: [
+          { name: 'CleanTech® UPX Solution', href: '/products/cleantech-upx' },
+          { name: 'SelfCleanX Solution', href: '/products/selfcleanx' },
+        ]
+      },
       { name: 'Entrance Matting Ireland', href: 'https://entrancemattingireland.ie/', icon: BuildingOfficeIcon },
       { name: 'Logo Mats Ireland', href: 'https://logomatsireland.ie/', icon: BuildingOfficeIcon },
     ],
