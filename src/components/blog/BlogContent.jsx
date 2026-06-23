@@ -43,6 +43,13 @@ export default function BlogContent({ content }) {
             quote.className = "bg-gray-50 border-l-3 border-primary/40 pl-5 pr-5 py-5 rounded-r my-8 italic text-sm sm:text-base text-neutral-dark/80 font-normal"
         })
 
+        const links = document.querySelectorAll('.blog-content a')
+        links.forEach(a => {
+            a.className = "text-primary hover:underline hover:text-primary/80 font-medium cursor-pointer transition-colors duration-200"
+            a.setAttribute('target', '_blank')
+            a.setAttribute('rel', 'noopener noreferrer')
+        })
+
         const strongs = document.querySelectorAll('.blog-content strong')
         strongs.forEach(strong => {
             strong.className = "font-semibold text-neutral-dark"

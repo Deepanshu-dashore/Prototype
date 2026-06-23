@@ -30,6 +30,16 @@ export default function ViewBlogPage() {
   const blog = blogData?.data || null;
   const error = fetchError?.message || "";
 
+  useEffect(() => {
+    if (blog) {
+      const links = document.querySelectorAll(".blog-content-view a");
+      links.forEach((a) => {
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+      });
+    }
+  }, [blog]);
+
   const formatDate = (date) =>
     date
       ? new Date(date).toLocaleDateString("en-IN", {
@@ -156,7 +166,7 @@ export default function ViewBlogPage() {
 
             {/* Main Content */}
             <div
-              className="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-xl"
+              className="blog-content-view prose prose-sm sm:prose-base md:prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-xl [&_a]:text-primary [&_a]:underline hover:[&_a]:text-primary/80 [&_a]:font-medium [&_a]:transition-colors [&_a]:duration-200"
               dangerouslySetInnerHTML={{ __html: blog.content }}
             />
 

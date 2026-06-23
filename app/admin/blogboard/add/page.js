@@ -3,16 +3,20 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useApiClient } from "@/src/config/axios";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, LinkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import EditorInstructions from "@/src/components/admin/EditorInstructions";
 import { useDropzone } from "react-dropzone";
+import LinkModal from "@/src/components/ui/LinkModal";
 
 export default function AddBlogPage() {
   const api = useApiClient();
   const router = useRouter();
   const contentEditorRef = useRef(null);
   const [error, setError] = useState("");
+  const [linkModalOpen, setLinkModalOpen] = useState(false);
+  const [savedRange, setSavedRange] = useState(null);
+  const [linkInitialText, setLinkInitialText] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -77,6 +81,75 @@ export default function AddBlogPage() {
       document.execCommand("defaultParagraphSeparator", false, "p");
     }
   }, []);
+
+  const handleLink = () => {
+    if (contentEditorRef.current) {
+      contentEditorRef.current.focus();
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        setSavedRange(range);
+        setLinkInitialText(range.toString());
+        setLinkModalOpen(true);
+      }
+    }
+  };
+
+  const handleLinkConfirm = (text, url) => {
+    setLinkModalOpen(false);
+    if (contentEditorRef.current && savedRange) {
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(savedRange);
+      contentEditorRef.current.focus();
+
+      if (savedRange.collapsed) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.textContent = text || url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.className = "text-primary underline font-medium";
+
+        savedRange.insertNode(a);
+        savedRange.setStartAfter(a);
+        savedRange.setEndAfter(a);
+        selection.removeAllRanges();
+        selection.addRange(savedRange);
+      } else {
+        if (text && text !== savedRange.toString()) {
+          savedRange.deleteContents();
+          const a = document.createElement("a");
+          a.href = url;
+          a.textContent = text;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.className = "text-primary underline font-medium";
+          savedRange.insertNode(a);
+        } else {
+          document.execCommand("createLink", false, url);
+        }
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        content: contentEditorRef.current.innerHTML,
+      }));
+      setSavedRange(null);
+    }
+  };
+
+  const handleUnlink = () => {
+    if (contentEditorRef.current) {
+      contentEditorRef.current.focus();
+      document.execCommand("unlink", false, null);
+      // Force sync state
+      setFormData((prev) => ({
+        ...prev,
+        content: contentEditorRef.current.innerHTML,
+      }));
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -288,6 +361,31 @@ export default function AddBlogPage() {
                     )}
                   </button>
                 ))}
+                
+                <button
+                  type="button"
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    handleLink();
+                  }}
+                  className="px-2 sm:px-3 py-1 text-xs sm:text-sm border border-gray-300 rounded hover:bg-gray-200 font-medium flex items-center gap-1"
+                  title="Add Link"
+                >
+                  <LinkIcon className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Link</span>
+                </button>
+                <button
+                  type="button"
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    handleUnlink();
+                  }}
+                  className="px-2 sm:px-3 py-1 text-xs sm:text-sm border border-gray-300 rounded hover:bg-gray-200 font-medium flex items-center gap-1"
+                  title="Remove Link"
+                >
+                  <span className="line-through text-gray-500">Link</span>
+                </button>
+
                 <div className="w-px h-6 bg-gray-300 mx-1 self-center" />
 
                 {/* Headings & Paragraph */}
@@ -370,7 +468,7 @@ export default function AddBlogPage() {
                   const html = e.target.innerHTML;
                   setFormData((prev) => ({ ...prev, content: html }));
                 }}
-                className="w-full min-h-[250px] sm:min-h-[350px] md:min-h-[400px] border border-gray-300 rounded-b-lg p-3 sm:p-4 md:p-6 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent prose max-w-none bg-white shadow-inner [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_blockquote]:bg-gray-50 [&_blockquote]:border-l-4 [&_blockquote]:border-primary/40 [&_blockquote]:pl-5 [&_blockquote]:pr-5 [&_blockquote]:py-5 [&_blockquote]:rounded-r [&_blockquote]:my-8 [&_blockquote]:italic [&_blockquote]:text-gray-700 [&_h1]:text-2xl sm:[&_h1]:text-4xl [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_h4]:text-base sm:[&_h4]:text-lg [&_h5]:text-sm sm:[&_h5]:text-base [&_h5]:font-bold [&_h6]:text-xs sm:[&_h6]:text-sm [&_h6]:font-bold [&_p]:my-3 sm:[&_p]:my-4 [&_p]:leading-relaxed text-sm sm:text-base"
+                className="w-full min-h-[250px] sm:min-h-[350px] md:min-h-[400px] border border-gray-300 rounded-b-lg p-3 sm:p-4 md:p-6 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent prose max-w-none bg-white shadow-inner [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_blockquote]:bg-gray-50 [&_blockquote]:border-l-4 [&_blockquote]:border-primary/40 [&_blockquote]:pl-5 [&_blockquote]:pr-5 [&_blockquote]:py-5 [&_blockquote]:rounded-r [&_blockquote]:my-8 [&_blockquote]:italic [&_blockquote]:text-gray-700 [&_h1]:text-2xl sm:[&_h1]:text-4xl [&_h2]:text-xl sm:[&_h2]:text-2xl [&_h3]:text-lg sm:[&_h3]:text-xl [&_h4]:text-base sm:[&_h4]:text-lg [&_h5]:text-sm sm:[&_h5]:text-base [&_h5]:font-bold [&_h6]:text-xs sm:[&_h6]:text-sm [&_h6]:font-bold [&_p]:my-3 sm:[&_p]:my-4 [&_p]:leading-relaxed [&_a]:text-primary [&_a]:underline [&_a]:font-medium [&_a]:cursor-pointer text-sm sm:text-base"
                 style={{ whiteSpace: "pre-wrap" }}
                 data-placeholder="Start typing your blog content here..."
                 suppressContentEditableWarning
@@ -502,6 +600,16 @@ export default function AddBlogPage() {
           </div>
         </form>
       </div>
+      <LinkModal
+        key={linkModalOpen ? `open-${linkInitialText}` : "closed"}
+        isOpen={linkModalOpen}
+        onClose={() => {
+          setLinkModalOpen(false);
+          setSavedRange(null);
+        }}
+        onConfirm={handleLinkConfirm}
+        initialText={linkInitialText}
+      />
     </div>
   );
 }
