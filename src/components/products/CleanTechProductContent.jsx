@@ -22,8 +22,43 @@ import {
   SwatchIcon,
   PhotoIcon,
   CircleStackIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon,
+  ClipboardDocumentCheckIcon,
+  ClockIcon,
+  ArrowPathIcon,
+  MapPinIcon,
+  UserGroupIcon,
+  SquaresPlusIcon,
+  HeartIcon,
+  GlobeAmericasIcon,
+  CpuChipIcon
 } from "@heroicons/react/24/outline";
+
+const WaterIcon = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 512 512"
+    className={props.className}
+    {...props}
+  >
+    <path d="M0 0h512v512H0z" fill="none" />
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeMiterlimit="10"
+      strokeWidth="32"
+      d="M400 320c0 88.37-55.63 144-144 144s-144-55.63-144-144c0-94.83 103.23-222.85 134.89-259.88a12 12 0 0 1 18.23 0C296.77 97.15 400 225.17 400 320Z"
+    />
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
+      d="M344 328a72 72 0 0 1-72 72"
+    />
+  </svg>
+);
 
 const iconMap = {
   ShieldCheckIcon,
@@ -35,7 +70,18 @@ const iconMap = {
   CubeIcon,
   CalendarIcon,
   ScaleIcon,
-  CircleStackIcon
+  CircleStackIcon,
+  ClipboardDocumentCheckIcon,
+  ClockIcon,
+  ArrowPathIcon,
+  MapPinIcon,
+  UserGroupIcon,
+  SquaresPlusIcon,
+  HeartIcon,
+  GlobeAmericasIcon,
+  CpuChipIcon,
+  CheckBadgeIcon,
+  WaterIcon
 };
 
 export default function CleanTechProductContent({ product }) {
@@ -177,7 +223,7 @@ export default function CleanTechProductContent({ product }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-base text-justify sm:text-lg text-indigo-100/90 leading-relaxed max-w-2xl"
+                className="text-base text-justify sm:text-lg text-white leading-relaxed max-w-2xl"
               >
                 {product.description}
               </motion.p>
@@ -374,7 +420,7 @@ export default function CleanTechProductContent({ product }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <p className="text-indigo-100/90 text-base leading-relaxed">{feature}</p>
+                    <p className="text-white text-base leading-relaxed">{feature}</p>
                   </div>
                 ))}
               </div>

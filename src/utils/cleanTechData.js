@@ -40,22 +40,22 @@ export const cleanTechProducts = [
       {
         title: "Ensures Hygiene SOP Compliance",
         description: "Automated wash cycle and compliance monitor make meeting standard operating procedures effortless and trackable.",
-        icon: "ShieldCheckIcon"
+        icon: "ClipboardDocumentCheckIcon"
       },
       {
         title: "Removes 99.9% of Pathogens",
         description: "Proven to remove more than 99.9% of dangerous pathogens in just 12 seconds of contact.",
-        icon: "SparklesIcon"
+        icon: "ShieldCheckIcon"
       },
       {
         title: "High Throughput",
         description: "Rapid washing accommodates up to 4 employees per minute per station, keeping your lines moving.",
-        icon: "BoltIcon"
+        icon: "ClockIcon"
       },
       {
         title: "Water Efficient",
         description: "Uses significantly less water than standard manual hand washing methods, saving resources.",
-        icon: "CheckCircleIcon"
+        icon: "WaterIcon"
       }
     ]
   },
@@ -99,7 +99,7 @@ export const cleanTechProducts = [
       {
         title: "Freestanding Versatility",
         description: "Can be placed anywhere on the production floor with minimal setup requirements.",
-        icon: "ShieldCheckIcon"
+        icon: "MapPinIcon"
       },
       {
         title: "Removes 99.9% of Pathogens",
@@ -109,12 +109,12 @@ export const cleanTechProducts = [
       {
         title: "High Throughput",
         description: "Capable of washing up to 4 employees per minute, minimizing bottlenecks.",
-        icon: "BoltIcon"
+        icon: "UserGroupIcon"
       },
       {
         title: "Ensures SOP Compliance",
         description: "Active monitoring tracking ensures all team members execute washing protocols correctly.",
-        icon: "CheckCircleIcon"
+        icon: "ShieldCheckIcon"
       }
     ]
   },
@@ -158,12 +158,12 @@ export const cleanTechProducts = [
       {
         title: "Seamless Counter Integration",
         description: "Installs directly into existing counters, saving valuable workspace and floor area.",
-        icon: "ShieldCheckIcon"
+        icon: "SquaresPlusIcon"
       },
       {
         title: "Removes 99.9% of Pathogens",
         description: "Removes more than 99.9% of dangerous pathogens within the automated 12-second cycle.",
-        icon: "SparklesIcon"
+        icon: "ShieldCheckIcon"
       },
       {
         title: "High Throughput",
@@ -173,7 +173,7 @@ export const cleanTechProducts = [
       {
         title: "Hygiene Compliance",
         description: "Provides full documentation capability with automatic cycle counting.",
-        icon: "CheckCircleIcon"
+        icon: "ClipboardDocumentCheckIcon"
       }
     ]
   },
@@ -217,22 +217,22 @@ export const cleanTechProducts = [
       {
         title: "Triple Station Throughput",
         description: "Enables up to 12 employees to wash their hands per minute, perfect for busy shift changes.",
-        icon: "ShieldCheckIcon"
+        icon: "UserGroupIcon"
       },
       {
         title: "Max Contamination Control",
         description: "Cylinder design reaches beyond wrists to forearms, removing over 99.9% of dangerous pathogens.",
-        icon: "SparklesIcon"
+        icon: "ShieldCheckIcon"
       },
       {
         title: "Water Saving Technology",
         description: "Requires significantly less water than multiple manual sinks running simultaneously.",
-        icon: "BoltIcon"
+        icon: "WaterIcon"
       },
       {
         title: "Guaranteed Compliance",
         description: "Enforces strict SOP hygiene protocols across all three independent wash bays.",
-        icon: "CheckCircleIcon"
+        icon: "CheckBadgeIcon"
       }
     ]
   },
@@ -283,22 +283,22 @@ export const cleanTechProducts = [
       {
         title: "High Efficacy",
         description: "Removes 99.9% of dangerous pathogens in tandem with CleanTech® cylinders.",
-        icon: "ShieldCheckIcon"
+        icon: "BeakerIcon"
       },
       {
         title: "Moisturizing Formula",
         description: "Protects skin barrier and prevents drying or irritation, even with repeated daily use.",
-        icon: "SparklesIcon"
+        icon: "HeartIcon"
       },
       {
         title: "Concentrated Storage",
         description: "Compact cartridge sizes reduce necessary warehouse and storage space.",
-        icon: "BoltIcon"
+        icon: "CubeIcon"
       },
       {
         title: "Eco-Friendly Recycling",
         description: "Cartridges can be recycled to reduce landfill waste and support sustainability goals.",
-        icon: "CheckCircleIcon"
+        icon: "GlobeAmericasIcon"
       }
     ]
   },
@@ -348,22 +348,22 @@ export const cleanTechProducts = [
       {
         title: "Protects System Investment",
         description: "Eliminates scale and bacteria buildup, extending the functional life of handwashing stations.",
-        icon: "ShieldCheckIcon"
+        icon: "WrenchScrewdriverIcon"
       },
       {
         title: "Fully Automated Cleaning",
         description: "Works seamlessly with the system's scheduled self-clean cycle, removing manual labor.",
-        icon: "SparklesIcon"
+        icon: "CpuChipIcon"
       },
       {
         title: "Concentrated Storage",
         description: "High-concentration formula reduces storage footprint and packaging waste.",
-        icon: "BoltIcon"
+        icon: "CircleStackIcon"
       },
       {
         title: "Optimized Performance",
         description: "Ensures cleanroom-grade hygiene is maintained within the wash cylinders every single day.",
-        icon: "CheckCircleIcon"
+        icon: "BoltIcon"
       }
     ]
   }
