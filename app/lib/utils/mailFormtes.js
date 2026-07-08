@@ -267,7 +267,11 @@ export const passwordSecurityAlertTemplate = ({
   name,
   logoUrl = "https://ccmatting.co.uk/CCMate-Logo.jpg",
   companyName = "CC Matting",
+<<<<<<< HEAD
   supportEmail = "sales@ccmatting.co.uk",
+=======
+  supportEmail = "support@ccmatting.com",
+>>>>>>> 3736aa8f2ab90fbb4955fd56d0eeb0d5402ccfeb
   resetLink = "https://ccmatting.co.uk/distributor/forget-password",
 }) => {
   return `
