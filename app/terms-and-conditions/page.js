@@ -5,7 +5,7 @@ export const metadata = {
   description:
     "Review the terms and conditions for CC Matting services, including warranty, maintenance, and liability policies for our polymeric matting solutions.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/terms-and-conditions",
+    canonical: "https://ccmatting.ie/terms-and-conditions",
   },
   robots: {
     index: false,
@@ -14,7 +14,7 @@ export const metadata = {
   openGraph: {
     title: "Terms and Conditions | CC Matting Ireland",
     description: "Terms and conditions of supply for CC Matting Ltd.",
-    url: "https://www.ccmatting.ie/terms-and-conditions",
+    url: "https://ccmatting.ie/terms-and-conditions",
     siteName: "CC Matting",
     images: ["/CCMate-Logo.jpg"],
     type: "website",

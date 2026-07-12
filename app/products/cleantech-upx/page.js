@@ -7,12 +7,12 @@ export const metadata = {
   title: "CleanTech® UPX | UltraPure Hand Hygiene Solution",
   description: "Unique antimicrobial hand hygiene solution for CleanTech® Automated Handwashing Stations. Removes more than 99.9% of harmful pathogens while protecting skin health.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/products/cleantech-upx",
+    canonical: "https://ccmatting.ie/products/cleantech-upx",
   },
   openGraph: {
     title: "CleanTech® UPX | UltraPure Hand Hygiene Solution",
     description: "Antimicrobial hand hygiene solution that removes 99.9% of dangerous pathogens and moisturizes hands.",
-    url: "https://www.ccmatting.ie/products/cleantech-upx",
+    url: "https://ccmatting.ie/products/cleantech-upx",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

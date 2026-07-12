@@ -311,8 +311,12 @@ export async function PATCH(request) {
         finalImageUrl = uploaded.url;
       }
     } else if (existingImage) {
-      // Keep existing image URL (no change)
-      finalImageUrl = existingImage;
+      // Keep existing image URL (no change) - strip base URL if present
+      if (existingImage.includes("upload/")) {
+        finalImageUrl = existingImage.split("upload/")[1];
+      } else {
+        finalImageUrl = existingImage;
+      }
     }
 
     const res = await Blog.findByIdAndUpdate(

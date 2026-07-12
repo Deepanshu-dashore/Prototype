@@ -7,13 +7,13 @@ export const metadata = {
   description:
     "Explore our specialized contamination control solutions for pharmaceutical, semiconductor, medical device, and food industries in Ireland.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/industries",
+    canonical: "https://ccmatting.ie/industries",
   },
   openGraph: {
     title: "Industry Solutions | CC Matting Ireland",
     description:
       "Specialized contamination control and polymeric mats for high-tech, medical, and industrial sectors.",
-    url: "https://www.ccmatting.ie/industries",
+    url: "https://ccmatting.ie/industries",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

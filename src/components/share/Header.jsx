@@ -107,11 +107,11 @@ export default function Header({ onContactClick }) {
     ],
     // Technical: [
     //   { name: 'View All Technical Documents', href: '/compliance', icon: FolderIcon },
-    //   { name: 'CC Matting vs Peel-Off Mat Comparison', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf', icon: ArrowsRightLeftIcon },
-    //   { name: 'CC Heavy Duty Technical Data Sheet', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf', icon: DocumentTextIcon },
-    //   { name: 'CC Matting Cleaning Procedure', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf', icon: BeakerIcon },
-    //   { name: 'CC Matting Warranty', href: 'https://www.ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf', icon: ShieldCheckIcon },
-    //   { name: 'CC Matting Brochure', href: 'https://www.ccmatting.ie/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf', icon: BookOpenIcon },
+    //   { name: 'CC Matting vs Peel-Off Mat Comparison', href: 'https://ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf', icon: ArrowsRightLeftIcon },
+    //   { name: 'CC Heavy Duty Technical Data Sheet', href: 'https://ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.1-Copy.pdf', icon: DocumentTextIcon },
+    //   { name: 'CC Matting Cleaning Procedure', href: 'https://ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.5-Copy.pdf', icon: BeakerIcon },
+    //   { name: 'CC Matting Warranty', href: 'https://ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf', icon: ShieldCheckIcon },
+    //   { name: 'CC Matting Brochure', href: 'https://ccmatting.ie/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf', icon: BookOpenIcon },
     // ],
     Compliance: [
       { name: 'Quality & Compliance Overview', href: '/compliance', icon: InformationCircleIcon },

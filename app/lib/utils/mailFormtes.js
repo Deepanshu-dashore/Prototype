@@ -946,7 +946,7 @@ export const orderConfirmationTemplate = ({
   order,
   distributor,
   orderItems,
-  logoUrl = "https://www.ccmatting.ie/CCMate-Logo.jpg",
+  logoUrl = "https://ccmatting.ie/CCMate-Logo.jpg",
   companyName = "CC Matting",
   supportEmail,
   title = "Order Confirmation",

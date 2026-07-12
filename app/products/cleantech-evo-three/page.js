@@ -7,12 +7,12 @@ export const metadata = {
   title: "CleanTech® EVO Three | Triple Station Freestanding Automated Handwashing System",
   description: "Durable triple station CleanTech® Automated Handwashing System for high-traffic environments. Removes more than 99.9% of pathogens in 12 seconds.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/products/cleantech-evo-three",
+    canonical: "https://ccmatting.ie/products/cleantech-evo-three",
   },
   openGraph: {
     title: "CleanTech® EVO Three | Triple Station Freestanding Automated Handwashing System",
     description: "Remove 99.9% of dangerous pathogens in 12 seconds with automated triple station handwashing.",
-    url: "https://www.ccmatting.ie/products/cleantech-evo-three",
+    url: "https://ccmatting.ie/products/cleantech-evo-three",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

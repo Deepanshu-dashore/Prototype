@@ -1,4 +1,17 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ccmatting.ie"
+        }
+      ],
+      "destination": "https://ccmatting.ie/:path*",
+      "statusCode": 301
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

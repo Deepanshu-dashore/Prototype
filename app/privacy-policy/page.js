@@ -5,7 +5,7 @@ export const metadata = {
   description:
     "Read our privacy notice to understand how CC Matting collects, uses, and protects your personal information.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/privacy-policy",
+    canonical: "https://ccmatting.ie/privacy-policy",
   },
   robots: {
     index: false,
@@ -14,7 +14,7 @@ export const metadata = {
   openGraph: {
     title: "Privacy Policy | CC Matting Ireland",
     description: "Our commitment to protecting your personal information.",
-    url: "https://www.ccmatting.ie/privacy-policy",
+    url: "https://ccmatting.ie/privacy-policy",
     siteName: "CC Matting",
     images: ["/CCMate-Logo.jpg"],
     type: "website",
@@ -58,12 +58,12 @@ export default function PrivacyPolicy() {
             <p>
               When you visit our website{" "}
               <a
-                href="https://www.ccmatting.ie"
+                href="https://ccmatting.ie"
                 className="text-primary hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                https://www.ccmatting.ie
+                https://ccmatting.ie
               </a>{" "}
               (the "Website"), and more generally, use any of our services (the
               "Services", which include the Website), you are trusting us with

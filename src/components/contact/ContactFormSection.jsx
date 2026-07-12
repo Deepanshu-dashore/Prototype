@@ -14,6 +14,7 @@ const iconMap = {
   'hospitals': BuildingOffice2Icon,
   'pharmaceutical-industry': BeakerIcon,
   'life-science': GlobeAmericasIcon,
+  'laboratory-settings': GlobeAmericasIcon,
   'schools-public-entrances': AcademicCapIcon,
   'data-centres': ServerIcon,
   'medical-devices': WrenchScrewdriverIcon,

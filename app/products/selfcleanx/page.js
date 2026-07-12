@@ -7,12 +7,12 @@ export const metadata = {
   title: "SelfCleanX | Equipment Hygiene Solution",
   description: "Unique equipment hygiene solution used with CleanTech® Automated Handwashing Stations as a hard surface cleaner to eliminate microorganisms and deposits.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/products/selfcleanx",
+    canonical: "https://ccmatting.ie/products/selfcleanx",
   },
   openGraph: {
     title: "SelfCleanX | CleanTech® Equipment Hygiene Solution",
     description: "Eliminate microorganisms and hardwater deposits from CleanTech® cylinders and basins automatically.",
-    url: "https://www.ccmatting.ie/products/selfcleanx",
+    url: "https://ccmatting.ie/products/selfcleanx",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

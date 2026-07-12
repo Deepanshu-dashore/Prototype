@@ -3,13 +3,13 @@ export const metadata = {
   description:
     "CC Matting products incorporate Biomaster™ silver ion technology for permanent antimicrobial protection. Inhibits growth of bacteria, fungi, and mould 24/7.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/biomaster",
+    canonical: "https://ccmatting.ie/biomaster",
   },
   openGraph: {
     title: "Biomaster™ Antimicrobial Technology | CC Matting",
     description:
       "Permanent silver ion protection against bacteria and pathogens. Integrated directly into our polymeric mats.",
-    url: "https://www.ccmatting.ie/biomaster",
+    url: "https://ccmatting.ie/biomaster",
     images: ["/CCMate-Logo.jpg"],
     type: "website",
   },

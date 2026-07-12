@@ -4,7 +4,7 @@ import { products as productData } from "@/src/utils/productsData";
 import { cleanTechProducts } from "@/src/utils/cleanTechData";
 
 export default async function sitemap() {
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://ccmatting.ie";
   const lastModDefault = new Date("2026-03-08T11:23:50+00:00");
 
   // Dynamic Industries

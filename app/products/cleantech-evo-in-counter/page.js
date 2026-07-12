@@ -7,12 +7,12 @@ export const metadata = {
   title: "CleanTech® EVO In-Counter | In-Counter Automated Handwashing System",
   description: "Durable single station CleanTech® Automated Handwashing System designed to install into any counter surface. Removes more than 99.9% of pathogens in 12 seconds.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/products/cleantech-evo-in-counter",
+    canonical: "https://ccmatting.ie/products/cleantech-evo-in-counter",
   },
   openGraph: {
     title: "CleanTech® EVO In-Counter | In-Counter Automated Handwashing System",
     description: "Remove 99.9% of dangerous pathogens in 12 seconds with automated in-counter handwashing.",
-    url: "https://www.ccmatting.ie/products/cleantech-evo-in-counter",
+    url: "https://ccmatting.ie/products/cleantech-evo-in-counter",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

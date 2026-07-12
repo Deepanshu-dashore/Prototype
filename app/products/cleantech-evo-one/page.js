@@ -7,12 +7,12 @@ export const metadata = {
   title: "CleanTech® EVO One | Single Station Freestanding Automated Handwashing System",
   description: "Durable freestanding single station CleanTech® Automated Handwashing Station. Removes more than 99.9% of dangerous pathogens in 12 seconds with wrist-to-forearm cleaning.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/products/cleantech-evo-one",
+    canonical: "https://ccmatting.ie/products/cleantech-evo-one",
   },
   openGraph: {
     title: "CleanTech® EVO One | Freestanding Single Station Automated Handwashing",
     description: "Remove 99.9% of dangerous pathogens in 12 seconds with automated freestanding single station handwashing.",
-    url: "https://www.ccmatting.ie/products/cleantech-evo-one",
+    url: "https://ccmatting.ie/products/cleantech-evo-one",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

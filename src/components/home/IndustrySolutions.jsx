@@ -59,7 +59,7 @@ export default function IndustrySolutions() {
       title: 'Laboratory Settings',
       description: 'Maintain sterile conditions in research and development labs.',
       image: '/assets/industries/life_science_lab_1763625546556.png',
-      href: '/industries/life-science'
+      href: '/industries/laboratory-settings'
     },
     {
       icon: WrenchScrewdriverIcon,

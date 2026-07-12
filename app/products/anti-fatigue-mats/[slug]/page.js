@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://ccmatting.ie";
   const url = `${baseUrl}/products/anti-fatigue-mats/${slug}`;
 
   return {

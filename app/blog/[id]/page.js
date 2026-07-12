@@ -12,8 +12,9 @@ import Link from "next/link";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const blog = await getBlogByIdOrSlug(id);
-  const baseUrl = "https://www.ccmatting.ie";
+  const decodedId = decodeURIComponent(id);
+  const blog = await getBlogByIdOrSlug(decodedId);
+  const baseUrl = "https://ccmatting.ie";
 
   if (!blog) {
     return {
@@ -65,7 +66,8 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPostPage({ params }) {
   const { id } = await params;
-  const blog = await getBlogByIdOrSlug(id);
+  const decodedId = decodeURIComponent(id);
+  const blog = await getBlogByIdOrSlug(decodedId);
 
   if (!blog) {
     notFound();
@@ -80,7 +82,7 @@ export default async function BlogPostPage({ params }) {
     .filter((p) => p.slug !== blog.slug)
     .slice(0, 3);
 
-  const baseUrl = "https://www.ccmatting.ie";
+  const baseUrl = "https://ccmatting.ie";
 
   // JSON-LD Structured Data
   const jsonLd = {

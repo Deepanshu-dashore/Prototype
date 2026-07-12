@@ -7,12 +7,12 @@ export const metadata = {
   title: "CleanTech® EVO Wall | Wall-Mounted Automated Handwashing System",
   description: "Watertight wall-mounted CleanTech® Automated Handwashing Station. Removes more than 99.9% of dangerous pathogens in 12 seconds with wrist-to-forearm cleaning.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/products/cleantech-evo-wall",
+    canonical: "https://ccmatting.ie/products/cleantech-evo-wall",
   },
   openGraph: {
     title: "CleanTech® EVO Wall | Wall-Mounted Automated Handwashing System",
     description: "Remove 99.9% of dangerous pathogens in 12 seconds with automated wrist-to-forearm handwashing.",
-    url: "https://www.ccmatting.ie/products/cleantech-evo-wall",
+    url: "https://ccmatting.ie/products/cleantech-evo-wall",
     siteName: "CC Matting",
     locale: "en_IE",
     type: "website",

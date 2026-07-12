@@ -6,13 +6,13 @@ export const metadata = {
   description:
     "Access CC Matting compliance documentation, ISO certifications, REACH compliance, and technical efficacy data for our contamination control solutions.",
   alternates: {
-    canonical: "https://www.ccmatting.ie/compliance",
+    canonical: "https://ccmatting.ie/compliance",
   },
   openGraph: {
     title: "Compliance & Quality | CC Matting Ireland",
     description:
       "Our commitment to quality and compliance. View our ISO certifications and technical efficacy reports.",
-    url: "https://www.ccmatting.ie/compliance",
+    url: "https://ccmatting.ie/compliance",
     images: ["/CCMate-Logo.jpg"],
     type: "website",
   },
