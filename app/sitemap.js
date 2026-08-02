@@ -50,6 +50,8 @@ export default async function sitemap() {
     { url: "/features-benefits", priority: 0.8 },
     { url: "/compliance", priority: 0.8 },
     { url: "/industries", priority: 0.8 },
+    { url: "/data-center", priority: 0.8 },
+    { url: "/data-centres", priority: 0.8 },
     { url: "/blog", priority: 0.8 },
     { url: "/contact", priority: 0.8 },
     { url: "/videos", priority: 0.8 },

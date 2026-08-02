@@ -309,6 +309,7 @@ Having the proper procedures and technology in place is crucial for keeping a cl
     ],
     ctaText: "Get a quote for data centres",
     ctaLink: "/contact",
+    href: "/data-center",
   },
   {
     id: 8,
