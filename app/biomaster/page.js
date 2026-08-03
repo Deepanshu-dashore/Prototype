@@ -20,9 +20,10 @@ export default function BiomasterPage() {
     <PublicLayout>
       <main className="grow">
         {/* Hero Section */}
-        <section className="relative bg-linear-to-b from-indigo-900 via-[#0047AB] to-blue-800 text-white py-20 lg:py-32 overflow-hidden">
+        <section className="relative text-white py-20 lg:py-32 overflow-hidden" style={{ background: "linear-gradient(180deg, #1e1b4b 0%, #0047AB 50%, #1e40af 100%)" }}>
           <div
-            className="absolute inset-0 bg-[url('/circle-pattern.svg')] bg-repeat opacity-[0.05]"
+            className="absolute inset-0 bg-repeat opacity-[0.05] pointer-events-none"
+            style={{ backgroundImage: "url('/circle-pattern.svg')" }}
             aria-hidden="true"
           />
 
