@@ -52,6 +52,9 @@ export default function Header({ onContactClick }) {
   // Helper function to check if a route is active
   const isActiveRoute = (href) => {
     if (pathname === href) return true
+    if (href === '/data-center' || href === '/data-centres') {
+      return pathname === '/data-center' || pathname === '/data-centres'
+    }
     // For industry routes, check if pathname matches the slug
     if (href.startsWith('/industries/')) {
       return pathname.startsWith(href) || pathname === href
@@ -138,13 +141,14 @@ export default function Header({ onContactClick }) {
     // { name: 'Technical', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Compliance', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Industries', href: '/industries', isLink: false, hasDropdown: true },
+    { name: 'Data Center', href: '/data-center', isLink: true },
     // { name: 'Blogs', href: '/blog', isLink: true },
     { name: 'Contact', href: '/contact', isLink: true },
   ]
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm py-3 lg:py-0">
-      <nav className="max-w-7xl mx-auto px-6 lg:px-8" aria-label="Main navigation">
+      <nav className="max-w-[95dvw] mx-auto px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="shrink-0">
