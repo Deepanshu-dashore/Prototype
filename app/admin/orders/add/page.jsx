@@ -46,9 +46,30 @@ export default function AddOrderPage() {
     });
     const [poFile, setPoFile] = useState(null);
     const [instructions, setInstructions] = useState("");
+    const [submitAttempted, setSubmitAttempted] = useState(false);
     const [items, setItems] = useState([
         { productId: "", quantity: 1, length: "" }
     ]);
+
+    const isSpecialProduct = (product) => {
+        if (!product) return false;
+        const target = "CCM HD DIM STRIP - DIST - 006".toUpperCase().replace(/\s+/g, " ");
+        const code = (product.code || "").toUpperCase().replace(/\s+/g, " ");
+        const desc = (product.description || "").toUpperCase().replace(/\s+/g, " ");
+        const combined = `${code} ${desc}`;
+
+        return (
+            code.includes("CCM HD DIM STRIP - DIST - 006") ||
+            desc.includes("CCM HD DIM STRIP - DIST - 006") ||
+            combined.includes("CCM HD DIM STRIP - DIST - 006") ||
+            code === target ||
+            desc === target ||
+            combined === target ||
+            (code.includes("CCM HD DIM STRIP") && code.includes("006")) ||
+            (desc.includes("CCM HD DIM STRIP") && desc.includes("006")) ||
+            (combined.includes("CCM HD DIM STRIP") && combined.includes("006"))
+        );
+    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -108,6 +129,7 @@ export default function AddOrderPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setSubmitAttempted(true);
         setError("");
 
         if (!isNewDistributorFormVisible && !selectedDistributorId) {
@@ -131,6 +153,20 @@ export default function AddOrderPage() {
         if (invalidItem) {
             setError("Please fill in all product fields (Product, Quantity, and Length)");
             return;
+        }
+
+        // Validate special product length divisibility by 40
+        for (const item of items) {
+            const selectedProd = products.find(p => p._id === item.productId);
+            if (isSpecialProduct(selectedProd)) {
+                const numLen = Number(item.length);
+                if (!item.length || isNaN(numLen) || numLen <= 0 || numLen % 40 !== 0) {
+                    const toastMsg = "Please enter a length that is a multiple of 40 (e.g., 40, 80, 120)";
+                    toast.error(toastMsg);
+                    setError(toastMsg);
+                    return;
+                }
+            }
         }
 
         setLoading(true);
@@ -411,52 +447,72 @@ export default function AddOrderPage() {
                                 <p className="text-center text-sm text-gray-400 py-4">No products added. Click &quot;Add Item&quot; to begin.</p>
                             ) : (
                                 <div className="space-y-3">
-                                    {items.map((item, idx) => (
-                                        <div key={idx} className="flex flex-col gap-2.5 bg-gray-50/50 p-4 rounded-xl border border-gray-100 animate-in fade-in duration-200">
-                                            <div className="flex flex-col md:flex-row gap-3 items-end">
-                                                {/* Index badge */}
-                                                <div className="flex flex-col items-center justify-end shrink-0 w-full md:w-auto">
-                                                    <span className="hidden md:block text-[10px] font-bold text-transparent select-none mb-1">#</span>
-                                                    <span className="w-8 h-10 rounded-lg bg-gray-200 text-gray-600 text-xs font-bold flex items-center justify-center">
-                                                        {idx + 1}
-                                                    </span>
-                                                </div>
+                                    {items.map((item, idx) => {
+                                        const selectedProd = products.find(p => p._id === item.productId);
+                                        const isSpecial = isSpecialProduct(selectedProd);
+                                        const numLen = Number(item.length);
+                                        const isLengthInvalid = isSpecial && (
+                                            (item.length !== "" && item.length !== null && (isNaN(numLen) || numLen <= 0 || numLen % 40 !== 0)) ||
+                                            (submitAttempted && (!item.length || isNaN(numLen) || numLen <= 0 || numLen % 40 !== 0))
+                                        );
 
-                                                {/* Product selection */}
-                                                <div className="flex-1 w-full">
-                                                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Product *</label>
-                                                    <select
-                                                        required
-                                                        value={item.productId}
-                                                        onChange={(e) => handleItemChange(idx, "productId", e.target.value)}
-                                                        className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs cursor-pointer"
-                                                    >
-                                                        <option value="">-- Choose Product --</option>
-                                                        {loadingProducts ? (
-                                                            <option disabled>Loading products...</option>
-                                                        ) : (
-                                                            products.map(p => (
-                                                                <option key={p._id} value={p._id}>
-                                                                    {p.code} - {p.description.slice(0, 50)}... {p.warning ? "⚠️" : ""}
-                                                                </option>
-                                                            ))
+                                        return (
+                                            <div key={idx} className="flex flex-col gap-2.5 bg-gray-50/50 p-4 rounded-xl border border-gray-100 animate-in fade-in duration-200">
+                                                <div className="flex flex-col md:flex-row gap-3 items-end">
+                                                    {/* Index badge */}
+                                                    <div className="flex flex-col items-center justify-end shrink-0 w-full md:w-auto">
+                                                        <span className="hidden md:block text-[10px] font-bold text-transparent select-none mb-1">#</span>
+                                                        <span className="w-8 h-10 rounded-lg bg-gray-200 text-gray-600 text-xs font-bold flex items-center justify-center">
+                                                            {idx + 1}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Product selection */}
+                                                    <div className="flex-1 w-full">
+                                                        <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Product *</label>
+                                                        <select
+                                                            required
+                                                            value={item.productId}
+                                                            onChange={(e) => handleItemChange(idx, "productId", e.target.value)}
+                                                            className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs cursor-pointer"
+                                                        >
+                                                            <option value="">-- Choose Product --</option>
+                                                            {loadingProducts ? (
+                                                                <option disabled>Loading products...</option>
+                                                            ) : (
+                                                                products.map(p => (
+                                                                    <option key={p._id} value={p._id}>
+                                                                        {p.code} - {p.description.slice(0, 50)}... {p.warning ? "⚠️" : ""}
+                                                                    </option>
+                                                                ))
+                                                            )}
+                                                        </select>
+                                                    </div>
+
+                                                    {/* Length */}
+                                                    <div className="w-full md:w-48">
+                                                        <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Length (m) *</label>
+                                                        <input
+                                                            type="number"
+                                                            step="0.01"
+                                                            required
+                                                            placeholder="Length"
+                                                            className={`w-full h-10 px-3 bg-white border rounded-lg focus:ring-2 transition-all outline-none text-xs ${
+                                                                isLengthInvalid
+                                                                    ? "border-red-500 text-red-900 focus:ring-red-200 focus:border-red-500"
+                                                                    : "border-gray-200 focus:ring-primary/20 focus:border-primary"
+                                                            }`}
+                                                            value={item.length}
+                                                            onChange={(e) => handleItemChange(idx, "length", e.target.value)}
+                                                        />
+                                                        {isSpecial && (
+                                                            <p className={`text-[10px] font-semibold mt-1 ${isLengthInvalid ? 'text-red-600' : 'text-indigo-600'}`}>
+                                                                {isLengthInvalid 
+                                                                    ? "Must be a multiple of 40 (e.g., 40, 80, 120)" 
+                                                                    : "Length must be a multiple of 40 (e.g., 40, 80, 120)"}
+                                                            </p>
                                                         )}
-                                                    </select>
-                                                </div>
-
-                                                {/* Length */}
-                                                <div className="w-full md:w-32">
-                                                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Length (m) *</label>
-                                                    <input
-                                                        type="number"
-                                                        step="0.01"
-                                                        required
-                                                        placeholder="Length"
-                                                        className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs"
-                                                        value={item.length}
-                                                        onChange={(e) => handleItemChange(idx, "length", e.target.value)}
-                                                    />
-                                                </div>
+                                                    </div>
 
                                                 {/* Quantity */}
                                                 <div className="w-full md:w-32">
@@ -501,8 +557,9 @@ export default function AddOrderPage() {
                                                     </div>
                                                 );
                                             })()}
-                                        </div>
-                                    ))}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             )}
                         </div>

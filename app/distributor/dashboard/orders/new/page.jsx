@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "@/app/lib/utils/axiosConfig";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-hot-toast";
 import {
     PlusIcon,
     XMarkIcon,
@@ -38,10 +39,31 @@ function NewOrderContent() {
     const [products, setProducts] = useState([]);
     const [distributor, setDistributor] = useState(null);
     const [orderItems, setOrderItems] = useState([{ product: "", quantity: 1, length: 0 }]);
+    const [submitAttempted, setSubmitAttempted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [poFile, setPoFile] = useState(null);
     const [instructions, setInstructions] = useState("");
     const [isReorderLoading, setIsReorderLoading] = useState(false);
+
+    const isSpecialProduct = (product) => {
+        if (!product) return false;
+        const target = "CCM HD DIM STRIP - DIST - 006".toUpperCase().replace(/\s+/g, " ");
+        const code = (product.code || "").toUpperCase().replace(/\s+/g, " ");
+        const desc = (product.description || "").toUpperCase().replace(/\s+/g, " ");
+        const combined = `${code} ${desc}`;
+
+        return (
+            code.includes("CCM HD DIM STRIP - DIST - 006") ||
+            desc.includes("CCM HD DIM STRIP - DIST - 006") ||
+            combined.includes("CCM HD DIM STRIP - DIST - 006") ||
+            code === target ||
+            desc === target ||
+            combined === target ||
+            (code.includes("CCM HD DIM STRIP") && code.includes("006")) ||
+            (desc.includes("CCM HD DIM STRIP") && desc.includes("006")) ||
+            (combined.includes("CCM HD DIM STRIP") && combined.includes("006"))
+        );
+    };
 
     useEffect(() => {
         fetchProducts();
@@ -133,13 +155,16 @@ function NewOrderContent() {
 
     const handleSubmitOrder = async (e) => {
         e.preventDefault();
+        setSubmitAttempted(true);
         const filteredItems = orderItems.filter(item => item.product !== "");
         if (filteredItems.length === 0) {
+            toast.error("Please add at least one product");
             alert("Please add at least one product");
             return;
         }
 
         if (!poFile) {
+            toast.error("Please upload a Purchase Order document");
             alert("Please upload a Purchase Order document");
             return;
         }
@@ -147,8 +172,20 @@ function NewOrderContent() {
         const productIds = filteredItems.map(item => item.product);
         const hasDuplicates = productIds.some((id, index) => productIds.indexOf(id) !== index);
         if (hasDuplicates) {
+            toast.error("You have duplicate products in your order. Please remove them.");
             alert("You have duplicate products in your order. Please remove them.");
             return;
+        }
+
+        for (const item of filteredItems) {
+            const prod = products.find(p => p._id === item.product);
+            if (isSpecialProduct(prod)) {
+                const numLen = Number(item.length);
+                if (!item.length || isNaN(numLen) || numLen <= 0 || numLen % 40 !== 0) {
+                    toast.error("Please enter a length that is a multiple of 40 (e.g., 40, 80, 120)");
+                    return;
+                }
+            }
         }
 
         try {
@@ -273,73 +310,93 @@ function NewOrderContent() {
                     <div className="p-8 pt-6">
                         <div className="space-y-4 relative rounded-md border border-gray-100 p-6 md:p-5 md:py-5 bg-gray-50/30 group hover:border-primary/20 transition-all hover:bg-white hover:shadow-sm">
                             <AnimatePresence>
-                                {orderItems.map((item, index) => (
-                                    <motion.div
-                                        key={index}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 10 }}
-                                        className="flex flex-col gap-3"
-                                    >
-                                        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-                                            <div className="md:col-span-6 relative">
-                                                <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Select Product</label>
-                                                <select
-                                                    required
-                                                    value={item.product}
-                                                    onChange={(e) => handleItemChange(index, "product", e.target.value)}
-                                                    className="w-full border border-gray-300 px-4 py-4 text-xs focus:ring focus:ring-primary/50 outline-none transition-all appearance-none cursor-pointer rounded-lg"
-                                                >
-                                                    <option value="">Choose product...</option>
-                                                    {products.map(p => {
-                                                        const isSelected = orderItems.some((it, i) => i !== index && it.product === p._id);
-                                                        return (
-                                                            <option key={p._id} value={p._id} disabled={isSelected}>
-                                                                {p.code} — {p.description} {p.warning ? "⚠️" : ""}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                </select>
-                                                <ChevronLeftIcon className="-rotate-90 absolute w-12 h-7 right-1 bottom-2.5 bg-white p-2 pb-1 cursor-pointer" strokeWidth={2} />
-                                            </div>
+                                {orderItems.map((item, index) => {
+                                    const selectedProd = products.find(p => p._id === item.product);
+                                    const isSpecial = isSpecialProduct(selectedProd);
+                                    const numLen = Number(item.length);
+                                    const isLengthInvalid = isSpecial && (
+                                        (item.length !== "" && item.length !== null && (isNaN(numLen) || numLen <= 0 || numLen % 40 !== 0)) ||
+                                        (submitAttempted && (!item.length || isNaN(numLen) || numLen <= 0 || numLen % 40 !== 0))
+                                    );
 
-                                            <div className="md:col-span-2 relative">
-                                                <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Quantity</label>
-                                                <input
-                                                    type="text"
-                                                    inputMode="numeric"
-                                                    required
-                                                    placeholder="0"
-                                                    value={item.quantity}
-                                                    onChange={(e) => {
-                                                        const val = e.target.value.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
-                                                        handleItemChange(index, "quantity", val === '' ? '' : parseInt(val));
-                                                    }}
-                                                    className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-primary focus:border-primary"
-                                                />
-                                            </div>
+                                    return (
+                                        <motion.div
+                                            key={index}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: 10 }}
+                                            className="flex flex-col gap-3"
+                                        >
+                                            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                                                <div className="md:col-span-6 relative">
+                                                    <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Select Product</label>
+                                                    <select
+                                                        required
+                                                        value={item.product}
+                                                        onChange={(e) => handleItemChange(index, "product", e.target.value)}
+                                                        className="w-full border border-gray-300 px-4 py-4 text-xs focus:ring focus:ring-primary/50 outline-none transition-all appearance-none cursor-pointer rounded-lg"
+                                                    >
+                                                        <option value="">Choose product...</option>
+                                                        {products.map(p => {
+                                                            const isSelected = orderItems.some((it, i) => i !== index && it.product === p._id);
+                                                            return (
+                                                                <option key={p._id} value={p._id} disabled={isSelected}>
+                                                                    {p.code} — {p.description} {p.warning ? "⚠️" : ""}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </select>
+                                                    <ChevronLeftIcon className="-rotate-90 absolute w-12 h-7 right-1 bottom-2.5 bg-white p-2 pb-1 cursor-pointer" strokeWidth={2} />
+                                                </div>
 
-                                            <div className="md:col-span-3 relative">
-                                                <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Length (Meters)</label>
-                                                <div className="relative">
+                                                <div className="md:col-span-2 relative">
+                                                    <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Quantity</label>
                                                     <input
                                                         type="text"
-                                                        inputMode="decimal"
+                                                        inputMode="numeric"
                                                         required
-                                                        placeholder="0.00"
-                                                        value={item.length}
+                                                        placeholder="0"
+                                                        value={item.quantity}
                                                         onChange={(e) => {
-                                                            const val = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/^0+(?=\d)/, '');
-                                                            handleItemChange(index, "length", val === '' ? '' : val);
-                                                        }}
-                                                        onBlur={(e) => {
-                                                            const parsed = parseFloat(e.target.value) || 0;
-                                                            handleItemChange(index, "length", parsed);
+                                                            const val = e.target.value.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
+                                                            handleItemChange(index, "quantity", val === '' ? '' : parseInt(val));
                                                         }}
                                                         className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-primary focus:border-primary"
                                                     />
                                                 </div>
-                                            </div>
+
+                                                <div className="md:col-span-3 relative">
+                                                    <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Length (Meters)</label>
+                                                    <div className="relative">
+                                                        <input
+                                                            type="text"
+                                                            inputMode="decimal"
+                                                            required
+                                                            placeholder="0.00"
+                                                            value={item.length}
+                                                            onChange={(e) => {
+                                                                const val = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/^0+(?=\d)/, '');
+                                                                handleItemChange(index, "length", val === '' ? '' : val);
+                                                            }}
+                                                            onBlur={(e) => {
+                                                                const parsed = parseFloat(e.target.value) || 0;
+                                                                handleItemChange(index, "length", parsed);
+                                                            }}
+                                                            className={`w-full border p-2.5 rounded-lg transition-all outline-none ${
+                                                                isLengthInvalid
+                                                                    ? "border-red-500 text-red-900 focus:border-red-500 focus:ring-red-200"
+                                                                    : "border-gray-300 focus:ring-primary focus:border-primary"
+                                                            }`}
+                                                        />
+                                                        {isSpecial && (
+                                                            <p className={`text-[11px] font-semibold mt-1 ${isLengthInvalid ? 'text-red-600' : 'text-indigo-600'}`}>
+                                                                {isLengthInvalid 
+                                                                    ? "Please enter a length that is a multiple of 40 (e.g., 40, 80, 120)" 
+                                                                    : "Length must be a multiple of 40 (e.g., 40, 80, 120)"}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </div>
 
                                             <div className="md:col-span-1 flex items-end mb-2 justify-end">
                                                 <button
@@ -368,7 +425,8 @@ function NewOrderContent() {
                                             );
                                         })()}
                                     </motion.div>
-                                ))}
+                                    );
+                                })}
                             </AnimatePresence>
                             <div className="flex justify-end items-center">
                                 <button
