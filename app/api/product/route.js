@@ -65,7 +65,7 @@ export async function POST(request) {
   }
   await connect();
   try {
-    const { code, description } = await request.json();
+    const { code, description, warning } = await request.json();
 
     if (!code || !code.trim()) {
       return ApiResponse(400, null, "Product code is required");
@@ -83,6 +83,7 @@ export async function POST(request) {
     const product = await Product.create({
       code: code.trim(),
       description: description.trim(),
+      warning: warning ? warning.trim() : "",
     });
     return ApiResponse(201, product, "Product created successfully");
   } catch (error) {

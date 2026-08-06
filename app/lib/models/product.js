@@ -4,6 +4,7 @@ const productSchema = new Schema(
   {
     code: { type: String, required: true, unique: true, trim: true },
     description: { type: String, required: true, trim: true },
+    warning: { type: String, trim: true, default: "" },
     visibility: { type: Boolean, default: true },
   },
   { timestamps: true },

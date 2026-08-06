@@ -13,7 +13,8 @@ import {
     EyeIcon,
     ClipboardDocumentCheckIcon,
     TrashIcon,
-    ArrowUpTrayIcon
+    ArrowUpTrayIcon,
+    ExclamationTriangleIcon
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -156,21 +157,39 @@ export default function OrderDetailsView({
             doc.text(text || "", x, y, { align });
         };
 
-        const loadImage = (url) => {
-            return new Promise((resolve) => {
-                const img = new window.Image();
-                img.crossOrigin = "anonymous";
-                img.onload = () => {
-                    const canvas = document.createElement("canvas");
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 0, 0);
-                    resolve(canvas.toDataURL("image/jpeg"));
-                };
-                img.onerror = () => resolve(null);
-                img.src = url;
-            });
+        const loadImage = async (url) => {
+            if (!url) return null;
+            try {
+                const fullUrl = url.startsWith("http") ? url : (window.location.origin + (url.startsWith("/") ? "" : "/") + url);
+                const res = await fetch(fullUrl, { mode: "cors" });
+                if (!res.ok) throw new Error("Image fetch failed");
+                const blob = await res.blob();
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = () => resolve(null);
+                    reader.readAsDataURL(blob);
+                });
+            } catch (err) {
+                return new Promise((resolve) => {
+                    const img = new window.Image();
+                    img.crossOrigin = "anonymous";
+                    img.onload = () => {
+                        try {
+                            const canvas = document.createElement("canvas");
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            const ctx = canvas.getContext("2d");
+                            ctx.drawImage(img, 0, 0);
+                            resolve(canvas.toDataURL("image/jpeg"));
+                        } catch (e) {
+                            resolve(null);
+                        }
+                    };
+                    img.onerror = () => resolve(null);
+                    img.src = url;
+                });
+            }
         };
 
         const checkPageBreak = (neededHeight) => {
@@ -185,7 +204,7 @@ export default function OrderDetailsView({
         // 1. Header with Logo
         const logoData = await loadImage("/CCMate-Logo.jpg");
         if (logoData) {
-            doc.addImage(logoData, "JPEG", margin, currentY - 5, 45, 15);
+            doc.addImage(logoData, margin, currentY - 5, 45, 15);
         }
 
         addText("OUTBOUND INSPECTION REPORT", margin + 50, currentY, 14, "bold", [31, 41, 55]);
@@ -198,12 +217,26 @@ export default function OrderDetailsView({
         currentY += 25;
 
         // 2. Section 1: General Information
+        const shippingList = (qc.shippingInfo && Array.isArray(qc.shippingInfo) && qc.shippingInfo.length > 0)
+            ? qc.shippingInfo
+            : [{ palletDimensions: qc.palletDimensions || "N/A", palletWeight: qc.palletWeight || 0 }];
+
+        const shippingPdfRows = shippingList.map((item, pIndex) => {
+            const prefix = shippingList.length > 1 ? `PALLET #${pIndex + 1} ` : "";
+            return [
+                `${prefix}DIMENSIONS`,
+                item.palletDimensions || "N/A",
+                `${prefix}WEIGHT`,
+                item.palletWeight ? `${item.palletWeight} kg` : "N/A"
+            ];
+        });
+
         autoTable(doc, {
             startY: currentY,
-            head: [[{ content: "1. GENERAL INFORMATION", colSpan: 4 }]],
+            head: [[{ content: "1. GENERAL INFORMATION & SHIPPING", colSpan: 4 }]],
             body: [
                 ["DISTRIBUTOR CODE", qc.distributorCode || "N/A", "DISTRIBUTOR ACCOUNT", qc.distributorAccountName || "N/A"],
-                ["PALLET DIMENSIONS", qc.palletDimensions || "N/A", "PALLET WEIGHT", qc.palletWeight ? `${qc.palletWeight} kg` : "N/A"]
+                ...shippingPdfRows
             ],
             theme: "grid",
             headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
@@ -271,7 +304,7 @@ export default function OrderDetailsView({
                 doc.setDrawColor(209, 213, 219);
                 doc.rect(margin, currentY, imgWidth, imgHeight);
                 if (micrometerImg) {
-                    doc.addImage(micrometerImg, "JPEG", margin + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
+                    doc.addImage(micrometerImg, margin + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
                 } else {
                     addText("Micrometer Spec N/A", margin + imgWidth / 2, currentY + imgHeight / 2, 8, "italic", [156, 163, 175], "center");
                 }
@@ -279,7 +312,7 @@ export default function OrderDetailsView({
                 // Material Image
                 doc.rect(margin + imgWidth + 5, currentY, imgWidth, imgHeight);
                 if (materialImg) {
-                    doc.addImage(materialImg, "JPEG", margin + imgWidth + 5 + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
+                    doc.addImage(materialImg, margin + imgWidth + 5 + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
                 } else {
                     addText("Material Image N/A", margin + imgWidth + 5 + imgWidth / 2, currentY + imgHeight / 2, 8, "italic", [156, 163, 175], "center");
                 }
@@ -332,7 +365,7 @@ export default function OrderDetailsView({
         const sigImg = qc.processedBy ? await loadImage(qc.processedBy) : null;
 
         if (sigImg) {
-            doc.addImage(sigImg, "JPEG", sigX, currentY - 5, sigWidth, 20);
+            doc.addImage(sigImg, sigX, currentY - 5, sigWidth, 20);
         } else {
             addText("Signature Missing", sigX + sigWidth / 2, currentY + 5, 8, "italic", [156, 163, 175], "center");
         }
@@ -373,6 +406,10 @@ export default function OrderDetailsView({
                 return role === "admin"
                     ? "bg-[#f3e1fd] text-[#8b19b6] border-[#f3e1fd]"
                     : "bg-purple-50 text-purple-700 border-purple-200";
+            case "SHIPPED":
+                return role === "admin"
+                    ? "bg-[#e0f2fe] text-[#0369a1] border-[#e0f2fe]"
+                    : "bg-blue-50 text-blue-700 border-blue-200";
             case "RECEIVED":
                 return role === "admin"
                     ? "bg-[#dff5e9] text-[#00865a] border-[#dff5e9]"
@@ -396,6 +433,7 @@ export default function OrderDetailsView({
             orderId: order._id,
             po: order.po || "",
             invoice: order.invoice || "",
+            status: order.status || "PENDING",
             type: "info"
         });
     };
@@ -651,6 +689,29 @@ export default function OrderDetailsView({
                             </div>
 
                             <div className="space-y-4">
+                                <div className="grid grid-cols-3 gap-4">
+                                    <span className="text-xs text-gray-800 font-semibold pt-2">Order Status:</span>
+                                    <div className="col-span-2">
+                                        {updateModal.isOpen && (role === "admin" || role === "warehouse") ? (
+                                            <select
+                                                value={updateModal.status || order?.status}
+                                                onChange={(e) => setUpdateModal({ ...updateModal, status: e.target.value })}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-sm shadow-xs focus:ring-primary focus:border-primary text-xs font-semibold"
+                                            >
+                                                <option value="PENDING">PENDING</option>
+                                                <option value="IN PROCESS">IN PROCESS</option>
+                                                <option value="READY-TO-SHIP">READY-TO-SHIP</option>
+                                                <option value="SHIPPED">SHIPPED</option>
+                                                <option value="RECEIVED">RECEIVED</option>
+                                            </select>
+                                        ) : (
+                                            <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-bold ${getStatusStyle(order?.status)}`}>
+                                                {order?.status || "UNKNOWN"}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
                                 <div className="grid grid-cols-3 gap-4">
                                     <span className="text-xs text-gray-800 font-semibold pt-2">PO Number:</span>
                                     <div className="col-span-2">

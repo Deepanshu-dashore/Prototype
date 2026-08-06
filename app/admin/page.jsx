@@ -47,6 +47,7 @@ function StatusBadge({ status }) {
         "IN PROCESS": "bg-sky-50 text-sky-700 border border-sky-200",
         RECEIVED: "bg-teal-50 text-teal-700 border border-teal-200",
         "READY-TO-SHIP": "bg-purple-50 text-purple-700 border border-purple-200",
+        SHIPPED: "bg-blue-50 text-blue-700 border border-blue-200",
         LOW: "bg-slate-50 text-slate-700 border border-slate-200",
         REJECTED: "bg-rose-50 text-rose-700 border border-rose-200",
         ACCEPTED: "bg-teal-50 text-teal-700 border border-teal-200",

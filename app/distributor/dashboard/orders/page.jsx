@@ -60,6 +60,9 @@ export default function DistributorOrdersPage() {
             case "READY-TO-SHIP":
                 return "bg-purple-50 text-purple-700 border-purple-200";
 
+            case "SHIPPED":
+                return "bg-blue-50 text-blue-700 border-blue-200";
+
             case "RECEIVED":
                 return "bg-emerald-50 text-emerald-700 border-emerald-200";
 
@@ -121,21 +124,22 @@ export default function DistributorOrdersPage() {
                                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
                                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Order Date</th>
                                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Instructions</th>
+                                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Invoice</th>
                                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100 text-nowrap">
                             {loading ? (
-                                <TableLoadingSkeleton columns={5} rows={5} />
+                                <TableLoadingSkeleton columns={7} rows={5} />
                             ) : error ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-10 text-center text-red-500 font-medium bg-red-50/30">
+                                    <td colSpan={7} className="px-6 py-10 text-center text-red-500 font-medium bg-red-50/30">
                                         {error}
                                     </td>
                                 </tr>
                             ) : orders.length === 0 ? (
                                 <TableEmptyState
-                                    colSpan={5}
+                                    colSpan={7}
                                     title="No orders found"
                                     message="You haven't placed any orders yet. Click 'New Order' to get started."
                                 />
@@ -180,6 +184,28 @@ export default function DistributorOrdersPage() {
                                                     <ChatBubbleBottomCenterTextIcon className="w-3 h-3" /> Instruction
                                                 </span>
                                             ) : (<span className="text-gray-400 text-sm capitalize">not available</span>)}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex flex-col gap-0.5 items-start">
+                                                {order.invoiceLink?.url || order.documents?.find(d => d.name === "invoice")?.url ? (
+                                                    <a
+                                                        href={order.invoiceLink?.url || order.documents.find(d => d.name === "invoice").url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 hover:text-emerald-800 hover:underline"
+                                                        title="View Invoice PDF"
+                                                    >
+                                                        <EyeIcon className="w-3 h-3" /> View Invoice
+                                                    </a>
+                                                ) : order.invoice ? (
+                                                    <>
+                                                        <span className="text-[11px] font-mono font-medium text-gray-700">#{order.invoice}</span>
+                                                        <span className="text-[9px] text-amber-600 font-medium italic">Pending PDF</span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 italic">Not available</span>
+                                                )}
+                                            </div>
                                         </td>
                                         <td className="px-6 py-3 text-right">
                                             <Link

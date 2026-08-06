@@ -108,21 +108,39 @@ export default function QCReportView({ orderId }) {
             doc.text(text, x, y, { align });
         };
 
-        const loadImage = (url) => {
-            return new Promise((resolve) => {
-                const img = new window.Image();
-                img.crossOrigin = "anonymous";
-                img.onload = () => {
-                    const canvas = document.createElement("canvas");
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext("2d");
-                    ctx.drawImage(img, 0, 0);
-                    resolve(canvas.toDataURL("image/jpeg"));
-                };
-                img.onerror = () => resolve(null);
-                img.src = url;
-            });
+        const loadImage = async (url) => {
+            if (!url) return null;
+            try {
+                const fullUrl = url.startsWith("http") ? url : (window.location.origin + (url.startsWith("/") ? "" : "/") + url);
+                const res = await fetch(fullUrl, { mode: "cors" });
+                if (!res.ok) throw new Error("Image fetch failed");
+                const blob = await res.blob();
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = () => resolve(null);
+                    reader.readAsDataURL(blob);
+                });
+            } catch (err) {
+                return new Promise((resolve) => {
+                    const img = new window.Image();
+                    img.crossOrigin = "anonymous";
+                    img.onload = () => {
+                        try {
+                            const canvas = document.createElement("canvas");
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            const ctx = canvas.getContext("2d");
+                            ctx.drawImage(img, 0, 0);
+                            resolve(canvas.toDataURL("image/jpeg"));
+                        } catch (e) {
+                            resolve(null);
+                        }
+                    };
+                    img.onerror = () => resolve(null);
+                    img.src = url;
+                });
+            }
         };
 
         const checkPageBreak = (neededHeight) => {
@@ -137,7 +155,7 @@ export default function QCReportView({ orderId }) {
         // 1. Header with Logo
         const logoData = await loadImage("/CCMate-Logo.jpg");
         if (logoData) {
-            doc.addImage(logoData, "JPEG", margin, currentY - 5, 45, 15);
+            doc.addImage(logoData, margin, currentY - 5, 45, 15);
         }
 
         addText("OUTBOUND INSPECTION REPORT", margin + 50, currentY, 14, "bold", [31, 41, 55]);
@@ -150,12 +168,26 @@ export default function QCReportView({ orderId }) {
         currentY += 25;
 
         // 2. Section 1: General Information
+        const shippingList = (qc.shippingInfo && Array.isArray(qc.shippingInfo) && qc.shippingInfo.length > 0)
+            ? qc.shippingInfo
+            : [{ palletDimensions: qc.palletDimensions || "N/A", palletWeight: qc.palletWeight || 0 }];
+
+        const shippingPdfRows = shippingList.map((item, pIndex) => {
+            const prefix = shippingList.length > 1 ? `PALLET #${pIndex + 1} ` : "";
+            return [
+                `${prefix}DIMENSIONS`,
+                item.palletDimensions || "N/A",
+                `${prefix}WEIGHT`,
+                item.palletWeight ? `${item.palletWeight} kg` : "N/A"
+            ];
+        });
+
         autoTable(doc, {
             startY: currentY,
-            head: [[{ content: "1. GENERAL INFORMATION", colSpan: 4 }]],
+            head: [[{ content: "1. GENERAL INFORMATION & SHIPPING", colSpan: 4 }]],
             body: [
                 ["DISTRIBUTOR CODE", qc.distributorCode || "N/A", "DISTRIBUTOR ACCOUNT", qc.distributorAccountName || "N/A"],
-                ["PALLET DIMENSIONS", qc.palletDimensions || "N/A", "PALLET WEIGHT", qc.palletWeight ? `${qc.palletWeight} kg` : "N/A"]
+                ...shippingPdfRows
             ],
             theme: "grid",
             headStyles: { fillColor: [9, 31, 208], textColor: [255, 255, 255], fontSize: 10, fontStyle: "bold" },
@@ -223,7 +255,7 @@ export default function QCReportView({ orderId }) {
                 doc.setDrawColor(209, 213, 219);
                 doc.rect(margin, currentY, imgWidth, imgHeight);
                 if (micrometerImg) {
-                    doc.addImage(micrometerImg, "JPEG", margin + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
+                    doc.addImage(micrometerImg, margin + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
                 } else {
                     addText("Micrometer Spec N/A", margin + imgWidth / 2, currentY + imgHeight / 2, 8, "italic", [156, 163, 175], "center");
                 }
@@ -231,7 +263,7 @@ export default function QCReportView({ orderId }) {
                 // Material Image
                 doc.rect(margin + imgWidth + 5, currentY, imgWidth, imgHeight);
                 if (materialImg) {
-                    doc.addImage(materialImg, "JPEG", margin + imgWidth + 5 + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
+                    doc.addImage(materialImg, margin + imgWidth + 5 + 1, currentY + 1, imgWidth - 2, imgHeight - 2);
                 } else {
                     addText("Material Image N/A", margin + imgWidth + 5 + imgWidth / 2, currentY + imgHeight / 2, 8, "italic", [156, 163, 175], "center");
                 }
@@ -284,7 +316,7 @@ export default function QCReportView({ orderId }) {
         const sigImg = qc.processedBy ? await loadImage(qc.processedBy) : null;
 
         if (sigImg) {
-            doc.addImage(sigImg, "JPEG", sigX, currentY - 5, sigWidth, 20);
+            doc.addImage(sigImg, sigX, currentY - 5, sigWidth, 20);
         } else {
             addText("Signature Missing", sigX + sigWidth / 2, currentY + 5, 8, "italic", [156, 163, 175], "center");
         }
@@ -363,7 +395,7 @@ export default function QCReportView({ orderId }) {
                                     <thead>
                                         <tr>
                                             <th colSpan="4" className="bg-[#091fd0] border border-gray-300 px-4 py-2.5 text-left text-sm font-bold text-white uppercase">
-                                                1. General Information
+                                                1. General Information & Shipping
                                             </th>
                                         </tr>
                                     </thead>
@@ -378,16 +410,25 @@ export default function QCReportView({ orderId }) {
                                                 {qc.distributorAccountName || "N/A"}
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">Pallet Dimensions</td>
-                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">
-                                                {qc.palletDimensions || "N/A"}
-                                            </td>
-                                            <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">Pallet Weight</td>
-                                            <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">
-                                                {qc.palletWeight ? `${qc.palletWeight} kg` : "N/A"}
-                                            </td>
-                                        </tr>
+                                        {((qc.shippingInfo && Array.isArray(qc.shippingInfo) && qc.shippingInfo.length > 0)
+                                            ? qc.shippingInfo
+                                            : [{ palletDimensions: qc.palletDimensions || "N/A", palletWeight: qc.palletWeight || 0 }]
+                                        ).map((item, sIdx, arr) => (
+                                            <tr key={sIdx}>
+                                                <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">
+                                                    {arr.length > 1 ? `Pallet #${sIdx + 1} Dimensions` : "Pallet Dimensions"}
+                                                </td>
+                                                <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">
+                                                    {item.palletDimensions || "N/A"}
+                                                </td>
+                                                <td className="border border-gray-300 px-4 py-3 bg-gray-50 text-[10px] font-bold text-gray-600 w-1/4 uppercase">
+                                                    {arr.length > 1 ? `Pallet #${sIdx + 1} Weight` : "Pallet Weight"}
+                                                </td>
+                                                <td className="border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900 w-1/4">
+                                                    {item.palletWeight ? `${item.palletWeight} kg` : "N/A"}
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>

@@ -48,13 +48,23 @@ export default function WarehouseOrderDetailsPage() {
     const handleUpdateDetails = async () => {
         try {
             setIsUpdating(true);
+            if (updateModal.status && updateModal.status !== order?.status) {
+                const statusRes = await axios.patch(`/api/order/update-status/${id}`, {
+                    status: updateModal.status
+                });
+                if (!statusRes.data?.success) {
+                    alert(statusRes.data?.message || "Failed to update order status");
+                    setIsUpdating(false);
+                    return;
+                }
+            }
             const res = await axios.patch(`/api/order/${id}`, {
                 po: updateModal.po,
                 invoice: updateModal.invoice
             });
 
             if (res.data?.success) {
-                setOrder({ ...order, po: updateModal.po, invoice: updateModal.invoice });
+                setOrder({ ...order, status: updateModal.status || order.status, po: updateModal.po, invoice: updateModal.invoice });
                 setUpdateModal({ ...updateModal, isOpen: false });
             } else {
                 alert(res.data?.message || "Failed to update order details");

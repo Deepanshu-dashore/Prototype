@@ -79,6 +79,7 @@ function StatusBadge({ status }) {
 
         "IN PROCESS": "bg-sky-50 text-sky-700 border border-sky-200",
         "READY-TO-SHIP": "bg-purple-50 text-purple-700 border border-purple-200",
+        SHIPPED: "bg-blue-50 text-blue-700 border border-blue-200",
         REJECTED: "bg-rose-50 text-rose-700 border border-rose-200",
     };
     const cls = cfg[upper] || "bg-gray-50 text-gray-500 border border-gray-200";

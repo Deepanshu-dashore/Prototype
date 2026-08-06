@@ -14,7 +14,8 @@ import {
     UserGroupIcon,
     ClipboardDocumentCheckIcon,
     ChevronDownIcon,
-    CheckBadgeIcon
+    CheckBadgeIcon,
+    ExclamationCircleIcon
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
@@ -405,84 +406,101 @@ export default function AddOrderPage() {
                                 Add Item
                             </button>
                         </div>
-                        <div className="p-6 space-y-4">
+                                <div className="p-6 space-y-4">
                             {items.length === 0 ? (
                                 <p className="text-center text-sm text-gray-400 py-4">No products added. Click &quot;Add Item&quot; to begin.</p>
                             ) : (
                                 <div className="space-y-3">
                                     {items.map((item, idx) => (
-                                        <div key={idx} className="flex flex-col md:flex-row gap-3 items-end bg-gray-50/50 p-4 rounded-xl border border-gray-100 animate-in fade-in duration-200">
-                                            {/* Index badge */}
-                                            <div className="flex flex-col items-center justify-end shrink-0 w-full md:w-auto">
-                                                <span className="hidden md:block text-[10px] font-bold text-transparent select-none mb-1">#</span>
-                                                <span className="w-8 h-10 rounded-lg bg-gray-200 text-gray-600 text-xs font-bold flex items-center justify-center">
-                                                    {idx + 1}
-                                                </span>
+                                        <div key={idx} className="flex flex-col gap-2.5 bg-gray-50/50 p-4 rounded-xl border border-gray-100 animate-in fade-in duration-200">
+                                            <div className="flex flex-col md:flex-row gap-3 items-end">
+                                                {/* Index badge */}
+                                                <div className="flex flex-col items-center justify-end shrink-0 w-full md:w-auto">
+                                                    <span className="hidden md:block text-[10px] font-bold text-transparent select-none mb-1">#</span>
+                                                    <span className="w-8 h-10 rounded-lg bg-gray-200 text-gray-600 text-xs font-bold flex items-center justify-center">
+                                                        {idx + 1}
+                                                    </span>
+                                                </div>
+
+                                                {/* Product selection */}
+                                                <div className="flex-1 w-full">
+                                                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Product *</label>
+                                                    <select
+                                                        required
+                                                        value={item.productId}
+                                                        onChange={(e) => handleItemChange(idx, "productId", e.target.value)}
+                                                        className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs cursor-pointer"
+                                                    >
+                                                        <option value="">-- Choose Product --</option>
+                                                        {loadingProducts ? (
+                                                            <option disabled>Loading products...</option>
+                                                        ) : (
+                                                            products.map(p => (
+                                                                <option key={p._id} value={p._id}>
+                                                                    {p.code} - {p.description.slice(0, 50)}... {p.warning ? "⚠️" : ""}
+                                                                </option>
+                                                            ))
+                                                        )}
+                                                    </select>
+                                                </div>
+
+                                                {/* Length */}
+                                                <div className="w-full md:w-32">
+                                                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Length (m) *</label>
+                                                    <input
+                                                        type="number"
+                                                        step="0.01"
+                                                        required
+                                                        placeholder="Length"
+                                                        className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs"
+                                                        value={item.length}
+                                                        onChange={(e) => handleItemChange(idx, "length", e.target.value)}
+                                                    />
+                                                </div>
+
+                                                {/* Quantity */}
+                                                <div className="w-full md:w-32">
+                                                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Quantity *</label>
+                                                    <input
+                                                        type="number"
+                                                        min="1"
+                                                        required
+                                                        placeholder="Quantity"
+                                                        className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs"
+                                                        value={item.quantity}
+                                                        onChange={(e) => handleItemChange(idx, "quantity", e.target.value)}
+                                                    />
+                                                </div>
+
+                                                {/* Actions */}
+                                                <div className="w-full md:w-auto shrink-0">
+                                                    <span className="hidden md:block text-[10px] font-bold text-transparent select-none mb-1">Delete</span>
+                                                    <button
+                                                        type="button"
+                                                        disabled={items.length === 1}
+                                                        onClick={() => handleRemoveItem(idx)}
+                                                        className="h-10 w-full md:w-10 rounded-lg border border-red-100 bg-red-50 text-red-500 hover:bg-red-100 transition-colors disabled:opacity-50 disabled:hover:bg-red-50 flex justify-center items-center"
+                                                        title="Remove Item"
+                                                    >
+                                                        <TrashIcon className="w-4 h-4" />
+                                                    </button>
+                                                </div>
                                             </div>
 
-                                            {/* Product selection */}
-                                            <div className="flex-1 w-full">
-                                                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Product *</label>
-                                                <select
-                                                    required
-                                                    value={item.productId}
-                                                    onChange={(e) => handleItemChange(idx, "productId", e.target.value)}
-                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs cursor-pointer"
-                                                >
-                                                    <option value="">-- Choose Product --</option>
-                                                    {loadingProducts ? (
-                                                        <option disabled>Loading products...</option>
-                                                    ) : (
-                                                        products.map(p => (
-                                                            <option key={p._id} value={p._id}>
-                                                                {p.code} - {p.description.slice(0, 50)}...
-                                                            </option>
-                                                        ))
-                                                    )}
-                                                </select>
-                                            </div>
-
-                                            {/* Length */}
-                                            <div className="w-full md:w-32">
-                                                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Length (m) *</label>
-                                                <input
-                                                    type="number"
-                                                    step="0.01"
-                                                    required
-                                                    placeholder="Length"
-                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs"
-                                                    value={item.length}
-                                                    onChange={(e) => handleItemChange(idx, "length", e.target.value)}
-                                                />
-                                            </div>
-
-                                            {/* Quantity */}
-                                            <div className="w-full md:w-32">
-                                                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Quantity *</label>
-                                                <input
-                                                    type="number"
-                                                    min="1"
-                                                    required
-                                                    placeholder="Quantity"
-                                                    className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-xs"
-                                                    value={item.quantity}
-                                                    onChange={(e) => handleItemChange(idx, "quantity", e.target.value)}
-                                                />
-                                            </div>
-
-                                            {/* Actions */}
-                                            <div className="w-full md:w-auto shrink-0">
-                                                <span className="hidden md:block text-[10px] font-bold text-transparent select-none mb-1">Delete</span>
-                                                <button
-                                                    type="button"
-                                                    disabled={items.length === 1}
-                                                    onClick={() => handleRemoveItem(idx)}
-                                                    className="h-10 w-full md:w-10 rounded-lg border border-red-100 bg-red-50 text-red-500 hover:bg-red-100 transition-colors disabled:opacity-50 disabled:hover:bg-red-50 flex justify-center items-center"
-                                                    title="Remove Item"
-                                                >
-                                                    <TrashIcon className="w-4 h-4" />
-                                                </button>
-                                            </div>
+                                            {/* Separate Row for Warning / Instruction */}
+                                            {(() => {
+                                                const selectedProd = products.find(p => p._id === item.productId);
+                                                if (!selectedProd?.warning) return null;
+                                                return (
+                                                    <div className="w-full text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg p-2.5 flex items-start gap-2 animate-in fade-in duration-200">
+                                                        <ExclamationCircleIcon className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                                                        <div>
+                                                            <span className="font-bold uppercase tracking-wider block text-[10px] text-red-700">Special Warning / Instruction:</span>
+                                                            <p className="mt-0.5 text-xs text-red-600 font-medium">{selectedProd.warning}</p>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })()}
                                         </div>
                                     ))}
                                 </div>

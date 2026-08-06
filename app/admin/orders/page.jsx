@@ -27,9 +27,10 @@ import AdminHeader from "@/src/components/admin/AdminHeader";
 
 const STATUS_OPTIONS = [
     "PENDING",
-    "RECEIVED",
     "IN PROCESS",
     "READY-TO-SHIP",
+    "SHIPPED",
+    "RECEIVED",
 ];
 
 export default function AdminOrdersPage() {
@@ -145,6 +146,10 @@ export default function AdminOrdersPage() {
             case "READY-TO-SHIP":
                 // Soft Purple for Ready to Ship
                 return "bg-[#f3e1fd] text-[#8b19b6] border-[#f3e1fd]";
+
+            case "SHIPPED":
+                // Soft Blue for Shipped
+                return "bg-[#e0f2fe] text-[#0369a1] border-[#e0f2fe]";
 
             case "RECEIVED":
                 // Reference: Green for Completed/Received
@@ -384,7 +389,7 @@ export default function AdminOrdersPage() {
                                                             <span className={`inline-flex text-nowrap justify-center min-w-22 text-center items-center px-2 py-0.5 rounded-sm text-[10px] font-bold ${getStatusColor(order.status)} border shadow-xs`}>
                                                                 {order.status}
                                                             </span>
-                                                            {order.status !== "READY-TO-SHIP" && (
+                                                            {order.status !== "RECEIVED" && (
                                                                 <button
                                                                     onClick={() => {
                                                                         const currentIndex = STATUS_OPTIONS.indexOf(order.status);

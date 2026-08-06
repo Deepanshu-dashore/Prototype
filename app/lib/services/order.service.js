@@ -9,11 +9,12 @@ import { getUrls } from "../utils/geturl";
 export class OrderService {
   static async getOrderStatusCounts() {
     await connect();
-    const [pending, processed, readyToShip, received, allTotal] =
+    const [pending, processed, readyToShip, shipped, received, allTotal] =
       await Promise.all([
         Order.countDocuments({ status: "PENDING" }),
         Order.countDocuments({ status: "IN PROCESS" }),
         Order.countDocuments({ status: "READY-TO-SHIP" }),
+        Order.countDocuments({ status: "SHIPPED" }),
         Order.countDocuments({ status: "RECEIVED" }),
         Order.countDocuments(),
       ]);
@@ -21,8 +22,8 @@ export class OrderService {
       pending,
       processed,
       readyToShip,
+      shipped,
       received,
-
       allTotal,
     };
   }

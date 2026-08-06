@@ -775,6 +775,7 @@ export const distributorOrderStatusTemplate = ({
     PENDING: { bg: "#fef3c7", text: "#92400e", border: "#fde68a" },
     "IN PROCESS": { bg: "#e0f2fe", text: "#0369a1", border: "#bae6fd" },
     "READY-TO-SHIP": { bg: "#ede9fe", text: "#5b21b6", border: "#ddd6fe" },
+    SHIPPED: { bg: "#e0f2fe", text: "#0369a1", border: "#bae6fd" },
     RECEIVED: { bg: "#d1fae5", text: "#065f46", border: "#a7f3d0" },
   };
 

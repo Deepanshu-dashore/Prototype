@@ -28,6 +28,7 @@ import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
 const STATUS_OPTIONS = [
     "IN PROCESS",
     "READY-TO-SHIP",
+    "SHIPPED",
     "RECEIVED",
 ];
 
@@ -71,6 +72,7 @@ export default function WarehouseOrdersPage() {
         PENDING: 0,
         "IN PROCESS": 0,
         "READY-TO-SHIP": 0,
+        SHIPPED: 0,
         RECEIVED: 0,
 
         TOTAL: 0
@@ -208,6 +210,10 @@ export default function WarehouseOrdersPage() {
                 // Soft Purple for Ready to Ship
                 return "bg-[#f3e1fd] text-[#8b19b6] border-[#f3e1fd]";
 
+            case "SHIPPED":
+                // Soft Blue for Shipped
+                return "bg-[#e0f2fe] text-[#0369a1] border-[#e0f2fe]";
+
             case "RECEIVED":
                 // Reference: Green for Completed/Received
                 return "bg-[#dff5e9] text-[#00865a] border-[#dff5e9]";
@@ -250,6 +256,14 @@ export default function WarehouseOrdersPage() {
                 </svg>
             ),
             colorClass: "purple"
+        },
+        {
+            label: "Shipped",
+            count: statusCounts.SHIPPED,
+            icon: ({ className, style }) => (
+                <TruckIcon className={className} style={style} />
+            ),
+            colorClass: "blue"
         },
         {
             label: "Received",

@@ -31,7 +31,7 @@ export async function PUT(request, { params }) {
   await connect();
   try {
     const { id } = await params;
-    const { code, description } = await request.json();
+    const { code, description, warning } = await request.json();
 
     if (!code || !code.trim()) {
       return ApiResponse(400, null, "Product code is required");
@@ -60,7 +60,11 @@ export async function PUT(request, { params }) {
 
     const product = await Product.findByIdAndUpdate(
       id,
-      { code: code.trim(), description: description.trim() },
+      {
+        code: code.trim(),
+        description: description.trim(),
+        warning: warning ? warning.trim() : "",
+      },
       { new: true, runValidators: true },
     );
     if (!product) {

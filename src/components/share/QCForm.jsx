@@ -42,8 +42,7 @@ export default function QCForm({ orderId, role = "admin" }) {
     const [formData, setFormData] = useState({
         distributorCode: "",
         distributorAccountName: "",
-        palletDimensions: "",
-        palletWeight: 0,
+        shippingInfo: [{ palletDimensions: "", palletWeight: 0 }],
         products: [], // Array of products from orderItems
         orderReadyForShipment: false,
     });
@@ -58,14 +57,33 @@ export default function QCForm({ orderId, role = "admin" }) {
         products: [] // Array of { micrometerImage, materialImage } for each product
     });
 
+    const [initialPreviews, setInitialPreviews] = useState({
+        processedBy: null,
+        products: []
+    });
+
     useEffect(() => {
         if (orderData?.success) {
             const order = orderData.data;
+            let initialShipping = [];
+            if (order.qc?.shippingInfo && Array.isArray(order.qc.shippingInfo) && order.qc.shippingInfo.length > 0) {
+                initialShipping = order.qc.shippingInfo.map(item => ({
+                    palletDimensions: item.palletDimensions || "",
+                    palletWeight: item.palletWeight || 0
+                }));
+            } else if (order.qc?.palletDimensions || order.qc?.palletWeight) {
+                initialShipping = [{
+                    palletDimensions: order.qc.palletDimensions || "",
+                    palletWeight: order.qc.palletWeight || 0
+                }];
+            } else {
+                initialShipping = [{ palletDimensions: "", palletWeight: 0 }];
+            }
+
             setFormData({
                 distributorCode: order.qc?.distributorCode || "",
                 distributorAccountName: order.qc?.distributorAccountName || order.orderBy?.companyName || "",
-                palletDimensions: order.qc?.palletDimensions || "",
-                palletWeight: order.qc?.palletWeight || 0,
+                shippingInfo: initialShipping,
                 orderReadyForShipment: order.qc?.orderReadyForShipment || false,
                 products: order.orderItems.map((item, idx) => {
                     const existingProduct = order.qc?.products?.[idx];
@@ -75,6 +93,8 @@ export default function QCForm({ orderId, role = "admin" }) {
                         thicknessWithinSpec: existingProduct?.thicknessWithinSpec || false,
                         materialFreeFromSurfaceDefects: existingProduct?.materialFreeFromSurfaceDefects || false,
                         cleanAndFitForPurpose: existingProduct?.cleanAndFitForPurpose || false,
+                        micrometerImage: existingProduct?.micrometerImage || null,
+                        materialImage: existingProduct?.materialImage || null,
                     }
                 })
             });
@@ -97,10 +117,13 @@ export default function QCForm({ orderId, role = "admin" }) {
                 products: initialProductsFiles
             });
 
-            setPreviews({
+            const initPrev = {
                 processedBy: order.qc?.processedBy || null,
                 products: initialProductsPreviews
-            });
+            };
+
+            setInitialPreviews(initPrev);
+            setPreviews(initPrev);
         }
     }, [orderData]);
 
@@ -109,6 +132,32 @@ export default function QCForm({ orderId, role = "admin" }) {
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
+        }));
+    };
+
+    const handleShippingInputChange = (index, field, value) => {
+        setFormData(prev => {
+            const updatedShipping = [...prev.shippingInfo];
+            updatedShipping[index] = {
+                ...updatedShipping[index],
+                [field]: value
+            };
+            return { ...prev, shippingInfo: updatedShipping };
+        });
+    };
+
+    const addShippingRow = () => {
+        setFormData(prev => ({
+            ...prev,
+            shippingInfo: [...prev.shippingInfo, { palletDimensions: "", palletWeight: 0 }]
+        }));
+    };
+
+    const removeShippingRow = (index) => {
+        if (formData.shippingInfo.length <= 1) return;
+        setFormData(prev => ({
+            ...prev,
+            shippingInfo: prev.shippingInfo.filter((_, i) => i !== index)
         }));
     };
 
@@ -146,7 +195,7 @@ export default function QCForm({ orderId, role = "admin" }) {
                 // Global file (processedBy)
                 setFiles(prev => ({ ...prev, [name]: file }));
                 if (previews[name]) URL.revokeObjectURL(previews[name]);
-                setPreviews(prev => ({ ...prev, [name]: URL.createObjectURL(file) }));
+                setPreviews(prev => ({ ...prev, [name]: URL.revokeObjectURL ? URL.createObjectURL(file) : URL.createObjectURL(file) }));
             } else {
                 // Product-specific file
                 setFiles(prev => {
@@ -179,20 +228,29 @@ export default function QCForm({ orderId, role = "admin" }) {
             if (previews[name] && previews[name].startsWith("blob:")) {
                 URL.revokeObjectURL(previews[name]);
             }
-            setPreviews(prev => ({ ...prev, [name]: null }));
+            const origPreview = initialPreviews[name] || null;
+            setPreviews(prev => ({ ...prev, [name]: origPreview }));
         } else {
             setFiles(prev => {
                 const updatedProductFiles = [...prev.products];
                 updatedProductFiles[index] = { ...updatedProductFiles[index], [name]: null };
                 return { ...prev, products: updatedProductFiles };
             });
+            const origPreview = initialPreviews.products?.[index]?.[name] || null;
             setPreviews(prev => {
                 const updatedProductPreviews = [...prev.products];
-                if (updatedProductPreviews[index][name] && updatedProductPreviews[index][name].startsWith("blob:")) {
+                if (updatedProductPreviews[index]?.[name] && updatedProductPreviews[index][name].startsWith("blob:")) {
                     URL.revokeObjectURL(updatedProductPreviews[index][name]);
                 }
-                updatedProductPreviews[index] = { ...updatedProductPreviews[index], [name]: null };
+                updatedProductPreviews[index] = { ...updatedProductPreviews[index], [name]: origPreview };
                 return { ...prev, products: updatedProductPreviews };
+            });
+            setFormData(prev => {
+                const updatedProducts = [...prev.products];
+                if (updatedProducts[index]) {
+                    updatedProducts[index] = { ...updatedProducts[index], [name]: origPreview };
+                }
+                return { ...prev, products: updatedProducts };
             });
         }
     };
@@ -215,8 +273,9 @@ export default function QCForm({ orderId, role = "admin" }) {
         const data = new FormData();
         data.append("distributorCode", formData.distributorCode);
         data.append("distributorAccountName", formData.distributorAccountName);
-        data.append("palletDimensions", formData.palletDimensions);
-        data.append("palletWeight", formData.palletWeight);
+        data.append("shippingInfo", JSON.stringify(formData.shippingInfo));
+        data.append("palletDimensions", formData.shippingInfo[0]?.palletDimensions || "");
+        data.append("palletWeight", formData.shippingInfo[0]?.palletWeight || 0);
         data.append("orderReadyForShipment", formData.orderReadyForShipment);
         if (files.processedBy) {
             data.append("processedBy", files.processedBy);
@@ -237,6 +296,8 @@ export default function QCForm({ orderId, role = "admin" }) {
     const FileUploadComponent = ({ label, name, required, index = null, IconDoc = PhotoIcon, reverse = false }) => {
         const file = index === null ? files[name] : files.products[index]?.[name];
         const preview = index === null ? previews[name] : previews.products[index]?.[name];
+        const initialPreview = index === null ? initialPreviews[name] : initialPreviews.products?.[index]?.[name];
+        const isExistingSavedImage = !file && !!preview && initialPreview === preview;
         const id = index === null ? name : `${name}_${index}`;
 
         return (
@@ -249,21 +310,40 @@ export default function QCForm({ orderId, role = "admin" }) {
                         <div className="relative w-full aspect-4/3 group bg-gray-50">
                             <img
                                 src={preview}
-                                alt={file?.name || "Previous upload"}
+                                alt={file?.name || "Uploaded Image"}
                                 className="w-full h-full object-cover rounded-xl"
                             />
                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
                                 <DocumentCheckIcon className="h-8 w-8 text-white mb-2" />
                                 <p className="text-xs text-white font-medium truncate w-full text-center px-2">
-                                    {file?.name || "Existing Image"}
+                                    {file?.name || "Existing Saved Image"}
                                 </p>
-                                <button
-                                    type="button"
-                                    onClick={() => handleRemoveFile(name, index)}
-                                    className="mt-3 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
-                                >
-                                    <XMarkIcon className="w-3.5 h-3.5" strokeWidth={3} /> Remove
-                                </button>
+
+                                <input
+                                    id={id}
+                                    name={name}
+                                    type="file"
+                                    accept="image/*"
+                                    className="sr-only"
+                                    onChange={(e) => handleFileChange(e, index)}
+                                />
+
+                                {isExistingSavedImage ? (
+                                    <label
+                                        htmlFor={id}
+                                        className="mt-3 px-3 py-1.5 bg-white hover:bg-gray-100 text-gray-800 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
+                                    >
+                                        <ArrowPathIcon className="w-3.5 h-3.5" /> Replace Image
+                                    </label>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={() => handleRemoveFile(name, index)}
+                                        className="mt-3 px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
+                                    >
+                                        <XMarkIcon className="w-3.5 h-3.5" strokeWidth={3} /> {file ? "Cancel Change" : "Remove"}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     ) : (
@@ -361,7 +441,6 @@ export default function QCForm({ orderId, role = "admin" }) {
                             </div>
                         </div>
                     </div>
-
 
                     {/* Products Sections */}
                     {formData.products.map((product, index) => {
@@ -486,30 +565,55 @@ export default function QCForm({ orderId, role = "admin" }) {
 
                     {/* Shipping Information Card */}
                     <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-8">
-                        <h3 className="text-lg font-bold text-gray-800 border-b border-gray-100 pb-4 mb-6">Shipping Information</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-gray-700">Pallet Dimensions</label>
-                                <input
-                                    type="text"
-                                    name="palletDimensions"
-                                    value={formData.palletDimensions}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                    placeholder="e.g. 120 x 100 x 150 cm"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="block text-sm font-semibold text-gray-700">Pallet Weight (kg)</label>
-                                <input
-                                    type="number"
-                                    name="palletWeight"
-                                    value={formData.palletWeight}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                    placeholder="0.0"
-                                />
-                            </div>
+                        <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-6">
+                            <h3 className="text-lg font-bold text-gray-800">Shipping Information (Pallets)</h3>
+                            <button
+                                type="button"
+                                onClick={addShippingRow}
+                                className="px-3 py-1.5 text-xs font-bold text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors flex items-center gap-1"
+                            >
+                                + Add Pallet
+                            </button>
+                        </div>
+                        <div className="space-y-6">
+                            {formData.shippingInfo.map((pallet, pIdx) => (
+                                <div key={pIdx} className="p-4 bg-gray-50/70 border border-gray-200/80 rounded-xl space-y-4 relative">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">Pallet #{pIdx + 1}</span>
+                                        {formData.shippingInfo.length > 1 && (
+                                            <button
+                                                type="button"
+                                                onClick={() => removeShippingRow(pIdx)}
+                                                className="text-xs text-red-500 hover:text-red-700 font-bold flex items-center gap-1"
+                                            >
+                                                <XMarkIcon className="w-4 h-4" /> Remove
+                                            </button>
+                                        )}
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-semibold text-gray-700">Pallet Dimensions</label>
+                                            <input
+                                                type="text"
+                                                value={pallet.palletDimensions}
+                                                onChange={(e) => handleShippingInputChange(pIdx, "palletDimensions", e.target.value)}
+                                                className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                                                placeholder="e.g. 120 x 100 x 150 cm"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-semibold text-gray-700">Pallet Weight (kg)</label>
+                                            <input
+                                                type="number"
+                                                value={pallet.palletWeight}
+                                                onChange={(e) => handleShippingInputChange(pIdx, "palletWeight", e.target.value)}
+                                                className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+                                                placeholder="0.0"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
 

@@ -15,6 +15,7 @@ import {
   DocumentTextIcon,
   CalendarIcon,
   ExclamationCircleIcon,
+  ExclamationTriangleIcon,
   PencilSquareIcon,
   ArchiveBoxIcon,
 } from "@heroicons/react/24/outline";
@@ -50,7 +51,7 @@ function FormField({ label, id, error, children }) {
 function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
   const api = useApiClient();
   const isEdit = Boolean(editProduct);
-  const [form, setForm] = useState({ code: "", description: "" });
+  const [form, setForm] = useState({ code: "", description: "", warning: "" });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const codeRef = useRef(null);
@@ -63,9 +64,10 @@ function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
         setForm({
           code: editProduct.code || "",
           description: editProduct.description || "",
+          warning: editProduct.warning || "",
         });
       } else {
-        setForm({ code: "", description: "" });
+        setForm({ code: "", description: "", warning: "" });
       }
       setErrors({});
       setServerError("");
@@ -251,6 +253,24 @@ function ProductModal({ isOpen, onClose, onSaved, editProduct }) {
                     ? "border-red-300 focus:ring-red-400 focus:border-red-400"
                     : "border-gray-200 focus:ring-primary focus:border-primary"
                 }`}
+              />
+            </div>
+          </FormField>
+
+          <FormField label="Warning / Special Instructions" id="product-warning">
+            <div className="relative">
+              <div className="absolute top-2.5 left-3 pointer-events-none">
+                <ExclamationTriangleIcon className="h-4 w-4 text-amber-500" />
+              </div>
+              <textarea
+                id="product-warning"
+                rows={2}
+                placeholder="Enter warning or handling instructions (optional)…"
+                value={form.warning}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, warning: e.target.value }))
+                }
+                className="block w-full sm:text-sm text-xs pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all resize-none"
               />
             </div>
           </FormField>
@@ -486,6 +506,9 @@ export default function ProductsPage() {
                           <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Description
                           </th>
+                          <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Warning
+                          </th>
                           <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">
                             Created
                           </th>
@@ -500,7 +523,7 @@ export default function ProductsPage() {
                       <tbody className="divide-y divide-gray-100">
                         {loading ? (
                           <TableLoadingSkeleton
-                            columns={5}
+                            columns={6}
                             rows={pagination.limit}
                           />
                         ) : products.length === 0 ? (
@@ -515,7 +538,7 @@ export default function ProductsPage() {
                                 ? "Try adjusting your search query to find what you're looking for."
                                 : "Get started by adding your first product to the catalogue."
                             }
-                            colSpan={5}
+                            colSpan={6}
                           />
                         ) : (
                           products.map((product, index) => (
@@ -543,6 +566,18 @@ export default function ProductsPage() {
                                 <p className="sm:text-sm text-xs text-gray-600 line-clamp-2">
                                   {product.description}
                                 </p>
+                              </td>
+
+                              {/* Warning */}
+                              <td className="px-6 py-4 max-w-xs">
+                                {product.warning ? (
+                                  <div className="flex items-center gap-1.5 text-xs font-medium text-amber-800 bg-amber-50 border border-amber-200/80 px-2.5 py-1 rounded-md w-fit">
+                                    <ExclamationTriangleIcon className="w-4 h-4 text-amber-600 shrink-0" />
+                                    <span className="line-clamp-2">{product.warning}</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-xs text-gray-400 font-normal italic">—</span>
+                                )}
                               </td>
 
                               {/* Created date */}

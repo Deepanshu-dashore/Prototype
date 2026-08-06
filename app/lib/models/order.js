@@ -17,8 +17,14 @@ const qcInspectionSchema = new Schema(
         },
       ],
     },
-    palletDimensions: { type: String },
-    palletWeight: { type: Number },
+    shippingInfo: {
+      type: [
+        {
+          palletDimensions: { type: String },
+          palletWeight: { type: Number },
+        },
+      ],
+    },
     orderReadyForShipment: { type: Boolean, default: false },
     processedBy: { type: String },
     processDate: { type: Date, default: Date.now },
@@ -65,7 +71,7 @@ const orderSchema = new Schema(
     instructions: { type: String },
     status: {
       type: String,
-      enum: ["PENDING", "IN PROCESS", "RECEIVED", "READY-TO-SHIP"],
+      enum: ["PENDING", "IN PROCESS", "RECEIVED", "READY-TO-SHIP", "SHIPPED"],
       default: "PENDING",
     },
   },

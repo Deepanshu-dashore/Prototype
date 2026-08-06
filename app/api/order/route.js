@@ -87,7 +87,7 @@ export async function GET(request) {
     });
 
     // Fetch status-wise counts for cards
-    const { pending, processed, readyToShip, received, allTotal } =
+    const { pending, processed, readyToShip, shipped, received, allTotal } =
       await OrderService.getOrderStatusCounts();
 
     return ApiResponse(
@@ -101,8 +101,8 @@ export async function GET(request) {
           PENDING: pending,
           "IN PROCESS": processed,
           "READY-TO-SHIP": readyToShip,
+          SHIPPED: shipped,
           RECEIVED: received,
-
           TOTAL: allTotal,
         },
       },

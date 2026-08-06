@@ -49,9 +49,17 @@ export default function AdminOrderDetailsPage() {
     const isCleaningQC = cleanQCMutation.isPending;
 
     const handleUpdateDetails = async () => {
-        if (order?.status === "PENDING") {
+        if (order?.status === "PENDING" && (!updateModal.status || updateModal.status === "PENDING") && (updateModal.po || updateModal.invoice)) {
             alert("Order status is PENDING. Please update status to IN PROCESS first.");
             return;
+        }
+        if (updateModal.status && updateModal.status !== order?.status) {
+            try {
+                await api.axios.patch(`/order/update-status/${id}`, { status: updateModal.status });
+            } catch (err) {
+                alert(err.response?.data?.message || err.message || "Error updating status");
+                return;
+            }
         }
         updateDetailsMutation.mutate({
             po: updateModal.po,

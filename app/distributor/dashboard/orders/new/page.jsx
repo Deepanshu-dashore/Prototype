@@ -279,77 +279,94 @@ function NewOrderContent() {
                                         initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: 10 }}
-                                        className=" grid grid-cols-1 md:grid-cols-12 gap-6"
+                                        className="flex flex-col gap-3"
                                     >
-                                        <div className="md:col-span-6 relative">
-                                            <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Select Product</label>
-                                            <select
-                                                required
-                                                value={item.product}
-                                                onChange={(e) => handleItemChange(index, "product", e.target.value)}
-                                                className="w-full border border-gray-300 px-4 py-4 text-xs focus:ring focus:ring-primary/50 outline-none transition-all appearance-none cursor-pointer rounded-lg"
-                                            >
-                                                <option value="">Choose product...</option>
-                                                {products.map(p => {
-                                                    const isSelected = orderItems.some((it, i) => i !== index && it.product === p._id);
-                                                    return (
-                                                        <option key={p._id} value={p._id} disabled={isSelected}>
-                                                            {p.code} — {p.description}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                            <ChevronLeftIcon className="-rotate-90 absolute w-12 h-7 right-1 bottom-2.5 bg-white p-2 pb-1 cursor-pointer" strokeWidth={2} />
-                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                                            <div className="md:col-span-6 relative">
+                                                <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Select Product</label>
+                                                <select
+                                                    required
+                                                    value={item.product}
+                                                    onChange={(e) => handleItemChange(index, "product", e.target.value)}
+                                                    className="w-full border border-gray-300 px-4 py-4 text-xs focus:ring focus:ring-primary/50 outline-none transition-all appearance-none cursor-pointer rounded-lg"
+                                                >
+                                                    <option value="">Choose product...</option>
+                                                    {products.map(p => {
+                                                        const isSelected = orderItems.some((it, i) => i !== index && it.product === p._id);
+                                                        return (
+                                                            <option key={p._id} value={p._id} disabled={isSelected}>
+                                                                {p.code} — {p.description} {p.warning ? "⚠️" : ""}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
+                                                <ChevronLeftIcon className="-rotate-90 absolute w-12 h-7 right-1 bottom-2.5 bg-white p-2 pb-1 cursor-pointer" strokeWidth={2} />
+                                            </div>
 
-                                        <div className="md:col-span-2 relative">
-                                            <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Quantity</label>
-                                            <input
-                                                type="text"
-                                                inputMode="numeric"
-                                                required
-                                                placeholder="0"
-                                                value={item.quantity}
-                                                onChange={(e) => {
-                                                    const val = e.target.value.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
-                                                    handleItemChange(index, "quantity", val === '' ? '' : parseInt(val));
-                                                }}
-                                                className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-primary focus:border-primary"
-                                            />
-                                        </div>
-
-                                        <div className="md:col-span-3 relative">
-                                            <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Length (Meters)</label>
-                                            <div className="relative">
+                                            <div className="md:col-span-2 relative">
+                                                <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Quantity</label>
                                                 <input
                                                     type="text"
-                                                    inputMode="decimal"
+                                                    inputMode="numeric"
                                                     required
-                                                    placeholder="0.00"
-                                                    value={item.length}
+                                                    placeholder="0"
+                                                    value={item.quantity}
                                                     onChange={(e) => {
-                                                        const val = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/^0+(?=\d)/, '');
-                                                        handleItemChange(index, "length", val === '' ? '' : val);
-                                                    }}
-                                                    onBlur={(e) => {
-                                                        const parsed = parseFloat(e.target.value) || 0;
-                                                        handleItemChange(index, "length", parsed);
+                                                        const val = e.target.value.replace(/[^0-9]/g, '').replace(/^0+(?=\d)/, '');
+                                                        handleItemChange(index, "quantity", val === '' ? '' : parseInt(val));
                                                     }}
                                                     className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-primary focus:border-primary"
                                                 />
                                             </div>
+
+                                            <div className="md:col-span-3 relative">
+                                                <label className="bg-white px-2 inline-block mb-1.5 text-sm text-gray-700 tracking-tight">Length (Meters)</label>
+                                                <div className="relative">
+                                                    <input
+                                                        type="text"
+                                                        inputMode="decimal"
+                                                        required
+                                                        placeholder="0.00"
+                                                        value={item.length}
+                                                        onChange={(e) => {
+                                                            const val = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/^0+(?=\d)/, '');
+                                                            handleItemChange(index, "length", val === '' ? '' : val);
+                                                        }}
+                                                        onBlur={(e) => {
+                                                            const parsed = parseFloat(e.target.value) || 0;
+                                                            handleItemChange(index, "length", parsed);
+                                                        }}
+                                                        className="w-full border border-gray-300 p-2.5 rounded-lg focus:ring-primary focus:border-primary"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="md:col-span-1 flex items-end mb-2 justify-end">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveRow(index)}
+                                                    disabled={orderItems.length === 1}
+                                                    className="p-3 bg-red-500 border border-red-500 text-white hover:text-red-600 hover:bg-red-200/90 hover:border-red-500 rounded-xl transition-all disabled:bg-gray-200 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed shadow-xs ring-1 ring-transparent hover:ring-red-100"
+                                                >
+                                                    <TrashIcon className="w-5 h-5" />
+                                                </button>
+                                            </div>
                                         </div>
 
-                                        <div className="md:col-span-1 flex items-end mb-2 justify-end">
-                                            <button
-                                                type="button"
-                                                onClick={() => handleRemoveRow(index)}
-                                                disabled={orderItems.length === 1}
-                                                className="p-3 bg-red-500 border border-red-500 text-white hover:text-red-600 hover:bg-red-200/90 hover:border-red-500 rounded-xl transition-all disabled:bg-gray-200 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed shadow-xs ring-1 ring-transparent hover:ring-red-100"
-                                            >
-                                                <TrashIcon className="w-5 h-5" />
-                                            </button>
-                                        </div>
+                                        {/* Separate Full-Width Row for Warning / Instruction */}
+                                        {(() => {
+                                            const selectedProd = products.find(p => p._id === item.product);
+                                            if (!selectedProd?.warning) return null;
+                                            return (
+                                                <div className="w-full text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2.5 animate-in fade-in duration-200">
+                                                    <ExclamationTriangleIcon className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                                                    <div>
+                                                        <span className="font-bold uppercase tracking-wider block text-[10px] text-red-700">Special Product Warning / Instruction:</span>
+                                                        <p className="mt-0.5 text-xs text-red-600 font-medium">{selectedProd.warning}</p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })()}
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
