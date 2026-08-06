@@ -148,7 +148,7 @@ export default function Header({ onContactClick }) {
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm py-3 lg:py-0">
-      <nav className="max-w-[95dvw] mx-auto px-6 lg:px-8" aria-label="Main navigation">
+      <nav className="max-w-[90dvw] mx-auto px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="shrink-0">

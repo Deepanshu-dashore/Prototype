@@ -110,6 +110,7 @@ export default function WarehouseOrderDetailsPage() {
             handleUpdateDetails={handleUpdateDetails}
             handleCleanQC={handleCleanQC}
             isCleaningQC={isCleaningQC}
+            onRefresh={fetchOrderDetails}
         />
     );
 }

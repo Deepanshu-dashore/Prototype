@@ -12,7 +12,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-linear-to-b from-[#041bc6] to-[#000151] w-full border-t border-primary">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[90dvw] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-8 sm:py-10">
           {/* Top Section */}
           <div className="mb-6">

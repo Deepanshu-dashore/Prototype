@@ -12,14 +12,16 @@ import {
     PencilSquareIcon,
     EyeIcon,
     ClipboardDocumentCheckIcon,
-    TrashIcon
+    TrashIcon,
+    ArrowUpTrayIcon
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "@/app/lib/utils/axiosConfig";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import ConfirmationModal from "@/src/components/ui/ConfirmationModal";
+import toast from "react-hot-toast";
 
 export default function OrderDetailsView({
     order,
@@ -29,11 +31,110 @@ export default function OrderDetailsView({
     isUpdating = false,
     handleUpdateDetails = () => { },
     handleCleanQC = () => { },
-    isCleaningQC = false
+    isCleaningQC = false,
+    onRefresh = () => { }
 }) {
     const router = useRouter();
     const [isCleanModalOpen, setIsCleanModalOpen] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
+    const [isUploadingInvoice, setIsUploadingInvoice] = useState(false);
+    const [isUploadingPO, setIsUploadingPO] = useState(false);
+    const [currentOrder, setCurrentOrder] = useState(order);
+
+    useEffect(() => {
+        setCurrentOrder(order);
+    }, [order]);
+
+    const activeOrder = currentOrder || order;
+
+    const handleInvoiceFileUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (activeOrder?.status === "PENDING") {
+            toast.error("Order status is PENDING. Please update order status to IN PROCESS before uploading an invoice.");
+            e.target.value = "";
+            return;
+        }
+
+        let invoiceNo = activeOrder?.invoice;
+        if (!invoiceNo) {
+            const enteredInvoice = prompt("Please enter the Invoice Number for this order:");
+            if (!enteredInvoice || !enteredInvoice.trim()) {
+                toast.error("Invoice Number is required before uploading invoice document.");
+                e.target.value = "";
+                return;
+            }
+            invoiceNo = enteredInvoice.trim();
+        }
+
+        if (file.size > 10485760) {
+            toast.error("File size too large. Maximum allowed size is 10MB.");
+            e.target.value = "";
+            return;
+        }
+
+        try {
+            setIsUploadingInvoice(true);
+            const formData = new FormData();
+            formData.append("file", file);
+            if (invoiceNo) {
+                formData.append("invoice", invoiceNo);
+            }
+
+            const res = await axios.patch(`/api/order/upload/${activeOrder._id}?type=invoice`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+
+            if (res.data?.success) {
+                setCurrentOrder(res.data.data);
+                if (onRefresh) onRefresh();
+                toast.success("Official Invoice uploaded successfully!");
+            } else {
+                toast.error(res.data?.message || "Failed to upload invoice");
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message || err.message || "Error uploading invoice");
+        } finally {
+            setIsUploadingInvoice(false);
+            e.target.value = "";
+        }
+    };
+
+    const handlePOFileUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (file.size > 10485760) {
+            toast.error("File size too large. Maximum allowed size is 10MB.");
+            return;
+        }
+        try {
+            setIsUploadingPO(true);
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const res = await axios.patch(`/api/order/upload/${activeOrder._id}?type=po`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+
+            if (res.data?.success) {
+                setCurrentOrder(res.data.data);
+                if (onRefresh) onRefresh();
+                toast.success("Purchase Order uploaded successfully!");
+            } else {
+                toast.error(res.data?.message || "Failed to upload PO document");
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message || err.message || "Error uploading PO document");
+        } finally {
+            setIsUploadingPO(false);
+            e.target.value = "";
+        }
+    };
 
     const generatePDF = async (qc) => {
         const orderId = order?._id;
@@ -247,11 +348,12 @@ export default function OrderDetailsView({
             const res = await axios.get(`/api/order/qc/${order?._id}`);
             if (res.data?.success) {
                 await generatePDF(res.data.data);
+                toast.success("QC report downloaded successfully!");
             } else {
-                alert("Failed to fetch QC report details");
+                toast.error("Failed to fetch QC report details");
             }
         } catch (err) {
-            alert(err.response?.data?.message || err.message || "An error occurred");
+            toast.error(err.response?.data?.message || err.message || "An error occurred");
         } finally {
             setIsDownloading(false);
         }
@@ -606,10 +708,10 @@ export default function OrderDetailsView({
 
                                 <div className="grid grid-cols-3 gap-4 pt-4 border-t border-dashed border-gray-200 mt-2">
                                     <span className="text-xs text-gray-800 font-semibold">Signed PO:</span>
-                                    <div className="col-span-2">
-                                        {order?.documents?.find(d => d.name === "po")?.url ? (
+                                    <div className="col-span-2 flex flex-wrap items-center gap-2">
+                                        {activeOrder?.documents?.find(d => d.name === "po")?.url ? (
                                             <a
-                                                href={order.documents.find(d => d.name === "po").url}
+                                                href={activeOrder.documents.find(d => d.name === "po").url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="inline-flex items-center gap-1.5 px-2 py-1 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-[10px] font-medium rounded border border-indigo-100 transition-all shadow-xs w-fit"
@@ -620,18 +722,38 @@ export default function OrderDetailsView({
                                         ) : (
                                             <span className="text-xs text-gray-400 italic">No document attached</span>
                                         )}
+
+                                        {(role === "admin" || role === "warehouse") && (
+                                            <label className="inline-flex items-center gap-1 px-2 py-1 bg-indigo-50/80 hover:bg-indigo-100 text-indigo-700 text-[10px] font-medium rounded border border-indigo-200/60 cursor-pointer transition-all shadow-xs">
+                                                {isUploadingPO ? (
+                                                    <>
+                                                        <div className="w-3 h-3 border-2 border-indigo-400 border-t-indigo-700 rounded-full animate-spin" />
+                                                        <span>Uploading...</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <ArrowUpTrayIcon className="w-3.5 h-3.5 text-indigo-600" />
+                                                        <span>{activeOrder?.documents?.find(d => d.name === "po")?.url ? "Replace PO" : "Upload PO"}</span>
+                                                    </>
+                                                )}
+                                                <input
+                                                    type="file"
+                                                    accept=".pdf,image/*,application/pdf"
+                                                    className="hidden"
+                                                    disabled={isUploadingPO}
+                                                    onChange={handlePOFileUpload}
+                                                />
+                                            </label>
+                                        )}
                                     </div>
                                 </div>
 
-
-
-
                                 <div className="grid grid-cols-3 gap-4">
                                     <span className="text-xs text-gray-800 font-semibold">Official Invoice:</span>
-                                    <div className="col-span-2">
-                                        {order?.documents?.find(d => d.name === "invoice")?.url ? (
+                                    <div className="col-span-2 flex flex-wrap items-center gap-2">
+                                        {activeOrder?.documents?.find(d => d.name === "invoice")?.url ? (
                                             <a
-                                                href={order.documents.find(d => d.name === "invoice").url}
+                                                href={activeOrder.documents.find(d => d.name === "invoice").url}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="inline-flex items-center gap-1.5 px-2 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-[10px] font-bold rounded border border-emerald-100 transition-all shadow-xs w-fit"
@@ -641,6 +763,29 @@ export default function OrderDetailsView({
                                             </a>
                                         ) : (
                                             <span className="text-xs text-gray-400 italic">Pending upload</span>
+                                        )}
+
+                                        {(role === "admin" || role === "warehouse") && (
+                                            <label className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-50/80 hover:bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded border border-emerald-200/60 cursor-pointer transition-all shadow-xs">
+                                                {isUploadingInvoice ? (
+                                                    <>
+                                                        <div className="w-3 h-3 border-2 border-emerald-400 border-t-emerald-800 rounded-full animate-spin" />
+                                                        <span>Uploading...</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <ArrowUpTrayIcon className="w-3.5 h-3.5 text-emerald-700" />
+                                                        <span>{activeOrder?.documents?.find(d => d.name === "invoice")?.url ? "Replace Invoice" : "Upload Invoice"}</span>
+                                                    </>
+                                                )}
+                                                <input
+                                                    type="file"
+                                                    accept=".pdf,image/*,application/pdf"
+                                                    className="hidden"
+                                                    disabled={isUploadingInvoice}
+                                                    onChange={handleInvoiceFileUpload}
+                                                />
+                                            </label>
                                         )}
                                     </div>
                                 </div>

@@ -4,6 +4,8 @@ import Order from "../models/order";
 import Distributor from "../models/distributor";
 import Product from "../models/product";
 
+import { getUrls } from "../utils/geturl";
+
 export class OrderService {
   static async getOrderStatusCounts() {
     await connect();
@@ -71,7 +73,19 @@ export class OrderService {
     const orders = rawOrders.map((order) => {
       const obj = order.toObject();
       const hasQc = !!(obj.qc && Object.keys(obj.qc).length > 0);
-      return { ...obj, qc: hasQc };
+      const docs = (obj.documents || []).map((doc) => ({
+        ...doc,
+        url: getUrls.getUrl(doc.url, doc.resource_type),
+      }));
+      const poLink = docs.find((d) => d.name === "po") || null;
+      const invoiceLink = docs.find((d) => d.name === "invoice") || null;
+      return {
+        ...obj,
+        qc: hasQc,
+        documents: docs,
+        poLink,
+        invoiceLink,
+      };
     });
 
     return { orders, total };

@@ -9,7 +9,7 @@ export default function UtilityBar() {
   }
   return (
     <div className="bg-blue-800 text-white text-sm py-2">
-      <div className="max-w-[95dvw] mx-auto px-6 lg:px-8">
+      <div className="max-w-[90dvw] mx-auto px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-4 lg:gap-6">
           <a
             href="tel:+353214701669"

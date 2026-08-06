@@ -91,6 +91,7 @@ export default function AdminOrderDetailsPage() {
             handleUpdateDetails={handleUpdateDetails}
             handleCleanQC={handleCleanQC}
             isCleaningQC={isCleaningQC}
+            onRefresh={() => api.queryClient.invalidateQueries(queryKey)}
         />
     );
 }

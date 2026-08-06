@@ -403,26 +403,27 @@ export default function WarehouseOrdersPage() {
                         <table className="w-full text-left border-collapse">
                             <thead className="bg-gray-100/70 border-b border-gray-100">
                                 <tr>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Order Info</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Distributor</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Products</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-nowrap">Order Date</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">PO</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider">Invoice</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[150px]">Order Info</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[150px]">Distributor</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[120px]">Products</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[120px]">Order Date</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[180px]">Status</th>
+                                    <th className="pr-5 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[30px]">QC</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[120px]">PO</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider min-w-[120px]">Invoice</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-gray-700 uppercase tracking-wider text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
-                                    <TableLoadingSkeleton rows={5} columns={8} />
+                                    <TableLoadingSkeleton rows={5} columns={9} />
                                 ) : error ? (
                                     <tr>
-                                        <td colSpan="8" className="px-6 py-12 text-center text-red-500">{error}</td>
+                                        <td colSpan="9" className="px-6 py-12 text-center text-red-500">{error}</td>
                                     </tr>
                                 ) : orders.length === 0 ? (
                                     <TableEmptyState
-                                        colSpan={8}
+                                        colSpan={9}
                                         title="No Orders Found"
                                         message="We couldn't find any orders matching your filters. Try search or adjust dates."
                                     />
@@ -509,43 +510,89 @@ export default function WarehouseOrdersPage() {
                                                     </div>
                                                 )}
                                             </td>
+                                            <td className="py-4 pr-2">
+                                                <div className="flex flex-col gap-1 justify-center">
+                                                    {order.qc ? (
+                                                        <span title="QC Complete" className="text-xs bg-indigo-50 text-indigo-700 p-2 rounded border border-indigo-100 w-fit font-mono">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 14 14">
+                                                                <path fill="currentColor" fillRule="evenodd" d="M3.21 5.038c0-1.297.363-2.222.965-2.824c.601-.601 1.527-.964 2.824-.964s2.222.363 2.824.964c.601.602.964 1.527.964 2.824c0 1.298-.363 2.223-.964 2.825c-.602.601-1.527.964-2.824.964a5.5 5.5 0 0 1-1.223-.128c-.876-.2-1.51-.625-1.927-1.231l-.023-.032c-.39-.584-.616-1.375-.616-2.398m-.742 2.527c-.341-.726-.508-1.579-.508-2.527c0-1.527.432-2.808 1.331-3.707C4.191.43 5.471 0 6.999 0c1.527 0 2.809.432 3.708 1.33c.899.9 1.33 2.181 1.33 3.708c0 .948-.166 1.8-.506 2.526c1.09.647 2.132 1.752 2.452 3.148a.63.63 0 0 1-.205.617a1.84 1.84 0 0 1-1.061.455a2.4 2.4 0 0 1-.376.001c-.153.856-.609 1.63-1.5 2.134a.625.625 0 0 1-.928-.466a5.7 5.7 0 0 0-1.736-3.47a7 7 0 0 1-1.178.094q-.616 0-1.176-.094a5.7 5.7 0 0 0-1.736 3.47a.625.625 0 0 1-.928.466c-.891-.505-1.346-1.278-1.5-2.134q-.186.014-.376 0a1.84 1.84 0 0 1-1.061-.456a.63.63 0 0 1-.205-.617c.32-1.396 1.361-2.5 2.45-3.147m3.709-4.82a.926.926 0 0 1 1.649 0q.186.355.302.754q.392 0 .768.062c.75.126 1.078 1.02.53 1.578q-.273.277-.609.501q.114.352.167.708c.117.766-.65 1.366-1.362 1.004A4 4 0 0 1 7 6.958q-.298.23-.62.394c-.713.362-1.48-.238-1.362-1.004q.053-.355.167-.708a4 4 0 0 1-.608-.5c-.549-.56-.221-1.453.529-1.579q.375-.062.768-.062a4 4 0 0 1 .303-.754" clipRule="evenodd"></path>
+                                                            </svg>
+                                                        </span>
+                                                    ) : (
+                                                        <span title="QC Pending" className="text-xs text-gray-400 p-1 bg-slate-100 rounded border border-slate-100 w-fit font-mono">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
+                                                                <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth={1.5}>
+                                                                    <path strokeLinejoin="round" d="m15 18.5l5-5m0 5l-5-5"></path>
+                                                                    <path d="M11 14H3m8 4H3M3 6h10.5M20 6h-2.25M20 10H9.5M3 10h2.25"></path>
+                                                                </g>
+                                                            </svg>
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </td>
                                             <td className="px-2 py-4">
-                                                <div className="flex flex-col gap-1">
+                                                <div className="flex flex-col gap-0.5 items-start">
                                                     {order.po ? (
                                                         <>
-                                                            <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100 w-fit font-mono">#{order.po}</span>
-                                                            {order.poLink?.url && (
+                                                            <span className="text-[11px] font-mono font-medium text-gray-700">#{order.po}</span>
+                                                            {order.poLink?.url ? (
                                                                 <a
                                                                     href={order.poLink.url}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="text-[9px] text-indigo-600 font-bold hover:underline flex items-center gap-1"
+                                                                    className="inline-flex items-center gap-1 text-[10px] font-medium text-indigo-600 hover:text-indigo-800 hover:underline"
+                                                                    title="View PO PDF"
                                                                 >
                                                                     <EyeIcon className="w-3 h-3" /> View PO
                                                                 </a>
+                                                            ) : (
+                                                                <span className="text-[9px] text-gray-400 italic">No file</span>
                                                             )}
                                                         </>
+                                                    ) : order.poLink?.url ? (
+                                                        <a
+                                                            href={order.poLink.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-1 text-[10px] font-medium text-indigo-600 hover:text-indigo-800 hover:underline"
+                                                            title="View PO PDF"
+                                                        >
+                                                            <EyeIcon className="w-3 h-3" /> View PO
+                                                        </a>
                                                     ) : (
                                                         <span className="text-xs text-gray-400 italic"># Not added</span>
                                                     )}
                                                 </div>
                                             </td>
                                             <td className="px-2 py-4">
-                                                <div className="flex flex-col gap-1">
+                                                <div className="flex flex-col gap-0.5 items-start">
                                                     {order.invoice ? (
                                                         <>
-                                                            <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 w-fit font-mono">#{order.invoice}</span>
-                                                            {order.invoiceLink?.url && (
+                                                            <span className="text-[11px] font-mono font-medium text-gray-700">#{order.invoice}</span>
+                                                            {order.invoiceLink?.url ? (
                                                                 <a
                                                                     href={order.invoiceLink.url}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="text-[9px] text-green-600 font-bold hover:underline flex items-center gap-1"
+                                                                    className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 hover:text-emerald-800 hover:underline"
+                                                                    title="View Invoice PDF"
                                                                 >
                                                                     <EyeIcon className="w-3 h-3" /> View Invoice
                                                                 </a>
+                                                            ) : (
+                                                                <span className="text-[9px] text-amber-600 font-medium italic">No file</span>
                                                             )}
                                                         </>
+                                                    ) : order.invoiceLink?.url ? (
+                                                        <a
+                                                            href={order.invoiceLink.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 hover:text-emerald-800 hover:underline"
+                                                            title="View Invoice PDF"
+                                                        >
+                                                            <EyeIcon className="w-3 h-3" /> View Invoice
+                                                        </a>
                                                     ) : (
                                                         <span className="text-xs text-gray-400 italic"># Not added</span>
                                                     )}

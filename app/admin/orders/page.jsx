@@ -421,42 +421,68 @@ export default function AdminOrdersPage() {
                                                     </div>
                                                 </td>
                                                 <td className="px-2 py-4">
-                                                    <div className="flex flex-col gap-1">
+                                                    <div className="flex flex-col gap-0.5 items-start">
                                                         {order.po ? (
                                                             <>
-                                                                <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded border border-indigo-100 w-fit font-mono">#{order.po}</span>
-                                                                {order.poLink?.url && (
+                                                                <span className="text-[11px] font-mono font-medium text-gray-700">#{order.po}</span>
+                                                                {order.poLink?.url ? (
                                                                     <a
                                                                         href={order.poLink.url}
                                                                         target="_blank"
                                                                         rel="noopener noreferrer"
-                                                                        className="text-[9px] text-indigo-600 font-bold hover:underline flex items-center gap-1"
+                                                                        className="inline-flex items-center gap-1 text-[10px] font-medium text-indigo-600 hover:text-indigo-800 hover:underline"
+                                                                        title="View PO PDF"
                                                                     >
                                                                         <EyeIcon className="w-3 h-3" /> View PO
                                                                     </a>
+                                                                ) : (
+                                                                    <span className="text-[9px] text-gray-400 italic">No file</span>
                                                                 )}
                                                             </>
+                                                        ) : order.poLink?.url ? (
+                                                            <a
+                                                                href={order.poLink.url}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="inline-flex items-center gap-1 text-[10px] font-medium text-indigo-600 hover:text-indigo-800 hover:underline"
+                                                                title="View PO PDF"
+                                                            >
+                                                                <EyeIcon className="w-3 h-3" /> View PO
+                                                            </a>
                                                         ) : (
                                                             <span className="text-xs text-gray-400 italic"># Not added</span>
                                                         )}
                                                     </div>
                                                 </td>
                                                 <td className="px-2 py-4">
-                                                    <div className="flex flex-col gap-1">
+                                                    <div className="flex flex-col gap-0.5 items-start">
                                                         {order.invoice ? (
                                                             <>
-                                                                <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-100 w-fit font-mono">#{order.invoice}</span>
-                                                                {order.invoiceLink?.url && (
+                                                                <span className="text-[11px] font-mono font-medium text-gray-700">#{order.invoice}</span>
+                                                                {order.invoiceLink?.url ? (
                                                                     <a
                                                                         href={order.invoiceLink.url}
                                                                         target="_blank"
                                                                         rel="noopener noreferrer"
-                                                                        className="text-[9px] text-green-600 font-bold hover:underline flex items-center gap-1"
+                                                                        className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 hover:text-emerald-800 hover:underline"
+                                                                        title="View Invoice PDF"
                                                                     >
                                                                         <EyeIcon className="w-3 h-3" /> View Invoice
                                                                     </a>
+                                                                ) : (
+                                                                    <span className="text-[9px] text-amber-600 font-medium italic">No file</span>
                                                                 )}
                                                             </>
+                                                        ) : order.invoiceLink?.url ? (
+                                                            <a
+                                                                href={order.invoiceLink.url}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 hover:text-emerald-800 hover:underline"
+                                                                title="View Invoice PDF"
+                                                            >
+                                                                <EyeIcon className="w-3 h-3" /> View Invoice
+                                                            </a>
                                                         ) : (
                                                             <span className="text-xs text-gray-400 italic"># Not added</span>
                                                         )}
