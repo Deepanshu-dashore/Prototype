@@ -71,7 +71,8 @@ export default function Header({ onContactClick }) {
   const dropdownMenus = {
     Products: [
       { name: 'CCM Heavy Duty', href: '/products/heavy-duty', icon: Square3Stack3DIcon },
-      { name: 'CCM Portable Cleanroom/Data Center Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
+      { name: 'CCM Data Centers', href: '/data-center', icon: ServerIcon },
+      { name: 'CCM Portable Cleanroom Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
       {
         name: 'CCM Anti-Fatigue Mats',
         href: '#anti-fatigue-mats',
@@ -141,7 +142,6 @@ export default function Header({ onContactClick }) {
     // { name: 'Technical', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Compliance', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Industries', href: '/industries', isLink: false, hasDropdown: true },
-    { name: 'Data Center', href: '/data-center', isLink: true },
     // { name: 'Blogs', href: '/blog', isLink: true },
     { name: 'Contact', href: '/contact', isLink: true },
   ]

@@ -112,11 +112,6 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/data-center" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      Data Center
-                    </Link>
-                  </li>
-                  <li>
                     <Link href="/videos" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
                       Videos
                     </Link>
@@ -144,8 +139,13 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
+                    <Link href="/data-center" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
+                      CCM Data Centers
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/products/portable-cleanroom-mats" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CCM Portable Cleanroom/Data Center Mats
+                      CCM Portable Cleanroom Mats
                     </Link>
                   </li>
                   <li
