@@ -192,23 +192,23 @@ export default function DataCenterContent() {
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-4xl">
+          <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold uppercase tracking-wider mb-6">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-semibold uppercase tracking-wider mb-6">
                 <ShieldCheckIcon className="w-4 h-4" />
                 Critical Environment Protection
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Data Centre <span className="text-indigo-200">Contamination Control Matting</span>
               </h1>
-              <p className="text-lg sm:text-xl text-indigo-100/90 leading-relaxed max-w-3xl mb-8">
+              <p className="text-lg sm:text-xl text-indigo-100/90 leading-relaxed max-w-3xl mx-auto mb-8">
                 Safeguarding high-density compute, ISO Class 5 air quality, and operational uptime at the floor level with engineered entrance protection systems.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap justify-center gap-4">
                 <Link
                   href="/contact"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary rounded-lg font-bold hover:bg-indigo-50 transition-all duration-300 shadow-xl"
@@ -269,44 +269,42 @@ export default function DataCenterContent() {
             </motion.div>
           </div>
 
-          {/* Stats Cards - Biomaster Styled */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {stats.map((stat, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="group relative bg-white hover:bg-accent shadow-md border border-gray-200 rounded-xl p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-500 overflow-hidden"
-              >
-                <div className="flex flex-col h-full relative z-10">
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-white flex-1">
-                      <span className="text-primary group-hover:text-indigo-200 transition-colors duration-300 block text-3xl font-extrabold mb-1">
-                        {stat.value}
-                      </span>
+          {/* Stats Cards - Homepage "What sets CCMatting apart" Style with Hover */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {stats.map((stat, idx) => {
+              const Icon = stat.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="relative group overflow-hidden flex items-center justify-between p-5 sm:p-6 border border-gray-200 rounded-2xl bg-white shadow-xs hover:shadow-md hover:border-primary/30 transition-all duration-300"
+                >
+                  {/* Content */}
+                  <div className="flex-1 min-w-0 pr-4 group-hover:z-50">
+                    <span className="text-primary group-hover:text-indigo-200 transition-colors duration-300 block text-3xl font-bold mb-1">
+                      {stat.value}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-semibold transition-colors group-hover:text-white text-neutral-900 mb-1.5 uppercase tracking-wide">
                       {stat.title}
                     </h3>
-                    <div className="w-12 h-12 shrink-0" />
+                    <p className="text-xs sm:text-sm transition-colors group-hover:text-white/80 text-neutral-700 leading-relaxed">
+                      {stat.subtitle}
+                    </p>
                   </div>
-                  <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed grow transition-colors duration-300 group-hover:text-white/80">
-                    {stat.subtitle}
-                  </p>
-                </div>
 
-                {/* Animated Icon Container (Top Right) */}
-                <div className="absolute right-8 top-8 w-12 h-12 rounded-lg bg-primary flex items-center justify-center transition-all duration-500 ease-in-out group-hover:bg-white group-hover:scale-150 group-hover:rounded-bl-3xl group-hover:rounded-br-none group-hover:rounded-tl-none group-hover:h-16 group-hover:right-0 group-hover:top-0 z-0">
-                  <div className="text-white transition-transform duration-500 group-hover:text-primary group-hover:scale-75 group-hover:translate-y-1 group-hover:-translate-x-1">
-                    <stat.icon className="w-6 h-6" />
+                  {/* Icon area - Homepage Expanding Hover Animation */}
+                  <div className="relative shrink-0">
+                    <div className="absolute group-hover:-left-1/2 group-hover:z-0 group-hover:-top-1/2 group-hover:scale-500 group-hover:-translate-x-1/2 transition-all group-hover:bg-linear-to-br to-primary from-indigo-500 duration-600 group-hover:-translate-y-3 inset-0 translate-x-6 translate-y-2 w-28 h-28 sm:w-32 sm:h-32 bg-primary/10 rounded-full" />
+                    <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl group-hover:bg-white group-hover:text-indigo-700 bg-primary text-white flex items-center justify-center shadow-md shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
+                      <Icon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+                    </div>
                   </div>
-                </div>
-
-                {/* Decorative Animated Elements */}
-                <div className="w-8 h-8 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none bg-white/30 z-0"></div>
-                <div className="w-14 h-14 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none bg-white/20 z-0"></div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -327,21 +325,20 @@ export default function DataCenterContent() {
             </p>
           </div>
 
-          {/* Client Diagram Image 1 */}
+          {/* Diagram Image 1 (Card Wrapper Removed) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mb-12 bg-white rounded-3xl p-4 border border-slate-200 shadow-xl max-w-5xl mx-auto overflow-hidden"
+            className="max-w-5xl mx-auto overflow-hidden rounded-xl mb-10 flex justify-center"
           >
             <Image
               src="/assets/industries/datacenter_floor_threat.jpg"
               alt="The Biggest Threat Starts at Floor Level"
-              width={800}
+              width={900}
               height={500}
-              layout="responsive"
-              className="rounded-2xl object-cover"
+              className="w-full h-auto max-h-[460px] object-contain rounded-xl"
             />
           </motion.div>
 
@@ -372,21 +369,21 @@ export default function DataCenterContent() {
       {/* ─── SECTION 4: MULTI-ZONE ARCHITECTURE ─────────────────────────────── */}
       <section id="preventative-architecture" className="py-20 bg-slate-50/70 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center w-full mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
+          <div className="text-center w-full mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-3">
               <BuildingOffice2Icon className="w-4 h-4" />
               Proactive Barrier Strategy
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
               Preventative Multi-Zone Contamination Barrier Architecture
             </h2>
-            <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed max-w-5xl mx-auto">
+            <p className="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed max-w-5xl mx-auto">
               Sustaining ISO Class 5 conditions inside active data halls requires limiting airborne particulate counts through a robust, proactive floor-level barrier strategy.
             </p>
           </div>
 
-          {/* 4 Multi-Zone Cards - Biomaster Styled */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
+          {/* 4 Multi-Zone Cards - Compact Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6 mb-10">
             {multiZones.map((zone, i) => (
               <motion.div
                 key={i}
@@ -394,36 +391,35 @@ export default function DataCenterContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="group relative bg-white hover:bg-accent shadow-md border border-gray-200 rounded-xl p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-500 overflow-hidden flex flex-col justify-between"
+                className="group relative bg-white hover:bg-accent shadow-md border border-gray-200 rounded-xl p-5 sm:p-6 hover:border-primary/30 hover:shadow-xl transition-all duration-500 overflow-hidden flex flex-col justify-between"
               >
                 <div className="flex flex-col h-full relative z-10">
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="flex-1">
-                      <span className="w-9 h-9 rounded-xl bg-primary text-white font-bold text-xs flex items-center justify-center shadow-xs transition-colors duration-300 group-hover:bg-white group-hover:text-primary mb-3">
+                  <div className="flex items-start justify-between gap-4 mb-2.5">
+                    <div className="flex-1 pr-10">
+                      <span className="w-8 h-8 rounded-lg bg-primary text-white font-bold text-xs flex items-center justify-center shadow-xs transition-colors duration-300 group-hover:bg-white group-hover:text-primary mb-2">
                         {zone.step}
                       </span>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900 transition-colors duration-300 group-hover:text-white mb-1.5">
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 transition-colors duration-300 group-hover:text-white mb-1">
                         {zone.title}
                       </h3>
                       <p className="text-[11px] font-bold text-[#0047AB] uppercase tracking-wider transition-colors duration-300 group-hover:text-indigo-200">
                         {zone.focus}
                       </p>
                     </div>
-                    <div className="w-12 h-12 shrink-0" />
                   </div>
                   <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed grow transition-colors duration-300 group-hover:text-white/80">
                     {zone.description}
                   </p>
-                  <div className="mt-6 pt-4 border-t border-slate-200/80 group-hover:border-white/25 flex items-center justify-between text-xs text-slate-500 font-medium transition-colors duration-300 group-hover:text-white/60">
+                  <div className="mt-4 pt-3 border-t border-slate-200/80 group-hover:border-white/25 flex items-center justify-between text-xs text-slate-500 font-medium transition-colors duration-300 group-hover:text-white/60">
                     <span>Zone {zone.step} Protection</span>
                     <ChevronRightIcon className="w-4 h-4 text-[#0047AB] group-hover:text-white" />
                   </div>
                 </div>
 
                 {/* Animated Icon Container (Top Right) */}
-                <div className="absolute right-8 top-8 w-12 h-12 rounded-lg bg-primary flex items-center justify-center transition-all duration-500 ease-in-out group-hover:bg-white group-hover:scale-150 group-hover:rounded-bl-3xl group-hover:rounded-br-none group-hover:rounded-tl-none group-hover:h-16 group-hover:right-0 group-hover:top-0 z-0">
+                <div className="absolute right-5 top-5 w-10 h-10 rounded-lg bg-primary flex items-center justify-center transition-all duration-500 ease-in-out group-hover:bg-white group-hover:scale-150 group-hover:rounded-bl-3xl group-hover:rounded-br-none group-hover:rounded-tl-none group-hover:h-14 group-hover:right-0 group-hover:top-0 z-0">
                   <div className="text-white transition-transform duration-500 group-hover:text-primary group-hover:scale-75 group-hover:translate-y-1 group-hover:-translate-x-1">
-                    <zone.icon className="w-6 h-6" />
+                    <zone.icon className="w-5 h-5" />
                   </div>
                 </div>
 
@@ -434,46 +430,45 @@ export default function DataCenterContent() {
             ))}
           </div>
 
-          {/* Client Diagram Image 2 */}
+          {/* Diagram Image 2 (Card Wrapper Removed) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-3xl p-4 border border-slate-200 shadow-xl max-w-5xl mx-auto overflow-hidden mb-12"
+            className="max-w-5xl mx-auto overflow-hidden rounded-xl mb-10 flex justify-center"
           >
             <Image
               src="/assets/industries/datacenter_contamination_pathway.jpg"
               alt="Contamination Pathway - How external particulates enter controlled environments"
-              width={800}
+              width={900}
               height={500}
-              layout="responsive"
-              className="rounded-2xl object-cover"
+              className="w-full h-auto max-h-[460px] object-contain rounded-xl"
             />
           </motion.div>
 
-          {/* Technical Directive Callout Banner - Biomaster Styled */}
+          {/* Technical Directive Callout Banner - Clean Color System */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="max-w-5xl mx-auto rounded-3xl bg-primary/5 p-8 lg:p-12 border border-primary/10 flex flex-col lg:flex-row items-center gap-12"
+            className="max-w-5xl mx-auto rounded-2xl bg-slate-50 p-5 sm:p-6 lg:p-7 border border-slate-200/80 flex flex-col lg:flex-row items-center gap-6 lg:gap-8"
           >
-            <div className="lg:w-2/3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 border border-blue-200/60 text-[#0047AB] text-xs font-bold uppercase tracking-wider mb-4">
-                <DocumentCheckIcon className="w-3.5 h-3.5 text-[#0047AB]" />
+            <div className="lg:w-3/4">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-2.5">
+                <DocumentCheckIcon className="w-3.5 h-3.5 text-primary" />
                 <span>CC MATTING TECHNICAL DIRECTIVE</span>
               </div>
-              <blockquote className="text-lg lg:text-xl text-neutral-800 leading-relaxed italic">
+              <blockquote className="text-base sm:text-lg text-slate-800 leading-relaxed font-normal">
                 “Modern high-density data centers cannot rely on reactive sweeping or single-use adhesive sheets. Sustained facility protection requires a scientifically engineered, floor-level contamination barrier that captures <strong className="text-primary font-semibold">99% of incoming particulates</strong> at every critical access transition.”
               </blockquote>
             </div>
-            <div className="lg:w-1/3 flex justify-center">
+            <div className="lg:w-1/4 flex justify-center shrink-0">
               <div className="relative">
                 <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping [animation-duration:3s]" />
-                <div className="relative bg-white p-6 rounded-full shadow-xl border border-primary/10">
-                  <ChatBubbleLeftRightIcon className="w-12 h-12 text-primary" />
+                <div className="relative bg-white p-4 rounded-full shadow-md border border-primary/20">
+                  <ChatBubbleLeftRightIcon className="w-8 h-8 lg:w-9 lg:h-9 text-primary" />
                 </div>
               </div>
             </div>
@@ -494,81 +489,79 @@ export default function DataCenterContent() {
             </h2>
           </div>
 
-          {/* Client Diagram Image 3 */}
+          {/* Diagram Image 3 (Border & Rounded Corners Removed) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-3xl p-4 border border-slate-200 shadow-xl max-w-5xl mx-auto overflow-hidden mb-12"
+            className="max-w-5xl mx-auto mb-12 flex justify-center"
           >
             <Image
               src="/assets/industries/datacenter_particle_airflow_protection.png"
               alt="Footwear & Caster Particle Retention and Airflow & Thermal Protection"
-              width={800}
-              height={400}
-              layout="responsive"
-              className="rounded-2xl object-cover"
+              width={900}
+              height={450}
+              className="w-full h-auto object-contain"
             />
           </motion.div>
 
-          <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed text-center bg-slate-50/80 rounded-2xl p-8 border border-slate-200/60 shadow-xs max-w-5xl mx-auto">
+          <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed text-center max-w-5xl mx-auto">
             To eliminate this threat, forward-thinking facility operators are implementing advanced data center entrance matting and comprehensive floor-level contamination control solutions. CC Matting specializes in delivering high-performance, engineered contamination control matting tailored specifically for demanding technical environments, cleanrooms, and data center flooring systems. Positioned strategically at key transition zones—including main hall entrances, mantraps, airlocks, raised access floor entry points, and equipment staging bays—CC Matting systems form an impenetrable preventative barrier against particle ingress.
           </p>
         </div>
       </section>
 
       {/* ─── SECTION 6: METHOD COMPARISON ────────────────────────────────────── */}
-      <section className="py-20 bg-slate-50/70 border-b border-slate-100">
+      <section className="py-12 sm:py-16 bg-slate-50/70 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center w-full mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-4">
+          <div className="text-center w-full mx-auto mb-8">
+            <span className="inline-flex items-center gap-1.5 bg-primary text-white px-3 py-1.5 rounded text-xs font-medium mb-3">
               <ArrowsRightLeftIcon className="w-4 h-4" />
               Direct Comparison
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight">
               Traditional Cleaning vs. Matting Prevention
             </h2>
-            <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed max-w-5xl mx-auto">
+            <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed max-w-4xl mx-auto">
               Unlike disposable adhesive mats or standard textile mats, CC Matting uses an advanced high-tack polymer surface to capture and retain up to 99% of fine particulates from footwear and equipment wheels.
             </p>
           </div>
 
-          {/* Client Diagram Image 4 */}
+          {/* Direct Comparison Image (Increased Size) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-3xl p-4 border border-slate-200 shadow-xl max-w-5xl mx-auto overflow-hidden mb-12"
+            className="max-w-5xl mx-auto overflow-hidden rounded-xl mb-8 flex justify-center"
           >
             <Image
               src="/assets/industries/datacenter_cleaning_vs_matting.jpg"
               alt="Traditional Cleaning vs Matting Prevention Comparison"
-              width={800}
-              height={500}
-              layout="responsive"
-              className="rounded-2xl object-cover"
+              width={950}
+              height={520}
+              className="w-full h-auto max-h-[460px] object-contain rounded-xl"
             />
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs hover:border-primary/30 transition-all duration-300">
-              <h3 className="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <div className="bg-white rounded-xl p-5 sm:p-6 border border-slate-200/80 shadow-xs">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                 <SparklesIcon className="w-5 h-5 text-indigo-600" />
                 Electrostatic Discharge (ESD) Risks
               </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Beyond particulate control, CC Matting also addresses electrostatic discharge (ESD) risks in data center environments. Its static-dissipative polymer formulation (10<sup>10</sup> &Omega;) safely dissipates static build-up from personnel and wheeled equipment.
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs hover:border-primary/30 transition-all duration-300">
-              <h3 className="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <div className="bg-white rounded-xl p-5 sm:p-6 border border-slate-200/80 shadow-xs">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
                 <ScaleIcon className="w-5 h-5 text-primary" />
                 Operational Safety &amp; Durability
               </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Operational safety and durability are essential in high-density facilities. Unlike adhesive peeling mats, CC Matting features an ultra-low-profile design with precision bevelled edges for smooth movement of heavy server racks.
               </p>
             </div>
@@ -592,59 +585,50 @@ export default function DataCenterContent() {
             </p>
           </div>
 
-          {/* Client Diagram Image 5 */}
+          {/* Operational Benefits Ecosystem Image (Increased Size) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-3xl p-4 border border-slate-200 shadow-xl max-w-5xl mx-auto overflow-hidden mb-16"
+            className="max-w-6xl mx-auto overflow-hidden rounded-xl mb-10 sm:mb-12 flex justify-center"
           >
             <Image
               src="/assets/industries/datacenter_benefits_ecosystem.jpg"
               alt="Operational Benefits Ecosystem"
-              width={800}
-              height={500}
-              layout="responsive"
-              className="rounded-2xl object-cover"
+              width={1050}
+              height={600}
+              className="w-full h-auto max-h-[580px] object-contain rounded-xl"
             />
           </motion.div>
 
-          {/* Benefits Grid - Biomaster Features Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefitsEcosystem.map((feature, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="group relative bg-white hover:bg-accent shadow-md border border-gray-200 rounded-xl p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-500 overflow-hidden"
-              >
-                <div className="flex flex-col h-full relative z-10">
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <h3 className="text-lg sm:text-xl font-bold text-neutral-dark flex-1 transition-colors duration-300 group-hover:text-white">
+          {/* Benefits Grid - Polished Clean UI */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {benefitsEcosystem.map((feature, idx) => {
+              const Icon = feature.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="relative p-6 bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow duration-300 flex flex-col justify-between"
+                >
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 flex-1">
                       {feature.title}
                     </h3>
-                    <div className="w-12 h-12 shrink-0" />
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                      <Icon className="w-5 h-5" />
+                    </div>
                   </div>
-                  <p className="text-xs sm:text-sm text-neutral-dark/70 leading-relaxed grow transition-colors duration-300 group-hover:text-white/80">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                     {feature.desc}
                   </p>
-                </div>
-
-                {/* Animated Icon Container (Top Right) */}
-                <div className="absolute right-8 top-8 w-12 h-12 rounded-lg bg-primary flex items-center justify-center transition-all duration-500 ease-in-out group-hover:bg-white group-hover:scale-150 group-hover:rounded-bl-3xl group-hover:rounded-br-none group-hover:rounded-tl-none group-hover:h-16 group-hover:right-0 group-hover:top-0 z-0">
-                  <div className="text-white transition-transform duration-500 group-hover:text-primary group-hover:scale-75 group-hover:translate-y-1 group-hover:-translate-x-1">
-                    <feature.icon className="w-6 h-6" />
-                  </div>
-                </div>
-
-                {/* Decorative Animated Elements */}
-                <div className="w-8 h-8 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none bg-white/30 z-0"></div>
-                <div className="w-14 h-14 opacity-0 group-hover:opacity-100 rounded-md absolute left-0 bottom-0 transition-all duration-500 ease-in-out group-hover:scale-150 group-hover:rounded-tr-3xl group-hover:rounded-tl-none group-hover:rounded-br-none bg-white/20 z-0"></div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -665,8 +649,8 @@ export default function DataCenterContent() {
             </p>
           </div>
 
-          {/* Installation Points Cards - Biomaster "How it Works" style */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Installation Points Cards - Polished Static Clean UI */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {installationPoints.map((item, idx) => {
               const Icon = item.icon;
               return (
@@ -676,22 +660,35 @@ export default function DataCenterContent() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className="relative group p-8 bg-neutral-50 rounded-2xl border border-neutral-200/60 hover:border-primary/40 hover:bg-white hover:shadow-2xl transition-all duration-500"
+                  className="relative p-6 bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow duration-300 flex flex-col justify-between"
                 >
-                  <span className="absolute top-4 right-6 text-5xl font-bold text-neutral-200/40 group-hover:text-primary/10 transition-colors">
-                    {`0${idx + 1}`}
-                  </span>
-                  <div
-                    className={`w-14 h-14 ${item.bg} ${item.color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}
-                  >
-                    <Icon className="w-7 h-7" />
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div
+                        className={`w-11 h-11 ${item.bg} ${item.color} rounded-xl flex items-center justify-center shadow-xs`}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className="text-2xl font-bold text-slate-300">
+                        {`0${idx + 1}`}
+                      </span>
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-4">
-                    {item.title}
-                  </h3>
-                  <p className="text-neutral-600 leading-relaxed text-sm lg:text-base">
-                    {item.desc}
-                  </p>
+
+                  <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500">
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                      Placement Zone 0{idx + 1}
+                    </span>
+                    <ChevronRightIcon className="w-4 h-4 text-slate-400" />
+                  </div>
                 </motion.div>
               );
             })}
