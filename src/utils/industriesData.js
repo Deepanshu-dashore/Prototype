@@ -275,13 +275,13 @@ Having the proper procedures and technology in place is crucial for keeping a cl
   {
     id: 7,
     slug: "data-centres",
-    title: "Contamination Control Mats for Data Centres",
+    title: "Contamination Control Mats for Data Centers",
     subtitle: "Keeping your precious data safe",
     description:
-      "Prevent dust and particulates from disrupting sensitive Data Centre environments with static-proof polymer mats by CC Matting.",
-    fullDescription: `With the rise in numbers of Data Centres in Ireland it is imperative that maximum contamination control is provided to these extremely sensitive facilities. Data Centre research has shown that up to 70% of computer-related breakdowns are caused by dust and debris.
+      "Prevent dust and particulates from disrupting sensitive Data Center environments with static-proof polymer mats by CC Matting.",
+    fullDescription: `With the rise in numbers of Data Centers in Ireland it is imperative that maximum contamination control is provided to these extremely sensitive facilities. Data Center research has shown that up to 70% of computer-related breakdowns are caused by dust and debris.
   
-  Contamination is a major concern in controlled environments of any data centre. Even small particles can cause massive disruptions and equipment damage. CC Matting Contamination Control Floating Floor Mats support contamination removal from Server Entry areas subject to ESD risk, preventing dust particles from disrupting sensitive systems.
+  Contamination is a major concern in controlled environments of any data center. Even small particles can cause massive disruptions and equipment damage. CC Matting Contamination Control Floating Floor Mats support contamination removal from Server Entry areas subject to ESD risk, preventing dust particles from disrupting sensitive systems.
   
   Possible Areas of Control:
   - Server Air Locks
@@ -307,7 +307,7 @@ Having the proper procedures and technology in place is crucial for keeping a cl
       },
       { name: "Datalec", logo: "/assets/Our Valuable Customers/datalec.png" },
     ],
-    ctaText: "Get a quote for data centres",
+    ctaText: "Get a quote for data centers",
     ctaLink: "/contact",
     href: "/data-center",
   },

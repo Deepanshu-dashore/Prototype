@@ -42,7 +42,7 @@ const industries = [
     },
     {
         icon: ServerIcon,
-        title: 'DATA CENTRES',
+        title: 'DATA CENTERS',
         description: 'Prevent dust and particulate from affecting sensitive equipment.',
         image: '/assets/industries/data-centres.png',
         href: '/industries/data-centres'

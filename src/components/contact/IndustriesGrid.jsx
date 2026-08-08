@@ -19,7 +19,7 @@ export default function IndustriesGrid() {
     { icon: BeakerIcon, name: 'Pharma' },
     { icon: BeakerIcon, name: 'Life Science' },
     { icon: AcademicCapIcon, name: 'Schools/Public Entrances' },
-    { icon: CpuChipIcon, name: 'Data Centres' },
+    { icon: CpuChipIcon, name: 'Data Centers' },
     { icon: WrenchScrewdriverIcon, name: 'Medical Devices' },
   ]
 

@@ -140,7 +140,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link href="/data-center" className="text-sm text-white/80 hover:text-white transition-colors duration-200 inline-block hover:translate-x-0.5">
-                      CCM Data Centers
+                      CCM Data Center Mat
                     </Link>
                   </li>
                   <li>

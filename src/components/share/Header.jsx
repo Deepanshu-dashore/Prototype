@@ -71,7 +71,7 @@ export default function Header({ onContactClick }) {
   const dropdownMenus = {
     Products: [
       { name: 'CCM Heavy Duty', href: '/products/heavy-duty', icon: Square3Stack3DIcon },
-      { name: 'CCM Data Centers', href: '/data-center', icon: ServerIcon },
+      { name: 'CCM Data Center Mat', href: '/data-center', icon: ServerIcon },
       { name: 'CCM Portable Cleanroom Mats', href: '/products/portable-cleanroom-mats', icon: BriefcaseIcon },
       {
         name: 'CCM Anti-Fatigue Mats',

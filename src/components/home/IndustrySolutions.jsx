@@ -42,7 +42,7 @@ export default function IndustrySolutions() {
     },
     {
       icon: ServerIcon,
-      title: 'Data Centres',
+      title: 'Data Centers',
       description: 'Prevent dust and particulate from affecting sensitive equipment.',
       image: '/assets/industries/data-centres.png',
       href: '/industries/data-centres'

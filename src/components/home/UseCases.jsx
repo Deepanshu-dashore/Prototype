@@ -87,7 +87,7 @@ export default function UseCases() {
         },
         {
             icon: ServerIcon,
-            title: 'Data Centre Operations',
+            title: 'Data Center Operations',
             description: 'Prevent dust and particulate from affecting sensitive equipment with specialized floor protection. Essential for maintaining optimal performance and extending equipment lifespan.',
             image: '/assets/industries/data-centres.png',
         },

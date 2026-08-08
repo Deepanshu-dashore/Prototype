@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import DotGrid from "@/src/components/share/DotGrid";
+import ImageZoom from "@/src/components/ui/ImageZoom";
 import {
   ServerIcon,
   ServerStackIcon,
@@ -165,67 +166,65 @@ export default function DataCenterContent() {
 
   return (
     <main className="grow bg-white text-slate-900 font-sans">
-      {/* ─── SECTION 1: HERO (Dark Premium Design) ───────────────────────────── */}
-      <section className="relative text-white py-20 lg:py-32 overflow-hidden" style={{ background: "linear-gradient(180deg, #1e1b4b 0%, #0047AB 50%, #1e40af 100%)" }}>
-        <div
-          className="absolute inset-0 bg-repeat opacity-[0.05] pointer-events-none"
-          style={{ backgroundImage: "url('/circle-pattern.svg')" }}
-          aria-hidden="true"
+      {/* ─── SECTION 1: HERO (Industry Page Style Hero Background & Gradient) ──── */}
+      <section className="relative overflow-hidden h-[85vh] flex items-center">
+        <div className="absolute inset-0 z-20 bg-linear-to-br to-transparent from-black/80" />
+        <img
+          src="/assets/industries/data-centres.png"
+          alt="Data Center Contamination Control Matting"
+          className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Animated background elements */}
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute -top-24 -left-24 w-96 h-96 bg-white rounded-full blur-3xl pointer-events-none"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.1, 0.15, 0.1],
-          }}
-          transition={{ duration: 10, repeat: Infinity, delay: 1 }}
-          className="absolute -bottom-48 -right-24 w-120 h-120 bg-indigo-400 rounded-full blur-3xl pointer-events-none"
-        />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="relative max-w-7xl z-30 mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold uppercase tracking-wider mb-6 text-white">
+              <ShieldCheckIcon className="w-4 h-4 text-blue-400" />
+              Critical Environment Protection
+            </span>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight drop-shadow-lg max-w-5xl mx-auto"
+            >
+              Data Center <br className="hidden sm:inline" />
+              Contamination Control Matting
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-base sm:text-lg lg:text-xl text-white/90 mb-10 max-w-4xl mx-auto leading-relaxed drop-shadow-md"
+            >
+              Safeguarding high-density compute, ISO Class 5 air quality, and operational uptime at the floor level with engineered entrance protection systems.
+            </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex flex-wrap justify-center gap-4"
             >
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-semibold uppercase tracking-wider mb-6">
-                <ShieldCheckIcon className="w-4 h-4" />
-                Critical Environment Protection
-              </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Data Centre <span className="text-indigo-200">Contamination Control Matting</span>
-              </h1>
-              <p className="text-lg sm:text-xl text-indigo-100/90 leading-relaxed max-w-3xl mx-auto mb-8">
-                Safeguarding high-density compute, ISO Class 5 air quality, and operational uptime at the floor level with engineered entrance protection systems.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary rounded-lg font-bold hover:bg-indigo-50 transition-all duration-300 shadow-xl"
-                >
-                  Request Technical Survey
-                  <ArrowRightIcon className="w-5 h-5" />
-                </Link>
-                <a
-                  href="#preventative-architecture"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/25 rounded-lg font-bold transition-all duration-300"
-                >
-                  Explore Architecture
-                  <ChevronRightIcon className="w-5 h-5 text-indigo-200" />
-                </a>
-              </div>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary rounded-lg font-bold hover:bg-indigo-50 transition-all duration-300 shadow-xl group cursor-pointer"
+              >
+                <span>Request Technical Survey</span>
+                <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <a
+                href="#preventative-architecture"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/25 rounded-lg font-bold text-white transition-all duration-300 group cursor-pointer"
+              >
+                <span>Explore Architecture</span>
+                <ChevronRightIcon className="w-5 h-5 text-indigo-200 group-hover:translate-x-1 transition-transform" />
+              </a>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -465,12 +464,17 @@ export default function DataCenterContent() {
               </blockquote>
             </div>
             <div className="lg:w-1/4 flex justify-center shrink-0">
-              <div className="relative">
+              <Link
+                href="/contact"
+                className="relative group cursor-pointer block"
+                title="Contact Us"
+                aria-label="Contact Us"
+              >
                 <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping [animation-duration:3s]" />
-                <div className="relative bg-white p-4 rounded-full shadow-md border border-primary/20">
+                <div className="relative bg-white p-4 rounded-full shadow-md border border-primary/20 group-hover:bg-primary/10 group-hover:scale-110 transition-all duration-300">
                   <ChatBubbleLeftRightIcon className="w-8 h-8 lg:w-9 lg:h-9 text-primary" />
                 </div>
-              </div>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -585,7 +589,7 @@ export default function DataCenterContent() {
             </p>
           </div>
 
-          {/* Operational Benefits Ecosystem Image (Increased Size) */}
+          {/* Operational Benefits Ecosystem Image with Zoom */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -593,13 +597,15 @@ export default function DataCenterContent() {
             transition={{ duration: 0.5 }}
             className="max-w-6xl mx-auto overflow-hidden rounded-xl mb-10 sm:mb-12 flex justify-center"
           >
-            <Image
-              src="/assets/industries/datacenter_benefits_ecosystem.jpg"
-              alt="Operational Benefits Ecosystem"
-              width={1050}
-              height={600}
-              className="w-full h-auto max-h-[580px] object-contain rounded-xl"
-            />
+            <ImageZoom src="/assets/industries/datacenter_benefits_ecosystem.jpg" alt="Operational Benefits Ecosystem" zoomLevel={2}>
+              <Image
+                src="/assets/industries/datacenter_benefits_ecosystem.jpg"
+                alt="Operational Benefits Ecosystem"
+                width={1050}
+                height={600}
+                className="w-full h-auto max-h-[580px] object-contain rounded-xl"
+              />
+            </ImageZoom>
           </motion.div>
 
           {/* Benefits Grid - Polished Clean UI */}
@@ -642,7 +648,7 @@ export default function DataCenterContent() {
               Strategic Placement
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
-              Recommended Installation Points for CC Data Centre Systems
+              Recommended Installation Points for CC Data Center Systems
             </h2>
             <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed max-w-5xl mx-auto">
               By safeguarding critical entrances, mantraps, and server hall access points with CC Matting, data center managers ensure optimum cleanliness and satisfy stringent ISO criteria.

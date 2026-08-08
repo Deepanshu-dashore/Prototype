@@ -37,7 +37,7 @@ export default function IndustriesListContent({ industriesData }) {
         'life-science': 'Life Science',
         'laboratory-settings': 'Laboratory Settings',
         'schools-public-entrances': 'Schools/Public Entrances',
-        'data-centres': 'Data Centres',
+        'data-centres': 'Data Centers',
         'medical-devices': 'Medical Devices',
     };
 
