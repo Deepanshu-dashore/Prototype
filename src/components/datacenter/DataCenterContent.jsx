@@ -168,12 +168,15 @@ export default function DataCenterContent() {
     <main className="grow bg-white text-slate-900 font-sans">
       {/* ─── SECTION 1: HERO (Industry Page Style Hero Background & Gradient) ──── */}
       <section className="relative overflow-hidden h-[85vh] flex items-center">
-        <div className="absolute inset-0 z-20 bg-linear-to-br to-transparent from-black/80" />
         <img
           src="/assets/industries/data-centres.png"
           alt="Data Center Contamination Control Matting"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover z-10"
         />
+        {/* Transparent Black Gradient Overlays for optimal text visibility */}
+        <div className="absolute inset-0 z-20 pointer-events-none bg-black/40" />
+        <div className="absolute inset-0 z-20 pointer-events-none bg-linear-to-b from-black/80 via-black/50 to-black/80" />
+        <div className="absolute inset-0 z-20 pointer-events-none bg-linear-to-r from-black/70 via-transparent to-black/70" />
 
         <div className="relative max-w-7xl z-30 mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 w-full">
           <motion.div
@@ -493,23 +496,6 @@ export default function DataCenterContent() {
             </h2>
           </div>
 
-          {/* Diagram Image 3 (Border & Rounded Corners Removed) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="max-w-5xl mx-auto mb-12 flex justify-center"
-          >
-            <Image
-              src="/assets/industries/datacenter_particle_airflow_protection.png"
-              alt="Footwear & Caster Particle Retention and Airflow & Thermal Protection"
-              width={900}
-              height={450}
-              className="w-full h-auto object-contain"
-            />
-          </motion.div>
-
           <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed text-center max-w-5xl mx-auto">
             To eliminate this threat, forward-thinking facility operators are implementing advanced data center entrance matting and comprehensive floor-level contamination control solutions. CC Matting specializes in delivering high-performance, engineered contamination control matting tailored specifically for demanding technical environments, cleanrooms, and data center flooring systems. Positioned strategically at key transition zones—including main hall entrances, mantraps, airlocks, raised access floor entry points, and equipment staging bays—CC Matting systems form an impenetrable preventative barrier against particle ingress.
           </p>
@@ -531,23 +517,6 @@ export default function DataCenterContent() {
               Unlike disposable adhesive mats or standard textile mats, CC Matting uses an advanced high-tack polymer surface to capture and retain up to 99% of fine particulates from footwear and equipment wheels.
             </p>
           </div>
-
-          {/* Direct Comparison Image (Increased Size) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="max-w-5xl mx-auto overflow-hidden rounded-xl mb-8 flex justify-center"
-          >
-            <Image
-              src="/assets/industries/datacenter_cleaning_vs_matting.jpg"
-              alt="Traditional Cleaning vs Matting Prevention Comparison"
-              width={950}
-              height={520}
-              className="w-full h-auto max-h-[460px] object-contain rounded-xl"
-            />
-          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             <div className="bg-white rounded-xl p-5 sm:p-6 border border-slate-200/80 shadow-xs">
@@ -597,12 +566,12 @@ export default function DataCenterContent() {
             transition={{ duration: 0.5 }}
             className="max-w-6xl mx-auto overflow-hidden rounded-xl mb-10 sm:mb-12 flex justify-center"
           >
-            <ImageZoom src="/assets/industries/datacenter_benefits_ecosystem.jpg" alt="Operational Benefits Ecosystem" zoomLevel={2}>
+            <ImageZoom src="/assets/datacenterImage.png" alt="Operational Benefits Ecosystem" zoomLevel={2}>
               <Image
-                src="/assets/industries/datacenter_benefits_ecosystem.jpg"
+                src="/assets/datacenterImage.png"
                 alt="Operational Benefits Ecosystem"
-                width={1050}
-                height={600}
+                width={1200}
+                height={675}
                 className="w-full h-auto max-h-[580px] object-contain rounded-xl"
               />
             </ImageZoom>
