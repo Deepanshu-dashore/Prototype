@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import {
   EnvelopeIcon,
@@ -31,7 +31,6 @@ export default function CustomerFeedbackAdminPage() {
 
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
   const [selectedFeedback, setSelectedFeedback] =
     useState(null);
 
@@ -45,40 +44,10 @@ export default function CustomerFeedbackAdminPage() {
     isFetching,
     refetch,
   } = api.useGet(
-    ["customer-feedback", page, search, status],
+    ["customer-feedback", page, search],
     `/customer-feedback?page=${page}&limit=10&search=${encodeURIComponent(
       search
-    )}&status=${encodeURIComponent(status)}`
-  );
-
-  // =====================================================
-  // UPDATE STATUS
-  // =====================================================
-
-  const statusMutation = api.usePatch(
-    "customer-feedback",
-    "/customer-feedback",
-    {
-      onSuccess: () => {
-        toast.success(
-          "Feedback status updated successfully"
-        );
-
-        refetch();
-      },
-
-      onError: (error) => {
-        console.error(
-          "Status update error:",
-          error
-        );
-
-        toast.error(
-          error?.response?.data?.message ||
-            "Failed to update feedback status"
-        );
-      },
-    }
+    )}`
   );
 
   // =====================================================
@@ -127,18 +96,60 @@ export default function CustomerFeedbackAdminPage() {
   };
 
   // =====================================================
-  // STATUS CHANGE
+  // SORT FEEDBACK
+  // =====================================================
+  //
+  // ORDER:
+  //
+  // 1. New
+  // 2. Read
+  // 3. Responded
+  //
+  // Inside each status:
+  // Latest submission first.
+  //
+  // This means every new feedback will appear
+  // at the top of the admin list.
+  //
   // =====================================================
 
-  const handleStatusChange = (
-    feedbackId,
-    newStatus
-  ) => {
-    statusMutation.mutate({
-      id: feedbackId,
-      status: newStatus,
-    });
-  };
+  const sortedFeedback = useMemo(() => {
+    const statusPriority = {
+      New: 0,
+      Read: 1,
+      Responded: 2,
+    };
+
+    return [...feedback].sort(
+      (a, b) => {
+        const statusA =
+          statusPriority[
+            a?.status || "New"
+          ] ?? 0;
+
+        const statusB =
+          statusPriority[
+            b?.status || "New"
+          ] ?? 0;
+
+        // First sort by status
+        if (statusA !== statusB) {
+          return statusA - statusB;
+        }
+
+        // Then latest submission first
+        const dateA = new Date(
+          a?.createdAt || 0
+        ).getTime();
+
+        const dateB = new Date(
+          b?.createdAt || 0
+        ).getTime();
+
+        return dateB - dateA;
+      }
+    );
+  }, [feedback]);
 
   // =====================================================
   // DELETE
@@ -167,7 +178,10 @@ export default function CustomerFeedbackAdminPage() {
   };
 
   const handleNextPage = () => {
-    if (page < (pagination.totalPages || 1)) {
+    if (
+      page <
+      (pagination.totalPages || 1)
+    ) {
       setPage((previous) => previous + 1);
     }
   };
@@ -178,15 +192,6 @@ export default function CustomerFeedbackAdminPage() {
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
-    setPage(1);
-  };
-
-  // =====================================================
-  // STATUS FILTER
-  // =====================================================
-
-  const handleStatusFilter = (event) => {
-    setStatus(event.target.value);
     setPage(1);
   };
 
@@ -208,6 +213,26 @@ export default function CustomerFeedbackAdminPage() {
       );
     } catch {
       return "-";
+    }
+  };
+
+  // =====================================================
+  // STATUS BADGE
+  // =====================================================
+
+  const getStatusClasses = (
+    currentStatus
+  ) => {
+    switch (currentStatus) {
+      case "Read":
+        return "bg-blue-50 text-blue-700";
+
+      case "Responded":
+        return "bg-green-50 text-green-700";
+
+      case "New":
+      default:
+        return "bg-orange-50 text-orange-700";
     }
   };
 
@@ -254,7 +279,7 @@ export default function CustomerFeedbackAdminPage() {
             </h1>
 
             <p className="mt-2 text-sm sm:text-base text-[#737987]">
-              View and manage customer feedback submitted
+              View customer feedback submitted
               through the website.
             </p>
           </div>
@@ -309,32 +334,6 @@ export default function CustomerFeedbackAdminPage() {
               />
             </div>
 
-            {/* STATUS */}
-
-            <select
-              value={status}
-              onChange={handleStatusFilter}
-              className="
-                h-12
-                md:w-48
-                px-4
-                rounded-xl
-                border
-                border-[#D8DFEF]
-                bg-white
-                text-sm
-                text-[#30343B]
-                outline-none
-                focus:border-[#173DB8]
-              "
-            >
-              <option value="">All Status</option>
-              <option value="New">New</option>
-              <option value="Read">Read</option>
-              <option value="Responded">
-                Responded
-              </option>
-            </select>
           </div>
         </div>
 
@@ -349,7 +348,7 @@ export default function CustomerFeedbackAdminPage() {
           )}
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1050px]">
+            <table className="w-full min-w-[1000px]">
 
               {/* TABLE HEAD */}
 
@@ -390,197 +389,184 @@ export default function CustomerFeedbackAdminPage() {
               {/* TABLE BODY */}
 
               <tbody>
-                {feedback.map((item) => (
-                  <tr
-                    key={item._id}
-                    className="
-                      border-t
-                      border-[#EDF0F6]
-                      hover:bg-[#FAFBFE]
-                      transition
-                    "
-                  >
+                {sortedFeedback.map(
+                  (item) => (
+                    <tr
+                      key={item._id}
+                      className="
+                        border-t
+                        border-[#EDF0F6]
+                        hover:bg-[#FAFBFE]
+                        transition
+                      "
+                    >
 
-                    {/* CUSTOMER */}
+                      {/* CUSTOMER */}
 
-                    <td className="px-5 py-4">
-                      <div className="font-semibold text-[#151515]">
-                        {item.name}
-                      </div>
+                      <td className="px-5 py-4">
+                        <div className="font-semibold text-[#151515]">
+                          {item.name}
+                        </div>
 
-                      <div className="flex items-center gap-1.5 mt-1 text-xs text-[#737987]">
-                        <EnvelopeIcon className="w-4 h-4" />
+                        <div className="flex items-center gap-1.5 mt-1 text-xs text-[#737987]">
+                          <EnvelopeIcon className="w-4 h-4" />
 
-                        {item.email}
-                      </div>
-                    </td>
+                          {item.email}
+                        </div>
+                      </td>
 
-                    {/* COMPANY */}
+                      {/* COMPANY */}
 
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-2 text-sm text-[#30343B]">
-                        <BuildingOffice2Icon className="w-4 h-4 text-[#173DB8]" />
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-2 text-sm text-[#30343B]">
+                          <BuildingOffice2Icon className="w-4 h-4 text-[#173DB8]" />
 
-                        <span>
-                          {item.companyOrganisation}
+                          <span>
+                            {item.companyOrganisation}
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* OVERALL */}
+
+                      <td className="px-5 py-4">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAF0FF] text-[#173DB8] font-bold text-sm">
+                          <StarIcon className="w-4 h-4 fill-current" />
+
+                          {item.overallSatisfaction}/10
                         </span>
-                      </div>
-                    </td>
+                      </td>
 
-                    {/* OVERALL */}
+                      {/* RECOMMEND */}
 
-                    <td className="px-5 py-4">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAF0FF] text-[#173DB8] font-bold text-sm">
-                        <StarIcon className="w-4 h-4 fill-current" />
-
-                        {item.overallSatisfaction}/10
-                      </span>
-                    </td>
-
-                    {/* RECOMMEND */}
-
-                    <td className="px-5 py-4">
-                      <span
-                        className={`
-                          inline-flex
-                          px-3
-                          py-1.5
-                          rounded-lg
-                          text-xs
-                          font-bold
-
-                          ${
-                            item.recommendToColleague ===
-                            "Yes"
-                              ? "bg-green-50 text-green-700"
-                              : "bg-red-50 text-red-700"
-                          }
-                        `}
-                      >
-                        {item.recommendToColleague}
-                      </span>
-                    </td>
-
-                    {/* STATUS */}
-
-                    <td className="px-5 py-4">
-                      <select
-                        value={item.status || "New"}
-                        onChange={(event) =>
-                          handleStatusChange(
-                            item._id,
-                            event.target.value
-                          )
-                        }
-                        disabled={
-                          statusMutation.isPending
-                        }
-                        className="
-                          px-3
-                          py-2
-                          rounded-lg
-                          border
-                          border-[#D8DFEF]
-                          bg-white
-                          text-sm
-                          text-[#30343B]
-                          outline-none
-                          focus:border-[#173DB8]
-                          disabled:opacity-50
-                        "
-                      >
-                        <option value="New">
-                          New
-                        </option>
-
-                        <option value="Read">
-                          Read
-                        </option>
-
-                        <option value="Responded">
-                          Responded
-                        </option>
-                      </select>
-                    </td>
-
-                    {/* DATE */}
-
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-2 text-sm text-[#737987]">
-                        <CalendarDaysIcon className="w-4 h-4" />
-
-                        {formatDate(item.createdAt)}
-                      </div>
-                    </td>
-
-                    {/* ACTIONS */}
-
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-2">
-
-                        {/* VIEW */}
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setSelectedFeedback(item)
-                          }
-                          title="View feedback"
-                          className="
-                            w-9
-                            h-9
+                      <td className="px-5 py-4">
+                        <span
+                          className={`
+                            inline-flex
+                            px-3
+                            py-1.5
                             rounded-lg
-                            bg-[#EAF0FF]
-                            text-[#173DB8]
-                            flex
-                            items-center
-                            justify-center
-                            hover:bg-[#173DB8]
-                            hover:text-white
-                            transition
-                          "
+                            text-xs
+                            font-bold
+
+                            ${
+                              item.recommendToColleague ===
+                              "Yes"
+                                ? "bg-green-50 text-green-700"
+                                : "bg-red-50 text-red-700"
+                            }
+                          `}
                         >
-                          <EyeIcon className="w-5 h-5" />
-                        </button>
+                          {item.recommendToColleague}
+                        </span>
+                      </td>
 
-                        {/* DELETE */}
+                      {/* STATUS */}
 
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleDelete(item._id)
-                          }
-                          disabled={
-                            deleteMutation.isPending
-                          }
-                          title="Delete feedback"
-                          className="
-                            w-9
-                            h-9
+                      <td className="px-5 py-4">
+                        <span
+                          className={`
+                            inline-flex
+                            items-center
+                            px-3
+                            py-1.5
                             rounded-lg
-                            bg-red-50
-                            text-red-600
-                            flex
-                            items-center
-                            justify-center
-                            hover:bg-red-600
-                            hover:text-white
-                            transition
-                            disabled:opacity-50
-                          "
+                            text-xs
+                            font-bold
+                            ${getStatusClasses(
+                              item.status
+                            )}
+                          `}
                         >
-                          <TrashIcon className="w-5 h-5" />
-                        </button>
+                          {item.status || "New"}
+                        </span>
+                      </td>
 
-                      </div>
-                    </td>
+                      {/* DATE */}
 
-                  </tr>
-                ))}
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-2 text-sm text-[#737987]">
+                          <CalendarDaysIcon className="w-4 h-4" />
+
+                          {formatDate(
+                            item.createdAt
+                          )}
+                        </div>
+                      </td>
+
+                      {/* ACTIONS */}
+
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-2">
+
+                          {/* VIEW */}
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setSelectedFeedback(
+                                item
+                              )
+                            }
+                            title="View feedback"
+                            className="
+                              w-9
+                              h-9
+                              rounded-lg
+                              bg-[#EAF0FF]
+                              text-[#173DB8]
+                              flex
+                              items-center
+                              justify-center
+                              hover:bg-[#173DB8]
+                              hover:text-white
+                              transition
+                            "
+                          >
+                            <EyeIcon className="w-5 h-5" />
+                          </button>
+
+                          {/* DELETE */}
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDelete(
+                                item._id
+                              )
+                            }
+                            disabled={
+                              deleteMutation.isPending
+                            }
+                            title="Delete feedback"
+                            className="
+                              w-9
+                              h-9
+                              rounded-lg
+                              bg-red-50
+                              text-red-600
+                              flex
+                              items-center
+                              justify-center
+                              hover:bg-red-600
+                              hover:text-white
+                              transition
+                              disabled:opacity-50
+                            "
+                          >
+                            <TrashIcon className="w-5 h-5" />
+                          </button>
+
+                        </div>
+                      </td>
+
+                    </tr>
+                  )
+                )}
 
                 {/* EMPTY */}
 
-                {!feedback.length && (
+                {!sortedFeedback.length && (
                   <tr>
                     <td
                       colSpan={7}
@@ -601,6 +587,7 @@ export default function CustomerFeedbackAdminPage() {
                     </td>
                   </tr>
                 )}
+
               </tbody>
             </table>
           </div>
@@ -626,8 +613,13 @@ export default function CustomerFeedbackAdminPage() {
 
               <button
                 type="button"
-                disabled={page <= 1 || isFetching}
-                onClick={handlePreviousPage}
+                disabled={
+                  page <= 1 ||
+                  isFetching
+                }
+                onClick={
+                  handlePreviousPage
+                }
                 className="
                   w-10
                   h-10
@@ -649,19 +641,21 @@ export default function CustomerFeedbackAdminPage() {
                 <ChevronLeftIcon className="w-5 h-5" />
               </button>
 
-              <span className="
-                min-w-[42px]
-                h-10
-                px-3
-                rounded-lg
-                bg-[#173DB8]
-                text-white
-                flex
-                items-center
-                justify-center
-                text-sm
-                font-bold
-              ">
+              <span
+                className="
+                  min-w-[42px]
+                  h-10
+                  px-3
+                  rounded-lg
+                  bg-[#173DB8]
+                  text-white
+                  flex
+                  items-center
+                  justify-center
+                  text-sm
+                  font-bold
+                "
+              >
                 {page}
               </span>
 
@@ -669,10 +663,13 @@ export default function CustomerFeedbackAdminPage() {
                 type="button"
                 disabled={
                   page >=
-                    (pagination.totalPages || 1) ||
+                    (pagination.totalPages ||
+                      1) ||
                   isFetching
                 }
-                onClick={handleNextPage}
+                onClick={
+                  handleNextPage
+                }
                 className="
                   w-10
                   h-10
@@ -838,7 +835,9 @@ function FeedbackDetailModal({
                 <BuildingOffice2Icon className="w-4 h-4" />
               }
               label="Company / Organisation"
-              value={feedback.companyOrganisation}
+              value={
+                feedback.companyOrganisation
+              }
             />
 
           </div>
@@ -853,7 +852,9 @@ function FeedbackDetailModal({
 
             <RatingDetail
               label="Sales Process Clarity"
-              value={feedback.salesProcessClarity}
+              value={
+                feedback.salesProcessClarity
+              }
             />
 
             <DetailItem
@@ -865,37 +866,51 @@ function FeedbackDetailModal({
 
             <RatingDetail
               label="Products Meet Needs"
-              value={feedback.productsMeetNeeds}
+              value={
+                feedback.productsMeetNeeds
+              }
             />
 
             <RatingDetail
               label="Product Range Quality"
-              value={feedback.productRangeQuality}
+              value={
+                feedback.productRangeQuality
+              }
             />
 
             <RatingDetail
               label="Responsiveness"
-              value={feedback.responsiveness}
+              value={
+                feedback.responsiveness
+              }
             />
 
             <RatingDetail
               label="Training Satisfaction"
-              value={feedback.trainingSatisfaction}
+              value={
+                feedback.trainingSatisfaction
+              }
             />
 
             <RatingDetail
               label="Overall Satisfaction"
-              value={feedback.overallSatisfaction}
+              value={
+                feedback.overallSatisfaction
+              }
             />
 
             <RatingDetail
               label="Likelihood to Purchase Again"
-              value={feedback.repurchaseLikelihood}
+              value={
+                feedback.repurchaseLikelihood
+              }
             />
 
             <DetailItem
               label="Recommend to Colleague"
-              value={feedback.recommendToColleague}
+              value={
+                feedback.recommendToColleague
+              }
             />
 
           </div>
@@ -943,9 +958,44 @@ function FeedbackDetailModal({
             </p>
           </div>
 
+          {/* STATUS */}
+
+          <div
+            className="
+              mt-5
+              flex
+              items-center
+              justify-between
+              gap-4
+              flex-wrap
+            "
+          >
+            <div className="flex items-center gap-2 text-sm text-[#737987]">
+              <ShieldCheckIcon className="w-5 h-5" />
+
+              Status:
+            </div>
+
+            <span
+              className={`
+                inline-flex
+                px-3
+                py-1.5
+                rounded-lg
+                text-xs
+                font-bold
+                ${getStatusClasses(
+                  feedback.status
+                )}
+              `}
+            >
+              {feedback.status || "New"}
+            </span>
+          </div>
+
           {/* SUBMISSION DATE */}
 
-          <div className="mt-5 flex items-center gap-2 text-sm text-[#737987]">
+          <div className="mt-4 flex items-center gap-2 text-sm text-[#737987]">
             <CalendarDaysIcon className="w-5 h-5" />
 
             Submitted on{" "}
@@ -963,10 +1013,32 @@ function FeedbackDetailModal({
 }
 
 // ======================================================
+// STATUS CLASSES
+// ======================================================
+
+function getStatusClasses(
+  currentStatus
+) {
+  switch (currentStatus) {
+    case "Read":
+      return "bg-blue-50 text-blue-700";
+
+    case "Responded":
+      return "bg-green-50 text-green-700";
+
+    case "New":
+    default:
+      return "bg-orange-50 text-orange-700";
+  }
+}
+
+// ======================================================
 // SECTION TITLE
 // ======================================================
 
-function SectionTitle({ children }) {
+function SectionTitle({
+  children,
+}) {
   return (
     <h3
       className="
