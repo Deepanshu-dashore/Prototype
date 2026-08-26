@@ -14,6 +14,7 @@ import {
 
 import { useApiClient } from "@/src/config/axios";
 import { toast } from "react-hot-toast";
+import Footer from "@/src/components/share/Footer";
 
 // ======================================================
 // INITIAL FORM
@@ -501,6 +502,7 @@ export default function CustomerFeedbackPage() {
   // ====================================================
 
   return (
+    <>
     <main
       className="
         min-h-screen
@@ -1581,7 +1583,11 @@ export default function CustomerFeedbackPage() {
           </section>
         </form>
       </div>
+     
     </main>
+     <Footer />
+    </>
+    
   );
 }
 
@@ -1796,5 +1802,6 @@ function FieldError({
     >
       {message}
     </p>
+    
   );
 }
