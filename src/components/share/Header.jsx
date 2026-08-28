@@ -42,6 +42,7 @@ import { getAllIndustries } from '../../utils/industriesData'
 
 // Inside component ...
 import { trackFormOpen, trackPhoneClick } from '../../utils/analytics'
+import { PhoneIcon } from 'lucide-react'
 
 export default function Header({ onContactClick }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -109,6 +110,7 @@ export default function Header({ onContactClick }) {
       { name: 'Entrance Matting Ireland', href: 'https://entrancemattingireland.ie/', icon: BuildingOfficeIcon },
       { name: 'Logo Mats Ireland', href: 'https://logomatsireland.ie/', icon: BuildingOfficeIcon },
     ],
+
     // Technical: [
     //   { name: 'View All Technical Documents', href: '/compliance', icon: FolderIcon },
     //   { name: 'CC Matting vs Peel-Off Mat Comparison', href: 'https://ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.2-Copy.pdf', icon: ArrowsRightLeftIcon },
@@ -117,6 +119,11 @@ export default function Header({ onContactClick }) {
     //   { name: 'CC Matting Warranty', href: 'https://ccmatting.ie/wp-content/uploads/2018/08/5332201-CC-Matting-A4-5pp-website-info.3-Copy.pdf', icon: ShieldCheckIcon },
     //   { name: 'CC Matting Brochure', href: 'https://ccmatting.ie/wp-content/uploads/2024/10/CCMatting-2pager-2.pdf', icon: BookOpenIcon },
     // ],
+    Contact: [
+      { name: 'Contact Us', href: '/contact', icon: PhoneIcon },
+      { name: 'Distributor Enquiry', href: '/distributors-infomation', icon: UsersIcon },
+    ],
+
     Compliance: [
       { name: 'Quality & Compliance Overview', href: '/compliance', icon: InformationCircleIcon },
       { name: 'ISO 9001 - Cert 2025-26', href: '/compliances/doc/CC Matting - ISO 9001-2015 - 2025 - 2026.pdf', icon: CheckBadgeIcon },
@@ -143,7 +150,7 @@ export default function Header({ onContactClick }) {
     { name: 'Compliance', href: '/compliance', isLink: false, hasDropdown: true },
     { name: 'Industries', href: '/industries', isLink: false, hasDropdown: true },
     // { name: 'Blogs', href: '/blog', isLink: true },
-    { name: 'Contact', href: '/contact', isLink: true },
+    { name: 'Contact', href: '/contact', isLink: false,hasDropdown: true},
   ]
 
   return (
