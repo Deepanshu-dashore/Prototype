@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import connectDB from "@/src/config/db";
-import Distributor from "@/app/lib/models/distributor";
+import connectDB from "@/app/lib/db/connect";
+import DistributorInformation from "@/app/lib/models/distributors-information";
 
 // ======================================================
 // GET ALL DISTRIBUTORS
@@ -12,7 +12,7 @@ export async function GET() {
     await connectDB();
 
     const distributors =
-      await Distributor.find({})
+      await DistributorInformation.find({})
         .sort({
           sortOrder: 1,
           createdAt: -1,
@@ -138,7 +138,7 @@ export async function POST(request) {
     // --------------------------------------------------
 
     const distributor =
-      await Distributor.create({
+      await DistributorInformation.create({
         companyName:
           companyName.trim(),
 

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 
-import connectDB from "@/src/config/db";
-import Distributor from "@/app/lib/models/distributor";
+import connectDB from "@/app/lib/db/connect";
+import DistributorInformation from "@/app/lib/models/distributors-information";
 
 // ======================================================
 // GET SINGLE DISTRIBUTOR
@@ -33,7 +33,7 @@ export async function GET(
     }
 
     const distributor =
-      await Distributor.findById(id).lean();
+      await DistributorInformation.findById(id).lean();
 
     if (!distributor) {
       return NextResponse.json(
@@ -177,7 +177,7 @@ export async function PUT(
         : [];
 
     const updatedDistributor =
-      await Distributor.findByIdAndUpdate(
+      await DistributorInformation.findByIdAndUpdate(
         id,
         {
           companyName:
@@ -325,7 +325,7 @@ export async function DELETE(
     }
 
     const deletedDistributor =
-      await Distributor.findByIdAndDelete(
+      await DistributorInformation.findByIdAndDelete(
         id
       );
 

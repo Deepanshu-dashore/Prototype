@@ -191,9 +191,13 @@ distributorSchema.index({
 // MODEL
 // ======================================================
 
-export const Distributor =
-  mongoose.models.Distributor ||
+export const DistributorInformation =
+  mongoose.models.DistributorInformation ||
   mongoose.model(
-    "Distributor",
+    "DistributorInformation",
     distributorSchema
   );
+
+export const Distributor = DistributorInformation;
+
+export default DistributorInformation;
