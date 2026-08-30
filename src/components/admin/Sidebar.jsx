@@ -24,6 +24,7 @@ const navigation = [
     { name: 'Orders', href: '/admin/orders', icon: DocumentTextIcon },
     { name: 'Enquiries', href: '/admin/enquiries', icon: ChatBubbleOvalLeftEllipsisIcon },
     { name: 'Distributors', href: '/admin/distributors', icon: UserGroupIcon },
+    { name : 'Distributors INformation', href:'/admin/distributors-infomation', icon: UserGroupIcon },
     { name: 'Products', href: '/admin/products', icon: ArchiveBoxIcon },
     {
         name: 'Blogs',
