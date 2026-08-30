@@ -1970,6 +1970,7 @@ import {
 
 import { useApiClient } from "@/src/config/axios";
 import Footer from "@/src/components/share/Footer";
+import Header from "@/src/components/share/Header";
 
 // ======================================================
 // COUNTRY FLAG
@@ -2583,7 +2584,9 @@ export default function DistributorPage() {
   // ====================================================
 
   return (
+    
     <>
+<Header/>
       <main
         className="
           min-h-screen
