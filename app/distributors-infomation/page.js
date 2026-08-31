@@ -502,9 +502,10 @@ function normalizeFlag(
     // FLAG
     // ----------------------------------------------------
 
-    const flag =
-      item.flag ||
-      getCountryFlag(country);
+const flag = normalizeFlag(
+  item.flag,
+  country
+);
 
     // ----------------------------------------------------
     // RETURN
@@ -1691,7 +1692,8 @@ function DistributorCard({ distributor }) {
   // PROFESSIONAL FALLBACK TEXT
   // =========================================================
 
-  const displayFlag = flag || "🌍";
+  const displayFlag =
+  normalizeFlag(flag, country);
   const displayRegion = region || "Global";
   const displayCountry = country || "Country not specified";
 
