@@ -3473,448 +3473,480 @@ import Globe from "@/src/components/share/Glob";
   // ======================================================
   // DISTRIBUTOR CARD
   // ======================================================
+function DistributorCard({ distributor }) {
+  const {
+    companyName,
+    country,
+    region,
+    location,
+    emails = [],
+    phone,
+    phoneDisplay,
+    website,
+    flag,
+  } = distributor;
 
-  function DistributorCard({
-    distributor,
-  }) {
-    const {
-      companyName,
-      country,
-      region,
-      location,
-      emails = [],
-      phone,
-      phoneDisplay,
-      website,
-      flag,
-    } = distributor;
+  const websiteUrl = getWebsiteUrl(website);
 
-    const websiteUrl =
-      getWebsiteUrl(website);
+  const phoneHref = phone
+    ? `tel:${phone.replace(/[^\d+]/g, "")}`
+    : "";
 
-    const phoneHref = phone
-      ? `tel:${phone.replace(
-          /[^\d+]/g,
-          ""
-        )}`
-      : "";
+  // =========================================================
+  // PROFESSIONAL FALLBACK TEXT
+  // =========================================================
 
-    return (
-      <article
+  const displayFlag = flag || "🌍";
+  const displayRegion = region || "Global";
+  const displayCountry = country || "Country not specified";
+
+  const displayLocation =
+    location || "Location not available";
+
+  const hasPhone = Boolean(phone);
+  const hasEmails =
+    Array.isArray(emails) && emails.length > 0;
+  const hasWebsite = Boolean(website);
+
+  return (
+    <article
+      className="
+        group
+        relative
+        flex
+        h-full
+        min-h-[390px]
+        flex-col
+        overflow-hidden
+        rounded-3xl
+        border
+        border-[#DDE3F2]
+        bg-white
+        shadow-sm
+        transition-all
+        duration-300
+        hover:-translate-y-1
+        hover:border-[#BFCBEB]
+        hover:shadow-xl
+      "
+    >
+      {/* ==================================================
+          BLUE TOP BORDER
+      ================================================== */}
+
+      <div
         className="
-          group
-          relative
+          h-1.5
+          w-full
+          bg-[#173DB8]
+        "
+      />
+
+      {/* ==================================================
+          CARD BODY
+      ================================================== */}
+
+      <div
+        className="
           flex
-          h-full
-          min-h-[390px]
+          flex-1
           flex-col
-          overflow-hidden
-          rounded-3xl
-          border
-          border-[#DDE3F2]
-          bg-white
-          shadow-sm
-          transition-all
-          duration-300
-          hover:-translate-y-1
-          hover:border-[#BFCBEB]
-          hover:shadow-xl
+          p-6
         "
       >
-        {/* ==================================================
-            BLUE TOP BORDER
-        ================================================== */}
+        {/* =================================================
+            COUNTRY / REGION
+        ================================================= */}
 
-        <div
-          className="
-            h-1.5
-            w-full
-            bg-[#173DB8]
-          "
-        />
-
-        {/* ==================================================
-            CARD BODY
-        ================================================== */}
-
-        <div
-          className="
-            flex
-            flex-1
-            flex-col
-            p-6
-          "
-        >
-          {/* =================================================
-              COUNTRY
-          ================================================= */}
-<div className="flex items-center gap-3">
-  <span
-    className="
-      flex
-      h-11
-      w-11
-      shrink-0
-      items-center
-      justify-center
-      rounded-xl
-      bg-[#F3F6FF]
-      text-2xl
-    "
-  >
-    {distributor.flag || "🌍"}
-  </span>
-
-  <div className="min-w-0">
-    <p
-      className="
-        text-xs
-        font-semibold
-        uppercase
-        tracking-[0.12em]
-        text-[#173DB8]
-      "
-    >
-      {distributor.region || "Global"}
-    </p>
-
-    <p
-      className="
-        mt-1
-        text-sm
-        font-medium
-        text-[#606673]
-      "
-    >
-      {distributor.country}
-    </p>
-  </div>
-</div>
-
-          {/* =================================================
-              COMPANY
-          ================================================= */}
-
-          <h2
+        <div className="flex items-center gap-3">
+          <span
             className="
-              mt-5
-              text-xl
-              font-bold
-              leading-7
-              text-[#151515]
+              flex
+              h-11
+              w-11
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#F3F6FF]
+              text-2xl
             "
           >
-            {companyName}
-          </h2>
+            {displayFlag}
+          </span>
 
-          {/* =================================================
-              LOCATION
-          ================================================= */}
-
-          {location && (
-            <div
+          <div className="min-w-0">
+            <p
               className="
-                mt-5
-                flex
-                items-start
-                gap-3
+                text-xs
+                font-semibold
+                uppercase
+                tracking-[0.12em]
+                text-[#173DB8]
               "
             >
-              <div
-                className="
-                  flex
-                  h-10
-                  w-10
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-xl
-                  bg-[#EAF0FF]
-                  text-[#173DB8]
-                "
-              >
-                <MapPinIcon
-                  className="
-                    h-5
-                    w-5
-                  "
-                />
-              </div>
+              {displayRegion}
+            </p>
 
-              <div
-                className="
-                  min-w-0
-                "
-              >
-                <p
-                  className="
-                    text-xs
-                    font-bold
-                    uppercase
-                    tracking-wide
-                    text-[#8A909D]
-                  "
-                >
-                  Location
-                </p>
-
-                <p
-                  className="
-                    mt-1
-                    text-sm
-                    leading-6
-                    text-[#606673]
-                  "
-                >
-                  {location}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* =================================================
-              PHONE
-          ================================================= */}
-
-          {phone && (
-            <div
+            <p
               className="
-                mt-5
-                flex
-                items-start
-                gap-3
+                mt-1
+                text-sm
+                font-medium
+                text-[#606673]
               "
             >
-              <div
-                className="
-                  flex
-                  h-10
-                  w-10
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-xl
-                  bg-[#EAF0FF]
-                  text-[#173DB8]
-                "
-              >
-                <PhoneIcon
-                  className="
-                    h-5
-                    w-5
-                  "
-                />
-              </div>
-
-              <div
-                className="
-                  min-w-0
-                "
-              >
-                <p
-                  className="
-                    text-xs
-                    font-bold
-                    uppercase
-                    tracking-wide
-                    text-[#8A909D]
-                  "
-                >
-                  Phone
-                </p>
-
-                <a
-                  href={phoneHref}
-                  className="
-                    mt-1
-                    block
-                    break-words
-                    text-sm
-                    leading-6
-                    text-[#606673]
-                    transition
-                    hover:text-[#173DB8]
-                  "
-                >
-                  {phoneDisplay ||
-                    phone}
-                </a>
-              </div>
-            </div>
-          )}
-
-          {/* =================================================
-              EMAILS
-          ================================================= */}
-
-          {emails.length > 0 && (
-            <div
-              className="
-                mt-5
-                flex
-                items-start
-                gap-3
-              "
-            >
-              <div
-                className="
-                  flex
-                  h-10
-                  w-10
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-xl
-                  bg-[#EAF0FF]
-                  text-[#173DB8]
-                "
-              >
-                <EnvelopeIcon
-                  className="
-                    h-5
-                    w-5
-                  "
-                />
-              </div>
-
-              <div
-                className="
-                  min-w-0
-                "
-              >
-                <p
-                  className="
-                    text-xs
-                    font-bold
-                    uppercase
-                    tracking-wide
-                    text-[#8A909D]
-                  "
-                >
-                  Email
-                </p>
-
-                <div
-                  className="
-                    mt-1
-                    space-y-1
-                  "
-                >
-                  {emails.map(
-                    (
-                      email,
-                      index
-                    ) => (
-                      <a
-                        key={`${email}-${index}`}
-                        href={`mailto:${email}`}
-                        className="
-                          block
-                          break-all
-                          text-sm
-                          leading-6
-                          text-[#606673]
-                          transition
-                          hover:text-[#173DB8]
-                        "
-                      >
-                        {email}
-                      </a>
-                    )
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* =================================================
-              WEBSITE
-          ================================================= */}
-
-          {website && (
-            <div
-              className="
-                mt-5
-                flex
-                items-start
-                gap-3
-              "
-            >
-              <div
-                className="
-                  flex
-                  h-10
-                  w-10
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-xl
-                  bg-[#EAF0FF]
-                  text-[#173DB8]
-                "
-              >
-                <GlobeAltIcon
-                  className="
-                    h-5
-                    w-5
-                  "
-                />
-              </div>
-
-              <div
-                className="
-                  min-w-0
-                "
-              >
-                <p
-                  className="
-                    text-xs
-                    font-bold
-                    uppercase
-                    tracking-wide
-                    text-[#8A909D]
-                  "
-                >
-                  Website
-                </p>
-
-                <a
-                  href={websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    mt-1
-                    flex
-                    items-center
-                    gap-1.5
-                    break-all
-                    text-sm
-                    leading-6
-                    text-[#173DB8]
-                    transition
-                    hover:underline
-                  "
-                >
-                  {website}
-
-                  <ArrowTopRightOnSquareIcon
-                    className="
-                      h-4
-                      w-4
-                      shrink-0
-                    "
-                  />
-                </a>
-              </div>
-            </div>
-          )}
-
-          {/* =================================================
-              REMOVED:
-              CC Matting Distribution Partner
-          ================================================= */}
-
+              {displayCountry}
+            </p>
+          </div>
         </div>
-      </article>
-    );
-  }
+
+        {/* =================================================
+            COMPANY
+        ================================================= */}
+
+        <h2
+          className="
+            mt-5
+            text-xl
+            font-bold
+            leading-7
+            text-[#151515]
+          "
+        >
+          {companyName || "Distributor name unavailable"}
+        </h2>
+
+        {/* =================================================
+            LOCATION
+        ================================================= */}
+
+        <div
+          className="
+            mt-5
+            flex
+            items-start
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#EAF0FF]
+              text-[#173DB8]
+            "
+          >
+            <MapPinIcon
+              className="
+                h-5
+                w-5
+              "
+            />
+          </div>
+
+          <div className="min-w-0">
+            <p
+              className="
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-[#8A909D]
+              "
+            >
+              Location
+            </p>
+
+            {location ? (
+              <p
+                className="
+                  mt-1
+                  text-sm
+                  leading-6
+                  text-[#606673]
+                "
+              >
+                {location}
+              </p>
+            ) : (
+              <p
+                className="
+                  mt-1
+                  text-sm
+                  leading-6
+                  italic
+                  text-[#9AA1AE]
+                "
+              >
+                Location not available
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* =================================================
+            PHONE
+        ================================================= */}
+
+        <div
+          className="
+            mt-5
+            flex
+            items-start
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#EAF0FF]
+              text-[#173DB8]
+            "
+          >
+            <PhoneIcon
+              className="
+                h-5
+                w-5
+              "
+            />
+          </div>
+
+          <div className="min-w-0">
+            <p
+              className="
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-[#8A909D]
+              "
+            >
+              Phone
+            </p>
+
+            {hasPhone ? (
+              <a
+                href={phoneHref}
+                className="
+                  mt-1
+                  block
+                  break-words
+                  text-sm
+                  leading-6
+                  text-[#606673]
+                  transition
+                  hover:text-[#173DB8]
+                "
+              >
+                {phoneDisplay || phone}
+              </a>
+            ) : (
+              <p
+                className="
+                  mt-1
+                  text-sm
+                  leading-6
+                  italic
+                  text-[#9AA1AE]
+                "
+              >
+                Phone number not available
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* =================================================
+            EMAILS
+        ================================================= */}
+
+        <div
+          className="
+            mt-5
+            flex
+            items-start
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#EAF0FF]
+              text-[#173DB8]
+            "
+          >
+            <EnvelopeIcon
+              className="
+                h-5
+                w-5
+              "
+            />
+          </div>
+
+          <div className="min-w-0">
+            <p
+              className="
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-[#8A909D]
+              "
+            >
+              Email
+            </p>
+
+            {hasEmails ? (
+              <div
+                className="
+                  mt-1
+                  space-y-1
+                "
+              >
+                {emails.map(
+                  (email, index) => (
+                    <a
+                      key={`${email}-${index}`}
+                      href={`mailto:${email}`}
+                      className="
+                        block
+                        break-all
+                        text-sm
+                        leading-6
+                        text-[#606673]
+                        transition
+                        hover:text-[#173DB8]
+                      "
+                    >
+                      {email}
+                    </a>
+                  )
+                )}
+              </div>
+            ) : (
+              <p
+                className="
+                  mt-1
+                  text-sm
+                  leading-6
+                  italic
+                  text-[#9AA1AE]
+                "
+              >
+                Email address not available
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* =================================================
+            WEBSITE
+        ================================================= */}
+
+        <div
+          className="
+            mt-5
+            flex
+            items-start
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#EAF0FF]
+              text-[#173DB8]
+            "
+          >
+            <GlobeAltIcon
+              className="
+                h-5
+                w-5
+              "
+            />
+          </div>
+
+          <div className="min-w-0">
+            <p
+              className="
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-[#8A909D]
+              "
+            >
+              Website
+            </p>
+
+            {hasWebsite ? (
+              <a
+                href={websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                  mt-1
+                  flex
+                  items-center
+                  gap-1.5
+                  break-all
+                  text-sm
+                  leading-6
+                  text-[#173DB8]
+                  transition
+                  hover:underline
+                "
+              >
+                {website}
+
+                <ArrowTopRightOnSquareIcon
+                  className="
+                    h-4
+                    w-4
+                    shrink-0
+                  "
+                />
+              </a>
+            ) : (
+              <p
+                className="
+                  mt-1
+                  text-sm
+                  leading-6
+                  italic
+                  text-[#9AA1AE]
+                "
+              >
+                Website not available
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
