@@ -346,16 +346,15 @@ import {
   GlobeAltIcon,
   PencilIcon,
   TrashIcon,
+  ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline";
 
 // ======================================================
-// COUNTRY CODE → FLAG EMOJI
+// COUNTRY FLAG HELPERS
 // ======================================================
 
 function countryCodeToEmoji(code = "") {
-  const value = String(code)
-    .trim()
-    .toUpperCase();
+  const value = String(code).trim().toUpperCase();
 
   if (!/^[A-Z]{2}$/.test(value)) {
     return "";
@@ -364,25 +363,16 @@ function countryCodeToEmoji(code = "") {
   return String.fromCodePoint(
     ...value
       .split("")
-      .map(
-        (char) =>
-          127397 + char.charCodeAt(0)
-      )
+      .map((char) => 127397 + char.charCodeAt(0))
   );
 }
 
-// ======================================================
-// COUNTRY NAME → FLAG
-// ======================================================
-
 function getCountryFlag(country = "") {
-  const value = String(country)
-    .trim()
-    .toLowerCase();
+  const value = String(country).trim().toLowerCase();
 
-  // ====================================================
+  // ----------------------------------------------------
   // EUROPE
-  // ====================================================
+  // ----------------------------------------------------
 
   if (value.includes("ireland")) {
     return "🇮🇪";
@@ -448,21 +438,9 @@ function getCountryFlag(country = "") {
     return "🇩🇰";
   }
 
-  if (value.includes("switzerland")) {
-    return "🇨🇭";
-  }
-
-  if (value.includes("austria")) {
-    return "🇦🇹";
-  }
-
-  if (value.includes("portugal")) {
-    return "🇵🇹";
-  }
-
-  // ====================================================
+  // ----------------------------------------------------
   // ASIA
-  // ====================================================
+  // ----------------------------------------------------
 
   if (value.includes("india")) {
     return "🇮🇳";
@@ -504,17 +482,9 @@ function getCountryFlag(country = "") {
     return "🇻🇳";
   }
 
-  if (value.includes("philippines")) {
-    return "🇵🇭";
-  }
-
-  if (value.includes("taiwan")) {
-    return "🇹🇼";
-  }
-
-  // ====================================================
+  // ----------------------------------------------------
   // AFRICA
-  // ====================================================
+  // ----------------------------------------------------
 
   if (value.includes("south africa")) {
     return "🇿🇦";
@@ -532,13 +502,9 @@ function getCountryFlag(country = "") {
     return "🇪🇬";
   }
 
-  if (value.includes("morocco")) {
-    return "🇲🇦";
-  }
-
-  // ====================================================
+  // ----------------------------------------------------
   // NORTH AMERICA
-  // ====================================================
+  // ----------------------------------------------------
 
   if (
     value.includes("united states") ||
@@ -560,41 +526,9 @@ function getCountryFlag(country = "") {
     return "🇨🇷";
   }
 
-  // ====================================================
-  // SOUTH AMERICA
-  // ====================================================
-
-  if (value.includes("brazil")) {
-    return "🇧🇷";
-  }
-
-  if (value.includes("argentina")) {
-    return "🇦🇷";
-  }
-
-  if (value.includes("chile")) {
-    return "🇨🇱";
-  }
-
-  if (value.includes("colombia")) {
-    return "🇨🇴";
-  }
-
-  // ====================================================
-  // OCEANIA
-  // ====================================================
-
-  if (value.includes("australia")) {
-    return "🇦🇺";
-  }
-
-  if (value.includes("new zealand")) {
-    return "🇳🇿";
-  }
-
-  // ====================================================
-  // DEFAULT
-  // ====================================================
+  // ----------------------------------------------------
+  // FALLBACK
+  // ----------------------------------------------------
 
   return "🌍";
 }
@@ -606,29 +540,17 @@ function getCountryFlag(country = "") {
 function normalizeFlag(flag, country = "") {
   const value = String(flag || "").trim();
 
-  // ----------------------------------------------------
-  // No flag → detect from country
-  // ----------------------------------------------------
-
+  // No flag from API/database
   if (!value) {
     return getCountryFlag(country);
   }
 
-  // ----------------------------------------------------
   // Already an emoji
-  // ----------------------------------------------------
-
-  if (
-    /\p{Extended_Pictographic}/u.test(value)
-  ) {
+  if (/\p{Extended_Pictographic}/u.test(value)) {
     return value;
   }
 
-  // ----------------------------------------------------
-  // ISO code
-  // Example: ES → 🇪🇸
-  // ----------------------------------------------------
-
+  // ISO country code
   if (/^[A-Za-z]{2}$/.test(value)) {
     return (
       countryCodeToEmoji(value) ||
@@ -636,10 +558,7 @@ function normalizeFlag(flag, country = "") {
     );
   }
 
-  // ----------------------------------------------------
-  // Country name stored inside flag field
-  // ----------------------------------------------------
-
+  // Country name stored in flag field
   return getCountryFlag(value);
 }
 
@@ -652,14 +571,16 @@ function getWebsiteUrl(website = "") {
     return "";
   }
 
+  const value = String(website).trim();
+
   if (
-    website.startsWith("http://") ||
-    website.startsWith("https://")
+    value.startsWith("http://") ||
+    value.startsWith("https://")
   ) {
-    return website;
+    return value;
   }
 
-  return `https://${website}`;
+  return `https://${value}`;
 }
 
 // ======================================================
@@ -671,6 +592,10 @@ export default function DistributorCard({
   onEdit,
   onDelete,
 }) {
+  if (!distributor) {
+    return null;
+  }
+
   const {
     companyName,
     country,
@@ -678,6 +603,7 @@ export default function DistributorCard({
     location,
     emails = [],
     phone,
+    phoneDisplay,
     website,
     flag,
     status,
@@ -687,366 +613,573 @@ export default function DistributorCard({
   // DISPLAY VALUES
   // ====================================================
 
-  const displayFlag = normalizeFlag(
-    flag,
-    country
-  );
+  const displayFlag = normalizeFlag(flag, country);
 
   const displayCountry =
     country || "Country not specified";
 
   const displayRegion =
-    region || "Region not specified";
-
-  const displayCompany =
-    companyName ||
-    "Distributor name not specified";
+    region || "Global";
 
   const displayLocation =
-    location || "Location not provided";
+    location || "Location not available";
 
-  const hasPhone = Boolean(
-    phone &&
-      String(phone).trim()
-  );
+  const displayCompany =
+    companyName || "Distributor name unavailable";
+
+  const hasPhone = Boolean(phone);
 
   const hasEmails =
     Array.isArray(emails) &&
     emails.length > 0;
 
-  const hasWebsite = Boolean(
-    website &&
-      String(website).trim()
-  );
+  const hasWebsite = Boolean(website);
 
   const websiteUrl =
     getWebsiteUrl(website);
 
-  const phoneHref = hasPhone
+  const phoneHref = phone
     ? `tel:${String(phone).replace(
         /[^\d+]/g,
         ""
       )}`
     : "";
 
-  // ====================================================
-  // RETURN
-  // ====================================================
+  const currentStatus =
+    status || "Active";
+
+  const isActive =
+    String(currentStatus).toLowerCase() ===
+    "active";
 
   return (
     <article
       className="
+        group
+        relative
+        flex
+        h-full
+        min-h-[430px]
+        flex-col
         overflow-hidden
-        rounded-2xl
+        rounded-3xl
         border
         border-[#DDE3F2]
         bg-white
         shadow-sm
-        transition
-        hover:shadow-md
+        transition-all
+        duration-300
+        hover:-translate-y-1
+        hover:border-[#BFCBEB]
+        hover:shadow-xl
       "
     >
       {/* ==================================================
-          TOP
+          BLUE TOP BORDER
+      ================================================== */}
+
+      <div
+        className="
+          h-1.5
+          w-full
+          shrink-0
+          bg-[#173DB8]
+        "
+      />
+
+      {/* ==================================================
+          CARD BODY
       ================================================== */}
 
       <div
         className="
           flex
-          items-start
-          justify-between
-          gap-4
-          border-b
-          border-[#E8ECF5]
-          p-5
+          flex-1
+          flex-col
+          p-6
         "
       >
-        <div className="min-w-0">
-
-          {/* COUNTRY */}
-
-          <div
-            className="
-              mb-3
-              inline-flex
-              items-center
-              gap-2
-              rounded-full
-              bg-[#EAF0FF]
-              px-3
-              py-1
-              text-xs
-              font-semibold
-              text-[#173DB8]
-            "
-          >
-            <span
-              className="
-                text-base
-                leading-none
-              "
-              aria-hidden="true"
-            >
-              {displayFlag}
-            </span>
-
-            <span>
-              {displayCountry}
-            </span>
-          </div>
-
-          {/* COMPANY */}
-
-          <h3
-            className="
-              break-words
-              text-lg
-              font-bold
-              leading-6
-              text-[#151515]
-            "
-          >
-            {displayCompany}
-          </h3>
-
-          {/* REGION */}
-
-          <p
-            className="
-              mt-1
-              text-xs
-              font-medium
-              text-[#737987]
-            "
-          >
-            {displayRegion}
-          </p>
-        </div>
-
-        {/* ==================================================
-            ACTIONS
-        ================================================== */}
+        {/* =================================================
+            COUNTRY / REGION / ACTIONS
+        ================================================= */}
 
         <div
           className="
             flex
-            shrink-0
-            gap-1
+            items-start
+            justify-between
+            gap-4
           "
         >
-          {/* EDIT */}
+          {/* COUNTRY */}
 
-          <button
-            type="button"
-            onClick={() =>
-              onEdit?.(distributor)
-            }
-            title="Edit distributor"
-            aria-label="Edit distributor"
+          <div
             className="
               flex
-              h-9
-              w-9
+              min-w-0
               items-center
-              justify-center
-              rounded-lg
-              text-[#173DB8]
-              transition
-              hover:bg-[#EAF0FF]
+              gap-3
             "
           >
-            <PencilIcon
+            <span
               className="
-                h-4
-                w-4
+                flex
+                h-11
+                w-11
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-[#F3F6FF]
+                text-2xl
               "
-            />
-          </button>
+              title={displayCountry}
+            >
+              {displayFlag}
+            </span>
 
-          {/* DELETE */}
+            <div className="min-w-0">
+              <p
+                className="
+                  text-xs
+                  font-semibold
+                  uppercase
+                  tracking-[0.12em]
+                  text-[#173DB8]
+                "
+              >
+                {displayRegion}
+              </p>
 
-          <button
-            type="button"
-            onClick={() =>
-              onDelete?.(distributor)
-            }
-            title="Delete distributor"
-            aria-label="Delete distributor"
+              <p
+                className="
+                  mt-1
+                  truncate
+                  text-sm
+                  font-medium
+                  text-[#606673]
+                "
+                title={displayCountry}
+              >
+                {displayCountry}
+              </p>
+            </div>
+          </div>
+
+          {/* =================================================
+              ADMIN ACTIONS
+          ================================================= */}
+
+          <div
             className="
               flex
-              h-9
-              w-9
+              shrink-0
               items-center
-              justify-center
-              rounded-lg
-              text-red-500
-              transition
-              hover:bg-red-50
+              gap-1
             "
           >
-            <TrashIcon
+            {/* EDIT */}
+
+            <button
+              type="button"
+              onClick={() =>
+                onEdit?.(distributor)
+              }
+              title="Edit distributor"
+              aria-label="Edit distributor"
               className="
-                h-4
-                w-4
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-lg
+                text-[#173DB8]
+                transition
+                hover:bg-[#EAF0FF]
               "
-            />
-          </button>
+            >
+              <PencilIcon
+                className="
+                  h-4
+                  w-4
+                "
+              />
+            </button>
+
+            {/* DELETE */}
+
+            <button
+              type="button"
+              onClick={() =>
+                onDelete?.(distributor)
+              }
+              title="Delete distributor"
+              aria-label="Delete distributor"
+              className="
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-lg
+                text-red-500
+                transition
+                hover:bg-red-50
+              "
+            >
+              <TrashIcon
+                className="
+                  h-4
+                  w-4
+                "
+              />
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* ==================================================
-          DETAILS
-      ================================================== */}
+        {/* =================================================
+            COMPANY
+        ================================================= */}
 
-      <div
-        className="
-          space-y-4
-          p-5
-        "
-      >
+        <h2
+          className="
+            mt-5
+            break-words
+            text-xl
+            font-bold
+            leading-7
+            text-[#151515]
+          "
+        >
+          {displayCompany}
+        </h2>
 
         {/* =================================================
             LOCATION
         ================================================= */}
 
-        <DetailRow
-          icon={
+        <div
+          className="
+            mt-5
+            flex
+            items-start
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#EAF0FF]
+              text-[#173DB8]
+            "
+          >
             <MapPinIcon
               className="
-                h-4
-                w-4
+                h-5
+                w-5
               "
             />
-          }
-        >
-          {location ? (
-            <span>
-              {location}
-            </span>
-          ) : (
-            <MissingValue>
-              Location not provided
-            </MissingValue>
-          )}
-        </DetailRow>
+          </div>
+
+          <div className="min-w-0">
+            <p
+              className="
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-[#8A909D]
+              "
+            >
+              Location
+            </p>
+
+            <p
+              className={`
+                mt-1
+                text-sm
+                leading-6
+                ${
+                  location
+                    ? "text-[#606673]"
+                    : "italic text-[#9AA1AE]"
+                }
+              `}
+            >
+              {displayLocation}
+            </p>
+          </div>
+        </div>
 
         {/* =================================================
             PHONE
         ================================================= */}
 
-        <DetailRow
-          icon={
+        <div
+          className="
+            mt-5
+            flex
+            items-start
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#EAF0FF]
+              text-[#173DB8]
+            "
+          >
             <PhoneIcon
               className="
-                h-4
-                w-4
+                h-5
+                w-5
               "
             />
-          }
-        >
-          {hasPhone ? (
-            <a
-              href={phoneHref}
+          </div>
+
+          <div className="min-w-0">
+            <p
               className="
-                break-words
-                transition
-                hover:text-[#173DB8]
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-[#8A909D]
               "
             >
-              {phone}
-            </a>
-          ) : (
-            <MissingValue>
-              Phone number not provided
-            </MissingValue>
-          )}
-        </DetailRow>
+              Phone
+            </p>
+
+            {hasPhone ? (
+              <a
+                href={phoneHref}
+                className="
+                  mt-1
+                  block
+                  break-words
+                  text-sm
+                  leading-6
+                  text-[#606673]
+                  transition
+                  hover:text-[#173DB8]
+                "
+              >
+                {phoneDisplay || phone}
+              </a>
+            ) : (
+              <p
+                className="
+                  mt-1
+                  text-sm
+                  leading-6
+                  italic
+                  text-[#9AA1AE]
+                "
+              >
+                Phone number not available
+              </p>
+            )}
+          </div>
+        </div>
 
         {/* =================================================
             EMAILS
         ================================================= */}
 
-        <DetailRow
-          icon={
+        <div
+          className="
+            mt-5
+            flex
+            items-start
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#EAF0FF]
+              text-[#173DB8]
+            "
+          >
             <EnvelopeIcon
               className="
-                h-4
-                w-4
+                h-5
+                w-5
               "
             />
-          }
-        >
-          {hasEmails ? (
-            <div
+          </div>
+
+          <div className="min-w-0">
+            <p
               className="
-                space-y-1
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-[#8A909D]
               "
             >
-              {emails.map(
-                (
-                  email,
-                  index
-                ) => (
-                  <a
-                    key={`${email}-${index}`}
-                    href={`mailto:${email}`}
-                    className="
-                      block
-                      break-all
-                      transition
-                      hover:text-[#173DB8]
-                    "
-                  >
-                    {email}
-                  </a>
-                )
-              )}
-            </div>
-          ) : (
-            <MissingValue>
-              Email address not provided
-            </MissingValue>
-          )}
-        </DetailRow>
+              Email
+            </p>
+
+            {hasEmails ? (
+              <div
+                className="
+                  mt-1
+                  space-y-1
+                "
+              >
+                {emails.map(
+                  (email, index) => (
+                    <a
+                      key={`${email}-${index}`}
+                      href={`mailto:${email}`}
+                      className="
+                        block
+                        break-all
+                        text-sm
+                        leading-6
+                        text-[#606673]
+                        transition
+                        hover:text-[#173DB8]
+                      "
+                    >
+                      {email}
+                    </a>
+                  )
+                )}
+              </div>
+            ) : (
+              <p
+                className="
+                  mt-1
+                  text-sm
+                  leading-6
+                  italic
+                  text-[#9AA1AE]
+                "
+              >
+                Email address not available
+              </p>
+            )}
+          </div>
+        </div>
 
         {/* =================================================
             WEBSITE
         ================================================= */}
 
-        <DetailRow
-          icon={
+        <div
+          className="
+            mt-5
+            flex
+            items-start
+            gap-3
+          "
+        >
+          <div
+            className="
+              flex
+              h-10
+              w-10
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-[#EAF0FF]
+              text-[#173DB8]
+            "
+          >
             <GlobeAltIcon
               className="
-                h-4
-                w-4
+                h-5
+                w-5
               "
             />
-          }
-        >
-          {hasWebsite ? (
-            <a
-              href={websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+          </div>
+
+          <div className="min-w-0">
+            <p
               className="
-                break-all
-                text-[#173DB8]
-                transition
-                hover:underline
+                text-xs
+                font-bold
+                uppercase
+                tracking-wide
+                text-[#8A909D]
               "
             >
-              {website}
-            </a>
-          ) : (
-            <MissingValue>
-              Website not provided
-            </MissingValue>
-          )}
-        </DetailRow>
+              Website
+            </p>
+
+            {hasWebsite ? (
+              <a
+                href={websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
+                  mt-1
+                  flex
+                  items-center
+                  gap-1.5
+                  break-all
+                  text-sm
+                  leading-6
+                  text-[#173DB8]
+                  transition
+                  hover:underline
+                "
+              >
+                <span className="break-all">
+                  {website}
+                </span>
+
+                <ArrowTopRightOnSquareIcon
+                  className="
+                    h-4
+                    w-4
+                    shrink-0
+                  "
+                />
+              </a>
+            ) : (
+              <p
+                className="
+                  mt-1
+                  text-sm
+                  leading-6
+                  italic
+                  text-[#9AA1AE]
+                "
+              >
+                Website not available
+              </p>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* ==================================================
-          FOOTER
+          ADMIN STATUS FOOTER
       ================================================== */}
 
       <div
@@ -1057,7 +1190,7 @@ export default function DistributorCard({
           border-t
           border-[#E8ECF5]
           bg-[#FAFBFE]
-          px-5
+          px-6
           py-3
         "
       >
@@ -1072,7 +1205,7 @@ export default function DistributorCard({
             text-xs
             font-semibold
             ${
-              status === "Active"
+              isActive
                 ? "bg-green-50 text-green-700"
                 : "bg-gray-100 text-gray-600"
             }
@@ -1087,76 +1220,9 @@ export default function DistributorCard({
             "
           />
 
-          {status || "Active"}
+          {currentStatus}
         </span>
       </div>
     </article>
-  );
-}
-
-// ======================================================
-// DETAIL ROW
-// ======================================================
-
-function DetailRow({
-  icon,
-  children,
-}) {
-  return (
-    <div
-      className="
-        flex
-        items-start
-        gap-3
-        text-sm
-        leading-5
-        text-[#4B515C]
-      "
-    >
-      <span
-        className="
-          mt-0.5
-          flex
-          h-7
-          w-7
-          shrink-0
-          items-center
-          justify-center
-          rounded-lg
-          bg-[#EAF0FF]
-          text-[#173DB8]
-        "
-      >
-        {icon}
-      </span>
-
-      <div
-        className="
-          min-w-0
-          flex-1
-        "
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-// ======================================================
-// MISSING VALUE
-// ======================================================
-
-function MissingValue({
-  children,
-}) {
-  return (
-    <span
-      className="
-        italic
-        text-[#9AA1AE]
-      "
-    >
-      {children}
-    </span>
   );
 }
