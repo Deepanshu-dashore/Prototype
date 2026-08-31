@@ -56,6 +56,7 @@ export default function PrivacyPolicy() {
             </p>
 
 
+
             <p>
               When you visit our website{" "}
               <a
