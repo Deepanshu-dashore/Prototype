@@ -9,26 +9,13 @@ import {
 } from "@heroicons/react/24/outline";
 
 // ======================================================
-// CONSTANTS
+// INITIAL FORM
 // ======================================================
-
-const REGIONS = [
-  "Europe",
-  "Asia",
-  "Africa",
-  "North America",
-  "South America",
-  "Oceania",
-  "Other",
-];
 
 const INITIAL_FORM = {
   companyName: "",
   country: "",
-  region: "Europe",
-  city: "",
-  state: "",
-  postalCode: "",
+  region: "",
   location: "",
   emails: [""],
   phone: "",
@@ -85,18 +72,6 @@ export default function DistributorForm({
 
         region:
           distributor.region ||
-          "Europe",
-
-        city:
-          distributor.city ||
-          "",
-
-        state:
-          distributor.state ||
-          "",
-
-        postalCode:
-          distributor.postalCode ||
           "",
 
         location:
@@ -223,14 +198,8 @@ export default function DistributorForm({
         country:
           form.country.trim(),
 
-        city:
-          form.city.trim(),
-
-        state:
-          form.state.trim(),
-
-        postalCode:
-          form.postalCode.trim(),
+        region:
+          form.region.trim(),
 
         location:
           form.location.trim(),
@@ -256,6 +225,10 @@ export default function DistributorForm({
           Number(form.sortOrder) || 0,
       };
 
+      // ==================================================
+      // VALIDATION
+      // ==================================================
+
       if (!payload.companyName) {
         throw new Error(
           "Company name is required"
@@ -273,6 +246,10 @@ export default function DistributorForm({
           "Region is required"
         );
       }
+
+      // ==================================================
+      // API
+      // ==================================================
 
       const id =
         distributor?._id ||
@@ -433,7 +410,9 @@ export default function DistributorForm({
           "
         >
           <div className="space-y-7 p-6">
-            {/* ERROR */}
+            {/* ==================================================
+                ERROR
+            ================================================== */}
 
             {error && (
               <div
@@ -484,7 +463,11 @@ export default function DistributorForm({
                   placeholder="Enter country"
                 />
 
-                <Select
+                {/* ==================================================
+                    REGION - TEXT INPUT
+                ================================================== */}
+
+                <Input
                   label="Region"
                   name="region"
                   value={
@@ -493,8 +476,8 @@ export default function DistributorForm({
                   onChange={
                     handleChange
                   }
-                  options={REGIONS}
                   required
+                  placeholder="Enter region"
                 />
 
                 <Input
@@ -516,43 +499,7 @@ export default function DistributorForm({
             ================================================== */}
 
             <FormSection title="Location">
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                <Input
-                  label="City"
-                  name="city"
-                  value={
-                    form.city
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  placeholder="Enter city"
-                />
-
-                <Input
-                  label="State / Province"
-                  name="state"
-                  value={
-                    form.state
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  placeholder="Enter state / province"
-                />
-
-                <Input
-                  label="Postal Code"
-                  name="postalCode"
-                  value={
-                    form.postalCode
-                  }
-                  onChange={
-                    handleChange
-                  }
-                  placeholder="Enter postal code"
-                />
-
+              <div className="grid grid-cols-1 gap-5">
                 <Input
                   label="Display Location"
                   name="location"
@@ -688,6 +635,8 @@ export default function DistributorForm({
                   )}
                 </div>
               </div>
+
+              {/* PHONE / WEBSITE */}
 
               <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
                 <Input

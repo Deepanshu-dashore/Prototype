@@ -348,6 +348,7 @@ import {
   TrashIcon,
   ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline";
+import CountryFlag from "./CountryFlag";
 
 // ======================================================
 // COUNTRY FLAG HELPERS
@@ -721,22 +722,9 @@ export default function DistributorCard({
               gap-3
             "
           >
-            <span
-              className="
-                flex
-                h-11
-                w-11
-                shrink-0
-                items-center
-                justify-center
-                rounded-xl
-                bg-[#F3F6FF]
-                text-2xl
-              "
-              title={displayCountry}
-            >
-              {displayFlag}
-            </span>
+        <CountryFlag
+  country={distributor.country}
+/>
 
             <div className="min-w-0">
               <p
