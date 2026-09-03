@@ -94,8 +94,6 @@ export default function IndustryContent({ industry }) {
                 </div>
             </section>
 
-
-
             {/* Clients Section */}
             {industry.clients && industry.clients.length > 0 && (
                 <section className="bg-white border-t border-gray-100 overflow-hidden">
