@@ -54,6 +54,7 @@ export default async function sitemap() {
     { url: "/data-centres", priority: 0.8 },
     { url: "/blog", priority: 0.8 },
     { url: "/contact", priority: 0.8 },
+    { url: "/distributors", priority: 0.8 },
     { url: "/videos", priority: 0.8 },
     { url: "/compliance", priority: 0.8 },
     { url: "/products/heavy-duty", priority: 0.8 },

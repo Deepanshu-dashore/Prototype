@@ -121,7 +121,7 @@ export default function Header({ onContactClick }) {
     // ],
     Contact: [
       { name: 'Contact Us', href: '/contact', icon: PhoneIcon },
-      { name: 'Distributor Enquiry', href: '/distributors-infomation', icon: UsersIcon },
+      { name: 'Distributors', href: '/distributors', icon: UsersIcon },
     ],
 
     Compliance: [
