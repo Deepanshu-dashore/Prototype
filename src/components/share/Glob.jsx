@@ -82,21 +82,47 @@ const DISTRIBUTOR_ARCS = [
   { from: [53.3498, -6.2603], to: [-26.2041, 28.0473] },
 ];
 
-export default function RotatingGlobe() {
+export function ActiveDistributorCard({ activeIndex = 0, onSelect }) {
+  const activeHub = DISTRIBUTORS[activeIndex] || DISTRIBUTORS[0];
+
+  return (
+    <div className="flex items-center gap-3.5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md px-5 py-3.5 shadow-lg text-white transition-all duration-500 w-[300px] sm:w-[320px] shrink-0">
+      <div className="relative flex h-3 w-3 items-center justify-center shrink-0">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
+      </div>
+
+      <div className="flex flex-col text-left min-w-0 flex-1">
+        <div>
+          <span className="text-[10px] font-bold tracking-wider uppercase text-cyan-200 truncate block">
+            {activeHub.country}
+          </span>
+        </div>
+        <span className="text-xs sm:text-sm font-semibold text-white truncate block w-full">
+          {activeHub.company}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+export default function RotatingGlobe({ activeIndex: propIndex, onActiveChange }) {
   const canvasRef = useRef(null);
   const pointerInteracting = useRef(null);
   const pointerInteractionMovement = useRef(0);
-  const phiRef = useRef(4.7); // Starting view angle showing India/Asia, Africa, Europe
+  const phiRef = useRef(4.7);
 
-  const [activeIndex, setActiveIndex] = useState(4); // Start spotlight on India
+  const [localIndex, setLocalIndex] = useState(propIndex !== undefined ? propIndex : 4);
+  const activeIndex = propIndex !== undefined ? propIndex : localIndex;
 
-  // Auto-cycle through the 8 distributor locations every 3.5s
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % DISTRIBUTORS.length);
+      const next = (activeIndex + 1) % DISTRIBUTORS.length;
+      if (propIndex === undefined) setLocalIndex(next);
+      if (onActiveChange) onActiveChange(next);
     }, 3500);
     return () => clearInterval(timer);
-  }, []);
+  }, [activeIndex, propIndex, onActiveChange]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -119,18 +145,18 @@ export default function RotatingGlobe() {
         devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
         width: width * 2,
         height: width * 2,
-        phi: 4.7, // Initial rotation angle
-        theta: 0.25, // Tilt angle
+        phi: 4.7,
+        theta: 0.25,
         dark: 0,
         diffuse: 1.2,
         mapSamples: 16000,
         mapBrightness: 6,
-        baseColor: [1, 1, 1],          // White land dots & structure
-        markerColor: [0.1, 0.4, 0.85], // Darker deep blue distributor markers
-        glowColor: [1, 1, 1],          // White atmospheric glow
+        baseColor: [1, 1, 1],
+        markerColor: [0.1, 0.4, 0.85],
+        glowColor: [1, 1, 1],
         markers: DISTRIBUTOR_MARKERS,
         arcs: DISTRIBUTOR_ARCS,
-        arcColor: [0.12, 0.45, 0.88],  // Darker deep blue connecting arcs
+        arcColor: [0.12, 0.45, 0.88],
         arcWidth: 0.6,
         arcHeight: 0.3,
       });
@@ -165,8 +191,6 @@ export default function RotatingGlobe() {
     };
   }, []);
 
-  const activeHub = DISTRIBUTORS[activeIndex];
-
   return (
     <div className="relative flex flex-col items-center justify-center w-full h-full min-h-[380px] overflow-visible select-none">
       <canvas
@@ -199,8 +223,8 @@ export default function RotatingGlobe() {
         style={{
           width: "100%",
           height: "100%",
-          maxWidth: "480px",
-          maxHeight: "480px",
+          maxWidth: "500px",
+          maxHeight: "500px",
           aspectRatio: "1",
           contain: "layout paint size",
           opacity: 0,
@@ -208,51 +232,12 @@ export default function RotatingGlobe() {
           cursor: "grab",
         }}
       />
-
-      {/* Executive Glassmorphic Distributor Spotlight Card */}
-      <div className="mt-3 w-full max-w-[360px] z-20">
-        <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl text-white transition-all duration-500">
-          <div className="relative flex h-3 w-3 items-center justify-center shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
-          </div>
-
-          <div className="flex flex-col text-left min-w-0 flex-1">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[10px] font-bold tracking-wider uppercase text-cyan-200 truncate">
-                {activeHub.country}
-              </span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded bg-white/15 text-white/80 font-semibold tracking-wide shrink-0">
-                DISTRIBUTOR
-              </span>
-            </div>
-            <span className="text-xs font-semibold text-white truncate">
-              {activeHub.company}
-            </span>
-          </div>
-
-          {/* Location Switch Dots */}
-          <div className="flex items-center gap-1 pl-2 border-l border-white/15 shrink-0">
-            {DISTRIBUTORS.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                aria-label={`Spotlight distributor ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  idx === activeIndex
-                    ? "w-4 bg-cyan-400"
-                    : "w-1.5 bg-white/30 hover:bg-white/60"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
 
-export { RotatingGlobe as CobeGlobe };
+export { RotatingGlobe as CobeGlobe, DISTRIBUTORS };
+
 
 
 

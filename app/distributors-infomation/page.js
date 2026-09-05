@@ -23,7 +23,7 @@ import {
 import { useApiClient } from "@/src/config/axios";
 import Footer from "@/src/components/share/Footer";
 import Header from "@/src/components/share/Header";
-import RotatingGlobe from "@/src/components/share/Glob";
+import RotatingGlobe, { ActiveDistributorCard } from "@/src/components/share/Glob";
 
 // ======================================================
 // COUNTRY CODE
@@ -1866,6 +1866,8 @@ export default function DistributorPage() {
     setSelectedRegion,
   ] = useState("All Regions");
 
+  const [activeHubIndex, setActiveHubIndex] = useState(4);
+
   // ====================================================
   // ADMIN API
   // ====================================================
@@ -2265,44 +2267,10 @@ const distributorsQuery = api.useGet(
                     </div>
                   </div>
 
-                  <div
-                    className="
-                      inline-flex
-                      items-center
-                      gap-3
-                      rounded-2xl
-                      bg-white/10
-                      border
-                      border-white/15
-                      px-5
-                      py-3
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        h-10
-                        w-10
-                        items-center
-                        justify-center
-                        rounded-xl
-                        bg-white
-                        text-[#173DB8]
-                      "
-                    >
-                      <GlobeAltIcon className="h-5 w-5" />
-                    </div>
-
-                    <div>
-                      <p className="text-xl font-bold">
-                        Worldwide
-                      </p>
-
-                      <p className="text-xs text-white/60">
-                        International Coverage
-                      </p>
-                    </div>
-                  </div>
+                  <ActiveDistributorCard
+                    activeIndex={activeHubIndex}
+                    onSelect={setActiveHubIndex}
+                  />
                 </div>
               </div>
 
@@ -2312,8 +2280,9 @@ const distributorsQuery = api.useGet(
 
 <div
   className="
+    hidden
+    lg:flex
     relative
-    flex
     items-center
     justify-center
     w-full
@@ -2334,7 +2303,7 @@ const distributorsQuery = api.useGet(
       overflow-visible
     "
   >
-    <RotatingGlobe />
+    <RotatingGlobe activeIndex={activeHubIndex} onActiveChange={setActiveHubIndex} />
   </div>
 </div>
 
@@ -2365,7 +2334,7 @@ const distributorsQuery = api.useGet(
               border-[#DDE3F2]
               bg-white
               p-5
-              shadow-xl
+              shadow-sm
               sm:p-7
             "
           >
