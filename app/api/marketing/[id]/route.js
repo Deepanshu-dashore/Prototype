@@ -55,7 +55,7 @@ export async function PUT(request, { params }) {
     return ApiResponse(404, null, "Marketing asset not found");
   }
   try {
-    if (file && file.size > 0) {
+    if (file && (typeof file === "string" || file.size > 0)) {
       if (
         existingCheck.type === "youtube" ||
         existingCheck.type === "social_post"
@@ -77,7 +77,7 @@ export async function PUT(request, { params }) {
     }
 
     let socialAttachmentUrl = null;
-    if (attachment && attachment.size > 0 && type === "social_post") {
+    if (attachment && (typeof attachment === "string" || attachment.size > 0) && type === "social_post") {
       if (existingCheck.attachment) {
         await CloudneryService.delete(
           existingCheck.attachment,
@@ -117,6 +117,23 @@ export async function PUT(request, { params }) {
       "Marketing asset updated successfully",
     );
   } catch (error) {
+    if (uploadUrl?.url) {
+      try {
+        await CloudneryService.delete(uploadUrl.url, "raw");
+      } catch (delErr) {
+        console.error("Cleanup error in marketing update:", delErr);
+      }
+    }
+    if (socialAttachmentUrl?.url) {
+      try {
+        await CloudneryService.delete(
+          socialAttachmentUrl.url,
+          attachmentType === "pdf" ? "raw" : (attachmentType || "image")
+        );
+      } catch (delErr) {
+        console.error("Cleanup error in marketing update:", delErr);
+      }
+    }
     return ApiResponse(500, null, "Error updating marketing asset");
   }
 }

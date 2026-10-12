@@ -73,6 +73,7 @@ export default function AddMarketingPage() {
     const createMutation = api.usePost("marketing", "/marketing", {
         onSuccess: () => {
             lastUploadedAssetRef.current = { url: null, resourceType: "raw" };
+            api.invalidate(["marketing"]);
             router.push("/admin/marketing");
         },
         onError: (err) => {
@@ -91,6 +92,7 @@ export default function AddMarketingPage() {
     const createComplianceMutation = api.usePost("compliances", "/compliances", {
         onSuccess: () => {
             lastUploadedAssetRef.current = { url: null, resourceType: "raw" };
+            api.invalidate(["compliances"]);
             router.push("/admin/marketing");
         },
         onError: (err) => {

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useApiClient } from "@/src/config/axios";
 import { useRouter, useParams } from "next/navigation";
+import { uploadToCloudinaryClient, deleteFromCloudinaryClient } from "@/app/lib/utils/uploadToCloudinary";
 import {
     ArrowLeftIcon,
     PlusIcon,
@@ -67,14 +68,28 @@ export default function EditMarketingPage() {
         { enabled: !!id }
     );
 
+    const [isUploading, setIsUploading] = useState(false);
+    const lastUploadedAssetRef = useRef({ url: null, resourceType: "raw" });
+
     const updateMutation = api.usePut(queryKey, `/marketing/${id}`, {
-        onSuccess: () => router.push("/admin/marketing"),
+        onSuccess: () => {
+            lastUploadedAssetRef.current = { url: null, resourceType: "raw" };
+            api.invalidate(["marketing"]);
+            router.push("/admin/marketing");
+        },
         onError: (err) => {
+            if (lastUploadedAssetRef.current.url) {
+                deleteFromCloudinaryClient(
+                    lastUploadedAssetRef.current.url,
+                    lastUploadedAssetRef.current.resourceType
+                );
+                lastUploadedAssetRef.current = { url: null, resourceType: "raw" };
+            }
             setError(err?.response?.data?.message || err.message || "Something went wrong. Please try again.");
         }
     });
 
-    const submitting = updateMutation.isPending;
+    const submitting = updateMutation.isPending || isUploading;
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
     const overLimit = form.type !== "compliance" && wordCount > 100;
@@ -102,18 +117,39 @@ export default function EditMarketingPage() {
 
     const handleSubmit = async () => {
         setError("");
+        let uploadRes = null;
+
+        if (file) {
+            try {
+                setIsUploading(true);
+                const folder = "marketing-assets";
+                let resType = "raw";
+                if (form.type === "social_post") {
+                    resType = form.attachmentType === "pdf" ? "raw" : form.attachmentType;
+                }
+                uploadRes = await uploadToCloudinaryClient(file, folder, resType);
+                lastUploadedAssetRef.current = { url: uploadRes.url, resourceType: resType };
+            } catch (uploadErr) {
+                setIsUploading(false);
+                setError(uploadErr.message || "Failed to upload file. Please try again.");
+                return;
+            } finally {
+                setIsUploading(false);
+            }
+        }
+
         const fd = new FormData();
         fd.append("title", form.title);
         fd.append("type", form.type);
         fd.append("url", form.url);
         fd.append("description", form.description);
         fd.append("tags", form.tags);
-        if (file) {
+        if (uploadRes) {
             if (form.type === "social_post") {
-                fd.append("attachment", file);
+                fd.append("attachment", uploadRes.url);
                 fd.append("attachmentType", form.attachmentType);
             } else {
-                fd.append("file", file);
+                fd.append("file", uploadRes.url);
             }
         }
         updateMutation.mutate(fd);
@@ -615,7 +651,7 @@ export default function EditMarketingPage() {
                                 {submitting ? (
                                     <>
                                         <div className="w-5 h-5 border-3 border-white/20 border-t-white rounded-full animate-spin" />
-                                        Synchronizing...
+                                        {isUploading ? "Uploading file..." : "Synchronizing..."}
                                     </>
                                 ) : (
                                     <>

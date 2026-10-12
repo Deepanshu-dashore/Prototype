@@ -680,15 +680,17 @@ export default function AdminMarketingPage() {
     };
 
     const queryKey = ["marketing"];
-    const { data: marketingData, isLoading: loading, error: fetchError } = api.useGet(
+    const { data: marketingData, isLoading: loading, error: fetchError, refetch: refetchMarketing } = api.useGet(
         queryKey,
-        "/marketing"
+        "/marketing",
+        { refetchOnMount: "always" }
     );
 
     const complianceQueryKey = ["compliances"];
-    const { data: complianceData, isLoading: complianceLoading } = api.useGet(
+    const { data: complianceData, isLoading: complianceLoading, refetch: refetchCompliances } = api.useGet(
         complianceQueryKey,
-        "/compliances"
+        "/compliances",
+        { refetchOnMount: "always" }
     );
 
     const assets = marketingData?.data?.data || [];
@@ -703,12 +705,18 @@ export default function AdminMarketingPage() {
     };
 
     const deleteMutation = api.useDelete(queryKey, "/marketing", {
-        onSuccess: () => setDeleteTarget(null),
+        onSuccess: () => {
+            setDeleteTarget(null);
+            refetchMarketing?.();
+        },
         onError: (err) => alert(err.response?.data?.message || err.message || "Delete error")
     });
 
     const deleteComplianceMutation = api.useDelete(complianceQueryKey, "/compliances", {
-        onSuccess: () => setDeleteTarget(null),
+        onSuccess: () => {
+            setDeleteTarget(null);
+            refetchCompliances?.();
+        },
         onError: (err) => alert(err.response?.data?.message || err.message || "Delete error")
     });
 
@@ -716,6 +724,7 @@ export default function AdminMarketingPage() {
         onSuccess: () => {
             setIsComplianceModalOpen(false);
             resetComplianceForm();
+            refetchCompliances?.();
         },
         onError: (err) => alert(err.response?.data?.message || err.message || "Create error")
     });
@@ -724,12 +733,16 @@ export default function AdminMarketingPage() {
         onSuccess: () => {
             setIsComplianceModalOpen(false);
             resetComplianceForm();
+            refetchCompliances?.();
         },
         onError: (err) => alert(err.response?.data?.message || err.message || "Update error")
     });
 
     const statusMutation = api.usePut(queryKey, "/marketing/status", {
-        onSuccess: () => setVisibilityTarget(null),
+        onSuccess: () => {
+            setVisibilityTarget(null);
+            refetchMarketing?.();
+        },
         onError: (err) => alert(err.response?.data?.message || err.message || "Toggle error")
     });
 
