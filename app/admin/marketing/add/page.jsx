@@ -69,6 +69,7 @@ export default function AddMarketingPage() {
     const createMutation = api.usePost("marketing", "/marketing", {
         onSuccess: () => router.push("/admin/marketing"),
         onError: (err) => {
+            console.log("Error for createing Meterial-",err);
             setError(err?.response?.data?.message || err.message || "Something went wrong. Please try again.");
         }
     });
