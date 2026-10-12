@@ -17,6 +17,8 @@ export class CloudneryService {
       const uploadOptions = {
         resource_type,
         folder,
+        transformation: [{ quality: "auto" }],
+        async: true,
       };
       // Only set format if it's a valid file extension (not 'image', 'auto', etc.)
       if (format && !["image", "video", "raw", "auto"].includes(format)) {
