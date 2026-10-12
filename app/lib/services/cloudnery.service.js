@@ -3,8 +3,8 @@ import cloudinary from "../config/Cloudnery";
 export class CloudneryService {
   /**
    * Generates a signed authentication payload for direct client-side uploads.
-   * This allows files (>4.5MB up to 100MB+) to be sent directly from the browser to Cloudinary,
-   * avoiding Vercel's serverless FUNCTION_PAYLOAD_TOO_LARGE (4.5MB) restriction.
+   * This allows files (>4.5MB up to 100MB+) to be uploaded directly from the browser to Cloudinary,
+   * completely bypassing Vercel's 4.5MB FUNCTION_PAYLOAD_TOO_LARGE limit.
    */
   static getUploadSignature(folder = "default", extraParams = {}) {
     try {
@@ -45,7 +45,7 @@ export class CloudneryService {
         throw new Error("No file provided");
       }
 
-      // If already uploaded (client sent URL/public_id directly)
+      // If already uploaded directly from client (URL string passed)
       if (typeof file === "string") {
         const buildUrl = file.includes("upload/")
           ? file.split("upload/")[1]
@@ -96,25 +96,46 @@ export class CloudneryService {
     }
   }
 
+  /**
+   * Safely extracts public_id from Cloudinary URL, path, or raw ID.
+   */
+  static extractPublicId(fileId, resource_type = "raw") {
+    if (!fileId) return null;
+    let clean = fileId;
+    if (clean.includes("upload/")) {
+      clean = clean.split("upload/")[1];
+    }
+    // Remove version prefix like v1734567890/
+    clean = clean.replace(/^v\d+\//, "");
+
+    // For images and videos, remove file extension
+    if (resource_type !== "raw") {
+      const lastDot = clean.lastIndexOf(".");
+      if (lastDot !== -1) {
+        clean = clean.substring(0, lastDot);
+      }
+    }
+    return clean;
+  }
+
   static async delete(fileId, resource_type = "raw") {
     try {
-      let publicId = null;
-      const fileName = fileId.split("/");
-      if (resource_type !== "raw") {
-        publicId = fileName.slice(1).join("/").split(".")[0];
-      } else {
-        publicId = fileName.slice(1).join("/");
-      }
+      if (!fileId) return null;
+      const publicId = this.extractPublicId(fileId, resource_type);
+      if (!publicId) return null;
+
       const result = await cloudinary.uploader.destroy(publicId, {
         resource_type,
       });
+
       if (result) {
         return {
           success: true,
+          result,
         };
       }
     } catch (error) {
-      console.log("Error in cloudnery service -", error);
+      console.log("Error in cloudnery service delete -", error);
       return null;
     }
   }

@@ -44,6 +44,9 @@ export async function POST(req) {
     if (attachmentType && !["image", "video", "pdf"].includes(attachmentType)) {
       return ApiResponse(400, null, "Invalid attachment type");
     }
+    let uploadedFileUrl = null;
+    let uploadedFileType = "raw";
+
     if (type === "youtube") {
       marketingAsset = await MarketingAssetService.createMarketingAsset({
         title,
@@ -62,6 +65,9 @@ export async function POST(req) {
       if (!attachmentUrl) {
         return ApiResponse(400, null, "File upload failed, try again");
       }
+      uploadedFileUrl = attachmentUrl?.url;
+      uploadedFileType = attachmentType === "pdf" ? "raw" : attachmentType;
+
       marketingAsset = await MarketingAssetService.createMarketingAsset({
         title,
         type,
@@ -84,6 +90,9 @@ export async function POST(req) {
       if (!uploadUrl) {
         return ApiResponse(400, null, "File upload failed, try again");
       }
+      uploadedFileUrl = uploadUrl?.url;
+      uploadedFileType = "raw";
+
       marketingAsset = await MarketingAssetService.createMarketingAsset({
         title,
         type,
@@ -98,6 +107,13 @@ export async function POST(req) {
       "Marketing asset created successfully",
     );
   } catch (error) {
+    if (uploadedFileUrl) {
+      try {
+        await CloudneryService.delete(uploadedFileUrl, uploadedFileType);
+      } catch (delErr) {
+        console.error("Cleanup error in marketing route:", delErr);
+      }
+    }
     console.log(error);
     return ApiResponse(500, null, "Error for creating marketing asset");
   }

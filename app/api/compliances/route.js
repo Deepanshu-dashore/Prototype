@@ -70,6 +70,13 @@ export async function POST(req) {
       "Compliance document created successfully",
     );
   } catch (error) {
+    if (finalUrl) {
+      try {
+        await CloudneryService.delete(finalUrl, "raw");
+      } catch (delErr) {
+        console.error("Cleanup error in compliances route:", delErr);
+      }
+    }
     console.error("Error creating compliance:", error);
     return ApiResponse(500, null, "Error creating compliance document");
   }

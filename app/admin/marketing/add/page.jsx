@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useApiClient } from "@/src/config/axios";
 import { useRouter } from "next/navigation";
+import { uploadToCloudinaryClient, deleteFromCloudinaryClient } from "@/app/lib/utils/uploadToCloudinary";
 import {
     ArrowLeftIcon,
     PlusIcon,
@@ -66,22 +67,45 @@ export default function AddMarketingPage() {
         return () => URL.revokeObjectURL(url);
     }, [file]);
 
+    const [isUploading, setIsUploading] = useState(false);
+    const lastUploadedAssetRef = useRef({ url: null, resourceType: "raw" });
+
     const createMutation = api.usePost("marketing", "/marketing", {
-        onSuccess: () => router.push("/admin/marketing"),
+        onSuccess: () => {
+            lastUploadedAssetRef.current = { url: null, resourceType: "raw" };
+            router.push("/admin/marketing");
+        },
         onError: (err) => {
-            console.log("Error for createing Meterial-",err);
+            console.log("Error for creating Material -", err);
+            if (lastUploadedAssetRef.current.url) {
+                deleteFromCloudinaryClient(
+                    lastUploadedAssetRef.current.url,
+                    lastUploadedAssetRef.current.resourceType
+                );
+                lastUploadedAssetRef.current = { url: null, resourceType: "raw" };
+            }
             setError(err?.response?.data?.message || err.message || "Something went wrong. Please try again.");
         }
     });
 
     const createComplianceMutation = api.usePost("compliances", "/compliances", {
-        onSuccess: () => router.push("/admin/marketing"),
+        onSuccess: () => {
+            lastUploadedAssetRef.current = { url: null, resourceType: "raw" };
+            router.push("/admin/marketing");
+        },
         onError: (err) => {
+            if (lastUploadedAssetRef.current.url) {
+                deleteFromCloudinaryClient(
+                    lastUploadedAssetRef.current.url,
+                    lastUploadedAssetRef.current.resourceType
+                );
+                lastUploadedAssetRef.current = { url: null, resourceType: "raw" };
+            }
             setError(err?.response?.data?.message || err.message || "Something went wrong. Please try again.");
         }
     });
 
-    const submitting = createMutation.isPending || createComplianceMutation.isPending;
+    const submitting = createMutation.isPending || createComplianceMutation.isPending || isUploading;
 
     const wordCount = form.description.trim().split(/\s+/).filter(Boolean).length;
     const maxWords = form.type === "compliance" ? 20 : 100;
@@ -94,16 +118,34 @@ export default function AddMarketingPage() {
 
     const handleSubmit = async () => {
         setError("");
+        let uploadRes = null;
+
+        if (file) {
+            try {
+                setIsUploading(true);
+                const folder = form.type === "compliance" ? "compliance" : "marketing-assets";
+                let resType = "raw";
+                if (form.type === "social_post") {
+                    resType = form.attachmentType === "pdf" ? "raw" : form.attachmentType;
+                }
+                uploadRes = await uploadToCloudinaryClient(file, folder, resType);
+                lastUploadedAssetRef.current = { url: uploadRes.url, resourceType: resType };
+            } catch (uploadErr) {
+                setIsUploading(false);
+                setError(uploadErr.message || "Failed to upload file. Please try again.");
+                return;
+            } finally {
+                setIsUploading(false);
+            }
+        }
+
         const fd = new FormData();
         if (form.type === "compliance") {
             fd.append("title", form.title);
             fd.append("subtitle", form.description);
-            fd.append("url", form.url);
+            fd.append("url", uploadRes ? uploadRes.url : form.url);
             fd.append("catgory", form.catgory);
             fd.append("status", form.status);
-            if (file) {
-                fd.append("file", file);
-            }
             createComplianceMutation.mutate(fd);
         } else {
             fd.append("title", form.title);
@@ -111,12 +153,12 @@ export default function AddMarketingPage() {
             fd.append("url", form.url);
             fd.append("description", form.description);
             fd.append("tags", form.tags);
-            if (file) {
+            if (uploadRes) {
                 if (form.type === "social_post") {
-                    fd.append("attachment", file);
+                    fd.append("attachment", uploadRes.url);
                     fd.append("attachmentType", form.attachmentType);
                 } else {
-                    fd.append("file", file);
+                    fd.append("file", uploadRes.url);
                 }
             }
             createMutation.mutate(fd);
@@ -630,7 +672,7 @@ export default function AddMarketingPage() {
                             {submitting ? (
                                 <>
                                     <div className="w-5 h-5 border-3 border-white/20 border-t-white rounded-full animate-spin" />
-                                    Synchronizing...
+                                    {isUploading ? "Uploading file..." : "Synchronizing..."}
                                 </>
                             ) : (
                                 <>
